@@ -156,7 +156,7 @@ export default {
 
     },
     validateDiscount(resolve) {
-      const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
+      const endpoint = `${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}?applies_to=consultation`;
       axios.get(endpoint).then(response => {
         if (response.data.errors) {
           this.discountError = 'Invalid discount code';
@@ -253,6 +253,7 @@ export default {
         nameInput: 'input[name="card_name"]'
       }
     });
+    analytics.page('Payment');
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

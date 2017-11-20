@@ -15,11 +15,6 @@ use App\Models\{
  */
 class PagesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     /**
      * Show the home page.
      *

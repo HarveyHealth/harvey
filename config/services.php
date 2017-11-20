@@ -69,7 +69,7 @@ return [
                     'reminder' => 2550321,
                 ],
                 'attachment' => [
-                    'uploaded' => 3338765,
+                    'created' => 3338765,
                 ],
             ],
             'patient' => [
@@ -107,12 +107,36 @@ return [
         'sid' => env('TWILIO_ACCOUNT_SID'),
         'token' => env('TWILIO_AUTH_TOKEN'),
         'sms_number' => env('TWILIO_SMS_NUMBER'),
+        'feedback_number' => env('TWILIO_FEEDBACK_NUMBER'),
     ],
 
     'google_calendar' => [
         'client_secret_file' => env('GCALENDAR_SECRET_FILE', storage_path('calendar_api/client_secret.json')),
         'access_token_file' => env('GCALENDAR_TOKEN_FILE', storage_path('calendar_api/access_token.json')),
         'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_52ld7v7p6tpep95idupudk3b70@group.calendar.google.com'),
+    ],
+
+    'shippo' => [
+        'key' => env('SHIPPO_API_KEY'),
+        'carrier' => env('SHIPPO_CARRIER', 'fedex'),
+        'carrier_service_level' => env('SHIPPO_CARRIER_SERVICE_LEVEL', 'fedex_2_day'),
+        'from' => [
+            'name' => env('SHIPPO_FROM_NAME', 'Harvey, Inc'),
+            'company' => env('SHIPPO_FROM_COMPANY', 'Harvey, Inc'),
+            'street1' => env('SHIPPO_FROM_STREET1', '12655 W Jefferson Blvd'),
+            'street2' => env('SHIPPO_FROM_STREET2', 'Suite #3-180'),
+            'city' => env('SHIPPO_FROM_CITY', 'Los Angeles'),
+            'state' => env('SHIPPO_FROM_STATE', 'CA'),
+            'zip' => env('SHIPPO_FROM_ZIP', '90066'),
+            'country' => env('SHIPPO_FROM_COUNTRY', 'US'),
+            'phone' => env('SHIPPO_FROM_PHONE', '+18006909989'),
+            'email' => env('SHIPPO_FROM_EMAIL', 'support@goharvey.com'),
+        ],
+    ],
+
+    'typeform' => [
+        'api_key' => env('TYPEFORM_API_KEY'),
+        'uid' => env('TYPEFORM_UID'),
     ],
 
     'google_geocoder' => [

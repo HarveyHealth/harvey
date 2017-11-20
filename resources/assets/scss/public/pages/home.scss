@@ -233,6 +233,9 @@ body[class*="lab-tests"] {
             &.is-green {
                 @include background-gradient($harvey-green);
             }
+            &.is-ford {
+                @include background-gradient($harvey-ford);
+            }
         }
     }
     .copy-has-max-width + .columns {
@@ -368,10 +371,17 @@ body[class*="lab-tests"] {
 
     // How it Works
 
-    #how-it-works {
+    .how-it-works {
 
         .instructions{
             margin-bottom: 1rem;
+        }
+
+        .icon {
+            &.full {
+            height: 3.8rem;
+            width: 3.8rem;
+            }
         }
 
         @include from($desktop) {
@@ -443,7 +453,7 @@ body[class*="lab-tests"] {
             @include margin(null null 0 null);
         }
         p {
-            color: $tertiary;
+            // color: $tertiary;
             font-size: 1.2rem;
         }
         #get-started-disclaimer {

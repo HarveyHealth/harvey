@@ -116,6 +116,7 @@ export default {
         this.isProcessing = false;
         App.Util.data.killStorage('zip_validation');
         this.$router.push({ name: 'success', path: 'success' });
+        analytics.track("Consultation Confirmed");
       })
       .catch(() => {
         // 400 Bad request means the time was booked just before the signup user confirmed but after they

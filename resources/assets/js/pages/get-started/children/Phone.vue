@@ -208,7 +208,7 @@ export default {
       this.sendConfirmation();
     },
     sendConfirmation() {
-      axios.post(`api/v1/users/${Laravel.user.id}/phone/sendverificationcode`);
+      axios.post(`api/v1/users/${Laravel.user.id}/phone/send_verification_code`);
       this.isInvalidCode = false;
       this.$root.$data.signup.phonePending = true;
       Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());

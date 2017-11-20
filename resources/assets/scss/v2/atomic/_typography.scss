@@ -29,6 +29,11 @@
     @extend %font-xxl;
   }
 }
+.font-xxxl {
+  &, #{$global-copy-elements} {
+    @extend %font-xxxl;
+  }
+}
 
 // Weight
 .font-thin {

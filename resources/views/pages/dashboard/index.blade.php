@@ -32,8 +32,6 @@
             </div>
         </noscript>
 
-        <alert></alert>
-
         <usernav></usernav>
 
         <transition

@@ -40,7 +40,6 @@ class User extends Authenticatable implements Mailable
         'created_at',
         'email_verified_at',
         'enabled',
-        'intake_completed_at',
         'password',
         'phone_verified_at',
         'remember_token',
@@ -53,7 +52,6 @@ class User extends Authenticatable implements Mailable
     protected $dates = [
         'created_at',
         'email_verified_at',
-        'intake_completed_at',
         'phone_verified_at',
         'updated_at',
     ];
@@ -101,7 +99,6 @@ class User extends Authenticatable implements Mailable
         }
 
         throw new Exception("Unable to determine type of User ID #{$this->id}.");
-
     }
 
     public function getStateAttribute()
@@ -122,6 +119,11 @@ class User extends Authenticatable implements Mailable
         return  empty($fullName) ? null : $fullName;
     }
 
+    public function getTruncatedNameAttribute()
+    {
+        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
+    }
+
     public function getHasAnAppointmentAttribute()
     {
         $builder = $this->appointments();
@@ -140,7 +142,7 @@ class User extends Authenticatable implements Mailable
         return Cache::forget("has_an_appointment_user_id_{$this->id}");
     }
 
-    public function getLastDoctorName()
+    public function getLastPractitioner()
     {
         if ($this->isNotPatient()) {
             return null;
@@ -148,20 +150,20 @@ class User extends Authenticatable implements Mailable
 
         $builder = $this->appointments()->ByAppointmentAtDesc();
 
-        return Cache::remember("last_doctor_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
-            return $builder->first()->practitioner->user->full_name ?? false;
+        return Cache::remember("last_practitioner_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
+            return $builder->first()->practitioner->user ?? false;
         });
     }
 
-    public function clearLastDoctorNameCache()
+    public function clearLastPractitionerCache()
     {
-        return Cache::forget("last_doctor_name_user_id_{$this->id}");
+        return Cache::forget("last_practitioner_name_user_id_{$this->id}");
     }
 
     public function clearAppointmentsCache()
     {
         $this->clearHasAnAppointmentCache();
-        $this->clearLastDoctorNameCache();
+        $this->clearLastPractitionerCache();
 
         return true;
     }
@@ -200,15 +202,6 @@ class User extends Authenticatable implements Mailable
         return count($this->nextUpcomingAppointment()) == 1;
     }
 
-    public function tests()
-    {
-        if ($this->isPatient()) {
-            return $this->hasManyThrough(Test::class, Patient::class);
-        } else {
-            return $this->hasManyThrough(Test::class, Practitioner::class);
-        }
-    }
-
     public function isPatient()
     {
         $builder = $this->patient();
@@ -236,11 +229,6 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function truncatedName()
-    {
-        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
     }
 
     public function passwordSet()
@@ -321,33 +309,33 @@ class User extends Authenticatable implements Mailable
 
     public function getCards()
     {
-        if (empty($this->stripe_id)) {
+        if (empty($stripe_id = $this->stripe_id)) {
             return collect();
         }
 
-        $redis_key = "get-cards-user-id-{$this->id}";
-        $cards_json = Redis::get($redis_key);
+        $cache_key = "get-cards-user-id-{$this->id}";
 
-        if (is_null($cards_json)) {
+        $cards = Cache::remember($cache_key, TimeInterval::days(rand(15, 30))->addMinutes(rand(0, 120))->toMinutes(), function () use ($stripe_id) {
             try {
-                $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
-                $cards_json = json_encode($cards);
-                Redis::set($redis_key, $cards_json);
-                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->addSeconds(rand(0, 100))->toSeconds());
+                $cards = Customer::retrieve($stripe_id)->sources->all(['object' => 'card'])->data;
             } catch (Exception $e) {
                 Log::error("Unable to list credit cards for User #{$this->id}", ['exception_message' => $e->getMessage()]);
-                $cards_json = '[]';
-                Redis::set($redis_key, $cards_json);
-                Redis::expire($redis_key, TimeInterval::hours(2)->toSeconds());
+                return null;
             }
+
+            return collect($cards);
+        });
+
+        if (is_null($cards)) {
+            Cache::put($cache_key, $cards = [], TimeInterval::hours(1)->toMinutes());
         }
 
-        return collect(json_decode($cards_json, true));
+        return collect($cards);
     }
 
     public function clearGetCardsCache()
     {
-        return Redis::del("get-cards-user-id-{$this->id}");
+        return Cache::forget("get-cards-user-id-{$this->id}");
     }
 
     public function deleteCard(string $cardId)

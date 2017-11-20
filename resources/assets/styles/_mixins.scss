@@ -1,0 +1,28 @@
+// Get z-index of an item by its index in the list
+@mixin zindex($item) {
+  z-index: index($z-list, $item);
+}
+
+/// Creates a min-width based media query that wraps other styling.
+/// @param {String} $bp - A breakpoint alias from the $breakpoints map.
+/// @example scss
+///   @include query(xl) {
+///     ... styles
+///   }
+@mixin query($bp) {
+  @media screen and (min-width: map-get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+/// Creates a min-height based media query that wraps other styling.
+/// @param {String} $bp - A breakpoint alias from the $breakpoints-height map.
+/// @example scss
+///   @include query-height(lg) {
+///     ... styles
+///   }
+@mixin query-height($bp) {
+  @media screen and (min-height: map-get($breakpoints-height, $bp)) {
+    @content;
+  }
+}

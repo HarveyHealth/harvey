@@ -72,7 +72,6 @@ export default {
         this.trackAccountCreation(zipValidation);
 
         analytics.page('Welcome');
-        analytics.track('Welcome');
         analytics.identify();
     },
     beforeDestroy() {
