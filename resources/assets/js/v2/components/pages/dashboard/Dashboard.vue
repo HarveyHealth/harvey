@@ -90,5 +90,5 @@ export default {
       App.Http.practitioners.get(App.Http.practitioners.getResponse);
     }
   }
-}
+};
 </script>

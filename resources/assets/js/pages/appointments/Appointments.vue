@@ -873,7 +873,7 @@ export default {
                 date: appointmentDate,
                 email: appointmentPatientEmail,
                 user_id: Laravel.user.id,
-                patient_user_id: trackingPatientId,
+                patient_user_id: trackingPatientId
             });
         }
 
@@ -905,7 +905,7 @@ export default {
           });
         });
       }).catch(error => {
-        if (error.response) console.warn(error.response)
+        if (error.response) console.warn(error.response);
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {

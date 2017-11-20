@@ -57,16 +57,16 @@ export default {
     return {
       css: '',
       // Namspacing the Grid instance
-      rowId: `gridRow-${this.Config.misc.gridRowId++}`,
-    }
+      rowId: `gridRow-${this.Config.misc.gridRowId++}`
+    };
   },
   methods:{
     // Outputs alignment styling
     alignment() {
       switch (this.align) {
-        case 'middle': return `.${this.rowId}{ align-items:center; }`
-        case 'top': return `.${this.rowId}{ align-items:flex-start; }`
-        case 'bottom': return `.${this.rowId}{ align-items:flex-end; }`
+        case 'middle': return `.${this.rowId}{ align-items:center; }`;
+        case 'top': return `.${this.rowId}{ align-items:flex-start; }`;
+        case 'bottom': return `.${this.rowId}{ align-items:flex-end; }`;
       }
     },
 
@@ -74,16 +74,16 @@ export default {
     atQuery(query, content) {
       switch (query) {
         case 's': return content;
-        case 'ns': return `@media screen and (min-width: 420px) {${content}}`
-        case 'm': return `@media screen and (min-width: 640px) {${content}}`
-        case 'l': return `@media screen and (min-width: 780px) {${content}}`
-        case 'xl': return `@media screen and (min-width: 960px) {${content}}`
+        case 'ns': return `@media screen and (min-width: 420px) {${content}}`;
+        case 'm': return `@media screen and (min-width: 640px) {${content}}`;
+        case 'l': return `@media screen and (min-width: 780px) {${content}}`;
+        case 'xl': return `@media screen and (min-width: 960px) {${content}}`;
       }
     },
 
     // If a gutter is specified, column width must be calculated to compensate
     calcWidth(content, gutter) {
-      return `calc(${content} - ${this.gutterValue(gutter)}rem);`
+      return `calc(${content} - ${this.gutterValue(gutter)}rem);`;
     },
 
     // Loops column configuration and builds column styling
@@ -93,7 +93,7 @@ export default {
       for (var breakpoint in config) {
         const parts = config[breakpoint].split('of');
         let width = `${(parts[0] / parts[1]) * 100}%`;
-        let style = this.selectorCol(i, `flex-basis:${width};`)
+        let style = this.selectorCol(i, `flex-basis:${width};`);
         if (this.gutters) {
           for (var bp in this.gutters) {
             style += this.selectorCol(i, `flex-basis:${this.calcWidth(width, this.gutters[bp])};`);
@@ -118,7 +118,7 @@ export default {
     gutter(config) {
       let css = '';
       for (var breakpoint in config) {
-        css += this.gutterStyle(breakpoint, config[breakpoint])
+        css += this.gutterStyle(breakpoint, config[breakpoint]);
       }
       return css;
     },
@@ -131,15 +131,15 @@ export default {
       const row = `margin-left: -${halfSpace}rem; margin-right: -${halfSpace}rem;`;
       const col = `margin-bottom: ${space}rem; margin-left: ${halfSpace}rem; margin-right: ${halfSpace}rem;`;
       const rowStyles = this.selectorRow(row);
-      const colStyles = `.${this.rowId} > * { ${col} }`
+      const colStyles = `.${this.rowId} > * { ${col} }`;
       const styles = rowStyles + colStyles;
 
       switch (breakpoint) {
-        case 's': return styles
-        case 'ns': return this.atQuery('ns', styles)
-        case 'm': return this.atQuery('m', styles)
-        case 'l': return this.atQuery('l', styles)
-        case 'xl': return this.atQuery('xl', styles)
+        case 's': return styles;
+        case 'ns': return this.atQuery('ns', styles);
+        case 'm': return this.atQuery('m', styles);
+        case 'l': return this.atQuery('l', styles);
+        case 'xl': return this.atQuery('xl', styles);
       }
     },
 
@@ -201,5 +201,5 @@ export default {
       columnNodes[i].className+= ` gridCol-${i + 1}`;
     }
   }
-}
+};
 </script>
