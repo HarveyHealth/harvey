@@ -22,7 +22,7 @@ class MessageTransformer extends TransformerAbstract
             'id' => cast_to_string($message->id),
             'created_at' => $message->created_at,
             'is_sender_admin' => (boolean) $message->is_sender_admin,
-            'message' => htmlentities($message->message),
+            'message' => cast_to_string($message->message),
             'read_at' => $message->read_at,
             'recipient_full_name' => $message->recipient->full_name,
             'recipient_image_url' => $message->recipient->image_url,
@@ -30,7 +30,7 @@ class MessageTransformer extends TransformerAbstract
             'sender_full_name' => $message->sender->full_name,
             'sender_image_url' => $message->sender->image_url,
             'sender_user_id' => cast_to_string($message->sender_user_id),
-            'subject' => htmlentities($message->subject),
+            'subject' => cast_to_string($message->subject),
         ];
     }
 

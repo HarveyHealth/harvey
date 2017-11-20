@@ -36,7 +36,6 @@
 
 import { phone } from '../../../utils/filters/textformat';
 import Autocomplete from '../../../commons/Autocomplete.vue';
-require("../../../../css/vendors/vue2-autocomplete.css");
 
 export default {
   props: {
@@ -72,9 +71,9 @@ export default {
   },
   methods: {
       getData(value){
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
               if (value != ""){
-                  this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                  this.$root.requestPatients(value,(patients)=>{
                       resolve(patients);
                   });
               }
