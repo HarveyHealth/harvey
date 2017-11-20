@@ -28,7 +28,7 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
   #sub-footer {
     min-height: 100px;
