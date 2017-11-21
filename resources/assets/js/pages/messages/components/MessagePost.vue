@@ -41,7 +41,7 @@
                 return prop;
             },
             momentDate() {
-                return moment(`${this.$props.createdAt.date} ${this.$props.createdAt.timezone}`, 'YYYY-MM-DD HH:mm Z').tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mm:ss a zz');
+                return moment.tz(this.$props.createdAt.date, this.$props.createdAt.timezone).tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mm:ss a z');
             },
             subjects() {
                 let prop = this.$props.header;
