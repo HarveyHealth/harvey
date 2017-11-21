@@ -395,6 +395,15 @@
         <div class="inline-centered">
             <h1>Generate a shipping label?</h1>
             <p>This action will generate a tracking number and label from FedEx.</p>
+            <div class="input__container" style="margin-top: 10px;">
+                <span class="input__label">Shipping Method</span>
+                <span class="custom-select">
+                    <select v-model="shippingOption">
+                        <option value="fedex_2_day">FedEx 2-Day (default)</option>
+                        <option value="fedex_ground">FedEx Ground</option>
+                    </select>
+                </span>
+            </div>
             <div class="button-wrapper">
                 <button @click="getShippingInformation" class="button">Yes</button>
                 <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
@@ -431,6 +440,7 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingOption: "fedex_2_day",
       shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
@@ -705,7 +715,7 @@ export default {
         // PUT /api/v1/lab/orders/<lab_order_id>/ship
 
         axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
-
+          servicelevel_token: this.shippingOption
         }).then((response) => {
             // update the tracking number field for the package
             const trackingNumber = response.data.data.attributes.shipment_code;
