@@ -182,9 +182,10 @@ export default {
         };
     },
     methods: {
-        settingUpdate(e) {
-            let name = e.target.name;
-            let value = e.target.checked;
+        settingUpdate() {
+            //let name = e.target.name;
+            //let value = e.target.checked;
+
             // TODO: call request to update settings
             // send whole data settings object
             // if a call is already there cancel it and send new instead

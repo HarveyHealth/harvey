@@ -315,4 +315,26 @@ class UsersController extends BaseAPIController
 
         return $this->baseTransformCollection($cards, null, new CreditCardTransformer)->respond();
     }
+
+
+    public function getSettings(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        $this->resource_name = "cards";
+
+        $defaults = [
+            "reminder_email_24_hours" => true,
+            "reminder_text_24_hours" => true,
+            "reminder_email_1_hour" => true,
+            "reminder_text_1_hour" => true,
+        ];
+
+        $settings = (empty($user->settings))?$defaults:$user->settings;
+
+
+        // return collection (do we need a transformer?)
+    }
 }
