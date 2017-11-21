@@ -395,6 +395,14 @@
         <div class="inline-centered">
             <h1>Generate a shipping label?</h1>
             <p>This action will generate a tracking number and label from FedEx.</p>
+            <div class="input__container">
+                <span class="custom-select">
+                    <select v-model="shippingOption">
+                        <option value="fedex_ground">Ground</option>
+                        <option value="fedex_2_day">2-Day</option>
+                    </select>
+                </span>
+            </div>
             <div class="button-wrapper">
                 <button @click="getShippingInformation" class="button">Yes</button>
                 <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
@@ -431,6 +439,7 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingOption: null,
       shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
