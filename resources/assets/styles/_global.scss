@@ -1,0 +1,7 @@
+// When the mobile menu is opened we need to stop scrolling
+@include query-up-to(lg) {
+    #app.menu-is-open {
+        height: 100vh;
+        overflow: hidden;
+    }
+}
