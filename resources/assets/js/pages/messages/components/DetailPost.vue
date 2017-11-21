@@ -15,15 +15,13 @@
     import moment from 'moment';
     export default {
         props: {
-            name: String,
-            day: String,
-            time: String,
-            header: String,
-            message: String,
-            image: String,
             id: String,
+            createdAt: Object,
+            header: String,
+            image: String,
+            message: String,
+            name: String,
             userId: String,
-            timezone: String,
             yourId: String
         },
         name: 'DetailPost',
@@ -32,7 +30,7 @@
         },
         computed: {
             momentDate() {
-                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${this.$root.$data.timezoneAbbr}`;
+                return moment(`${this.$props.createdAt.date} ${this.$props.createdAt.timezone}`, 'YYYY-MM-DD HH:mm Z').local().format('MMMM Do YYYY, h:mm:ss a z');
             }
         },
         mounted() {
