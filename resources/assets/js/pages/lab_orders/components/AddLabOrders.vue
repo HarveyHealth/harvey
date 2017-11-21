@@ -114,9 +114,9 @@ export default {
   },
   methods: {
       getData(value){
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
               if (value != ""){
-                  this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                  this.$root.requestPatients(value,(patients)=>{
                       resolve(patients);
                   });
               }

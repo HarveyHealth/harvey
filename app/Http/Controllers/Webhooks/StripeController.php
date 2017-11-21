@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Webhooks;
 
-use App\Lib\Slack;
-use Illuminate\Http\Request;
 use Log, ResponseCode;
 
 class StripeController extends BaseWebhookController
@@ -63,6 +61,16 @@ class StripeController extends BaseWebhookController
     public function handlePayoutPaid()
     {
         Log::info('Stripe payout paid.');
+    }
+
+    public function handleBalanceAvailable()
+    {
+        Log::info('Stripe balance available.');
+    }
+
+    public function handleChargeRefunded()
+    {
+        Log::info('Stripe charge refunded.');
     }
 
     public function handlePayload(array $payload)

@@ -28,6 +28,10 @@ export default {
         shouldSkipToZip: Boolean
     },
     components: {
+        Background,
+        ConditionsAll,
+        ConditionPreface,
+        ConditionQuestions,
         MainSubFooter,
         MainFooter,
         Heading1,
@@ -35,10 +39,6 @@ export default {
         PublicNav,
         Spacer,
         SvgIcon,
-        Background,
-        ConditionQuestions,
-        ConditionPreface,
-        ConditionsAll,
         VerifyZip
     },
     data() {
