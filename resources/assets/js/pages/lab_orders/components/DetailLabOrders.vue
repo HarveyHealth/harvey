@@ -239,13 +239,13 @@
             <!-- Recommended or Confirmed -->
 
             <div  v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
-              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.sku.attributes.lab_test_information.lab_name + ' ' || '' }}{{ test.name }}
+              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
             <!-- Shipped or Greater -->
 
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.sku.attributes.lab_test_information.lab_name + ' ' || '' }}{{ test.name }}
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
             </a>
 
             <span class="custom-select">

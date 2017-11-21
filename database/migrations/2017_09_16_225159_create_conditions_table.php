@@ -26,9 +26,9 @@ class CreateConditionsTable extends Migration
 
         $conditions = [
             [
-                'name' => 'Skin Conditions',
-                'slug' => 'skin-conditions',
-                'image_url' => 'https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin-conditions.png',
+                'name' => 'Skin Issues',
+                'slug' => 'skin-issues',
+                'image_url' => 'https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin-issues.png',
                 'description' => "A traditional medical approach for skin complaints typically will treat the symptom, and approach the issue topically with creams, medications, etc. To look at a skin condition from an holistic approach, we try to address root causes of skin complaints by looking at dietary related skin exacerbations, gut health and efficiency of detoxification pathways.",
                 'questions' => [
                     [
@@ -54,7 +54,7 @@ class CreateConditionsTable extends Migration
                     [
                         'question' => "Have you ever had any allergy tests done?",
                         'answers' => ['Yes', 'No', "I don't remember"]
-                    ],
+                    ]
                 ]
             ],
             [
@@ -118,7 +118,7 @@ class CreateConditionsTable extends Migration
                     [
                         'question' => "Have you ever taken a hormone or micronutrient test?",
                         'answers' => ["Yes", "No", "I don't remember"]
-                    ],
+                    ]
                 ]
             ],
             [
@@ -278,7 +278,7 @@ class CreateConditionsTable extends Migration
                     [
                         'question' => "What are you primary wellness goals?",
                         'answers' => ["Prevention", "Feel great", "Self education"]
-                    ],
+                    ]
                 ]
             ]
         ];

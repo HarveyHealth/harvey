@@ -162,7 +162,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/#get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                    <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
                 </div>
             </div>
         </div>

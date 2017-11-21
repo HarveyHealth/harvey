@@ -1,58 +1,67 @@
 <template>
   <div class="space-children-sm">
     <SlideIn class="space-children-md max-width-xxl ">
-
-      <!-- Heading -->
-      <h3 class="font-bold font-xxxl">{{ State('conditions.condition.name') }}</h3>
-      <p class="font-lg">{{ State('conditions.condition.description') }}</p>
-      <a href="/#get-started" class="button font-lg"><i class="fa fa-book"></i> Explore Conditions</a>
-
+      <div class="mw9 pv2">
+        <div class="cf">
+          <div class="fl w-25 pa5">
+            <SvgIcon :id="State('conditions.condition.slug')" :width="'120px'" :height="'120px'" />
+          </div>
+          <div class="fl w-75 pl3">
+            <h3 class="font-bold font-xxl">{{ State('conditions.condition.name') }}</h3>
+            <p class="font-md">{{ State('conditions.condition.description') }}</p>
+            <p class="font-sm gray">Not what you need? Go back to <a href="/#conditions">Conditions</a>.</p>
+            <InputButton
+              :text="button"
+              :type="'whiteFilled'"
+              :on-click="() => setState('conditions.prefaceRead', true)"
+              :width="'200px'"
+              class="mt3"
+            />
+          </div>
+        </div>
+      </div>
       <!-- Articles -->
-      <h4 class="font-xl font-thin">Recent Articles</h4>
-      <ul class="juicer-feed" data-feed-id="food-allergies-articles" data-per="3" data-pages="1" data-truncate="350"></ul>
-
+      <h4 class="font-xl font-normal">Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></h4>
+      <ul class="juicer-feed" data-feed-id="food-allergies-articles" data-per="3" data-pages="1" data-truncate="250"></ul>
       <!-- Videos -->
-      <h4 class="font-xl font-thin">Doctor Interviews</h4>
       <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul>
-
       <!-- Lab Tests -->
-      <h4 class="font-xl font-thin">Common Lab Tests</h4>
       <div class="mw9 center">
         <div class="cf">
-          <div class="fl w-50 is-paddingless-top is-padding-right">
+          <div class="fl w-50 pt2 pr2">
             <div class="bg-white pa4 bn">
               <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xxs pa2">
               <div class="mw9 center">
                 <div class="cf ph2-ns">
-                  <div class="fl w-50">
+                  <div class="fl w-75">
                     <p class="font-xl font-bold margin-bottom-0">Micronutrient Test</p>
                     <p class="font-lg gray"><em>Sample: Blood draw</em></p>
                   </div>
-                  <div class="fl w-50">
+                  <div class="fl w-25">
                     <p class="font-xxl font-right"><span class="green">$299</span></p>
                   </div>
                 </div>
               </div>
               <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button font-lg">Learn More</a></p>
+              <a href="/lab-tests" class="button is-outlined ml2 font-lg"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
-          <div class="fl w-50 is-paddingless-top is-padding-left">
+          <div class="fl w-50 pt2 pl2">
             <div class="bg-white pa4 bn">
               <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png" class="max-width-xxs pa2">
               <div class="mw9 center">
                 <div class="cf ph2-ns">
-                  <div class="fl w-50">
+                  <div class="fl w-75">
                     <p class="font-xl font-bold margin-bottom-0">Food Allergy Test</p>
                     <p class="font-lg gray"><em>Sample: Blood draw</em></p>
                   </div>
-                  <div class="fl w-50">
+                  <div class="fl w-25">
                     <p class="font-xxl font-right"><span class="green">$299</span></p>
                   </div>
                 </div>
               </div>
               <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button font-lg">Learn More</a></p>
+              <a href="/lab-tests" class="button is-outlined ml2 font-lg"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
         </div>
@@ -60,12 +69,14 @@
     </SlideIn>
     <!-- Quiz -->
     <div class="tc w-100 pa5 ph5-ns">
-      <h2 class="font-xl font-thin w-50 margin-0a">To get started, take our {{ State('conditions.condition.name') }} quiz to determine if Harvey is right for you.</h2>
+      <h2 class="font-xl font-thin w-50 margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</h2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
         :on-click="() => setState('conditions.prefaceRead', true)"
-        :width="'200px'" />
+        :width="'200px'"
+        class="mt4"
+      />
     </div>
   </div>
 </template>
@@ -77,7 +88,14 @@ import { SvgIcon } from 'icons';
 import { Paragraph, Heading1 } from 'typography';
 
 export default {
-  components: { InputButton, SlideIn, Spacer, SvgIcon, Paragraph, Heading1 },
+  components: {
+    InputButton,
+    SlideIn,
+    Spacer,
+    SvgIcon,
+    Paragraph,
+    Heading1
+  },
   data() {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
@@ -88,8 +106,15 @@ export default {
 
 <style>
 
+  .juicer-feed.modern li.feed-item {
+    box-shadow: none;
+    border: none;
+  }
+
   .juicer-feed.juicer-widget li.feed-item {
     padding: 25px;
+    box-shadow: none;
+    border: none;
   }
 
   .j-poster {
