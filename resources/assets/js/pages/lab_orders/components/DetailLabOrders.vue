@@ -714,8 +714,8 @@ export default {
         // talk to ship api endpoint to kick off shippo information
         // PUT /api/v1/lab/orders/<lab_order_id>/ship
 
-        axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship?servicelevel_token=${this.shippingOption}`, {
-
+        axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
+          servicelevel_token: this.shippingOption
         }).then((response) => {
             // update the tracking number field for the package
             const trackingNumber = response.data.data.attributes.shipment_code;
