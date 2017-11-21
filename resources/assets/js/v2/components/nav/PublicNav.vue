@@ -12,7 +12,7 @@
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
                     <a href="/lab-tests">Labs</a>
-                    <a href="#conditions" @click="handleMenuClick('conditions')">Conditions</a>
+                    <a href="/#conditions" @click="handleMenuClick('conditions')">Conditions</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
@@ -24,7 +24,7 @@
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                        <a v-else href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
                     </div>
                 </div>
             </div>
