@@ -30,7 +30,7 @@
         },
         computed: {
             momentDate() {
-                return moment(`${this.$props.createdAt.date} ${this.$props.createdAt.timezone}`, 'YYYY-MM-DD HH:mm Z').local().format('MMMM Do YYYY, h:mm:ss a z');
+                return moment(`${this.$props.createdAt.date} ${this.$props.createdAt.timezone}`, 'YYYY-MM-DD HH:mm Z').tz($this.$root.$data.timezone).format('MMM Do YYYY, h:mm:ss a zz');
             }
         },
         mounted() {
