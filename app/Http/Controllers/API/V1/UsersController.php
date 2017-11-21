@@ -161,8 +161,10 @@ class UsersController extends BaseAPIController
             'state' => 'max:2',
             'timezone' => 'max:75',
             'zip' => $user->isAdminOrPractitioner() ? 'digits:5' : 'digits:5|serviceable',
+            'settings.*' => 'user_setting',
         ], [
-            'serviceable' => 'Sorry, we do not service this :attribute.'
+            'serviceable' => 'Sorry, we do not service this :attribute.',
+            'user_setting' => ':attribute is not a valid setting.'
         ]);
 
         $user->update($request->all());
@@ -314,27 +316,5 @@ class UsersController extends BaseAPIController
         $this->resource_name = "cards";
 
         return $this->baseTransformCollection($cards, null, new CreditCardTransformer)->respond();
-    }
-
-
-    public function getSettings(Request $request, User $user)
-    {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
-            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
-        }
-
-        $this->resource_name = "cards";
-
-        $defaults = [
-            "reminder_email_24_hours" => true,
-            "reminder_text_24_hours" => true,
-            "reminder_email_1_hour" => true,
-            "reminder_text_1_hour" => true,
-        ];
-
-        $settings = (empty($user->settings))?$defaults:$user->settings;
-
-
-        // return collection (do we need a transformer?)
     }
 }
