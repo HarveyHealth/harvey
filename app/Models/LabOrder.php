@@ -56,6 +56,18 @@ class LabOrder extends Model
         self::SHIPPED_STATUS_ID => 'shipped',
     ];
 
+    const SERVICELEVEL_ALLOWED_TOKENS = [
+        'fedex_ground',
+        'fedex_home_delivery',
+        'fedex_smart_post',
+        'fedex_2_day',
+        'fedex_2_day_am',
+        'fedex_express_saver',
+        'fedex_standard_overnight',
+        'fedex_priority_overnight',
+        'fedex_first_overnight',
+    ];
+
     public function labTests()
     {
         return $this->hasMany(LabTest::class);
@@ -166,7 +178,7 @@ class LabOrder extends Model
         return $invoiceData;
     }
 
-    public function ship()
+    public function ship($servicelevel_token = null)
     {
         if (!empty($this->shippo_id)) {
             return $this;
@@ -216,7 +228,7 @@ class LabOrder extends Model
                 'parcels' => $parcel_info,
             ],
             'carrier_account' => $carrier_object_id,
-            'servicelevel_token' => config('services.shippo.carrier_service_level'),
+            'servicelevel_token' => $servicelevel_token ?: config('services.shippo.carrier_service_level'),
             'label_file_type' => 'PDF',
             'async' => false,
             'test' => isNotProd(),

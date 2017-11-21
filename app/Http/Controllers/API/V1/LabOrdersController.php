@@ -136,7 +136,11 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to ship this LabOrder");
         }
 
-        $labOrder->ship();
+        StrictValidator::check($request->all(), [
+            'servicelevel_token' => ['filled', Rule::in(LabOrder::SERVICELEVEL_ALLOWED_TOKENS)],
+        ]);
+
+        $labOrder->ship(request('servicelevel_token'));
 
         return $this->baseTransformItem($labOrder->fresh(), request('include'))->respond();
     }
