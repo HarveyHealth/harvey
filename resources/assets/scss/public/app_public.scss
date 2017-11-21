@@ -249,5 +249,6 @@ body {
 @include query-up-to(lg) {
     #app.menu-is-open {
         height: 100vh;
+        overflow: hidden;
     }
 }

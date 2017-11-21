@@ -1,83 +1,72 @@
 <template>
-  <div>
-    <div class="bg-green-fade"></div>
-    <div v-if="!hasZip && !State('conditions.condition')">
-      <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
-      <div class="center mw8 pa3 pa4-m">
-        <div class="center mw6 tc">
-          <div class="center mw4">
-            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
-          </div>
-          <Spacer isBottom :size="3" />
-          <Heading1 isLight>Personalized for better health.</Heading1>
-          <Spacer isBottom :size="4" />
-          <Paragraph isLight>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
+    <div>
+        <Background />
+        <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
+        <div class="center mw9 pa3 pa4-m">
+            <ConditionPreface v-if="!State('conditions.prefaceRead')" />
+            <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
+            <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false" />
         </div>
-        <Spacer isBottom :size="4" />
-        <ConditionsAll />
-      </div>
+        <MainSubFooter />
+        <MainFooter />
     </div>
-    <div v-else>
-      <PublicNav giveSpace hasLogo hasLinks hasPhone />
-      <div class="center mw8 pa3 pa4-m">
-        <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
-        <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
-        <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
-      </div>
-      <MainFooter />
-    </div>
-  </div>
 </template>
 
 <script>
-import { Heading1, Paragraph } from 'typography';
+import { Heading1, Paragraph, Background } from 'typography';
 import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { MainFooter, PublicNav } from 'nav';
+import { MainSubFooter, MainFooter, PublicNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
 import VerifyZip from './children/VerifyZip';
 
 export default {
-  name: 'conditions',
-  components: {
-    Heading1,
-    MainFooter,
-    Paragraph,
-    PublicNav,
-    Spacer,
-    SvgIcon,
-    ConditionQuestions,
-    ConditionPreface,
-    ConditionsAll,
-    VerifyZip
-  },
-  data() {
-    return {
-      imgStyles: 'display: inline-block; max-width: 80px; margin: 8px; vertical-align: middle;'
-    };
-  },
-  computed: {
-    hasZip() {
-      return this.State('getstarted.userPost.zip') || this.State('conditions.invalidZip');
+    name: 'conditions',
+    props: {
+        shouldSkipToZip: Boolean
     },
-    selected() {
-      return this.State('conditions.selectedIndex');
+    components: {
+        Background,
+        ConditionsAll,
+        ConditionPreface,
+        ConditionQuestions,
+        MainSubFooter,
+        MainFooter,
+        Heading1,
+        Paragraph,
+        PublicNav,
+        Spacer,
+        SvgIcon,
+        VerifyZip
+    },
+    data() {
+        return {
+            imgStyles: 'display: inline-block; max-width: 80px; margin: 8px; vertical-align: middle;'
+        };
+    },
+    computed: {
+        hasZip() {
+            return this.State('getstarted.userPost.zip') || this.State('conditions.invalidZip');
+        },
+        selected() {
+            return this.State('conditions.selectedIndex');
+        }
+    },
+    watch: {
+        selected(value) {
+            let condition, questions;
+            condition = value >= 0
+                ? this.State('conditions.all')[value]
+                : this.State('conditoins.all')[0];
+            questions = JSON.parse(condition.questions);
+            App.setState('conditions.condition', condition);
+            App.setState('conditions.condition.questions', questions);
+        }
+    },
+    beforeCreate() {
+        App.setState('getstarted.userPost.zip', App.Logic.getstarted.getZipValidation());
     }
-  },
-  watch: {
-    selected(value) {
-      if (value >= 0) {
-        const condition = this.State('conditions.all')[value];
-        const questions = JSON.parse(condition.questions);
-        App.setState('conditions.condition', condition);
-        App.setState('conditions.condition.questions', questions);
-      }
-    }
-  },
-  beforeCreate() {
-    App.setState('getstarted.userPost.zip', App.Logic.getstarted.getZipValidation());
-  }
 };
 </script>

@@ -7,13 +7,12 @@
                     <i :class="hamburgerClasses"></i>
                 </button>
                 <a href="/" class="nav-logo" v-if="hasLogo">
-                    <LogoIcon alwaysShowText :hasDarkIcon="isNavSolid" :hasDarkText="isNavSolid" />
+                    <LogoIcon alwaysShowText :hasDarkIcon="hasDarkLogo" :hasDarkText="hasDarkLogo" />
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
                     <a href="/lab-tests">Labs</a>
-                    <a href="/#prices" @click="handleMenuClick('prices')">Pricing</a>
-                    <a href="/financing">Financing</a>
+                    <a href="#conditions" @click="handleMenuClick('conditions')">Conditions</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
@@ -42,6 +41,9 @@ export default {
         LogoIcon
     },
     props: {
+        // Keep navigation colors (logo, links, buttons) in their dark color even
+        // when scrollY is 0
+        forceDark: { type: Boolean, default: false },
         // Create space between the nav and the proceeding content to compensate
         // for the fixed positioning
         giveSpace: { type: Boolean, default: false },
@@ -79,6 +81,9 @@ export default {
         hamburgerClasses() {
             return `fa ${this.isMenuActive ? 'fa-close' : 'fa-bars'}`;
         },
+        hasDarkLogo() {
+            return this.isNavSolid || (this.forceDark && !this.isMenuActive);
+        },
         showDashboard() {
             const isSignedIn = Laravel.user.signedIn;
             const appointment = Laravel.user.has_an_appointment;
@@ -92,6 +97,7 @@ export default {
         wrapClasses() {
             return {
                 'nav-wrap': true,
+                'nav-is-dark': this.forceDark,
                 'nav-is-solid': this.isNavSolid,
                 'nav-is-sticky': this.isSticky,
                 'menu-is-active': this.isMenuActive,
@@ -335,16 +341,17 @@ export default {
 
         @include query-up-to(lg) {
             display: block;
-            padding: 1.6rem;
+            padding: .5rem;
         }
         @include query(lg) {
             display: inline-block;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             margin: 12px 0;
             padding: 10px;
 
-            .nav-is-solid & {
+            .nav-is-solid &,
+            .nav-is-dark & {
                 color: $color-copy;
             }
 
@@ -391,7 +398,8 @@ export default {
         }
 
         @include query(lg) {
-            .nav-is-solid & {
+            .nav-is-solid &,
+            .nav-is-dark & {
                 border-color: $color-copy;
                 color: $color-copy;
             }
@@ -399,8 +407,8 @@ export default {
     }
 
     .nav-start a {
-        background: $color-accent-dark;
-        border-color: $color-accent-dark;
+        background: $turquoise;
+        border-color: $turquoise;
 
         @include query-up-to(lg) {
             right: 12px;

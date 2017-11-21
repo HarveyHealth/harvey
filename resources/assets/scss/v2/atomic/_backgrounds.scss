@@ -12,9 +12,8 @@
   z-index: -1;
 }
 
-.bg-green-fade {
+.background-fade {
   background-color: #FFFFFF;
-  background-image: linear-gradient(-180deg, #FFFFFF 10%, #D5E1DF 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -24,6 +23,30 @@
   left: 0;
   right: 0;
   z-index: -1;
+  &.skin-issues {
+    background-image: $fade-skin-issues;
+  }
+  &.food-allergies {
+    background-image: $fade-food-allergies;
+  }
+  &.stress-anxiety {
+    background-image: $fade-stress-anxiety;
+  }
+  &.digestive-issues {
+    background-image: $fade-digestive-issues;
+  }
+  &.fatigue {
+    background-image: $fade-fatigue;
+  }
+  &.weight-loss-gain {
+    background-image: $fade-weight-loss-gain;
+  }
+  &.womens-health {
+    background-image: $fade-womens-health;
+  }
+  &.general-health {
+    background-image: $fade-general-health;
+  }
 }
 
 .bg-good {
