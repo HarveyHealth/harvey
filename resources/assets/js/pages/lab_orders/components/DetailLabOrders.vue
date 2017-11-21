@@ -399,8 +399,8 @@
                 <span class="input__label">Shipping Method</span>
                 <span class="custom-select">
                     <select v-model="shippingOption">
-                        <option value="fedex_2_day">2-Day (default)</option>
-                        <option value="fedex_ground">Ground</option>
+                        <option value="fedex_2_day">FedEx 2-Day (default)</option>
+                        <option value="fedex_ground">FedEx Ground</option>
                     </select>
                 </span>
             </div>
