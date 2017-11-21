@@ -75,7 +75,7 @@ export default {
             scrollDistance: 30,
             throttleTime: 200,
             yScroll: null
-        }
+        };
     },
     computed: {
         hamburgerClasses() {
@@ -92,7 +92,7 @@ export default {
             return isSignedIn && (appointment || notPatient);
         },
         spaceClasses() {
-            return { 'nav-top-space': true, 'is-active': this.giveSpace }
+            return { 'nav-top-space': true, 'is-active': this.giveSpace };
         },
         wrapClasses() {
             return {
@@ -100,8 +100,8 @@ export default {
                 'nav-is-dark': this.forceDark,
                 'nav-is-solid': this.isNavSolid,
                 'nav-is-sticky': this.isSticky,
-                'menu-is-active': this.isMenuActive,
-            }
+                'menu-is-active': this.isMenuActive
+            };
         }
     },
     methods: {

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.38.4",
+            "version": "3.39.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f572a05d43e4aa1c33f3c06a78cd78b6b8edb67d"
+                "reference": "fd829dedc766a23e00cb155fb3c417f3cc025ef9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f572a05d43e4aa1c33f3c06a78cd78b6b8edb67d",
-                "reference": "f572a05d43e4aa1c33f3c06a78cd78b6b8edb67d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fd829dedc766a23e00cb155fb3c417f3cc025ef9",
+                "reference": "fd829dedc766a23e00cb155fb3c417f3cc025ef9",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-11-16T23:45:00+00:00"
+            "time": "2017-11-20T23:33:24+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -918,16 +918,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.6.2",
+            "version": "v2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "1a4ee83a5a709555f2c6f9057a3aacf892451c7e"
+                "reference": "e3eed9b1facbb0ced3a0995244843a189e7d1b13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1a4ee83a5a709555f2c6f9057a3aacf892451c7e",
-                "reference": "1a4ee83a5a709555f2c6f9057a3aacf892451c7e",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/e3eed9b1facbb0ced3a0995244843a189e7d1b13",
+                "reference": "e3eed9b1facbb0ced3a0995244843a189e7d1b13",
                 "shasum": ""
             },
             "require": {
@@ -987,7 +987,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-08-28T11:02:56+00:00"
+            "time": "2017-11-19T13:38:54+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1538,16 +1538,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.34",
+            "version": "v0.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "4d0d438e323929579cabf0b4d420177a96835c6d"
+                "reference": "8c3926a9dafcd1bc86e5af06a1bb7e4aa931c73c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/4d0d438e323929579cabf0b4d420177a96835c6d",
-                "reference": "4d0d438e323929579cabf0b4d420177a96835c6d",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/8c3926a9dafcd1bc86e5af06a1bb7e4aa931c73c",
+                "reference": "8c3926a9dafcd1bc86e5af06a1bb7e4aa931c73c",
                 "shasum": ""
             },
             "require": {
@@ -1571,7 +1571,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-11-11T00:27:24+00:00"
+            "time": "2017-11-18T00:23:16+00:00"
         },
         {
             "name": "google/auth",
@@ -2274,16 +2274,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v3.0.10",
+            "version": "v3.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "681c15a26bbc973528af2e77e0bb61981dc07206"
+                "reference": "8f228a073ef844c5981febe4d185d6ee7b4e5bd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/681c15a26bbc973528af2e77e0bb61981dc07206",
-                "reference": "681c15a26bbc973528af2e77e0bb61981dc07206",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/8f228a073ef844c5981febe4d185d6ee7b4e5bd2",
+                "reference": "8f228a073ef844c5981febe4d185d6ee7b4e5bd2",
                 "shasum": ""
             },
             "require": {
@@ -2335,7 +2335,7 @@
                 "laravel",
                 "search"
             ],
-            "time": "2017-09-14T12:32:30+00:00"
+            "time": "2017-11-21T13:48:26+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -5325,16 +5325,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.15.6",
+            "version": "5.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "f108d8dc7e27ce6fbc35498e6f75f1d98652fe7a"
+                "reference": "98c4b2651a7023b53d7c147d8389963d785f546d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/f108d8dc7e27ce6fbc35498e6f75f1d98652fe7a",
-                "reference": "f108d8dc7e27ce6fbc35498e6f75f1d98652fe7a",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/98c4b2651a7023b53d7c147d8389963d785f546d",
+                "reference": "98c4b2651a7023b53d7c147d8389963d785f546d",
                 "shasum": ""
             },
             "require": {
@@ -5367,7 +5367,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-11-10T23:30:56+00:00"
+            "time": "2017-11-18T00:25:23+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
