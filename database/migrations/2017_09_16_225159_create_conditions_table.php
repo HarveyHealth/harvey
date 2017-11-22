@@ -64,7 +64,7 @@ class CreateConditionsTable extends Migration
                 'description' => 'Allergic symptoms are thought to affect 50 million people in the United States. Allergic symptoms are your immune system’s extreme response to substances that are normally found, in your everyday environment. Very often, simple changes of diet, nutritional supplements, and herbal remedies can relieve this extreme reaction and the resulting inflammation that triggers most allergy symptoms.',
                 'questions' => [
                     [
-                        'question' => 'What are your allergies caused by?',
+                        'question' => 'What generally causes your allergies?',
                         'answers' => ['Food', 'Weather', 'Both', 'Other']
                     ],
                     [
@@ -80,7 +80,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ['Daily', 'Few time a month', 'Only as needed', 'Never']
                     ],
                     [
-                        'question' => 'Have you ever had any food allergy tests done?',
+                        'question' => 'Have you ever taken a food allergy test?',
                         'answers' => ['Yes', 'No', "I don't remember"]
                     ]
                 ]
@@ -104,11 +104,11 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Always", "Sometimes", "Never"]
                     ],
                     [
-                        'question' => "Is your conditions linked to a specific event/experience (i.e. job issue, relationship loss, etc.)",
+                        'question' => "Is your conditions linked to a specific event or experience such as a job or relationship?",
                         'answers' => ["Yes", "No - it's consistent no matter what"]
                     ],
                     [
-                        'question' => "Do you spend time in nature/out in the sun",
+                        'question' => "Do you frequently spend time in nature or in the sun?",
                         'answers' => ["Quite a bit", "Sometimes", "Almost never"]
                     ],
                     [
@@ -152,7 +152,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Annoying but I manage easily", "Painful, but I get by on my day", "Takes me out of action some days"]
                     ],
                     [
-                        'question' => "Have you ever tested your food sensitivities or the health of your microbiome?",
+                        'question' => "Have you ever tested your food sensitivities or microbiome?",
                         'answers' => ["Yes", "No", "Not sure"]
                     ]
                 ]
@@ -184,7 +184,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Tired without food", "Tired from eating", "Neither"]
                     ],
                     [
-                        'question' => "Have you ever checked your adrenal status or micronutrient levels?",
+                        'question' => "Have you ever checked your adrenals or micronutrient levels?",
                         'answers' => ["Yes", "No", "Not sure"]
                     ]
                 ]
@@ -208,7 +208,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Almost every day", "Sometimes", "Never"]
                     ],
                     [
-                        'question' => "How much sugar / simple carbs do you consume?",
+                        'question' => "How much sugar or simple carbs do you consume?",
                         'answers' => ["Quite a bit", "Average", "Very litte"]
                     ],
                     [
@@ -216,7 +216,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Yes and I've done it", "Heard of it, but have not tried", "Don't know about it"]
                     ],
                     [
-                        'question' => "Have you had your hormones and thyroid checked in the past?",
+                        'question' => "Have you every tested your hormones or thyroid?",
                         'answers' => ["Hormones", "Thyroid", "Both", "Neither"]
                     ]
                 ]
@@ -248,7 +248,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Yes", "No"]
                     ],
                     [
-                        'question' => "Have you ever had a hormone or adrenal panel done?",
+                        'question' => "Have you ever done a hormone or adrenal panel?",
                         'answers' => ["Yes", "No", "I don't know"]
                     ]
                 ]
