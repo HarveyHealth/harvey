@@ -25,7 +25,8 @@ import { PublicNav } from 'nav';
 window.App = {};
 App.Public = {};
 App.Public.State = {
-    conditions: []
+    conditions: [],
+    conditionIconColors: ['is-lime', 'is-pink', 'is-brown', 'is-purple', 'is-turquoise', 'is-slategrey', 'is-green', 'is-ford']
 };
 
 App.Public.setConditions = conditions => {
