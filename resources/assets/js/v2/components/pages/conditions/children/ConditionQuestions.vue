@@ -1,5 +1,5 @@
 <template>
-  <div class="center mw7 mt3 h6">
+  <div class="center mw7 mt3 min-height">
     <div class="center relative">
       <button class="Button Button--condition-nav is-left" v-show="!displayBack()" @click="goBack">
         <i class="fa fa-chevron-left"></i>
@@ -85,6 +85,10 @@ export default {
 
   .Button.Button--condition-nav.is-right {
     color: #5F7278;
+  }
+
+  .min-height {
+    min-height: 358px;
   }
 
 </style>

@@ -5,7 +5,7 @@
     <SlideIn v-if="!State('conditions.zipValidation')">
       <Heading1>What is your zip code?</Heading1>
       <Spacer isBottom :size="4" />
-      <p class="font-normal">Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</p>
+      <Paragraph>Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
       <Spacer isBottom :size="4" />
       <MultiInput
         :color="'dark'"
@@ -32,7 +32,7 @@
       <SlideIn>
         <Heading1 doesExpand>Unfortunately, we cannot service patients in your state yet.</Heading1>
         <Spacer isBottom :size="4" />
-        <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</p>
+        <Paragraph>We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</Paragraph>
         <Spacer isBottom :size="4" />
         <a href="#" @click="reEnterZip">
           <i class="fa fa-undo"></i><Spacer isRight :size="3" />Try Again
@@ -50,12 +50,12 @@
 
 <script>
 import { InputButton, MultiInput } from 'inputs';
-import { Heading1 } from 'typography';
+import { Heading1, Paragraph } from 'typography';
 import { SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 
 export default {
-  components: { InputButton, Heading1, MultiInput, SlideIn, Spacer, SvgIcon },
+  components: { InputButton, Heading1, Paragraph, MultiInput, SlideIn, Spacer, SvgIcon },
   methods: {
     reEnterZip() {
       App.setState('wasRequested.zip', false);
@@ -66,7 +66,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  
   .social-icon {
     padding: 4%;
   }
+
 </style>

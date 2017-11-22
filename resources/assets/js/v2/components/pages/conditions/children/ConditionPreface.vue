@@ -9,9 +9,9 @@
             <SvgIcon :id="State('conditions.condition.slug')" :width="'120px'" :height="'120px'" />
           </div>
           <div class="fl w-100 w-75-l pl0 pl3-l">
-            <h3 class="font-bold font-xxl">{{ State('conditions.condition.name') }}</h3>
-            <p class="font-lg">{{ State('conditions.condition.description') }}</p>
-            <p class="font-sm gray">Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.</p>
+            <Heading1>{{ State('conditions.condition.name') }}</Heading1>
+            <Paragraph>{{ State('conditions.condition.description') }}</Paragraph>
+            <p class="font-sm gray pt2">Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.</p>
             <InputButton
               :text="button"
               :type="'whiteFilled'"
@@ -24,7 +24,7 @@
       </div>
       
       <!-- Articles -->
-      <h4 class="font-xl font-normal">Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></h4>
+      <Heading2>Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></Heading2>
       <ul
         class="juicer-feed"
         :data-feed-id="State('conditions.condition.slug')+'-articles'"
@@ -53,8 +53,8 @@
                   </div>
                 </div>
               </div>
-              <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button is-outlined ml2 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
+              <Paragraph class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
+              <a href="/lab-tests" class="button is-outlined ml2 mt3 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
           <div class="fl w-100 w-50-l mt3 mt1-l pl2-l">
@@ -71,8 +71,8 @@
                   </div>
                 </div>
               </div>
-              <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button is-outlined ml2 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
+              <Paragraph class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
+              <a href="/lab-tests" class="button is-outlined ml2 mt3 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
 
     <!-- Quiz -->
     <div class="tc w-100 pv5 ph4">
-      <h2 class="font-xl fw4 w-100 w-80-ns w-50-l margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</h2>
+      <Heading2 class="w-100 w-80-ns w-50-l margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</Heading2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
@@ -98,7 +98,7 @@
 import { InputButton } from 'inputs';
 import { SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { Paragraph, Heading1 } from 'typography';
+import { Paragraph, Heading1, Heading2 } from 'typography';
 
 export default {
   components: {
@@ -107,7 +107,8 @@ export default {
     Spacer,
     SvgIcon,
     Paragraph,
-    Heading1
+    Heading1,
+    Heading2
   },
   data() {
     return {

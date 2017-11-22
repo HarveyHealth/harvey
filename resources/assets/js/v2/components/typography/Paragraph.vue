@@ -14,8 +14,10 @@ export default {
     styles() {
       return {
         'ma0': true,
-        'fw2': this.isThin || !this.isBold, // default
-        'fw6': this.isBold,
+        'font-lg': true,
+        'fw4': true,
+        'fw3': this.isThin || !this.isBold, // default
+        'fw5': this.isBold,
         'white': this.isLight,
         'dark-gray': !this.isLight // default
       };

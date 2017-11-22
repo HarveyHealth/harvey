@@ -14,7 +14,6 @@ export default {
         'Heading4': true,
         'f7': true,
         'fw6': true,
-        'ma0': true,
         'pa0': true,
         'ttu': true,
         'tracked': true,
