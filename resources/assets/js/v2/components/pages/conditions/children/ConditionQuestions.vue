@@ -1,6 +1,6 @@
 <template>
-  <div class="center mw7">
-    <div class="center mw6 relative">
+  <div class="center mw7 mt3 h6">
+    <div class="center relative">
       <button class="Button Button--condition-nav is-left" v-show="!displayBack()" @click="goBack">
         <i class="fa fa-chevron-left"></i>
       </button>
@@ -78,8 +78,13 @@ export default {
 <style>
 
   /*This needs fixing*/
-  .Button--condition-nav.is-left {
+  .Button.Button--condition-nav.is-left {
+    color: #5F7278;
     left: -10em;
+  }
+
+  .Button.Button--condition-nav.is-right {
+    color: #5F7278;
   }
 
 </style>
