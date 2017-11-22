@@ -159,7 +159,7 @@ function only_if_admin_or_practitioner($value)
     return null;
 }
 
-function maybe()
+function maybe($value = true)
 {
-    return (bool) rand(0,1);
+    return rand(0,1) ? null : $value;
 }

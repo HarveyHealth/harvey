@@ -66,18 +66,17 @@ class AppointmentsController extends BaseAPIController
     {
         $inputData = $request->all();
 
-
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
         } elseif (currentUser()->isPractitioner()) {
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
-     
         StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'cancellation_reason' => 'max:1024',
             'duration_in_minutes' => 'integer',
+            'notes' => 'filled|admin_or_practitioner',
             'patient_id' => 'required|exists:patients,id|appointments_less_than:2',
             'practitioner_id' => 'required|exists:practitioners,id',
             'reason_for_visit' => 'required',
@@ -94,43 +93,44 @@ class AppointmentsController extends BaseAPIController
 
     public function update(Request $request, Appointment $appointment)
     {
-        if (currentUser()->can('update', $appointment)) {
-            StrictValidator::checkUpdate($request->all(), [
-                'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available:{$appointment->id}",
-                'cancellation_reason' => 'filled',
-                'duration_in_minutes' => 'integer',
-                'reason_for_visit' => 'filled',
-                'status' => ['filled', Rule::in(Appointment::STATUSES)],
-            ]);
-
-            $appointment->update($request->all());
-
-            return $this->baseTransformItem($appointment)->respond();
-        } else {
-            $message = $appointment->isLocked() ?
-                "You are unable to modify an appointment with less than "
-                    . Appointment::CANCEL_LOCK . " hours of notice."
-                : "You do not have access to update this appointment.";
-
+        if (currentUser()->cant('update', $appointment)) {
+            if ($appointment->isLocked() || $appointment->isNotPending()) {
+                $message = "This Appointment is locked for updates.";
+            } else {
+                $message = "You do not have access to update this appointment.";
+            }
             return $this->respondNotAuthorized($message);
         }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available:{$appointment->id}",
+            'cancellation_reason' => 'filled',
+            'duration_in_minutes' => 'integer',
+            'notes' => 'filled|admin_or_practitioner',
+            'reason_for_visit' => 'filled',
+            'status' => ['filled', Rule::in(Appointment::STATUSES)],
+        ]);
+
+        $appointment->update($request->all());
+
+        return $this->baseTransformItem($appointment)->respond();
     }
 
     public function delete(Appointment $appointment)
     {
-        if (currentUser()->can('delete', $appointment)) {
-            $appointment->delete();
-
-            return $this->baseTransformItem($appointment)
-                        ->addMeta(['deleted' => true])
-                        ->respond(ResponseCode::HTTP_NO_CONTENT);
-        } else {
-            $message = $appointment->isLocked() ?
-                "You are unable to cancel an appointment with less than "
-                    . Appointment::CANCEL_LOCK . " hours of notice."
-                : "You do not have access to cancel this appointment.";
-
+        if (currentUser()->cant('delete', $appointment)) {
+            if ($appointment->isLocked() || $appointment->isNotPending()) {
+                $message = "This Appointment is locked for canceling.";
+            } else {
+                $message = "You do not have access to cancel this appointment.";
+            }
             return $this->respondNotAuthorized($message);
         }
+
+        if (!$appointment->delete()) {
+            return $this->baseTransformItem($appointment)->respond(ResponseCode::HTTP_CONFLICT);
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 }
