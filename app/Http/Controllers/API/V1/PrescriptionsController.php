@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\Prescription;
+use App\Models\{Patient, Prescription};
 use App\Transformers\V1\PrescriptionTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;
