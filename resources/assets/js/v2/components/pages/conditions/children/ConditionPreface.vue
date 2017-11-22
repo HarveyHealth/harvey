@@ -22,9 +22,15 @@
       </div>
       <!-- Articles -->
       <h4 class="font-xl font-normal">Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></h4>
-      <ul class="juicer-feed" data-feed-id="food-allergies-articles" data-per="3" data-pages="1" data-truncate="250"></ul>
+      <ul
+        class="juicer-feed"
+        :data-feed-id="State('conditions.condition.slug')+'-articles'"
+        data-per="3"
+        data-pages="1"
+        data-truncate="250"
+      ></ul>
       <!-- Videos -->
-      <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul>
+      <!-- <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul> -->
       <!-- Lab Tests -->
       <div class="mw9 center">
         <div class="cf">
