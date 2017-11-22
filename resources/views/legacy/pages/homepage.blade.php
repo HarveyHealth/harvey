@@ -38,90 +38,33 @@
     <section class="section how-it-works">
         <div class="container has-text-centered">
             <h2 class="title is-4 section-header"><span>What We Treat</span></h2>
+
             <div class="columns">
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
+                <div class="column" v-for="(condition, index) in conditions" v-if="index < 4">
+                    <figure :class="'icon-wrapper icon-wrapper-has-background ' + State.conditionIconColors[index]">
+                        <img class="icon full" :src="condition.image_url"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Skin Issues</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/skin-issues">Learn More</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-pink">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/food-allergies.png"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Food Allergies</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/food-allergies">Learn More</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-brown">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/stress-anxiety.png"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Stress/Anxiety</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/stress-anxiety">Learn More</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/digestive-issues.png"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Digestive Issues</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/digestive-issues">Learn More</a>
+                        <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
+                        <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p>
+                        <a :href="'/conditions/' + condition.slug">Learn More</a>
                     </div>
                 </div>
             </div>
+
             <div class="columns">
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/fatigue.png"></span>
+                <div class="column" v-for="(condition, index) in conditions" v-if="index > 3">
+                    <figure :class="'icon-wrapper icon-wrapper-has-background ' + State.conditionIconColors[index]">
+                        <img class="icon full" :src="condition.image_url"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Fatigue</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/fatigue">Learn More</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/weight-loss-gain.png"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Weight Loss/Gain</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/weight-loss-gain">Learn More</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-purple">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/womens-health.png"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Women's Health</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/womens-health">Learn More</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-ford">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/general-health.png"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>General/Other</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/general">Learn More</a>
+                        <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
+                        <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p>
+                        <a :href="'/conditions/' + condition.slug">Learn More</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -295,90 +238,33 @@
             <div class="has-text-centered has-max-width-lg">
                 <h2 class="title is-3">Start your health journey.</h2>
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Please select your most concerning health issue out of the list below, and we will share with you some articles, case studies and lab test information.</p>
+
                 <div class="columns is-margin-top">
-                    <div class="column">
-                        <a href="/conditions/skin-issues">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
+                    <div class="column" v-for="(condition, index) in conditions" v-if="index < 4">
+                        <a :href="'/conditions/' + condition.slug">
+                            <figure :class="'icon-wrapper icon-wrapper-has-background ' + State.conditionIconColors[index]">
+                                <img class="icon full" :src="condition.image_url"></span>
                             </figure>
                             <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Skin Issues</strong></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="/conditions/food-allergies">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-pink">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/food-allergies.png"></span>
-                            </figure>
-                            <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Food Allergies</strong></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="/conditions/stress-anxiety">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-brown">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/stress-anxiety.png"></span>
-                            </figure>
-                            <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Stress/Anxiety</strong></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="/conditions/digestive-issues">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-green">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/digestive-issues.png"></span>
-                            </figure>
-                            <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Digestive Issues</strong></p>
+                                <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
                             </div>
                         </a>
                     </div>
                 </div>
+
                 <div class="columns">
-                    <div class="column">
-                        <a href="/conditions/fatigue">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/fatigue.png"></span>
+                    <div class="column" v-for="(condition, index) in conditions" v-if="index > 3">
+                        <a :href="'/conditions/' + condition.slug">
+                            <figure :class="'icon-wrapper icon-wrapper-has-background ' + State.conditionIconColors[index]">
+                                <img class="icon full" :src="condition.image_url"></span>
                             </figure>
                             <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Fatigue</strong></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="/conditions/weight-loss-gain">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/weight-loss-gain.png"></span>
-                            </figure>
-                            <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Weight Loss/Gain</strong></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="/conditions/womens-health">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-purple">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/womens-health.png"></span>
-                            </figure>
-                            <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Women's Health</strong></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="/conditions/general-health">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-ford">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/general-health.png"></span>
-                            </figure>
-                            <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>General/Other</strong></p>
+                                <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
                             </div>
                         </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
