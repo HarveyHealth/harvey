@@ -213,7 +213,7 @@ body[class*="lab-tests"] {
             border-radius: 50%;
             display: inline-block;
             &.is-lime {
-                @include background-gradient($harvey-lime);
+                @include background-gradient($harvey-sage);
             }
             &.is-pink {
                 @include background-gradient($harvey-pink);

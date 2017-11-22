@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-purple">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
                         <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/digestive-issues.png"></span>
                     </figure>
                     <div class="is-padding-top">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple">
                         <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/womens-health.png"></span>
                     </figure>
                     <div class="is-padding-top">
@@ -328,7 +328,7 @@
                     </div>
                     <div class="column">
                         <a href="/conditions/digestive-issues">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-purple">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-green">
                                 <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/digestive-issues.png"></span>
                             </figure>
                             <div class="is-padding-top">
@@ -360,7 +360,7 @@
                     </div>
                     <div class="column">
                         <a href="/conditions/womens-health">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-green">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-purple">
                                 <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/womens-health.png"></span>
                             </figure>
                             <div class="is-padding-top">

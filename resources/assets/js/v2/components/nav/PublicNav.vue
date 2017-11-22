@@ -16,15 +16,15 @@
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
-                    <div class="nav-phone" v-if="hasPhone">
+                    <div class="nav-phone dim" v-if="hasPhone">
                         <a href="tel:800-690-9989">(800) 690-9989</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
-                        <a v-if="showDashboard" href="/dashboard">
+                        <a v-if="showDashboard" class="dim" href="/dashboard">
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                        <a v-else href="/#conditions" class="dim" @click="handleMenuClick('conditions')">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -317,8 +317,8 @@ export default {
         display: none;
 
         @include query-up-to(lg) {
-            font-size: 1.5rem;
-            margin-top: 60px;
+            font-size: 1.2rem;
+            margin-top: 80px;
             text-align: center;
 
             .menu-is-open & {

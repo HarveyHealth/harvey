@@ -1,14 +1,14 @@
 <template>
     <div id="sub-footer">
-        <div class="tc w-100 pa5">
+        <div class="tc w-100 pv5 ph3">
             <Heading2>Not ready to sign up? Subscribe to our newsletter.</Heading2>
             <div class="pa2-l">
                 <form class="mw7 pa2 center">
                     <fieldset class="cf bn">
                         <div class="cf">
                             <label class="clip" for="email-address">Email Address</label>
-                            <input class="font-lg input-reset bn fl pa3 lh-solid w-75-m w70-l br2 mr2 gray" placeholder="Your Email Address" type="text" name="email-address" value="" id="email-address">
-                            <input class="f6 f5-l fl pv3 mt2 tc bn dim white w-25-m w-30-l submit" type="submit" value="Subscribe">
+                            <input class="font-lg input-reset bn fl pa3 w-100 w-70-l br2 gray" placeholder="Your Email Address" type="text" name="email-address" value="" id="email-address">
+                            <input class="w-25 mt3 mt1-l submit" type="submit" value="Subscribe">
                         </div>
                     </fieldset>
                 </form>
@@ -38,10 +38,6 @@ import { Heading2 } from 'typography';
     min-height: 100px;
     background-image: linear-gradient(120deg, #F2F2F2 0%, #F2F2F2 40%);
     border: 1px solid #EEE;
-  }
-
-  .submit {
-    margin-top: 8px;
   }
 
 </style>

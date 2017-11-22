@@ -1,25 +1,28 @@
 <template>
   <div class="space-children-sm">
     <SlideIn class="space-children-md max-width-xxl ">
+
+      <!-- Description -->
       <div class="mw9 pv2">
         <div class="cf">
-          <div class="fl w-25 pa5">
+          <div class="fl w-100 w-25-l pa5">
             <SvgIcon :id="State('conditions.condition.slug')" :width="'120px'" :height="'120px'" />
           </div>
-          <div class="fl w-75 pl3">
+          <div class="fl w-100 w-75-l pl0 pl3-l">
             <h3 class="font-bold font-xxl">{{ State('conditions.condition.name') }}</h3>
-            <p class="font-md">{{ State('conditions.condition.description') }}</p>
-            <p class="font-sm gray">Not what you need? Go back to <a href="/#conditions">Conditions</a>.</p>
+            <p class="font-lg">{{ State('conditions.condition.description') }}</p>
+            <p class="font-sm gray">Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.</p>
             <InputButton
               :text="button"
               :type="'whiteFilled'"
               :on-click="() => setState('conditions.prefaceRead', true)"
               :width="'200px'"
-              class="mt3"
+              class="mt3 dim"
             />
           </div>
         </div>
       </div>
+      
       <!-- Articles -->
       <h4 class="font-xl font-normal">Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></h4>
       <ul
@@ -29,12 +32,14 @@
         data-pages="1"
         data-truncate="250"
       ></ul>
+      
       <!-- Videos -->
       <!-- <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul> -->
+      
       <!-- Lab Tests -->
       <div class="mw9 center">
         <div class="cf">
-          <div class="fl w-50 pt2 pr2">
+          <div class="fl w-100 w-50-l mt1 pr2-l">
             <div class="bg-white pa4 bn">
               <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xxs pa2">
               <div class="mw9 center">
@@ -49,10 +54,10 @@
                 </div>
               </div>
               <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button is-outlined ml2 font-lg"><i class="fa fa-flask mr1"></i> Learn More</a></p>
+              <a href="/lab-tests" class="button is-outlined ml2 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
-          <div class="fl w-50 pt2 pl2">
+          <div class="fl w-100 w-50-l mt3 mt1-l pl2-l">
             <div class="bg-white pa4 bn">
               <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png" class="max-width-xxs pa2">
               <div class="mw9 center">
@@ -67,23 +72,25 @@
                 </div>
               </div>
               <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button is-outlined ml2 font-lg"><i class="fa fa-flask mr1"></i> Learn More</a></p>
+              <a href="/lab-tests" class="button is-outlined ml2 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
         </div>
       </div>
     </SlideIn>
+
     <!-- Quiz -->
-    <div class="tc w-100 pa5 ph5-ns">
-      <h2 class="font-xl font-thin w-50 margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</h2>
+    <div class="tc w-100 pv5 ph4">
+      <h2 class="font-xl fw4 w-100 w-80-ns w-50-l margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</h2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
         :on-click="() => setState('conditions.prefaceRead', true)"
         :width="'200px'"
-        class="mt4"
+        class="mt4 dim"
       />
     </div>
+
   </div>
 </template>
 
@@ -132,12 +139,12 @@ export default {
   }
 
   .j-poster a h3 {
-    color: #AAA !important;
+    color: #82BEF2 !important;
     font-size: 15px !important;
   }
 
   .j-text p, .j-message p {
-    color: #555;
+    color: #5f7278;
     font-family: "proxima-nova";
     font-weight: 500;
     font-size: 15px;
@@ -148,6 +155,11 @@ export default {
     min-height: 100px;
   }
 
+  a.j-truncate {
+    color: #82BEF2;
+    margin-left: 3px;
+  }
+
   .j-title p {
     font-size: 25px;
     line-height: 28px;
@@ -155,7 +167,7 @@ export default {
     font-family: "proxima-nova";
     padding-bottom: 8px;
     display: inline-block;
-    color: #555;
+    color: #5f7278;
   }
 
 </style>
