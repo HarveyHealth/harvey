@@ -35,7 +35,6 @@
     <div
       v-else class="background-fade">
     </div>
-
     <div class="tc ph4 pv5 nav-links">
       <!-- Instagram -->
       <a class="dim dib h2 w2 br-100" href="https://www.instagram.com/go_harvey" target="_blank">
@@ -85,7 +84,7 @@
   export default {};
 </script>
 
-<style>
+<style lang="scss" scoped>
 
   .footer {
     min-height: 100px;
