@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { Heading1, Paragraph } from 'typography';
 import { Background, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { MainSubFooter, MainFooter, PublicNav } from 'nav';
@@ -35,8 +34,6 @@ export default {
         ConditionQuestions,
         MainSubFooter,
         MainFooter,
-        Heading1,
-        Paragraph,
         PublicNav,
         Spacer,
         SvgIcon,
