@@ -46,7 +46,7 @@
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
-                        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+                        <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p>
                         <a :href="'/conditions/' + condition.slug">Learn More</a>
                     </div>
                 </div>
@@ -59,22 +59,12 @@
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
-                        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+                        <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p>
                         <a :href="'/conditions/' + condition.slug">Learn More</a>
                     </div>
                 </div>
             </div>
 
-            <!-- <div class="column">
-                <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                    <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
-                </figure>
-                <div class="is-padding-top">
-                    <p class="title instructions is-5"><strong>Skin Issues</strong></p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <a href="/conditions/skin-issues">Learn More</a>
-                </div>
-            </div> -->
         </div>
     </section>
 

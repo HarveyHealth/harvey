@@ -26,6 +26,7 @@ window.App = {};
 App.Public = {};
 App.Public.State = {
     conditions: [],
+    conditionSubText: [],
     conditionIconColors: ['is-lime', 'is-pink', 'is-brown', 'is-purple', 'is-turquoise', 'is-slategrey', 'is-green', 'is-ford']
 };
 
