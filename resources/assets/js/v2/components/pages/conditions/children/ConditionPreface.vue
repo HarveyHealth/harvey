@@ -6,7 +6,7 @@
       <div class="mw9 pv2">
         <div class="cf">
           <div class="fl w-100 w-25-l pa5">
-            <SvgIcon :id="State('conditions.condition.slug')" :width="'120px'" :height="'120px'" />
+            <SvgIcon :id="State('conditions.condition.slug')" :width="'150px'" :height="'150px'" />
           </div>
           <div class="fl w-100 w-75-l pl0 pl3-l">
             <Heading1>{{ State('conditions.condition.name') }}</Heading1>

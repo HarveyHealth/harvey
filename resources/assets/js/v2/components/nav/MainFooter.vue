@@ -1,62 +1,23 @@
 <template>
   <div id="footer">
-    <div
-      v-if="State('conditions.condition.slug') == 'skin-issues'"
-      class="background-fade skin-issues">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'food-allergies'"
-      class="background-fade food-allergies">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'stress-anxiety'"
-      class="background-fade stress-anxiety">  
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'digestive-issues'"
-      class="background-fade digestive-issues">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'fatigue'"
-      class="background-fade fatigue">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'weight-loss-gain'"
-      class="background-fade weight-loss-gain">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'womens-health'"
-      class="background-fade womens-health">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'general-health'"
-      class="background-fade general-health">
-    </div>
-    <div
-      v-else class="background-fade">
-    </div>
+    <div v-if="State('conditions.condition.slug')" :class="'background-fade ' + State('conditions.condition.slug')"></div>
+    <div v-else class="background-fade"></div>
     <div class="tc ph4 pv5 nav-links">
-      <!-- Instagram -->
       <a class="dim dib h2 w2 br-100" href="https://www.instagram.com/go_harvey" target="_blank">
         <i class="fa fa-instagram font-xxl" aria-hidden="true"></i>
       </a>
-      <!-- Facebook -->
       <a class="dim dib h2 w2 br-100 ml2 ml3-l" href="https://www.facebook.com/goharveyapp" target="_blank">
         <i class="fa fa-facebook font-xxl" aria-hidden="true"></i>
       </a>
-      <!-- YouTube -->
       <a class="dim dib br-100 h2 w2 ml2 ml3-l" href="https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw" target="_blank">
         <i class="fa fa-youtube font-xxl" aria-hidden="true"></i>
       </a>
-      <!-- Twitter -->
       <a class="dim dib br-100 h2 w2 ml2 ml3-l" href="https://twitter.com/goharveyapp" target="_blank">
         <i class="fa fa-twitter font-xxl" aria-hidden="true"></i>
       </a>
-      <!-- Medium -->
       <a class="dim dib br-100 h2 w2 ml2 ml3-l" href="https://blog.goharvey.com" target="_blank">
         <i class="fa fa-medium font-xxl" aria-hidden="true"></i>
       </a>
-      <!-- Pinterest -->
       <a class="dim dib br-100 h2 w2 ml2 ml3-l" href="https://pinterest.com/go_harvey" target="_blank">
         <i class="fa fa-pinterest font-xxl" aria-hidden="true"></i>
       </a>
@@ -109,6 +70,7 @@
 
   a.legal {
     color: #5f7278;
+    font-weight: 400;
     text-decoration: underline;
   }
 
