@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
-use App\Models\{
-  Condition,
-  LabTestInformation
-};
+use App\Models\{Condition, LabTestInformation};
 
 /*
  * A light controller to display mostly static pages, like the homepage
@@ -26,7 +23,7 @@ class PagesController extends Controller
      */
     public function getHomepage()
     {
-        return view('legacy.pages.homepage')->with(['conditions' => Condition::all()]);
+        return view('legacy.pages.homepage')->with(['conditions' => Condition::getAllFromCache()]);
     }
 
     public function getAbout()

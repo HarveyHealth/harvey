@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\Condition;
 
 class UpdateConditionsTableNamesAndImageUrls extends Migration
 {
@@ -279,15 +280,15 @@ class UpdateConditionsTableNamesAndImageUrls extends Migration
             ]
         ];
 
-        foreach ($conditions as &$condition) {
-            $newCondition = new \App\Models\Condition;
-            $newCondition->enabled = true;
-            $newCondition->name = $condition['name'];
-            $newCondition->slug = $condition['slug'];
-            $newCondition->image_url = $condition['image_url'];
-            $newCondition->description = $condition['description'];
-            $newCondition->questions = json_encode($condition['questions']);
-            $newCondition->save();
+        foreach ($conditions as $condition) {
+            Condition::create([
+                'enabled' => true,
+                'name' => $condition['name'],
+                'slug' => $condition['slug'],
+                'image_url' => $condition['image_url'],
+                'description' => $condition['description'],
+                'questions' => json_encode($condition['questions']),
+            ]);
         }
     }
 
@@ -298,6 +299,6 @@ class UpdateConditionsTableNamesAndImageUrls extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conditions');
+        // No rollback for this update.
     }
 }
