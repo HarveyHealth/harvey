@@ -26,7 +26,7 @@ class PagesController extends Controller
      */
     public function getHomepage()
     {
-        return view('legacy.pages.homepage');
+        return view('legacy.pages.homepage')->with(['conditions' => Condition::all()]);
     }
 
     public function getAbout()
