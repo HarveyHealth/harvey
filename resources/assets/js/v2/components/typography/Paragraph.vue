@@ -8,18 +8,19 @@ export default {
     isBold: Boolean,
     isThin: Boolean,
     isLight: Boolean,
-    isError: Boolean
+    isError: Boolean,
+    isLarge: Boolean
   },
   computed: {
     styles() {
       return {
         'ma0': true,
-        'font-lg': true,
-        'fw4': true,
-        'fw3': this.isThin || !this.isBold, // default
+        'font-lg': this.isLarge,
+        'fw4': !this.isThin && !this.isBold,
+        'fw3': this.isThin,
         'fw5': this.isBold,
         'white': this.isLight,
-        'dark-gray': !this.isLight // default
+        'dark-gray': !this.isLight
       };
     }
   }

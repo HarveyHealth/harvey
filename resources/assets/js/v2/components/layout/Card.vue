@@ -1,6 +1,6 @@
 <template>
   <div class="ba b--light-gray bg-white">
-    <div class="bb b--light-gray bg-gray-0 pa3" v-if="heading">
+    <div class="Heading bb b--light-gray pa3" v-if="heading">
       <Heading3>{{ heading }}</Heading3>
     </div>
     <slot></slot>
@@ -24,3 +24,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .Heading {
+        background-color: $color-gray-0;
+    }
+</style>
