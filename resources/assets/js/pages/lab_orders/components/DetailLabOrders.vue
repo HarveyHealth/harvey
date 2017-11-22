@@ -729,8 +729,7 @@ export default {
             this.loading = false;
 
             // add the message
-            const responseError = error.response.data.errors[0].detail;
-            this.shippingErrorMessage = responseError;
+            this.shippingErrorMessage = error.response.data.errors[0].detail;
         });
     },
     markedShipped() {
