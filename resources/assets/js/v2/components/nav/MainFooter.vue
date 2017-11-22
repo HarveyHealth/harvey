@@ -1,41 +1,5 @@
 <template>
   <div id="footer">
-    <div
-      v-if="State('conditions.condition.slug') == 'skin-issues'"
-      class="background-fade skin-issues">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'food-allergies'"
-      class="background-fade food-allergies">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'stress-anxiety'"
-      class="background-fade stress-anxiety">  
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'digestive-issues'"
-      class="background-fade digestive-issues">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'fatigue'"
-      class="background-fade fatigue">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'weight-loss-gain'"
-      class="background-fade weight-loss-gain">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'womens-health'"
-      class="background-fade womens-health">
-    </div>
-    <div
-      v-else-if="State('conditions.condition.slug') == 'general-health'"
-      class="background-fade general-health">
-    </div>
-    <div
-      v-else class="background-fade">
-    </div>
-
     <div class="tc ph4 pv5">
       <!-- Instagram -->
       <a class="link dim gray dib h2 w2 br-100" href="https://www.instagram.com/go_harvey" target="_blank">
@@ -85,7 +49,7 @@
   export default {};
 </script>
 
-<style>
+<style lang="scss" scoped>
 
   .footer {
     min-height: 100px;
