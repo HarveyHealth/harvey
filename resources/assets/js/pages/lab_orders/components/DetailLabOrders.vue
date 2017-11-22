@@ -724,10 +724,13 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
-        }).catch(() => {
+        }).catch((error) => {
             // stop the loading
             this.loading = false;
-            this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
+
+            // add the message
+            const responseError = error.response.data.errors[0].detail;
+            this.shippingErrorMessage = responseError;
         });
     },
     markedShipped() {
