@@ -36,7 +36,8 @@ import { Heading2 } from 'typography';
 
   #sub-footer {
     min-height: 100px;
-    background-image: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 40%);
+    background-image: linear-gradient(120deg, #F2F2F2 0%, #F2F2F2 40%);
+    border: 1px solid #EEE;
   }
 
   .submit {
