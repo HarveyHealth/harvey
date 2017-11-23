@@ -24,7 +24,7 @@
       </div>
 
       <!-- Articles -->
-      <Heading2>Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></Heading2>
+      <Heading2 class="mb2">Read {{ State('conditions.condition.name') }} Articles</em></Heading2>
       <ul
         class="juicer-feed"
         :data-feed-id="State('conditions.condition.slug')+'-articles'"
@@ -34,49 +34,29 @@
       ></ul>
 
       <!-- Videos -->
-      <!-- <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul> -->
+      <Heading2 class="mb2">Watch {{ State('conditions.condition.name') }} Videos</em></Heading2>
+      <ul
+        class="juicer-feed"
+        :data-feed-id="State('conditions.condition.slug')+'-articles'"
+        data-per="3"
+        data-pages="1"
+        data-truncate="250"
+      ></ul>
+
+      <!-- Research -->
+      <Heading2 class="mb2">Participate in Research</em></Heading2>
+      <ul
+        class="juicer-feed"
+        :data-feed-id="State('conditions.condition.slug')+'-articles'"
+        data-per="3"
+        data-pages="1"
+        data-truncate="250"
+      ></ul>
 
       <!-- Lab Tests -->
-      <div class="mw9 center">
-        <div class="cf">
-          <div class="fl w-100 w-50-l mt1 pr2-l">
-            <div class="bg-white pa4 bn">
-              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xxs pa2">
-              <div class="mw9 center">
-                <div class="cf ph2">
-                  <div class="fl w-75">
-                    <p class="font-xl font-bold margin-bottom-0">Micronutrient Test</p>
-                    <p class="font-lg gray"><em>Sample: Blood draw</em></p>
-                  </div>
-                  <div class="fl w-25">
-                    <p class="font-xxl font-right"><span class="green">$299</span></p>
-                  </div>
-                </div>
-              </div>
-              <Paragraph isLarge class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
-              <a href="/lab-tests" class="button is-outlined ml2 mt3 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
-            </div>
-          </div>
-          <div class="fl w-100 w-50-l mt3 mt1-l pl2-l">
-            <div class="bg-white pa4 bn">
-              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png" class="max-width-xxs pa2">
-              <div class="mw9 center">
-                <div class="cf ph2">
-                  <div class="fl w-75">
-                    <p class="font-xl font-bold margin-bottom-0">Food Allergy Test</p>
-                    <p class="font-lg gray"><em>Sample: Blood draw</em></p>
-                  </div>
-                  <div class="fl w-25">
-                    <p class="font-xxl font-right"><span class="green">$299</span></p>
-                  </div>
-                </div>
-              </div>
-              <Paragraph isLarge class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
-              <a href="/lab-tests" class="button is-outlined ml2 mt3 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Heading2 class="mb2">Common Lab Tests</em></Heading2>
+      <ConditionLabTests></ConditionLabTests>
+
     </SlideIn>
 
     <!-- Quiz -->
@@ -100,6 +80,8 @@ import { SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { Paragraph, Heading1, Heading2 } from 'typography';
 
+import ConditionLabTests from './ConditionLabTests.vue';
+
 export default {
   components: {
     InputButton,
@@ -107,6 +89,7 @@ export default {
     Spacer,
     SvgIcon,
     Paragraph,
+    ConditionLabTests,
     Heading1,
     Heading2
   },

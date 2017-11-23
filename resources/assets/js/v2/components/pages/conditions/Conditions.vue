@@ -20,6 +20,7 @@ import { MainSubFooter, MainFooter, PublicNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions.vue';
 import ConditionPreface from './children/ConditionPreface.vue';
 import ConditionsAll from './children/ConditionsAll.vue';
+import ConditionLabTests from './children/ConditionLabTests.vue';
 import VerifyZip from './children/VerifyZip.vue';
 
 export default {
@@ -32,6 +33,7 @@ export default {
         ConditionsAll,
         ConditionPreface,
         ConditionQuestions,
+        ConditionLabTests,
         MainSubFooter,
         MainFooter,
         PublicNav,
