@@ -30,5 +30,7 @@ export default {
 
   .Heading2 {
     @extend %font-smooth;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 </style>

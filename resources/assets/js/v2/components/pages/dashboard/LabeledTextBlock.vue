@@ -1,7 +1,7 @@
 <template>
   <div>
     <Heading4>{{ label }}</Heading4>
-    <Paragraph><slot></slot></Paragraph>
+    <Paragraph isThin><slot></slot></Paragraph>
   </div>
 </template>
 

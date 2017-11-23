@@ -9,8 +9,8 @@
             <SvgIcon :id="State('conditions.condition.slug')" :width="'150px'" :height="'150px'" />
           </div>
           <div class="fl w-100 w-75-l pl0 pl3-l">
-            <Heading1>{{ State('conditions.condition.name') }}</Heading1>
-            <Paragraph>{{ State('conditions.condition.description') }}</Paragraph>
+            <Heading1 class="pv2">{{ State('conditions.condition.name') }}</Heading1>
+            <Paragraph isLarge>{{ State('conditions.condition.description') }}</Paragraph>
             <p class="font-sm gray pt2">Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.</p>
             <InputButton
               :text="button"
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Articles -->
       <Heading2>Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></Heading2>
       <ul
@@ -32,10 +32,10 @@
         data-pages="1"
         data-truncate="250"
       ></ul>
-      
+
       <!-- Videos -->
       <!-- <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul> -->
-      
+
       <!-- Lab Tests -->
       <div class="mw9 center">
         <div class="cf">
@@ -53,7 +53,7 @@
                   </div>
                 </div>
               </div>
-              <Paragraph class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
+              <Paragraph isLarge class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
               <a href="/lab-tests" class="button is-outlined ml2 mt3 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>
@@ -71,7 +71,7 @@
                   </div>
                 </div>
               </div>
-              <Paragraph class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
+              <Paragraph isLarge class="ml2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</Paragraph>
               <a href="/lab-tests" class="button is-outlined ml2 mt3 font-lg dim"><i class="fa fa-flask mr1"></i> Learn More</a></p>
             </div>
           </div>

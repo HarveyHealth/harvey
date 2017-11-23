@@ -13,7 +13,7 @@
     </div>
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
       <div class="center db tc mw6">
-        <Heading1 doesExpand>{{ obj.question }}</Heading1>
+        <Heading1 doesExpand class="pv2">{{ obj.question }}</Heading1>
       </div>
       <Row :gutter="'md'" class="pa4">
         <Column v-for="(answer, aIndex) in obj.answers" :config="{ md: '1of2' }" :key="aIndex">

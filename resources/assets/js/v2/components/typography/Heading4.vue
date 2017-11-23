@@ -29,5 +29,6 @@ export default {
 
   .Heading4 {
     @extend %font-smooth;
+    margin: 0;
   }
 </style>

@@ -3,9 +3,9 @@
     <SvgIcon :id="'map'" :width="'120px'" :height="'120px'" />
     <Spacer isBottom :size="4" />
     <SlideIn v-if="!State('conditions.zipValidation')">
-      <Heading1>What is your zip code?</Heading1>
+      <Heading1 class="pv2">What is your zip code?</Heading1>
       <Spacer isBottom :size="4" />
-      <Paragraph>Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
+      <Paragraph isLarge>Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
       <Spacer isBottom :size="4" />
       <MultiInput
         :color="'dark'"
@@ -30,7 +30,7 @@
     </SlideIn>
     <div v-if="State('conditions.zipValidation.is_serviceable') === false">
       <SlideIn>
-        <Heading1 doesExpand>Unfortunately, we cannot service patients in your state yet.</Heading1>
+        <Heading1 doesExpand class="pv2">Unfortunately, we cannot service patients in your state yet.</Heading1>
         <Spacer isBottom :size="4" />
         <Paragraph>We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</Paragraph>
         <Spacer isBottom :size="4" />
@@ -66,7 +66,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  
+
   .social-icon {
     padding: 4%;
   }
