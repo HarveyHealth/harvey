@@ -43,7 +43,7 @@
             <div class="bg-white pa4 bn">
               <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xxs pa2">
               <div class="mw9 center">
-                <div class="cf ph2-ns">
+                <div class="cf ph2">
                   <div class="fl w-75">
                     <p class="font-xl font-bold margin-bottom-0">Micronutrient Test</p>
                     <p class="font-lg gray"><em>Sample: Blood draw</em></p>
@@ -61,7 +61,7 @@
             <div class="bg-white pa4 bn">
               <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png" class="max-width-xxs pa2">
               <div class="mw9 center">
-                <div class="cf ph2-ns">
+                <div class="cf ph2">
                   <div class="fl w-75">
                     <p class="font-xl font-bold margin-bottom-0">Food Allergy Test</p>
                     <p class="font-lg gray"><em>Sample: Blood draw</em></p>
