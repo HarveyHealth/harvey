@@ -54,230 +54,242 @@ export default {
   components: { Paragraph },
   computed: {
     LabTestImage1() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png';
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png';
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hormones.png';
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/microbiome.png';
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/adrenals.png';
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/weight-loss-gain.png';
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hormones.png';
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png';
         } else return '';
     },
     LabTestName1() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'Food Allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'Food Allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'Hormone'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'Microbiome'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'Adrenals'; // Adrenals
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'Food Allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'Hormone'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'Micronutrients'; // Micronutrients
         } else return '';
     },
     LabTestSample1() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'Blood Draw'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'Blood Draw'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'Blood Draw'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'Stool'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'Saliva'; // Adrenals
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'Blood Draw'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'Blood Draw'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'Blood Draw'; // Micronutrient
         } else return '';
     },
     LabTestPrice1() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return '$299'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return '$299'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return '$115'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return '$229'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return '$145'; // Adrenals
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return '$229'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return '$115'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return '$339'; // Micronutrient
         } else return '';
     },
     LabTestDescription1() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Adrenals
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Micronutrient
         } else return '';
     },
     LabTestLink1() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return '/lab-tests/food-allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return '/lab-tests/food-allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return '/lab-tests/hormones'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
-          return '/lab-tests/microbiome'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'digestive-issues'){
+          return '/lab-tests/microbiome-gut'; // Microbiome
+        } else if (conditionsSlug == 'fatigue'){
           return '/lab-tests/adrenals'; // Adrenals
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return '/lab-tests/food-allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return '/lab-tests/hormones'; // Hormone
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return '/lab-tests/adrenals'; // Micronutrient
         } else return '';
     },
     LabTestImage2() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/microbiome.png';
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/microbiome.png';
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png';
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png';
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png';
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png';
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/thyroid.png';
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png';
         } else return '';
     },
     LabTestName2() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'Microbiome'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'Microbiome'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'Micronutrient'; // Micronutrient
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'Food Allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'Micronutrient'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'Micronutrients'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'Thyroid'; // Thyroid
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'Food Allergies'; // Food Allergies
         } else return '';
     },
     LabTestSample2() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'Stool'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'Stool'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'Blood Draw'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'Blood Draw'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'Blood Draw'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'Blood Draw'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'Blood Draw'; // Thyroid
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'Blood Draw'; // Food Allergies
         } else return '';
     },
     LabTestPrice2() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return '$199'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return '$199'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return '$299'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return '$199'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return '$299'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return '$299'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return '$99'; // Thyroid
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return '$199'; // Food Allergies
         } else return '';
     },
     LabTestDescription2() {
-        if (this.State('conditions.condition.slug') == 'skin-issues'){
+        var conditionsSlug = this.State('conditions.condition.slug');
+        if (conditionsSlug == 'skin-issues'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Thyroid
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a aliquet diam. Cras ultricies dictum volutpat. Aliquam eget nunc nec diam ultrices eleifend.'; // Food Allergies
         } else return '';
     },
     LabTestLink2() {
+        var conditionsSlug = this.State('conditions.condition.slug');
         if (this.State('conditions.condition.slug') == 'skin-issues'){
           return '/lab-tests/microbiome'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'food-allergies'){
+        } else if (conditionsSlug == 'food-allergies'){
           return '/lab-tests/microbiome'; // Microbiome
-        } else if (this.State('conditions.condition.slug') == 'stress-anxiety'){
+        } else if (conditionsSlug == 'stress-anxiety'){
           return '/lab-tests/micronutrients'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'digestive-issues'){
+        } else if (conditionsSlug == 'digestive-issues'){
           return '/lab-tests/food-allergies'; // Food Allergies
-        } else if (this.State('conditions.condition.slug') == 'fatigue'){
+        } else if (conditionsSlug == 'fatigue'){
           return '/lab-tests/micronutrients'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'weight-loss-gain'){
+        } else if (conditionsSlug == 'weight-loss-gain'){
           return '/lab-tests/micronutrients'; // Micronutrients
-        } else if (this.State('conditions.condition.slug') == 'womens-health'){
+        } else if (conditionsSlug == 'womens-health'){
           return '/lab-tests/thyroid'; // Thyroid
-        } else if (this.State('conditions.condition.slug') == 'general-health'){
+        } else if (conditionsSlug == 'general-health'){
           return '/lab-tests/food-allergies'; // Food Allergies
         } else return '';
     }
