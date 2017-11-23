@@ -42,14 +42,12 @@
                         }
                     }">
                     <MessagePost
-                        :name="chat.attributes.sender_user_id != user ? chat.attributes.sender_full_name : chat.attributes.recipient_full_name"
-                        :image="chat.attributes.sender_image_url"
-                        :day="chat.attributes.created_at.date"
-                        :time="chat.attributes.created_at.date"
-                        :timezone="chat.attributes.created_at.timezone"
-                        :header="chat.attributes.subject"
-                        :message="chat.attributes.message"
                         :id="chat.id"
+                        :created-at="chat.attributes.created_at"
+                        :header="chat.attributes.subject"
+                        :image="chat.attributes.sender_image_url"
+                        :message="chat.attributes.message"
+                        :name="chat.attributes.sender_user_id != user ? chat.attributes.sender_full_name : chat.attributes.recipient_full_name"
                     />
                     </router-link>
                 </div>

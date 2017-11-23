@@ -39,7 +39,7 @@
     <body>
       @include('_includes.svgs')
       <main>
-        <div id="app">
+        <div id="app" :class="isMobileMenuOpen">
           <router-view />
         </div>
       </main>
@@ -51,8 +51,13 @@
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
         <script>
             App.setState('conditions.all', {!! $conditions !!});
-            @if ($index)
+            @if ($get_zip) {
+                App.setState('conditions.condition', {questions: []});
+                App.setState('conditions.questionIndex', 999);
+                App.setState('conditions.prefaceRead', true);
+            } @else (is_numeric($index)) {
                 App.setState('conditions.selectedIndex', {!! $index !!});
+            }
             @endif
         </script>
         <script>

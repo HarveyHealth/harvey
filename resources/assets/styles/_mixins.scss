@@ -1,6 +1,6 @@
 // Get z-index of an item by its index in the list
 @mixin zindex($item) {
-  z-index: index($z-list, $item);
+    z-index: index($z-list, $item);
 }
 
 /// Creates a min-width based media query that wraps other styling.
@@ -10,9 +10,9 @@
 ///     ... styles
 ///   }
 @mixin query($bp) {
-  @media screen and (min-width: map-get($breakpoints, $bp)) {
-    @content;
-  }
+    @media screen and (min-width: map-get($breakpoints, $bp)) {
+        @content;
+    }
 }
 
 /// Creates a min-height based media query that wraps other styling.
@@ -22,7 +22,13 @@
 ///     ... styles
 ///   }
 @mixin query-height($bp) {
-  @media screen and (min-height: map-get($breakpoints-height, $bp)) {
-    @content;
-  }
+    @media screen and (min-height: map-get($breakpoints-height, $bp)) {
+        @content;
+    }
+}
+
+@mixin query-up-to($bp) {
+    @media screen and (max-width: map-get($breakpoints, $bp) - 1px) {
+        @content;
+    }
 }

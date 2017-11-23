@@ -18,7 +18,7 @@
         </div>
     </noscript>
 
-    <div id="app">
+    <div id="app" :class="appClass">
         @include('legacy._layouts.includes.top_nav')
         <div class="page-content">
             @yield('main_content')

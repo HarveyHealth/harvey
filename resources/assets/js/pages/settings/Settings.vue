@@ -182,14 +182,41 @@ export default {
         };
     },
     methods: {
+        readUserSettings(){
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`)
+                .then(respond => {
+                    for (var key in respond.data.data.attributes.settings){
+                        for (var i in this.settings.reminders){
+                            var reminder = this.settings.reminders[i];
+                            if (reminder.name == key){
+                                reminder.value = respond.data.data.attributes.settings[key];
+                                break;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(`GET ISSUE`, error);
+                });
+        },
         settingUpdate() {
-            //let name = e.target.name;
-            //let value = e.target.checked;
+            let new_settings = {
+                settings: {}
+            };
+            for (var key in this.settings.reminders){
+                var reminder = this.settings.reminders[key];
+                new_settings.settings[reminder.name] = reminder.value;
+            }
 
-            // TODO: call request to update settings
-            // send whole data settings object
-            // if a call is already there cancel it and send new instead
-            // should show a saving message
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`, new_settings)
+            .then(() => {
+                this.notificationMessage = "Successfully updated!";
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                console.log(`PATCH ISSUE`, error);
+            });
         },
         closeDetails() {
             this.details = false;
@@ -339,6 +366,7 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
         this.getCards();
+        this.readUserSettings();
         if (this.user_id) {
             this.getUser();
         }
