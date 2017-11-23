@@ -1,7 +1,5 @@
 <template>
   <div id="footer">
-    <div v-if="State('conditions.condition.slug')" :class="'background-fade ' + State('conditions.condition.slug')"></div>
-    <div v-else class="background-fade"></div>
     <div class="tc ph4 pv5 nav-links">
       <a class="dim dib h2 w2 br-100" href="https://www.instagram.com/go_harvey" target="_blank">
         <i class="fa fa-instagram font-xxl" aria-hidden="true"></i>
