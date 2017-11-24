@@ -81,6 +81,7 @@ return [
                     'confirmed' => 3372143,
                     'shipped' => 2741642,
                     'recommended' => 3764861,
+                    'reminder' => 3946483,
                 ],
                 'lab_test' => [
                     'processing' => 3148942,
