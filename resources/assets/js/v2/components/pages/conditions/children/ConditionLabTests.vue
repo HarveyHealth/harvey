@@ -66,7 +66,7 @@ export default {
         } else if (conditionsSlug == 'fatigue'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/adrenals.png';
         } else if (conditionsSlug == 'weight-loss-gain'){
-          return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/weight-loss-gain.png';
+          return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png';
         } else if (conditionsSlug == 'womens-health'){
           return 'https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hormones.png';
         } else if (conditionsSlug == 'general-health'){
