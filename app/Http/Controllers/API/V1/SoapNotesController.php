@@ -4,22 +4,24 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
 use App\Models\{Patient, SoapNote};
-use App\Transformers\V1\SoapNoteTransformer;
+use App\Transformers\V1\{SoapNotePatientTransformer, SoapNoteAdminOrPractitionerTransformer};
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;
 
 class SoapNotesController extends BaseAPIController
 {
     protected $resource_name = 'soap_note';
-
+    protected $patient_transformer, $admin_or_practitioner_transformer;
     /**
      * SoapNotesController constructor.
-     * @param SoapNoteTransformer $transformer
+     * @param SoapNotePatientTransformer $patient_transformer
+     * @param SoapNoteAdminOrPractitionerTransformer $admin_or_practitioner_transformer
      */
-    public function __construct(SoapNoteTransformer $transformer)
+    public function __construct(SoapNotePatientTransformer $patient_transformer, SoapNoteAdminOrPractitionerTransformer $admin_or_practitioner_transformer)
     {
         parent::__construct();
-        $this->transformer = $transformer;
+        $this->patient_transformer = $patient_transformer;
+        $this->admin_or_practitioner_transformer = $admin_or_practitioner_transformer;
     }
 
     public function getOne(Request $request, SoapNote $soap_note)
@@ -81,6 +83,19 @@ class SoapNotesController extends BaseAPIController
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    public function baseTransformItem($item, $include = null, $transformer = null, $resourceName = null)
+    {
+        if (empty($transformer)) {
+            if (currentUser()->isPatient()) {
+                $this->transformer = $this->patient_transformer;
+            } elseif (currentUser()->isAdminOrPractitioner()) {
+                $this->transformer = $this->admin_or_practitioner_transformer;
+            }
+        }
+
+        return parent::baseTransformItem($item, $include, $transformer, $resourceName);
     }
 
 }
