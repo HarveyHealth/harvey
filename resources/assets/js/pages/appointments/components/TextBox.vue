@@ -32,7 +32,9 @@ export default {
       type: String,
       required: true
     },
-    value: {}
+    value: {
+      type: String
+    }
   },
   computed: {
     $$count() {
