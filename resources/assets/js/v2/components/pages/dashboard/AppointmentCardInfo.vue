@@ -21,8 +21,8 @@ export default {
       date: this.Util.time.toLocal(this.appointment.attributes.appointment_at.date, 'ddd, MMM Do [at] h:mm a'),
       doctor: this.appointment.attributes.practitioner_name,
       route: { name: 'appointments', params: { appt_id: this.appointment.id } },
-      user: this.appointment.user.attributes,
-    }
+      user: this.appointment.user.attributes
+    };
   }
-}
+};
 </script>

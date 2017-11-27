@@ -11,7 +11,7 @@ import { Heading4, Paragraph } from 'typography';
 export default {
   components: { Heading4, Paragraph },
   props: {
-    label: String,
+    label: String
   }
-}
+};
 </script>

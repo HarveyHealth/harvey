@@ -1,6 +1,6 @@
 <template>
   <Flyout
-    :class="this.modalActive && 'with-active-modal'"
+    :class="modalActive && 'with-active-modal'"
     :active="$parent.detailFlyoutActive"
     :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading"
     :on-close="handleFlyoutClose"
@@ -239,13 +239,13 @@
             <!-- Recommended or Confirmed -->
 
             <div  v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
-              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.sku.attributes.lab_test_information.lab_name + ' ' || '' }}{{ test.name }}
+              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
             <!-- Shipped or Greater -->
 
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.sku.attributes.lab_test_information.lab_name + ' ' || '' }}{{ test.name }}
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
             </a>
 
             <span class="custom-select">
@@ -363,7 +363,7 @@
 
       <!-- Shipping Label -->
       <div>
-        <span class="error-text" v-if="this.shippingErrorMessage">{{this.shippingErrorMessage}}</span>
+        <span class="error-text" v-if="shippingErrorMessage">{{shippingErrorMessage}}</span>
       </div>
 
       <!-- Mark as Shipped -->
@@ -395,6 +395,15 @@
         <div class="inline-centered">
             <h1>Generate a shipping label?</h1>
             <p>This action will generate a tracking number and label from FedEx.</p>
+            <div class="input__container" style="margin-top: 10px;">
+                <span class="input__label">Shipping Method</span>
+                <span class="custom-select">
+                    <select v-model="shippingOption">
+                        <option value="fedex_2_day">FedEx 2-Day (default)</option>
+                        <option value="fedex_ground">FedEx Ground</option>
+                    </select>
+                </span>
+            </div>
             <div class="button-wrapper">
                 <button @click="getShippingInformation" class="button">Yes</button>
                 <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
@@ -431,6 +440,7 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingOption: "fedex_2_day",
       shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
@@ -705,7 +715,7 @@ export default {
         // PUT /api/v1/lab/orders/<lab_order_id>/ship
 
         axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
-
+          servicelevel_token: this.shippingOption
         }).then((response) => {
             // update the tracking number field for the package
             const trackingNumber = response.data.data.attributes.shipment_code;
@@ -714,7 +724,7 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
-        }).catch((error) => {
+        }).catch(() => {
             // stop the loading
             this.loading = false;
             this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';

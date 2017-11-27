@@ -3,3 +3,4 @@ export { default as Heading2 } from './Heading2.vue';
 export { default as Heading3 } from './Heading3.vue';
 export { default as Heading4 } from './Heading4.vue';
 export { default as Paragraph } from './Paragraph.vue';
+export { default as Background } from './Background.vue';

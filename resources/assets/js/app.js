@@ -138,12 +138,15 @@ const app = new Vue({
         userType() {
             return Laravel.user.userType;
         },
+        isMobileMenuOpen() {
+            return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
+        },
         isSignupBookingAllowed() {
             return this.signup.billingConfirmed &&
             this.signup.phoneConfirmed &&
             this.signup.data.appointment_at &&
             this.signup.data.practitioner_id;
-      }
+      },
     },
     methods: {
         addTimezone(value) {
@@ -224,7 +227,7 @@ const app = new Vue({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
+                        date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,

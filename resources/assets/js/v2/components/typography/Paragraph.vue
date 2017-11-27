@@ -18,8 +18,8 @@ export default {
         'fw6': this.isBold,
         'white': this.isLight,
         'dark-gray': !this.isLight // default
-      }
+      };
     }
   }
-}
+};
 </script>

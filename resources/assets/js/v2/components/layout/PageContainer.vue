@@ -11,7 +11,7 @@
 // is to manage the positioning of the container when the menu is going between
 // open and unopned states.
 
-export default {}
+export default {};
 </script>
 
 <style lang="scss" scoped>

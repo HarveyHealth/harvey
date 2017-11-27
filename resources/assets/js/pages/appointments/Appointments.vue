@@ -558,6 +558,13 @@ export default {
     handleConfirmationModal(action) {
       this.userAction = action;
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
+      const setup = () => {
+          if (!this.shouldShowBillingError) {
+              this.userActionTitle = 'Confirm Appointment';
+              this.appointment.status = 'pending';
+              this.isModalActive = true;
+          }
+      };
       switch (action) {
         case 'cancel':
           this.userActionTitle = 'Cancel Appointment';
@@ -583,14 +590,7 @@ export default {
           this.isModalActive = true;
           break;
         case 'new':
-          const setup = () => {
-            if (!this.shouldShowBillingError) {
-              this.userActionTitle = 'Confirm Appointment';
-              this.appointment.status = 'pending';
-              this.isModalActive = true;
-            }
-          };
-          if (this.$root.userHasNotACard && this.$root.userIsPatient) {
+          if (!this.billingConfirmed && this.$root.userIsPatient) {
             this.shouldShowBillingError = true;
             return;
           }
@@ -870,7 +870,7 @@ export default {
                 date: appointmentDate,
                 email: appointmentPatientEmail,
                 user_id: Laravel.user.id,
-                patient_user_id: trackingPatientId,
+                patient_user_id: trackingPatientId
             });
         }
 
@@ -902,7 +902,7 @@ export default {
           });
         });
       }).catch(error => {
-        if (error.response) console.warn(error.response)
+        if (error.response) console.warn(error.response);
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {

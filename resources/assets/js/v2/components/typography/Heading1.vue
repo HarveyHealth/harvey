@@ -25,10 +25,10 @@ export default {
         'ma0': true,
         'pa0': true,
         'white': this.isLight
-      }
+      };
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

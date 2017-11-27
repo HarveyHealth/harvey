@@ -55,7 +55,7 @@
           'anim-fade-slideup-in': false
         },
         typeformUrl: `https://goharvey.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
-      }
+      };
     },
     mounted() {
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);

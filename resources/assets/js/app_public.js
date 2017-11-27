@@ -20,19 +20,22 @@ import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
+import { PublicNav } from 'nav';
 
-// for environment conditionals
-const env = require('get-env')();
+
+Vue.prototype.Laravel = Laravel;
 
 const app = new Vue({
     components: {
         LoadingGraphic,
         FacebookSignin,
+        PublicNav,
         Symptoms,
         VerticalTab,
         VerticalTabs
     },
     data: {
+        appClass: '',
         appLoaded: false,
         emailCaptureError: 'Not a valid email address',
         emailCaptureClasses: {
@@ -205,6 +208,9 @@ const app = new Vue({
         // Symptoms selector
         onChanged() {
             this.symptomsChanged = true;
+        },
+        toggleMenu() {
+            this.appClass = this.appClass ? '' : 'menu-is-open';
         },
         getStarted() {
             if (this.symptomsChanged) {

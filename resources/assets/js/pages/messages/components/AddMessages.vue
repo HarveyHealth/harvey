@@ -39,7 +39,6 @@
 <script>
 import axios from 'axios';
 import Flyout from '../../../commons/Flyout.vue';
-import _ from 'lodash';
 export default {
     name: 'Preview',
     components: {

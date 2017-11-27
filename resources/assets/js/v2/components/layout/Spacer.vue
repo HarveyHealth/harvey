@@ -19,9 +19,9 @@ export default {
         [`mr${this.size}`]: this.isRight,
         [`ml${this.size}`]: this.isLeft,
         [`mt${this.size}`]: this.isTop,
-        [`mb${this.size}`]: this.isBottom,
-      }
+        [`mb${this.size}`]: this.isBottom
+      };
     }
   }
-}
+};
 </script>
