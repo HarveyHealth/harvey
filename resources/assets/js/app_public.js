@@ -20,17 +20,35 @@ import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
+import { PublicNav } from 'nav';
 
+window.App = {};
+App.Public = {};
+App.Public.State = {
+    conditions: [],
+    conditionSubText: [],
+    conditionIconColors: ['is-lime', 'is-pink', 'is-brown', 'is-purple', 'is-turquoise', 'is-slategrey', 'is-green', 'is-ford']
+};
+
+App.Public.setConditions = conditions => {
+    App.Public.State.conditions = conditions;
+};
+
+Vue.prototype.Laravel = Laravel;
 
 const app = new Vue({
     components: {
         LoadingGraphic,
         FacebookSignin,
+        PublicNav,
         Symptoms,
         VerticalTab,
         VerticalTabs
     },
     data: {
+        State: App.Public.State,
+
+        appClass: '',
         appLoaded: false,
         emailCaptureError: 'Not a valid email address',
         emailCaptureClasses: {
@@ -123,6 +141,9 @@ const app = new Vue({
         bodyClassNames() {
           return document.getElementsByTagName('body')[0].classList;
         },
+        conditions() {
+            return this.State.conditions;
+        },
         getStartedLink() {
           if (Laravel.user.signedIn) {
             return Laravel.user.has_an_appointment
@@ -203,6 +224,9 @@ const app = new Vue({
         // Symptoms selector
         onChanged() {
             this.symptomsChanged = true;
+        },
+        toggleMenu() {
+            this.appClass = this.appClass ? '' : 'menu-is-open';
         },
         getStarted() {
             if (this.symptomsChanged) {

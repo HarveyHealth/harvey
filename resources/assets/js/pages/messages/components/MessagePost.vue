@@ -6,7 +6,7 @@
               <img :src="image" alt="avatar">
           </div>
           <h3 class="heading-2">{{ name }}</h3>
-          <h3 class="font-sm copy-muted-2">{{ momemtDate }}</h3>
+          <h3 class="font-sm copy-muted-2">{{ momentDate }}</h3>
         </div>
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>
@@ -19,14 +19,12 @@
     import moment from 'moment';
     export default {
         props: {
-            name: String,
-            day: String,
-            time: String,
-            header: String,
-            message: String,
-            image: String,
             id: String,
-            timezone: String
+            createdAt: Object,
+            header: String,
+            image: String,
+            message: String,
+            name: String
         },
         name: 'MessagingPost',
         data() {
@@ -42,8 +40,8 @@
                 }
                 return prop;
             },
-            momemtDate() {
-                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${this.$root.$data.timezoneAbbr}`;
+            momentDate() {
+                return moment.tz(this.$props.createdAt.date, this.$props.createdAt.timezone).tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mma z');
             },
             subjects() {
                 let prop = this.$props.header;
