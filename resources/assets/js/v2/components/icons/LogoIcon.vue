@@ -26,15 +26,15 @@ export default {
             return {
                 'logo-text': true,
                 'always-text': this.alwaysShowText,
-                'reveal-text': this.revealText,
-            }
+                'reveal-text': this.revealText
+            };
         },
         textFill() {
             if (this.hasDarkText) return '#5f7278';
             return '#ffffff';
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -24,7 +24,7 @@
             header: String,
             image: String,
             message: String,
-            name: String,
+            name: String
         },
         name: 'MessagingPost',
         data() {
