@@ -18,21 +18,21 @@ export default {
     characterLimit: {
       type: Number,
       required: false,
-      default: 256,
+      default: 256
     },
     editable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     visible: {
       type: Boolean,
-      default: false,
+      default: false
     },
     name: {
       type: String,
-      required: true,
+      required: true
     },
-    value: {},
+    value: {}
   },
   computed: {
     $$count() {
@@ -41,14 +41,14 @@ export default {
     $$countClasses() {
       return {
         'charcount': true,
-        'input--warning': this.$$count <= 0,
+        'input--warning': this.$$count <= 0
       };
-    },
+    }
   },
   methods: {
     updateValue: function (value) {
-      this.$emit('input', value.substring(0, this.characterLimit))
-    },
+      this.$emit('input', value.substring(0, this.characterLimit));
+    }
   }
 };
 </script>

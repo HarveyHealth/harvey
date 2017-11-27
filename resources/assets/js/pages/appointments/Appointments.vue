@@ -339,7 +339,7 @@ export default {
         { value: 'Complete', data: 'complete' }
       ],
       userAction: '',
-      userActionTitle: '',
+      userActionTitle: ''
     };
   },
 
@@ -359,7 +359,7 @@ export default {
     Practitioner,
     TextBox,
     Status,
-    Times,
+    Times
   },
 
   filters: {

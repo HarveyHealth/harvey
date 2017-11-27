@@ -146,7 +146,7 @@ const app = new Vue({
             this.signup.phoneConfirmed &&
             this.signup.data.appointment_at &&
             this.signup.data.practitioner_id;
-      },
+      }
     },
     methods: {
         addTimezone(value) {
