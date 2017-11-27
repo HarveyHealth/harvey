@@ -46,7 +46,7 @@
       <!-- Research -->
       <Heading2 class="mb2">Participate in Research</em></Heading2>
       <div class="w-100 mt1 ph3 pv4 pa5-l tc bg-white">
-        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amazon.png" class="w-50 w-25-l">
+        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amazon.png" class="w-30 w-20-l pa2 pa0-l">
         <Heading2 class="ph5-l">Take our health survey and earn some cash.</Heading2>
         <Paragraph class="ph5-l">Fill out our 25-question multiple choice health survey as to help the Harvey Health research team in our mission to improve human healthspan. Each participant will receive a <strong>$25 Amazon e-gift card</strong> with no strings attached.</Paragraph>
         <a href="https://goharvey.typeform.com/to/XGnCna"
