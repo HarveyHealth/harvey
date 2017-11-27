@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Http\Traits\BelongsToPatient;
 use Illuminate\Database\Eloquent\{Model, Builder};
+use Laravel\Scout\Searchable;
 use Carbon;
 
 class SoapNote extends Model
 {
-    use BelongsToPatient;
+    use BelongsToPatient, Searchable;
 
     protected $dates = [
         'created_at',
@@ -21,6 +22,21 @@ class SoapNote extends Model
         'created_by_user_id',
         'updated_at',
     ];
+
+    /**
+     * indexable data array for the model.
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'patient_name' => $this->patient->user->full_name,
+            'subjective' => $this->subjective,
+            'objective' => $this->objective,
+            'assessment' => $this->assessment,
+            'plan' => $this->plan,
+       ];
+    }
 
     protected static function boot()
     {

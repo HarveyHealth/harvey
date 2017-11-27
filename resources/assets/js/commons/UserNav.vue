@@ -48,14 +48,12 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <!-- LEAVE THESE COMMENTS HERE -->
-
-       <!-- <router-link to="/records" title="Records"
+       <router-link to="/records" title="Records"
         :class="currentPageCheck('records')"
         @click.native="handleMenu(false, 'records')">
         <i class="fa fa-files-o icon icon-nav-bar"></i>
         <div class="text">Records</div>
-      </router-link>  -->
+      </router-link> 
 
       <router-link
         v-if="user === 'admin'"

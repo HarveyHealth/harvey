@@ -37,10 +37,6 @@ Validator::extend('order_was_not_shipped', function ($attribute, $value, $parame
 });
 
 Validator::extend('appointments_less_than',function($attribute, $value, $parameters, $validator) {
-    if (!app()->environment('testing', 'production')) {
-        return true;
-    }
-
     if (empty($parameters)) {
         return false;
     }

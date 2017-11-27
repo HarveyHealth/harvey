@@ -35,7 +35,6 @@
     "cross-env": "^3.2.3",
     "es6-promise": "^4.1.0",
     "get-env": "^0.5.10",
-    "jquery": "^3.1.1",
     "laravel-mix": "^1.5.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",

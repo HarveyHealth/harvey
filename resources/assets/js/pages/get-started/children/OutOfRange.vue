@@ -1,23 +1,23 @@
 <template>
-  <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
-      <div class="signup-container small naked">
-        <router-link class="signup-back-button" :to="{ name: 'welcome', path: 'welcome' }">
-          <i class="fa fa-long-arrow-left"></i>
-        </router-link>
-        <div class="signup-main-icon">
-          <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
+    <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
+        <div class="vertical-center">
+            <div class="signup-container small naked">
+                <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
+                    <i class="fa fa-long-arrow-left"></i>
+                </router-link>
+                <div class="signup-main-icon">
+                    <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
+                </div>
+                <h2 class="heading-1 font-normal">We&rsquo;re sorry!</h2>
+                <p>Unfortunately, we are unnable to service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
+                <div class="social-icon-wrapper">
+                    <a v-for="icon in socialIcons" :href="icon.href">
+                        <i :class="icon.class"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <h2 class="heading-1 font-normal">We&rsquo;re sorry!</h2>
-        <p>Unfortunately, we are unnable to service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
-        <div class="social-icon-wrapper">
-          <a v-for="icon in socialIcons" :href="icon.href">
-            <i :class="icon.class"></i>
-          </a>
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>

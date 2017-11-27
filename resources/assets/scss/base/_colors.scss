@@ -31,6 +31,15 @@ $red: #FF0000;
   color: $turquoise;
 }
 
+.bg-danger {
+    background-color: $pink !important;
+    &:hover,
+    &:focus {
+      background-color: darken($pink, 10) !important;
+      color: white !important;
+    }
+}
+
 .color-white {
   color: $white;
 }

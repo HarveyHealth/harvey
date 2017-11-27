@@ -9,7 +9,7 @@
     <div v-else-if="State('conditions.condition.slug') == 'weight-loss-gain'" class="background-fade weight-loss-gain"></div>
     <div v-else-if="State('conditions.condition.slug') == 'womens-health'" class="background-fade womens-health"></div>
     <div v-else-if="State('conditions.condition.slug') == 'general-health'" class="background-fade general-health"></div>
-    <div v-else="State('conditions.condition.slug') == 'general-health'" class="background-fade"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'general-health'" class="background-fade"></div>
 
     <div class="pa5 tc">
       <!-- Instagram -->

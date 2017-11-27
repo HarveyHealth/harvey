@@ -236,7 +236,9 @@ const app = new Vue({
                         search_name: `${includeData.first_name} ${includeData.last_name}`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
-                        zip: includeData.zip
+                        zip: includeData.zip,
+                        image: includeData.image_url,
+                        created_at: moment(includeData.created_at.date).format("MM/DD/YY")
                     });
                 });
 
@@ -358,6 +360,9 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.id] = e;
+                        if (!this.labTypes[e.attributes.lab_name]) { 
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
+                        }
                         this.labTests[e.id]['checked'] = false;
                     });
                     this.global.loadingTestTypes = false;
