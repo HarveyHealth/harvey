@@ -10,13 +10,11 @@ export default {
   computed: {
     styles() {
       return {
-        'gray': !this.isLight,
+        'dark-gray': !this.isLight,
         'Heading3': true,
-        'f6': true,
+        'f4': true,
         'fw6': true,
         'pa0': true,
-        'ttu': true,
-        'tracked': true,
         'white': this.isLight
       };
     }
