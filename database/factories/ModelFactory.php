@@ -185,7 +185,7 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
         'appointment_at' => $start_time->toDateTimeString(),
         'discount_code_id' => $discount_code_id,
         'duration_in_minutes' => $durationInMinutes,
-        'notes' => $faker->sentence,
+        'notes' => maybe($faker->sentence),
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
         'reason_for_visit' => $faker->sentence,
