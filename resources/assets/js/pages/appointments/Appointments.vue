@@ -733,7 +733,7 @@ export default {
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
         this.appointment.currentPurpose = data.purpose;
-        this.appointment.currentNotes = data.notes;
+        this.appointment.currentNotes = data.notes || '';
 
         // Google Meet
         this.appointment.googleMeet = data._google_meet_link;
@@ -766,7 +766,7 @@ export default {
 
         // Purpose text
         this.appointment.purpose = data.purpose;
-        this.appointment.notes = data.notes;
+        this.appointment.notes = data.notes || '';
 
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';
