@@ -1,6 +1,6 @@
 <template>
   <div class="space-children-sm">
-    <SlideIn class="space-children-md max-width-xxl ">
+    <SlideIn class="space-children-sm max-width-xxl ">
 
       <!-- Description -->
       <div class="mw9 pv2">
@@ -24,7 +24,7 @@
       </div>
 
       <!-- Articles -->
-      <Heading2 class="mb2">Read {{ State('conditions.condition.name') }} Articles</em></Heading2>
+      <Heading2 class="mb2">{{ State('conditions.condition.name') }} Articles</em></Heading2>
       <ul
         class="juicer-feed"
         :data-feed-id="State('conditions.condition.slug')+'-articles'"
@@ -34,21 +34,15 @@
       ></ul>
 
       <!-- Videos -->
-      <Heading2 class="mb2">Watch {{ State('conditions.condition.name') }} Videos</em></Heading2>
-      <ul
-        class="juicer-feed"
-        :data-feed-id="State('conditions.condition.slug')+'-articles'"
-        data-per="3"
-        data-pages="1"
-        data-truncate="250"
-      ></ul>
+      <Heading2 class="mb2">{{ State('conditions.condition.name') }} Videos</em></Heading2>
+      <ConditionVideos></ConditionVideos>
 
       <!-- Research -->
       <Heading2 class="mb2">Participate in Research</em></Heading2>
       <div class="w-100 mt1 ph3 pv4 pa5-l tc bg-white">
-        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amazon.png" class="w-30 w-20-l pa2 pa0-l">
+        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amazon.png" class="w-50 w-40-m w-25-l pa2">
         <Heading2 class="ph5-l">Take our health survey and earn some cash.</Heading2>
-        <Paragraph class="ph5-l">Fill out our 25-question multiple choice health survey as to help the Harvey Health research team in our mission to improve human healthspan. Each participant will receive a <strong>$25 Amazon e-gift card</strong> with no strings attached.</Paragraph>
+        <Paragraph class="ph5-l">Fill out our 25-question multiple choice health survey as to help the Harvey Health research team in our mission to improve human healthspan. Each participant will receive a <strong>$25 Amazon e-gift card</strong> with no strings attached. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec dignissim tortor, eu finibus libero. Donec scelerisque dolor at urna tincidunt.</Paragraph>
         <a href="https://goharvey.typeform.com/to/XGnCna"
           class="button is-outlined ml2 mt3 font-lg dim" target="_blank">
           <i class="fa fa-gift mr1"></i> Start Survey</a>
@@ -82,6 +76,7 @@ import { SvgIcon } from 'icons';
 import { Paragraph, Heading1, Heading2 } from 'typography';
 
 import ConditionLabTests from './ConditionLabTests.vue';
+import ConditionVideos from './ConditionVideos.vue';
 
 export default {
   components: {
@@ -91,12 +86,13 @@ export default {
     SvgIcon,
     Paragraph,
     ConditionLabTests,
+    ConditionVideos,
     Heading1,
     Heading2
   },
   data() {
     return {
-      button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
+      button: '<span style="font-size:20px; padding-right:16px;">Get Started</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
     };
   }
 };
