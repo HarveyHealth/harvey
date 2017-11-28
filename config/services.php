@@ -117,11 +117,11 @@ return [
         'from' => [
             'name' => env('SHIPPO_FROM_NAME', 'Harvey, Inc'),
             'company' => env('SHIPPO_FROM_COMPANY', 'Harvey, Inc'),
-            'street1' => env('SHIPPO_FROM_STREET1', '12655 W Jefferson Blvd'),
+            'street1' => env('SHIPPO_FROM_STREET1', '12655 West Jefferson Boulevard'),
             'street2' => env('SHIPPO_FROM_STREET2', 'Suite #3-180'),
             'city' => env('SHIPPO_FROM_CITY', 'Los Angeles'),
             'state' => env('SHIPPO_FROM_STATE', 'CA'),
-            'zip' => env('SHIPPO_FROM_ZIP', '90066'),
+            'zip' => env('SHIPPO_FROM_ZIP', '90066-7008'),
             'country' => env('SHIPPO_FROM_COUNTRY', 'US'),
             'phone' => env('SHIPPO_FROM_PHONE', '+18006909989'),
             'email' => env('SHIPPO_FROM_EMAIL', 'support@goharvey.com'),
