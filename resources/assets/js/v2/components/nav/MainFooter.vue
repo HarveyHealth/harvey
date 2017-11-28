@@ -19,6 +19,9 @@
       <a class="dim dib br-100 h2 w2 ml2 ml3-l" href="https://pinterest.com/go_harvey" target="_blank">
         <i class="fa fa-pinterest font-xxl" aria-hidden="true"></i>
       </a>
+      <a class="dim dib br-100 h2 w2 ml2 ml3-l" href="https://t.me/ghrvy" target="_blank">
+        <i class="fa fa-telegram font-xxl" aria-hidden="true"></i>
+      </a>
       <div class="mt4 nav-links">
         <a href="/" class="dim pa1 fw4">Home</a>
         <a href="/about" class="dim pa1 fw4">About</a>
