@@ -19,6 +19,7 @@ class SoapNoteAdminOrPractitionerTransformer extends TransformerAbstract
             'created_by_user_id' => cast_to_string($soap_note->creator->id),
             'doctor_name' => $soap_note->doctor_name,
             'objective' => $soap_note->objective,
+            'patient_id' => cast_to_string($soap_note->patient_id),
             'plan' => $soap_note->plan,
             'subjective' => $soap_note->subjective,
         ];
