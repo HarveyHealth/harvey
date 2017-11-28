@@ -163,7 +163,12 @@ class ReportsRepository extends BaseRepository
                 case 'lab-test':
                     $current_row["Product"] = "Lab Order";
                     $current_row["Blood Draw"] = ($item->blood_draw)?'Yes':'No';
-                    $current_row["Lab Names"] .= (empty($current_row["Lab Names"]))?"":";";
+                    if ($current_row["Lab Names"] == '--'){
+                        $current_row["Lab Names"] = "";
+                    }
+                    else {
+                        $current_row["Lab Names"] .= ",";
+                    }
                     $current_row["Lab Names"] .=  $item->lab_test_name;
                     if (!is_numeric($current_row["Lab Total"])){
                         $current_row["Lab Total"] = 0;
@@ -178,7 +183,7 @@ class ReportsRepository extends BaseRepository
 
                     break;
                 case 'consultation':
-                    $current_row["Product"] = "consultation";
+                    $current_row["Product"] = "Consultation";
                     $current_row["First Consultation"] = ($item->first_consultation)?'Yes':'No';
                     $current_row["Consultation Duration"] = $item->consultation_duration;
                     $current_row["Consultation Price"] = $item->item_amount;
