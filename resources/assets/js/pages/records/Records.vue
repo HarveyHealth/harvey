@@ -133,7 +133,7 @@
                     <p><i>Your records are loading...</i></p>
                 </div>
                 <div v-if="selectedUserPatient">
-                    {{ this.getTimelineData() }}
+                    {{ getTimelineData() }}
                 </div>
                 <div v-if="selectedUserPatient">
                     <div class="auto-height">
@@ -386,6 +386,9 @@ export default {
         setProps(data) {
             this.news = false;
             this.propData = data;
+        },
+        setPatientLoading(bool) {
+            this.patientLoading = bool;
         }
     },
     computed: {
@@ -394,12 +397,12 @@ export default {
                 let array = this.$root.$data.global.patients;
                 let matcher = new RegExp(this.search, 'ig');
                 return array.filter(ele => {
-                return matcher.test(ele.search_name) ||
-                            matcher.test(ele.email) ||
-                            matcher.test(ele.date_of_birth);
-                });
+                    return matcher.test(ele.search_name) ||
+                                matcher.test(ele.email) ||
+                                matcher.test(ele.date_of_birth);
+                    });
             } else {
-                return;
+                return [];
             }
         },
         timelineData() {
@@ -467,7 +470,7 @@ export default {
                         image: patientUserData.image_url,
                         created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
                     };
-                    this.patientLoading = false;
+                    this.setPatientLoading(false);
                     return object;
                 }
             }

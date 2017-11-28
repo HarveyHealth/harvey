@@ -3,17 +3,38 @@
 
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subjective</label>
-            <textarea @keydown="keyDownTextarea" v-model="subjectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea 
+                :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '': '50px'}" 
+                @keydown="keyDownTextarea" 
+                v-model="subjectiveTA" 
+                class="input--textarea soap-textarea" 
+                placeholder="Enter your text..." 
+                @click="setSelected('subject')"
+            />
         </div>
 
         <div class="mid-soap-note">
             <label name="Objective" class="card-header mid-header">Objective</label>
-            <textarea @keydown="keyDownTextarea" v-model="objectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea 
+                :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '': '50px'}" 
+                @keydown="keyDownTextarea" 
+                v-model="objectiveTA" 
+                class="input--textarea soap-textarea" 
+                placeholder="Enter your text..." 
+                @click="setSelected('objective')"
+            />
         </div>
 
         <div class="mid-soap-note">
             <label name="Assessment" class="card-header mid-header">Assessment</label>
-            <textarea @keydown="keyDownTextarea" v-model="assessmentTA" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
+            <textarea 
+                :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '': '50px'}" 
+                @keydown="keyDownTextarea" 
+                v-model="assessmentTA" 
+                class="input--textarea soap-textarea" 
+                placeholder="Enter your text..."
+                @click="setSelected('assessment')"
+            />
         </div>
 
         <div class="soap-divider">
@@ -21,8 +42,16 @@
         </div>
 
         <div class="top-soap-note">
-            <label name="Treatment" class="card-header top-header">Plan/Treatment</label>
-            <textarea @keydown="keyDownTextarea" v-model="planTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <label name="Treatment" 
+            class="card-header top-header">Plan/Treatment</label>
+            <textarea 
+                :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '': '50px'}" 
+                @keydown="keyDownTextarea" 
+                v-model="planTA" 
+                class="input--textarea soap-textarea" 
+                placeholder="Enter your text..." 
+                @click="setSelected('treatment')"
+            />
         </div>
 
         <div class="inline-centered padding15">
@@ -54,7 +83,6 @@
 
 <script>
 import axios from 'axios';
-import { capitalize } from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 export default {
@@ -71,7 +99,8 @@ export default {
             assessmentTA: null,
             planTA: null,
             disabled: true,
-            deleteModalActive: false
+            deleteModalActive: false,
+            selected: null
         };
     },
     methods: {
@@ -85,6 +114,9 @@ export default {
         setObjectiveTA(data) {
             this.objectiveTA = data;
             this.disabled = true;
+        },
+        setSelected(data) {
+            this.selected = data;
         },
         deleteModal() {
             this.deleteModalActive = true;

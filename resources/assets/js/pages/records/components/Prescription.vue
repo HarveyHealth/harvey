@@ -80,7 +80,7 @@ export default {
         return {
             selected: null,
             deleteModalActive: false,
-            loading: false,
+            loading: false
         };
     },
     methods: {
