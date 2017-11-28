@@ -11,10 +11,11 @@ use Exception, ResponseCode, Storage;
 class SoapNotesController extends BaseAPIController
 {
     protected $resource_name = 'soap_note';
-
+    protected $patient_transformer, $admin_or_practitioner_transformer;
     /**
      * SoapNotesController constructor.
-     * @param SoapNoteTransformer $transformer
+     * @param SoapNotePatientTransformer $patient_transformer
+     * @param SoapNoteAdminOrPractitionerTransformer $admin_or_practitioner_transformer
      */
     public function __construct(SoapNoteTransformer $transformer)
     {
@@ -88,5 +89,4 @@ class SoapNotesController extends BaseAPIController
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
-
 }

@@ -130,13 +130,17 @@ class LabOrdersController extends BaseAPIController
      * @param LabOrder $labOrder
      * @return \Illuminate\Http\JsonResponse
      */
-    public function ship(LabOrder $labOrder)
+    public function ship(Request $request, LabOrder $labOrder)
     {
         if (currentUser()->isNotAdmin()) {
             return $this->respondNotAuthorized("You do not have access to ship this LabOrder");
         }
 
-        $labOrder->ship();
+        StrictValidator::check($request->all(), [
+            'servicelevel_token' => ['filled', Rule::in(LabOrder::SERVICELEVEL_ALLOWED_TOKENS)],
+        ]);
+
+        $labOrder->ship($request->input('servicelevel_token'));
 
         return $this->baseTransformItem($labOrder->fresh(), request('include'))->respond();
     }

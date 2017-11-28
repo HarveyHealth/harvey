@@ -1,6 +1,17 @@
 <template>
-  <div class="footer">
-    <div class="pa5 ph5-ns tc">
+  <div id="footer">
+
+    <div v-if="State('conditions.condition.slug') == 'skin-issues'" class="background-fade skin-issues"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'food-allergies'" class="background-fade food-allergies"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'stress-anxiety'" class="background-fade stress-anxiety"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'digestive-issues'" class="background-fade digestive-issues"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'fatigue'" class="background-fade fatigue"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'weight-loss-gain'" class="background-fade weight-loss-gain"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'womens-health'" class="background-fade womens-health"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'general-health'" class="background-fade general-health"></div>
+    <div v-else-if="State('conditions.condition.slug') == 'general-health'" class="background-fade"></div>
+
+    <div class="pa5 tc">
       <!-- Instagram -->
       <a class="link dim gray dib h2 w2 br-100 mr3" href="https://www.instagram.com/go_harvey" target="_blank">
         <i class="fa fa-instagram color-white font-xxl" aria-hidden="true"></i>
@@ -47,7 +58,11 @@
 
   .footer {
     min-height: 100px;
-    background-image: linear-gradient(120deg, #82BEF2 0%, #BDCEBE 40%);
+  }
+
+  .background-fade {
+    width: 100%;
+    height: 100%;
   }
 
   .color-white a {
@@ -59,7 +74,7 @@
   }
 
   .fa-heart {
-    color: #E3BAB3;
+    color: orangered;
   }
 
   a.legal {

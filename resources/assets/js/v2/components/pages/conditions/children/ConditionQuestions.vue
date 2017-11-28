@@ -1,13 +1,8 @@
 <template>
-  <div>
-    <div class="center db tc mw6">
-      <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
-    </div>
+  <div class="center mw7">
     <div class="center mw6 relative">
-      <button class="Button Button--condition-nav is-left" v-show="goToConditions()">
-        <a href="/conditions" class="white">
-          <i class="fa fa-undo"></i> Start Over
-        </a>
+      <button class="Button Button--condition-nav is-left" v-show="!displayBack()" @click="goBack">
+        <i class="fa fa-chevron-left"></i>
       </button>
       <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
         <i class="fa fa-chevron-left"></i>
@@ -18,11 +13,11 @@
     </div>
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
       <div class="center db tc mw6">
-        <Heading1 isLight doesExpand>{{ obj.question }}</Heading1>
+        <Heading1 doesExpand>{{ obj.question }}</Heading1>
       </div>
       <Row :gutter="'md'" class="pa4">
         <Column v-for="(answer, aIndex) in obj.answers" :config="{ md: '1of2' }" :key="aIndex">
-          <div :class="{'Button Button--answer':true, 'is-selected': answerIndex === aIndex}"
+          <div :class="{'Button Button--answer ml2 font-lg':true, 'is-selected': answerIndex === aIndex}"
                @click="next(obj.question, answer, aIndex)">
             <span>{{ answer }}</span>
             <i class="fa fa-check"></i>
@@ -79,3 +74,12 @@ export default {
   }
 };
 </script>
+
+<style>
+
+  /*This needs fixing*/
+  .Button--condition-nav.is-left {
+    left: -10em;
+  }
+
+</style>

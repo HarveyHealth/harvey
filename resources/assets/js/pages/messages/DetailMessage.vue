@@ -6,7 +6,7 @@
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                      <span class="text word-wrap">{{ subject }}</span>                      
+                      <span class="text word-wrap">{{ subject }}</span>
                     </h1>
                     <h3 class="font-sm copy-muted-2">
                       <router-link to="/messages">
@@ -29,13 +29,11 @@
                     <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
-                        :name="detail.attributes.sender_full_name"
-                        :day="detail.attributes.created_at.date"
-                        :time="detail.attributes.created_at.date"
-                        :timezone="detail.attributes.created_at.timezone"
+                        :created-at="detail.attributes.created_at"
                         :header="detail.attributes.subject"
-                        :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
+                        :message="detail.attributes.message"
+                        :name="detail.attributes.sender_full_name"
                         :userId="detail.attributes.recipient_user_id"
                         :yourId="your_id"
                       />
