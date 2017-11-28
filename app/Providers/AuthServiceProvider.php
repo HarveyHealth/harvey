@@ -3,10 +3,32 @@
 namespace App\Providers;
 
 use App\Models\{
-    Appointment, LabOrder, LabTest, Message, Patient, Practitioner, SKU, Test, User
+    Appointment,
+    Attachment,
+    LabOrder,
+    LabTest,
+    Message,
+    Patient,
+    Practitioner,
+    Prescription,
+    SKU,
+    SoapNote,
+    Test,
+    User
 };
 use App\Policies\{
-    AppointmentPolicy, LabTestPolicy, LabOrderPolicy, MessagePolicy, PatientPolicy, PractitionerPolicy, SkuPolicy, TestPolicy, UserPolicy
+    AppointmentPolicy,
+    AttachmentPolicy,
+    LabOrderPolicy,
+    LabTestPolicy,
+    MessagePolicy,
+    PatientPolicy,
+    PractitionerPolicy,
+    PrescriptionPolicy,
+    SkuPolicy,
+    SoapNotePolicy,
+    TestPolicy,
+    UserPolicy
 };
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -21,11 +43,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Appointment::class => AppointmentPolicy::class,
+        Attachment::class => AttachmentPolicy::class,
         LabOrder::class => LabOrderPolicy::class,
         LabTest::class => LabTestPolicy::class,
         Message::class => MessagePolicy::class,
         Patient::class => PatientPolicy::class,
         Practitioner::class => PractitionerPolicy::class,
+        Prescription::class => PrescriptionPolicy::class,
+        SoapNote::class => SoapNotePolicy::class,
         Test::class => TestPolicy::class,
         User::class => UserPolicy::class,
         SKU::class => SkuPolicy::class,

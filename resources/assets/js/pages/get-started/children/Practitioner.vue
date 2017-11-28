@@ -7,19 +7,19 @@
         </div>
         <div>Loading practitioners...</div>
       </h3>
-      <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" class="signup-stage-instructions color-white">
-        <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
-          <i class="fa fa-long-arrow-left"></i>
-        </router-link>
+      <div v-else-if="hasNoPractitioners" class="signup-stage-instructions color-white space-children-md">
         <div class="signup-main-icon">
           <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
         </div>
         <h2 class="heading-1 font-normal color-white">We&rsquo;re sorry!</h2>
         <p>Unfortunately, we no longer have practitioner availability in your area. Please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom right corner of the page.</p>
         <div class="social-icon-wrapper">
-          <a v-for="icon in socialIcons" :href="icon.href">
+          <a v-for="icon in socialIcons" :href="icon.href" class="color-white">
             <i :class="icon.class"></i>
           </a>
+        </div>
+        <div class="margin-0a max-width-sm font-centered">
+          <a class="button" href="/logout">Log out</a>
         </div>
       </div>
       <template v-else>
@@ -135,9 +135,15 @@ export default {
       if (list.length) {
         this.select(list[0], 0, true);
       }
+      if (this.hasNoPractitioners) {
+        window.onbeforeunload = null;
+      }
     }
   },
   computed: {
+    hasNoPractitioners() {
+      return !this.$root.$data.global.loadingPractitioners && !this.practitioners.length;
+    },
     hasSelection() {
       return this.selected !== null;
     },
@@ -194,7 +200,7 @@ export default {
     if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
+    if(App.Logic.misc.shouldTrack()) {
       analytics.page('Practitioner');
     }
   },

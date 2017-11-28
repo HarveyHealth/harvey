@@ -156,49 +156,48 @@ class CustomCSSandJS_AdminPro {
 
 
         // Enqueue scripts and styles
-        wp_enqueue_script( 'tipsy', $a . '/jquery.tipsy.js', array('jquery'), $v, false );
-        wp_enqueue_style( 'tipsy', $a . '/tipsy.css', array(), $v );
-        wp_enqueue_script( 'cookie', $a . '/js.cookie.js', array('jquery'), $v, false );
-        wp_register_script( 'ccj_admin', $a . '/ccj_admin.js', array('jquery', 'tipsy', 'jquery-ui-resizable'), $v, false );
-        wp_localize_script( 'ccj_admin', 'CCJ', $this->cm_localize() );
-        wp_enqueue_script( 'ccj_admin' );
-        wp_enqueue_style( 'ccj_admin', $a . '/ccj_admin.css', array(), $v );
+        wp_enqueue_script( 'ccj-tipsy', $a . '/jquery.tipsy.js', array('jquery'), $v, false );
+        wp_enqueue_style( 'ccj-tipsy', $a . '/tipsy.css', array(), $v );
+        wp_enqueue_script( 'ccj-cookie', $a . '/js.cookie.js', array('jquery'), $v, false );
+        wp_register_script( 'ccj-admin', $a . '/ccj_admin.js', array('jquery', 'ccj-tipsy', 'jquery-ui-resizable'), $v, false );
+        wp_localize_script( 'ccj-admin', 'CCJ', $this->cm_localize() );
+        wp_enqueue_script( 'ccj-admin' );
+        wp_enqueue_style( 'ccj-admin', $a . '/ccj_admin.css', array(), $v );
 
         // Only for the new/edit Code's page
         if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
             wp_enqueue_style( 'jquery-ui', 'https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css', array(), $v );
-            wp_enqueue_script( 'addon_merge_match_patch', $cm . '/diff_match_patch.js', array( 'jquery' ), $v, false );
-            wp_enqueue_script( 'codemirror', $cm . '/codemirror-compressed.js', array( 'jquery' ), $v, false);
+            wp_enqueue_script( 'ccj-codemirror', $cm . '/lib/codemirror.js', array( 'jquery' ), $v, false);
+            wp_enqueue_script( 'ccj-addon_merge_match_patch', $cm . '/lib/diff_match_patch.js', array( 'ccj-codemirror' ), $v, false );
 
-            wp_enqueue_style( 'codemirror', $cm . '/codemirror-compressed.css', array(), $v );
-            wp_enqueue_script( 'ccj_admin_url_rules', $a . '/ccj_admin-url_rules.js', array('jquery'), $v, false );
+            wp_enqueue_style( 'ccj-codemirror', $cm . '/lib/codemirror.css', array(), $v );
+            wp_enqueue_script( 'ccj-admin_url_rules', $a . '/ccj_admin-url_rules.js', array('jquery'), $v, false );
 
             // Add the language modes
             $cmm = $cm . '/mode/';
-            wp_enqueue_script('cm-xml', $cmm . 'xml/xml.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-js', $cmm . 'javascript/javascript.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-css', $cmm . 'css/css.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-htmlmixed', $cmm . 'htmlmixed/htmlmixed.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-clike', $cmm . 'clike/clike.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-php', $cmm . 'php/php.js', array('codemirror'), $v, false);
+            wp_enqueue_script('ccj-xml', $cmm . 'xml/xml.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-js', $cmm . 'javascript/javascript.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-css', $cmm . 'css/css.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-htmlmixed', $cmm . 'htmlmixed/htmlmixed.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-clike', $cmm . 'clike/clike.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-php', $cmm . 'php/php.js', array('ccj-codemirror'), $v, false);
 
 
             // Add the search addons
             $cma = $cm . '/addon/';
-            wp_enqueue_script('cm-dialog', $cma . 'dialog.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-search', $cma . 'search.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-searchcursor', $cma . 'searchcursor.js', array('codemirror'), $v, false);
-            wp_enqueue_script('cm-jump-to-line', $cma . 'jump-to-line.js', array('codemirror'), $v, false);
-            wp_enqueue_style('cm-matchesonscrollbar', $cma . 'matchesonscrollbar.css', array(), $v );
-            wp_enqueue_style('cm-dialog', $cma . 'dialog.css', array(), $v );
-            wp_enqueue_style('cm-matchesonscrollbar', $cma . 'matchesonscrollbar.css', array(), $v );
+            wp_enqueue_script('ccj-dialog', $cma . 'dialog/dialog.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-search', $cma . 'search/search.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-searchcursor', $cma . 'search/searchcursor.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-jump-to-line', $cma . 'search/jump-to-line.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-fullscreen', $cma . 'display/fullscreen.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_script('ccj-merge', $cma . 'merge/merge.js', array('ccj-codemirror'), $v, false);
+            wp_enqueue_style('ccj-dialog', $cma . 'dialog/dialog.css', array(), $v );
+            wp_enqueue_script( 'ccj-scrollbars', $cma . 'scroll/simplescrollbars.js', array('ccj-codemirror'), $v, false );
+            wp_enqueue_style( 'ccj-scrollbars', $cma . 'scroll/simplescrollbars.css', array(), $v );
+            wp_enqueue_style( 'ccj-merge', $cma . 'merge/merge.css', array(), $v );
 
-            // Add scrollbars
-            wp_enqueue_script( 'ccj_scrollbars', $cm . '/addon/scroll/simplescrollbars.js', array('codemirror'), $v, false );
-            wp_enqueue_style( 'ccj_scrollbars', $cm . '/addon/scroll/simplescrollbars.css', array(), $v );
 
-
-            wp_enqueue_script( 'ccj_formatting', $cm . '/lib/util/formatting.js', array('codemirror'), $v, false );
+            wp_enqueue_script( 'ccj-formatting', $cm . '/lib/util/formatting.js', array('ccj-codemirror'), $v, false );
 
             // remove the assets from other plugins so it doesn't interfere with CodeMirror
             global $wp_scripts;

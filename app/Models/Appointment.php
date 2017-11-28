@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasDiscountCodeIdColumn, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Illuminate\Support\Facades\Redis;
 use App\Models\{DiscountCode, SKU};
@@ -12,7 +12,7 @@ use Bugsnag, Cache, Exception, Google_Service_Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
+    use SoftDeletes, HasDiscountCodeIdColumn, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -37,6 +37,8 @@ class Appointment extends Model
         'id',
         'created_at',
         'deleted_at',
+        'discount_code',
+        'discount_code_id',
         'google_calendar_event_id',
         'status_id',
         'updated_at',
@@ -215,7 +217,7 @@ class Appointment extends Model
     {
         $templateData = [
             'doctor_name' => $this->practitioner->user->full_name,
-            'intake_link' => "https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID={$this->patient->user->id}",
+            'intake_link' => "https://hello.typeform.com/to/XGnCna?harvey_id={$this->patient->user->id}&intake_validation_token={$this->patient->intake_validation_token}",
             'time' => $this->patientAppointmentAtDate()->format('h:i A'),
             'timezone' => $this->patientAppointmentAtDate()->format('T'),
         ];
@@ -453,7 +455,7 @@ class Appointment extends Model
     public function scopeEmptyPatientIntake(Builder $builder)
     {
         return $builder->whereHas('patient.user', function (Builder $builder) {
-            $builder->whereNull('intake_completed_at');
+            $builder->whereNull('intake_token');
         });
     }
 

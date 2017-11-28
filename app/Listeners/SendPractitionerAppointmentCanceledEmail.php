@@ -20,15 +20,15 @@ class SendPractitionerAppointmentCanceledEmail implements ShouldQueue
             ->setTo($practitioner->user->email)
             ->setTemplate('practitioner.appointment.canceled')
             ->setTemplateModel([
-            'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
-            'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
-            'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
-            'patient_name' => $patient->user->full_name,
-            'patient_state' => $patient->user->state,
-            'practitioner_name' => $practitioner->user->first_name,
-            'practitioner_state' => $practitioner->user->state,
-            'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-        ]);
+                'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
+                'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
+                'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
+                'patient_name' => $patient->user->full_name,
+                'patient_state' => $patient->user->state,
+                'practitioner_name' => $practitioner->user->first_name,
+                'practitioner_state' => $practitioner->user->state,
+                'reschedule_url' => config('app.url') . '/dashboard#/appointments',
+            ]);
 
         dispatch($transactionalEmailJob);
     }

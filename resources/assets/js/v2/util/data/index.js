@@ -4,6 +4,7 @@ import jsonParse from './jsonParse';
 import killStorage from './killStorage';
 import propDeep from './propDeep';
 import toStorage from './toStorage';
+import updateStorage from './updateStorage';
 
 export default {
   find,
@@ -11,5 +12,6 @@ export default {
   jsonParse,
   killStorage,
   propDeep,
-  toStorage
+  toStorage,
+  updateStorage
 };

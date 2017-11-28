@@ -2,10 +2,43 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Http\Traits\HasPatientAndPractitioner;
+use App\Http\Traits\{BelongsToPatient, HasKeyColumn};
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use Carbon;
 
 class Prescription extends Model
 {
-    use HasPatientAndPractitioner;
+    use BelongsToPatient, HasKeyColumn, SoftDeletes;
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $guarded = [
+        'id',
+        'created_at',
+        'created_by_user_id',
+        'updated_at',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledUser', function (Builder $builder) {
+            return $builder->whereHas('patient.user', function ($query) {
+                $query->where('enabled', true);
+            });
+        });
+    }
+
+    /*
+     * Relationships
+     */
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by_user_id');
+    }
 }

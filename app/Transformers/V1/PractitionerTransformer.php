@@ -17,7 +17,7 @@ class PractitionerTransformer extends TransformerAbstract
     public function transform(Practitioner $practitioner)
     {
         return [
-            'id' => (string) $practitioner->id,
+            'id' => cast_to_string($practitioner->id),
             'background_picture_url' => $practitioner->background_picture_url,
             'description' => $practitioner->description,
             'graduated_year' => $practitioner->graduated_year,
@@ -27,7 +27,7 @@ class PractitionerTransformer extends TransformerAbstract
             'school' => $practitioner->school,
             'specialty' => json_decode($practitioner->specialty) ?? [],
             'type_name' => $practitioner->type->name,
-            'user_id' => (string) $practitioner->user_id,
+            'user_id' => cast_to_string($practitioner->user_id),
         ];
     }
 
@@ -37,6 +37,6 @@ class PractitionerTransformer extends TransformerAbstract
      */
     public function includeUser(Practitioner $practitioner)
     {
-        return $this->item($practitioner->user, new UserTransformer())->setResourceKey('users');
+        return $this->item($practitioner->user, new UserTransformer())->setResourceKey('user');
     }
 }

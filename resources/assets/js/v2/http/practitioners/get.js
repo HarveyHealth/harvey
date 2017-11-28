@@ -4,7 +4,8 @@ export default function(response) {
     return;
   }
 
-  App.Logic.misc.requested('practitioners');
+  App.setState('practitioners.isLoading', true);
+  App.setState('practitioners.wasRequested', true);
 
   axios.get(`${App.Config.misc.api}practitioners?include=user`)
     .then(r => response(r))

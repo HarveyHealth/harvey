@@ -1,7 +1,11 @@
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 import cheerio from 'cheerio';
 import store from '../../resources/assets/js/store';
 import laravel from './LaravelStub';
+import mockData from './mock_data';
+
+Vue.use(VueRouter);
 
 // methods
 import filterPractitioners from '../../resources/assets/js/utils/methods/filterPractitioners';
@@ -34,6 +38,10 @@ Vue.prototype.Http = App.Http;
 Vue.prototype.Logic = App.Logic;
 Vue.prototype.Util = App.Util;
 
+// app_public.js attaches Laravel to the Vue prototype because it does
+// not share v2 architecture
+Vue.prototype.Laravel = laravel;
+
 // Turning State into a function allows you to query global state within
 // Vue templates, providing default values to fall back on if a particular
 // property is undefined. This is helpful when awaiting data structures from
@@ -59,7 +67,7 @@ Vue.prototype.setState = App.setState;
 //  component = the component object being tested
 //  componentName = string of the component name for the render function
 //  setAppState = function that mutates the mock $root state prior to mount
-const AppStub = function(component, componentName, setAppState) {
+const AppStub = function(component, componentName, props, setAppState) {
 
   let stub = {};
 
@@ -67,20 +75,44 @@ const AppStub = function(component, componentName, setAppState) {
   // this returns the same object used in the actual application.
   const data = store(laravel, State);
 
+  data.labTests = mockData.labTests;
+  data.global.labOrders.push(mockData.global.labOrders);
+  data.global.labTests = mockData.global.labTests;
+  data.global.patientLookUp = mockData.global.patientLookup;
+  data.global.practitionerLookUp = mockData.global.practitionerLookup;
+
+  data.global.loadingLabOrders = false;
+  data.global.loadingLabTests = false;
+  data.global.loadingTestTypes = false;
+  data.global.loadingPatients = false;
+  data.global.loadingPractitioners = false;
+  data.global.loadingUser  = false;
+  // data.global.creditCards = false;
+
   // Mutate $root data
-  if (setAppState) setAppState(data);
+  if (setAppState) setAppState(data, window);
+
+  // Stub a Vue router instance
+  let router = new VueRouter({
+      routes: [],
+      linkActiveClass: 'is-active'
+  });
 
   stub.vm = new Vue({
+    router,
     data,
     components: { [`${componentName}`]: component },
     methods: {
       addTimezone() { return false; },
       filterPractitioners: filterPractitioners.bind(this),
       getAppointments() { return false; },
+      getLabData() { return false; },
       shouldTrack() { return false; }
     },
     render(create) {
-      return create('div', [create(componentName)])
+      return create('div', [
+        create(componentName, { props: props || {} })
+      ])
     }
   }).$mount();
 

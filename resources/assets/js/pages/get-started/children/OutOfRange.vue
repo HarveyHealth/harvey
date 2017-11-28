@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="vertical-center">
       <div class="signup-container small naked">
-        <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
+        <router-link class="signup-back-button" :to="{ name: 'welcome', path: 'welcome' }">
           <i class="fa fa-long-arrow-left"></i>
         </router-link>
         <div class="signup-main-icon">
@@ -46,9 +46,10 @@ export default {
     this.$root.toDashboard();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Out of Range');
-    }
+    analytics.page('Out of Range');
+    analytics.track('Out of Range');
+    analytics.identify();
+
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

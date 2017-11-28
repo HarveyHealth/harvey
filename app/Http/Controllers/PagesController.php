@@ -15,11 +15,10 @@ use App\Models\{
  */
 class PagesController extends Controller
 {
-    public function __construct()
+    protected function sendConditionsView($conditions, $index, $get_zip)
     {
-        $this->middleware('guest');
+        return view('pages.conditions')->with(compact('conditions', 'index', 'get_zip'));
     }
-
     /**
      * Show the home page.
      *
@@ -52,25 +51,23 @@ class PagesController extends Controller
 
     public function getConditions()
     {
-        $conditions = Condition::all();
-        $index = false;
-
-        return view('pages.conditions')->with(compact('conditions', 'index'));
+        // If no condition is specified, redirect to first condition
+        return redirect("/conditions/".Condition::first()->slug);
     }
 
     public function getCondition(string $conditionSlug = null)
     {
-        $conditions = Condition::all();
-
-        $index = $conditions->search(function ($item) use ($conditionSlug) {
-            return $item->slug == $conditionSlug;
-        });
-
-        if (!is_numeric($index)) {
-            return redirect()->route('conditions');
+        if($conditionSlug === 'get-zip') {
+            return $this->sendConditionsView(Condition::all(), null, true);
         }
 
-        return view('pages.conditions')->with(compact('conditions', 'index'));
+        $condition = Condition::where('slug', $conditionSlug)->first();
+
+        // If valid condition, render view with conditions and proper index
+        // Else redirect to first condition in db
+        return $condition
+            ? $this->sendConditionsView(Condition::all(), $condition->id - 1, false)
+            : redirect("/conditions/".Condition::first()->slug);
     }
 
     public function getFinancing()

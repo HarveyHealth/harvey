@@ -12,6 +12,43 @@
   z-index: -1;
 }
 
+.background-fade {
+  background-color: #FFFFFF;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  &.skin-issues {
+    background-image: $fade-skin-issues;
+  }
+  &.food-allergies {
+    background-image: $fade-food-allergies;
+  }
+  &.stress-anxiety {
+    background-image: $fade-stress-anxiety;
+  }
+  &.digestive-issues {
+    background-image: $fade-digestive-issues;
+  }
+  &.fatigue {
+    background-image: $fade-fatigue;
+  }
+  &.weight-loss-gain {
+    background-image: $fade-weight-loss-gain;
+  }
+  &.womens-health {
+    background-image: $fade-womens-health;
+  }
+  &.general-health {
+    background-image: $fade-general-health;
+  }
+}
+
 .bg-good {
   background: $color-good;
 }
