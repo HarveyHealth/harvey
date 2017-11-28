@@ -1,5 +1,5 @@
 <template>
-    <div class="records-container">
+    <div id="SNScroller" class="records-container" style="overflow: scroll;">
 
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subjective</label>
@@ -117,6 +117,17 @@ export default {
         },
         setSelected(data) {
             this.selected = data;
+            setTimeout(() => {
+            let container = this.$el.querySelector('.record-container');
+            container.scrollTop =
+                data === 'subject' ? 0
+                : data === 'objective' ? 100
+                : data === 'assessment' ? 200
+                : data === 'treatment' ? 200
+                : 0;
+            console.log(`DATA`, data);
+            console.log(`CONTAINER`, container.scrollTop);
+            }, 300);
         },
         deleteModal() {
             this.deleteModalActive = true;
