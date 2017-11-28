@@ -53,6 +53,7 @@
         <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
         <script>
             App.setState('conditions.all', {!! $conditions !!});
+            App.setState('conditions.labTests', {!! $lab_tests !!});
             @if ($get_zip) {
                 App.setState('conditions.condition', {questions: []});
                 App.setState('conditions.questionIndex', 999);
