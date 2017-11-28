@@ -118,7 +118,7 @@ export default {
         setSelected(data) {
             this.selected = data;
             setTimeout(() => {
-            let container = this.$el.querySelector('.record-container');
+            let container = this.$el;
             container.scrollTop =
                 data === 'subject' ? 0
                 : data === 'objective' ? 100
