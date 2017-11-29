@@ -7,7 +7,6 @@
                 :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '150px': '50px'}" 
                 v-model="subjectiveTA" 
                 @click="setSelected('subject')"
-                @keydown="keyDownTextarea"
                 output="html"
                 :options="editorOption"
             />
@@ -20,7 +19,6 @@
                 v-model="objectiveTA" 
                 id="objective"
                 @click="setSelected('objective')"
-                @keydown="keyDownTextarea"
                 output="html"
                 :options="editorOption"
             />
@@ -33,7 +31,6 @@
                 v-model="assessmentTA" 
                 placeholder="Enter your text..."
                 @click="setSelected('assessment')"
-                @keydown="keyDownTextarea"
                 output="html"
                 :options="editorOption"
             />
@@ -50,14 +47,13 @@
                 :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '150px': '50px'}" 
                 v-model="planTA" 
                 @click="setSelected('treatment')"
-                @keydown="keyDownTextarea"
                 output="html"
                 :options="editorOption"
             />
         </div>
 
         <div class="inline-centered padding15">
-            <button @click="submit()" :disabled="disabled || !subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
+            <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
             <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Delete Note</button>
         </div>
 
@@ -101,7 +97,6 @@ export default {
             objectiveTA: null,
             assessmentTA: null,
             planTA: null,
-            disabled: true,
             deleteModalActive: false,
             selected: null,
             editorOption: {
@@ -130,16 +125,11 @@ export default {
         };
     },
     methods: {
-        keyDownTextarea() {
-            this.disabled = false;
-        },
         setSubjectiveTA(data) {
             this.subjectiveTA = data;
-            this.disabled = true;
         },
         setObjectiveTA(data) {
             this.objectiveTA = data;
-            this.disabled = true;
         },
         setSelected(data) {
             this.selected = data;
@@ -161,11 +151,9 @@ export default {
         },
         setAssessmentTA(data) {
             this.assessmentTA = data;
-            this.disabled = true;
         },
         setPlanTA(data) {
             this.planTA = data;
-            this.disabled = true;
         },
         deleteNote() {
             axios.delete(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`)
