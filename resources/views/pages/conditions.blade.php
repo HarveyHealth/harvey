@@ -54,6 +54,9 @@
         <script>
             App.setState('conditions.all', {!! $conditions !!});
             App.setState('conditions.labTests', {!! $lab_tests !!});
+            @foreach ($lab_tests as $test)
+                App.setState('conditions.labTests.{!! $loop->index !!}.sku', {!! $test->sku !!});
+            @endforeach
             @if ($get_zip) {
                 App.setState('conditions.condition', {questions: []});
                 App.setState('conditions.questionIndex', 999);

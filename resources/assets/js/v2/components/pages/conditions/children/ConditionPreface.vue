@@ -39,7 +39,14 @@
 
       <!-- Lab Tests -->
       <Heading2 class="mb2">Common Lab Tests</em></Heading2>
-      <ConditionLabTests></ConditionLabTests>
+      <Grid :flexAt="'l'" :columns="[{l: '1of2'}, {l: '1of2'}]" :gutters="{ s:3, l:3 }">
+          <div :slot="1" class="bg-white">
+              <LabTestCard :testId="tests[0] || false" />
+          </div>
+          <div :slot="2" class="bg-white">
+              <LabTestCard :testId="tests[1] || false" />
+          </div>
+      </Grid>
 
     </SlideIn>
 
@@ -60,22 +67,31 @@
 
 <script>
 import { InputButton } from 'inputs';
-import { SlideIn, Spacer } from 'layout';
+import { Grid, SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { Paragraph, Heading1, Heading2 } from 'typography';
 
+<<<<<<< HEAD
 import ConditionLabTests from './ConditionLabTests.vue';
 import ConditionVideos from './ConditionVideos.vue';
+=======
+import LabTestCard from './LabTestCard.vue';
+>>>>>>> render lab tests from the db to associated conditions page
 
 export default {
   components: {
+    Grid,
     InputButton,
+    LabTestCard,
     SlideIn,
     Spacer,
     SvgIcon,
     Paragraph,
+<<<<<<< HEAD
     ConditionLabTests,
     ConditionVideos,
+=======
+>>>>>>> render lab tests from the db to associated conditions page
     Heading1,
     Heading2
   },
@@ -83,6 +99,13 @@ export default {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Get Started</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
     };
+  },
+  computed: {
+      tests() {
+          return this.State('conditions.condition')
+            ? this.Config.conditions.labTests[this.State('conditions.condition.slug')]
+            : [];
+      }
   }
 };
 </script>
