@@ -10,8 +10,10 @@
           </div>
           <div class="fl w-100 w-75-l pl0 pl3-l">
             <Heading1 class="pv2">{{ State('conditions.condition.name') }}</Heading1>
-            <Paragraph isLarge>{{ State('conditions.condition.description') }}</Paragraph>
-            <p class="font-sm gray pt2">Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.</p>
+            <Paragraph :size="'large'">{{ State('conditions.condition.description') }}</Paragraph>
+            <Paragraph :color="'muted'" :size="'small'" class="pt2">
+                Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.
+            </Paragraph>
             <InputButton
               :text="button"
               :type="'whiteFilled'"

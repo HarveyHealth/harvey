@@ -1,7 +1,7 @@
 <template>
   <div>
     <Heading4>{{ label }}</Heading4>
-    <Paragraph isThin><slot></slot></Paragraph>
+    <Paragraph :weight="'thin'"><slot></slot></Paragraph>
   </div>
 </template>
 

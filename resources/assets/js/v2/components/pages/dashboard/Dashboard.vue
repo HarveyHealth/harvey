@@ -15,13 +15,13 @@
               />
             </div>
             <CardContent v-else>
-              <Paragraph isThin>No upcoming appointments scheduled</Paragraph>
+              <Paragraph :weight="'thin'">No upcoming appointments scheduled</Paragraph>
             </CardContent>
           </Card>
           <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
             <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
             <CardContent>
-              <Paragraph isThin>{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
+              <Paragraph :weight="'thin'">{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
             </CardContent>
           </Card>
         </Grid>
