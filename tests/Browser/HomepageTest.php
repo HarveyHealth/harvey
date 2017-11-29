@@ -20,11 +20,12 @@ class HomepageTest extends DuskTestCase
     }
 
     //####### Header Tests
-    public function test_about_button_in_header()
+    public function test_about_buttons()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->aboutHeader();
+                    ->clickAbout('1')
+                    ->clickAbout('2');
           });
     }
 
@@ -63,26 +64,33 @@ class HomepageTest extends DuskTestCase
 
     }
 
-    public function test_financing_in_header()
-    {
-
-      $this->browse(function ($browser){
-          $browser->visit(new Homepage)
-                  ->financingHeader();
-      });
-
-    }
+    // public function test_financing_in_header()
+    // {
+    //
+    //   $this->browse(function ($browser){
+    //       $browser->visit(new Homepage)
+    //               ->financingHeader();
+    //   });
+    //
+    // }
 
     //Cover Image tests
 
-    public function test_book_appointment_in_cover()
+    // public function test_book_appointment_in_cover()
+    // {
+    //       $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->bookCover();
+    //           });
+    // }
+
+    public function test_explore_conditions_in_cover()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->bookCover();
+                    ->exploreConditionsCover();
               });
     }
-
 
     public function test_if_labs_tests_button_works()
     {   $this->browse(function ($browser) {
@@ -104,7 +112,7 @@ class HomepageTest extends DuskTestCase
     });
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->homeFooter();
+                    ->footer('cover');
         });
      }
 
@@ -117,7 +125,7 @@ class HomepageTest extends DuskTestCase
     });
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->labsFooter();
+                    ->footer('labs');
         });
      }
 
@@ -129,7 +137,7 @@ class HomepageTest extends DuskTestCase
      });
          $this->browse(function ($browser) {
              $browser->visit(new HomePage)
-                     ->financingFooter();
+                     ->footer('financing');
          });
       }
 
@@ -141,7 +149,7 @@ class HomepageTest extends DuskTestCase
       });
           $this->browse(function ($browser) {
               $browser->visit(new HomePage)
-                      ->helpFooter();
+                      ->footer('help');
           });
        }
 
