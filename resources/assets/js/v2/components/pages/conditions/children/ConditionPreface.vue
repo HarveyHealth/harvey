@@ -37,17 +37,6 @@
       <Heading2 class="mb2">{{ State('conditions.condition.name') }} Videos</em></Heading2>
       <ConditionVideos></ConditionVideos>
 
-      <!-- Research -->
-      <Heading2 class="mb2">Participate in Research</em></Heading2>
-      <div class="w-100 mt1 ph3 pv4 pa5-l tc bg-white">
-        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amazon.png" class="w-50 w-40-m w-25-l pa2">
-        <Heading2 class="ph5-l">Take our health survey and earn some cash.</Heading2>
-        <Paragraph class="ph5-l">Fill out our 25-question multiple choice health survey as to help the Harvey Health research team in our mission to improve human healthspan. Each participant will receive a <strong>$25 Amazon e-gift card</strong> with no strings attached. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec dignissim tortor, eu finibus libero. Donec scelerisque dolor at urna tincidunt.</Paragraph>
-        <a href="https://goharvey.typeform.com/to/XGnCna"
-          class="button is-outlined ml2 mt3 font-lg dim" target="_blank">
-          <i class="fa fa-gift mr1"></i> Start Survey</a>
-      </div>
-
       <!-- Lab Tests -->
       <Heading2 class="mb2">Common Lab Tests</em></Heading2>
       <ConditionLabTests></ConditionLabTests>
@@ -56,7 +45,7 @@
 
     <!-- Quiz -->
     <div class="tc w-100 pv5 ph4">
-      <Heading2 class="w-100 w-80-ns w-50-l margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</Heading2>
+      <Heading2 class="w-100 w-80-ns w-50-l margin-0a">Take our {{ State('conditions.condition.name') }} quiz to determine if Harvey Health is right for you.</Heading2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
@@ -99,6 +88,10 @@ export default {
 </script>
 
 <style>
+
+  * {
+    outline: 0;
+  }
 
   .juicer-feed.modern li.feed-item {
     box-shadow: none;
