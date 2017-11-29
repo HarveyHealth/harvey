@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="font-lg ml2" v-html="testInfo.description"></div>
+        <Paragraph isLarge class="ml2">{{ (testInfo.description || '') | descriptionFilter }}&hellip;</Paragraph>
         <a :href="testInfo.sku.slug" class="button is-outlined ml2 mt3 font-lg dim">
             <i class="fa fa-flask mr1"></i> Learn More
         </a>
@@ -41,9 +41,14 @@ export default {
                 return testInfo;
             }
         }
+    },
+    filters: {
+        descriptionFilter(text) {
+            return text
+                .replace(/<.+?>/g, '')
+                .substring(0, 500)
+                .replace(/([\s\W]+?\w*)$/gm, '');
+        }
     }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
