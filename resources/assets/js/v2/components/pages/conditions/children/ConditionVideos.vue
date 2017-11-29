@@ -4,7 +4,7 @@
             <a :href="getVideoLink(linksA)" class="watch-video" frameborder="0" data-lity allowfullscreen>
                 <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amanda-disc.jpg" alt="">
             </a>
-            <Heading3 class="pt2">Dr. Frick Series: {{ State('conditions.condition.name') }}</Heading3>
+            <Heading3 :size="'large'" class="pt2">Dr. Frick Series: {{ State('conditions.condition.name') }}</Heading3>
             <Paragraph>
                 Harvey Health's Lead Naturopath Dr. Amanda Frick, ND discusses her medical philosophy on {{ State('conditions.condition.name') }}.
             </Paragraph>
@@ -13,7 +13,7 @@
             <a :href="getVideoLink(linksB)" class="watch-video" frameborder="0" data-lity allowfullscreen>
                 <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/mark-disc.jpg" alt="">
             </a>
-            <Heading3 class="pt2">Dr. Hyman Series: {{ State('conditions.condition.name') }}</Heading3>
+            <Heading3 :size="'large'" class="pt2">Dr. Hyman Series: {{ State('conditions.condition.name') }}</Heading3>
                 <Paragraph>
                     Learn from Dr. Mark Hyman, MD, one of the world's leading functional doctors, how integrative practitioners approach {{ State('conditions.condition.name') }}.
                 </Paragraph>

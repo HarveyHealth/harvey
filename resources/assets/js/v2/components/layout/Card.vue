@@ -1,7 +1,7 @@
 <template>
   <div class="ba b--light-gray bg-white">
     <div class="heading-container bb b--light-gray pa3" v-if="heading">
-      <Heading3>{{ heading }}</Heading3>
+      <Heading3 :color="'muted'">{{ heading }}</Heading3>
     </div>
     <slot></slot>
   </div>
