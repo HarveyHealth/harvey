@@ -87,14 +87,13 @@
 import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
-import { quillEditor } from 'vue-quill-editor';
+import hljs from 'highlight.js';
 export default {
     props: {
         patient: Object
     },
     components: {
-        Modal,
-        quillEditor
+        Modal
     },
     data() {
         return {
