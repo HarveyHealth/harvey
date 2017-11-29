@@ -1,7 +1,9 @@
 <template>
     <div id="sub-footer">
-        <div class="tc w-100 pv5 ph3">
-            <Heading2 class="w-100 w-80-ns w-50-l margin-0a">Not ready to sign up? Subscribe to our newsletter.</Heading2>
+        <div class="tc pv5 ph3">
+            <div class="w-100 w-80-ns w-50-l margin-0a">
+                <Heading2>Not ready to sign up? Subscribe to our newsletter.</Heading2>
+            </div>
             <div class="pa2-l">
                 <form class="mw7 pa2 center">
                     <fieldset class="cf bn">

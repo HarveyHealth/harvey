@@ -15,7 +15,7 @@
             <InputButton
               :text="button"
               :type="'whiteFilled'"
-              :on-click="() => setState('conditions.prefaceRead', true)"
+              :on-click="handleQuizStart"
               :width="'200px'"
               class="mt3 dim"
             />
@@ -24,7 +24,8 @@
       </div>
 
       <!-- Articles -->
-      <Heading2 class="mb2">{{ State('conditions.condition.name') }} Articles</em></Heading2>
+      <Heading2>{{ State('conditions.condition.name') }} Articles</Heading2>
+      <Spacer isBottom :size="2" />
       <ul
         class="juicer-feed"
         :data-feed-id="State('conditions.condition.slug')+'-articles'"
@@ -34,11 +35,13 @@
       ></ul>
 
       <!-- Videos -->
-      <Heading2 class="mb2">{{ State('conditions.condition.name') }} Videos</em></Heading2>
+      <Heading2>{{ State('conditions.condition.name') }} Videos</Heading2>
+      <Spacer isBottom :size="2" />
       <ConditionVideos></ConditionVideos>
 
       <!-- Lab Tests -->
-      <Heading2 class="mb2">Common Lab Tests</em></Heading2>
+      <Heading2>Common Lab Tests</Heading2>
+      <Spacer isBottom :size="2" />
       <Grid :flexAt="'l'" :columns="[{l: '1of2'}, {l: '1of2'}]" :gutters="{ s:3, l:3 }">
           <div :slot="1" class="bg-white">
               <LabTestCard :testId="tests[0] || false" />
@@ -51,12 +54,12 @@
     </SlideIn>
 
     <!-- Quiz -->
-    <div class="tc w-100 pv5 ph4">
-      <Heading2 class="w-100 w-80-ns w-50-l margin-0a">Take our {{ State('conditions.condition.name') }} quiz to determine if Harvey Health is right for you.</Heading2>
+    <div class="tc w-100 w-80-ns w-50-l margin-0a pv5 ph4">
+      <Heading2>Take our {{ State('conditions.condition.name') }} quiz to determine if Harvey Health is right for you.</Heading2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
-        :on-click="() => setState('conditions.prefaceRead', true)"
+        :on-click="handleQuizStart"
         :width="'200px'"
         class="mt4 dim"
       />
@@ -91,6 +94,12 @@ export default {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Get Started</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
     };
+  },
+  methods: {
+      handleQuizStart() {
+          window.scroll({ top: 0, behavior: 'smooth' });
+          App.setState('conditions.prefaceRead', true);
+      }
   },
   computed: {
       tests() {

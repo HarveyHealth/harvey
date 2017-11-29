@@ -27,4 +27,8 @@ export default {
 
 <style lang="scss" scoped>
   @import '~sass';
+
+  .Heading2 {
+      margin: 0;
+  }
 </style>

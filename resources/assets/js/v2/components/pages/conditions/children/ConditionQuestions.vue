@@ -1,29 +1,26 @@
 <template>
   <div class="center mw7 mt3 min-height">
-    <div class="center relative">
-      <button class="Button Button--condition-nav is-left" v-show="!displayBack()" @click="goBack">
-        <i class="fa fa-chevron-left"></i>
-      </button>
-      <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
-        <i class="fa fa-chevron-left"></i>
-      </button>
-      <button class="Button Button--condition-nav is-right" v-show="displayForward()" @click="goForward">
-        <i class="fa fa-chevron-right"></i>
-      </button>
-    </div>
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
       <div class="center db tc mw6">
         <Heading1 doesExpand class="pv2">{{ obj.question }}</Heading1>
       </div>
-      <Row :gutter="'md'" class="pa4">
-        <Column v-for="(answer, aIndex) in obj.answers" :config="{ md: '1of2' }" :key="aIndex">
-          <div :class="{'Button Button--answer ml2 font-lg':true, 'is-selected': answerIndex === aIndex}"
-               @click="next(obj.question, answer, aIndex)">
-            <span>{{ answer }}</span>
-            <i class="fa fa-check"></i>
+      <div class="pagination-container">
+        <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
+          <i class="fa fa-chevron-left"></i>
+        </button>
+        <button class="Button Button--condition-nav is-right" v-show="displayForward()" @click="goForward">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <Grid :flexAt="'l'" :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">
+          <div :slot="aIndex + 1" v-for="(answer, aIndex) in obj.answers">
+              <div :class="{'Button Button--answer font-lg':true, 'is-selected': answerIndex === aIndex}"
+                   @click="next(obj.question, answer, aIndex)">
+                <span>{{ answer }}</span>
+                <i class="fa fa-check"></i>
+              </div>
           </div>
-        </Column>
-      </Row>
+      </Grid>
     </SlideIn>
   </div>
 </template>
@@ -31,12 +28,18 @@
 <script>
 import { Heading1 } from 'typography';
 import { SvgIcon } from 'icons';
-import { SlideIn, Column, Row } from 'layout';
+import { Grid, SlideIn } from 'layout';
 
 export default {
-  components: { SvgIcon, SlideIn, Heading1, Column, Row },
+  components: {
+      Grid,
+      Heading1,
+      SlideIn,
+      SvgIcon
+  },
   data() {
     return {
+      answerColumn: { m: '1of2' },
       hasAnswered: 0
     };
   },
@@ -75,20 +78,18 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 
-  /*This needs fixing*/
-  .Button.Button--condition-nav.is-left {
-    color: #5F7278;
-    left: -10em;
-  }
-
-  .Button.Button--condition-nav.is-right {
+  .Button {
     color: #5F7278;
   }
 
   .min-height {
     min-height: 358px;
+  }
+
+  .pagination-container {
+      height: 60px;
   }
 
 </style>
