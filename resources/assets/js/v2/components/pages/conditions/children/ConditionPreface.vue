@@ -71,12 +71,8 @@ import { Grid, SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { Paragraph, Heading1, Heading2 } from 'typography';
 
-<<<<<<< HEAD
-import ConditionLabTests from './ConditionLabTests.vue';
 import ConditionVideos from './ConditionVideos.vue';
-=======
 import LabTestCard from './LabTestCard.vue';
->>>>>>> render lab tests from the db to associated conditions page
 
 export default {
   components: {
@@ -87,11 +83,7 @@ export default {
     Spacer,
     SvgIcon,
     Paragraph,
-<<<<<<< HEAD
-    ConditionLabTests,
     ConditionVideos,
-=======
->>>>>>> render lab tests from the db to associated conditions page
     Heading1,
     Heading2
   },
