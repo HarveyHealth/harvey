@@ -1,6 +1,6 @@
 <template>
   <div class="ba b--light-gray bg-white">
-    <div class="Heading bb b--light-gray pa3" v-if="heading">
+    <div class="heading-container bb b--light-gray pa3" v-if="heading">
       <Heading3>{{ heading }}</Heading3>
     </div>
     <slot></slot>
@@ -28,7 +28,7 @@ export default {
 <style lang="scss" scoped>
     @import '~sass';
 
-    .Heading {
+    .heading-container {
         background-color: $color-gray-0;
     }
 </style>

@@ -34,13 +34,13 @@ export default {
         right: 0;
         z-index: -1;
 
-        &.is-brown      { background: $bg-fade-brown; }
-        &.is-ford       { background: $bg-fade-ford; }
-        &.is-green      { background: $bg-fade-green; }
-        &.is-lime       { background: $bg-fade-lime; }
-        &.is-pink       { background: $bg-fade-pink; }
-        &.is-purple     { background: $bg-fade-purple; }
-        &.is-slate      { background: $bg-fade-slate; }
-        &.is-turquoise  { background: $bg-fade-turquoise; }
+        &.is-brown      { background-image: $bg-fade-brown; }
+        &.is-ford       { background-image: $bg-fade-ford; }
+        &.is-green      { background-image: $bg-fade-green; }
+        &.is-lime       { background-image: $bg-fade-lime; }
+        &.is-pink       { background-image: $bg-fade-pink; }
+        &.is-purple     { background-image: $bg-fade-purple; }
+        &.is-slate      { background-image: $bg-fade-slate; }
+        &.is-turquoise  { background-image: $bg-fade-turquoise; }
     }
 </style>
