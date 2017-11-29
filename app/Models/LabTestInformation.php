@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use App\Lib\TimeInterval;
-use App\Models\LabTestInformation;
 use App\Http\Traits\HasVisibilityColumn;
 use Cache;
 

@@ -22,6 +22,17 @@ import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
 import { PublicNav } from 'nav';
 
+window.App = {};
+App.Public = {};
+App.Public.State = {
+    conditions: [],
+    conditionSubText: [],
+    conditionIconColors: ['is-lime', 'is-pink', 'is-brown', 'is-green', 'is-turquoise', 'is-slategrey', 'is-purple', 'is-ford']
+};
+
+App.Public.setConditions = conditions => {
+    App.Public.State.conditions = conditions;
+};
 
 Vue.prototype.Laravel = Laravel;
 
@@ -35,6 +46,8 @@ const app = new Vue({
         VerticalTabs
     },
     data: {
+        State: App.Public.State,
+
         appClass: '',
         appLoaded: false,
         emailCaptureError: 'Not a valid email address',
@@ -127,6 +140,9 @@ const app = new Vue({
     computed: {
         bodyClassNames() {
           return document.getElementsByTagName('body')[0].classList;
+        },
+        conditions() {
+            return this.State.conditions;
         },
         getStartedLink() {
           if (Laravel.user.signedIn) {

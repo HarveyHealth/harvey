@@ -367,9 +367,11 @@
       </div>
 
       <!-- Mark as Shipped -->
+      <!-- HAR-1157 Hiding button until Shippo integration feature is complete
       <div class="button-wrapper">
         <button class="button" @click="confirmShipping">Generate Label</button>
       </div>
+      -->
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -711,10 +713,12 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
-        }).catch(() => {
+        }).catch((error) => {
             // stop the loading
             this.loading = false;
-            this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
+
+            // add the message
+            this.shippingErrorMessage = error.response.data.errors[0].detail;
         });
     },
     markedShipped() {

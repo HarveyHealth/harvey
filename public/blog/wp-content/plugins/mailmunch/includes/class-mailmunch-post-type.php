@@ -61,6 +61,12 @@ class Mailmunch_Post_Type {
     }
     return $template;
   }
+  
+  public function post_type_desc( $views ) {
+    $currentStep = 'landingpages';
+    require_once(plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/mailmunch-tabs.php');
+    return $views;
+  }
 
   public function post_meta_box($postType, $post) {
       if ($postType == MAILMUNCH_POST_TYPE) {
