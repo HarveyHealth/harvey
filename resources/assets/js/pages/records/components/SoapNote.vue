@@ -4,35 +4,38 @@
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subjective</label>
             <quill-editor 
-                :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '150px': '50px'}" 
+                :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '125px': '50px'}" 
                 v-model="subjectiveTA" 
                 @click="setSelected('subject')"
                 output="html"
                 :options="editorOption"
+                class="input--textarea soap-textarea"
             />
         </div>
 
         <div class="mid-soap-note">
             <label name="Objective" class="card-header mid-header">Objective</label>
             <quill-editor 
-                :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '150px': '50px'}" 
+                :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '125px': '50px'}" 
                 v-model="objectiveTA" 
                 id="objective"
                 @click="setSelected('objective')"
                 output="html"
                 :options="editorOption"
+                class="input--textarea soap-textarea"
             />
         </div>
 
         <div class="mid-soap-note">
             <label name="Assessment" class="card-header mid-header">Assessment</label>
             <quill-editor 
-                :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '150px': '50px'}" 
+                :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '125px': '50px'}" 
                 v-model="assessmentTA" 
                 placeholder="Enter your text..."
                 @click="setSelected('assessment')"
                 output="html"
                 :options="editorOption"
+                class="input--textarea soap-textarea"
             />
         </div>
 
@@ -44,11 +47,12 @@
             <label name="Treatment" 
             class="card-header top-header">Plan/Treatment</label>
             <quill-editor 
-                :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '150px': '50px'}" 
+                :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '125px': '50px'}" 
                 v-model="planTA" 
                 @click="setSelected('treatment')"
                 output="html"
                 :options="editorOption"
+                class="input--textarea soap-textarea"
             />
         </div>
 
@@ -267,3 +271,9 @@ export default {
     }
 };
 </script>
+
+<<style lang="scss" scoped>
+    .ql-editor {
+        height: 200px !important;
+    }
+</style>
