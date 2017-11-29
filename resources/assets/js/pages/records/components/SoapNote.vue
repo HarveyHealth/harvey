@@ -3,37 +3,39 @@
 
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subjective</label>
-            <textarea 
-                :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '': '50px'}" 
-                @keydown="keyDownTextarea" 
+            <quill-editor 
+                :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '150px': '50px'}" 
                 v-model="subjectiveTA" 
-                class="input--textarea soap-textarea" 
-                placeholder="Enter your text..." 
                 @click="setSelected('subject')"
+                @keydown="keyDownTextarea"
+                output="html"
+                :options="editorOption"
             />
         </div>
 
         <div class="mid-soap-note">
             <label name="Objective" class="card-header mid-header">Objective</label>
-            <textarea 
-                :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '': '50px'}" 
-                @keydown="keyDownTextarea" 
+            <quill-editor 
+                :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '150px': '50px'}" 
                 v-model="objectiveTA" 
-                class="input--textarea soap-textarea" 
-                placeholder="Enter your text..." 
+                id="objective"
                 @click="setSelected('objective')"
+                @keydown="keyDownTextarea"
+                output="html"
+                :options="editorOption"
             />
         </div>
 
         <div class="mid-soap-note">
             <label name="Assessment" class="card-header mid-header">Assessment</label>
-            <textarea 
-                :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '': '50px'}" 
-                @keydown="keyDownTextarea" 
+            <quill-editor 
+                :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '150px': '50px'}" 
                 v-model="assessmentTA" 
-                class="input--textarea soap-textarea" 
                 placeholder="Enter your text..."
                 @click="setSelected('assessment')"
+                @keydown="keyDownTextarea"
+                output="html"
+                :options="editorOption"
             />
         </div>
 
@@ -44,13 +46,13 @@
         <div class="top-soap-note">
             <label name="Treatment" 
             class="card-header top-header">Plan/Treatment</label>
-            <textarea 
-                :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '': '50px'}" 
-                @keydown="keyDownTextarea" 
+            <quill-editor 
+                :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '150px': '50px'}" 
                 v-model="planTA" 
-                class="input--textarea soap-textarea" 
-                placeholder="Enter your text..." 
                 @click="setSelected('treatment')"
+                @keydown="keyDownTextarea"
+                output="html"
+                :options="editorOption"
             />
         </div>
 
@@ -85,12 +87,14 @@
 import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
+import { quillEditor } from 'vue-quill-editor';
 export default {
     props: {
         patient: Object
     },
     components: {
-        Modal
+        Modal,
+        quillEditor
     },
     data() {
         return {
@@ -100,7 +104,30 @@ export default {
             planTA: null,
             disabled: true,
             deleteModalActive: false,
-            selected: null
+            selected: null,
+            editorOption: {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'header': 1 }, { 'header': 2 }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        [{ 'script': 'sub' }, { 'script': 'super' }],
+                        [{ 'indent': '-1' }, { 'indent': '+1' }],
+                        [{ 'direction': 'rtl' }],
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
+                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        [{ 'font': [] }],
+                        [{ 'color': [] }, { 'background': [] }],
+                        [{ 'align': [] }],
+                        ['clean'],
+                        ['link', 'image', 'video']
+                    ],
+                    syntax: {
+                        highlight: text => hljs.highlightAuto(text).value
+                    }
+                }
+            }
         };
     },
     methods: {
@@ -125,8 +152,6 @@ export default {
                 : data === 'assessment' ? 200
                 : data === 'treatment' ? 200
                 : 0;
-            console.log(`DATA`, data);
-            console.log(`CONTAINER`, container.scrollTop);
             }, 300);
         },
         deleteModal() {
