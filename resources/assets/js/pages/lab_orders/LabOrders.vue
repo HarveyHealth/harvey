@@ -44,6 +44,7 @@
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="currentData"
+                :filterSelected="activeFilter"
              />
         </div>
     </div>
