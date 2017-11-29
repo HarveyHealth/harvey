@@ -80,7 +80,7 @@ export default {
         return {
             fileName: '',
             deleteModalActive: false,
-            loading: false,
+            loading: false
         };
     },
     methods: {

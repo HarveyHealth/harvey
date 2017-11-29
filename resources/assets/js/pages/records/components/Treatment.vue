@@ -1,7 +1,10 @@
 <template>
     <div class="records-container">
         <div class="treatment-plan">
-            <textarea disabled v-model="plan" class="input--textarea" />
+            <div 
+                disabled 
+                v-html="plan"
+             />
         </div>
     </div>
 </template>
@@ -9,7 +12,7 @@
 <script>
 export default {
     props: {
-        patient: Object,
+        patient: Object
     },
     computed: {
         plan() {
@@ -22,7 +25,7 @@ export default {
                 return this.$parent.propData.attributes.plan;
             }
         }
-    },
+    }
 };
 </script>
 
