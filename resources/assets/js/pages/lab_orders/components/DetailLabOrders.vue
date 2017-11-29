@@ -367,9 +367,11 @@
       </div>
 
       <!-- Mark as Shipped -->
+      <!-- HAR-1157 Hiding button until Shippo integration feature is complete
       <div class="button-wrapper">
         <button class="button" @click="confirmShipping">Generate Label</button>
       </div>
+      -->
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
