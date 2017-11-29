@@ -2,7 +2,6 @@
 
 namespace App\Http\Traits;
 
-use App\Models\LabTest;
 use ReflectionClass;
 
 trait HasLogTable
@@ -33,6 +32,18 @@ trait HasLogTable
                 ];
             }
         ");
+
+        static::updating(function ($model) {
+            foreach ((array) $model->log as $attribute) {
+                if (in_array($attribute, array_keys($model->getDirty()))) {
+                    $model->logEntries()->create([
+                        'attribute' => $attribute,
+                        'from' => $model->getOriginal($attribute),
+                        'to' => $model->$attribute,
+                    ]);
+                }
+            }
+        });
     }
 
     public function logEntries()

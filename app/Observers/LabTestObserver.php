@@ -29,12 +29,6 @@ class LabTestObserver
                 default:
                     break;
             }
-
-            $lab_test->logEntries()->create([
-                'attribute' => 'status',
-                'from' => $lab_test->getOriginal('status_id'),
-                'to' => $lab_test->status_id,
-            ]);
         }
     }
 

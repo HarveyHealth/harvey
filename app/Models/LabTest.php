@@ -33,6 +33,10 @@ class LabTest extends Model
         'status_id',
     ];
 
+    protected $log = [
+        'status_id',
+    ];
+
     const STATUSES = [
         self::CANCELED_STATUS_ID => 'canceled',
         self::COMPLETE_STATUS_ID => 'complete',
