@@ -18,12 +18,10 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json",
     "test": "NODE_ENV=test karma start karma.conf.js",
-    "test:watch": "npm test -- --watch",
-    "validate": "npm ls"
+    "test:watch": "npm test -- --watch"
   },
   "pre-commit": [
     "lint",
-    "validate",
     "test"
   ],
   "dependencies": {
