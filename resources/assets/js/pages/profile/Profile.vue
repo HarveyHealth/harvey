@@ -360,6 +360,7 @@
                         } else {
                             this.$root.$data.global.user = response.data.data;
                         }
+                        this.$root.getLabData();
                         this.submitting = false;
                     })
                     .catch(err => {
