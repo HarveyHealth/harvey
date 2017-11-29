@@ -47,7 +47,7 @@ export default {
                     "processing" :
                 this.$props.filterSelected === 6 ?
                     "complete" : ''
-      } category.`
+      } category.`;
     }
   },
   methods: {
