@@ -54,7 +54,7 @@ export default {
               'womens-health': '2Nbr9wGyN4s',
               'general-health': 'z_eHd7dPFGA'
           }
-      }
+      };
   },
   methods: {
       getVideoLink(linkList) {

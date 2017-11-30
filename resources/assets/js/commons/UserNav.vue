@@ -1,7 +1,7 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
+  <div class="nav-bar hide-print" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button" @click="handleMenu(null)">
+    <button class="menu-button hide-print" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
