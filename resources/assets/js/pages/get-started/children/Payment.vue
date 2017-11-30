@@ -25,7 +25,7 @@
           <div>
             <div class="input-wrap input-half--sm">
               <input class="form-input form-input_text"
-                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YYYY" v-model="cardExpiration" />
+                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM / YYYY" v-model="cardExpiration" />
             </div>
             <div class="input-wrap input-half--sm last">
               <input class="form-input form-input_text"
@@ -120,7 +120,7 @@ export default {
       const dr = this.$root.$data.signup.practitionerName;
       return this.$root.$data.signup.billingConfirmed
         ? ''
-        : `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${dr}, ND. Your card will be charged $150 after completion of your appointment. For short-term financing options, <a href="/financing">click here</a>.`;
+        : `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${dr}, ND. Your card will be charged $150 after completion of your appointment. For short-term financing options, <a href="/financing" target="_blank">click here</a>.`;
     },
     title() {
       return this.$root.$data.signup.billingConfirmed
