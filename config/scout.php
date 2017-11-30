@@ -14,7 +14,8 @@ return [
     | Supported: "algolia", "null"
     |
     */
-    'driver' => env('SCOUT_DRIVER', 'tntsearch'),
+
+    'driver' => env('SCOUT_DRIVER', 'algolia'),
 
     /*
     |--------------------------------------------------------------------------
@@ -57,6 +58,4 @@ return [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
-
-    
 ];
