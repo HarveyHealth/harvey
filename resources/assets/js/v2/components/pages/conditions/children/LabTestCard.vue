@@ -46,7 +46,7 @@ export default {
         descriptionFilter(text) {
             return text
                 .replace(/<.+?>/g, '')
-                .substring(0, 500)
+                .substring(0, 230)
                 .replace(/([\s\W]+?\w*)$/gm, '');
         }
     }
