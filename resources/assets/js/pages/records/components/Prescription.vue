@@ -34,7 +34,7 @@
                 </div>
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
-            <div class="fullWidth floatLeft">
+            <div class="fullWidth floatLeft quick-notes-border topMargin30">
                 <h2 class="text-center">Quick Notes</h2>
                 <quill-editor
                     output="html"
