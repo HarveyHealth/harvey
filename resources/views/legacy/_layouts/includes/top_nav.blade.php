@@ -4,6 +4,7 @@
     has-phone
     has-start
     is-sticky
+    keep-logo-text
     :on-menu-click="toggleMenu"
 ></public-nav>
 

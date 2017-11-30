@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.40.0",
+            "version": "3.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "04a19849652687e8c535217d0af4de6203107979"
+                "reference": "11e3734531061cb21bc7b060c50a3e929fd7a916"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/04a19849652687e8c535217d0af4de6203107979",
-                "reference": "04a19849652687e8c535217d0af4de6203107979",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/11e3734531061cb21bc7b060c50a3e929fd7a916",
+                "reference": "11e3734531061cb21bc7b060c50a3e929fd7a916",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-11-27T09:20:45+00:00"
+            "time": "2017-11-30T02:26:30+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -375,16 +375,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.0.9",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "36344aeffdc37711335563e6108cda86566432a6"
+                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/36344aeffdc37711335563e6108cda86566432a6",
-                "reference": "36344aeffdc37711335563e6108cda86566432a6",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/943b2c4fcad1ef178d16a713c2468bf7e579c288",
+                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288",
                 "shasum": ""
             },
             "require": {
@@ -393,12 +393,9 @@
                 "php": "^5.3.2 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.5",
+                "phpunit/phpunit": "^4.8.35",
                 "psr/log": "^1.0",
-                "symfony/process": "^2.5 || ^3.0"
-            },
-            "suggest": {
-                "symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
+                "symfony/process": "^2.5 || ^3.0 || ^4.0"
             },
             "type": "library",
             "extra": {
@@ -430,7 +427,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-11-13T15:51:25+00:00"
+            "time": "2017-11-29T09:37:33+00:00"
         },
         {
             "name": "crell/api-problem",
@@ -3464,16 +3461,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.7",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b"
+                "reference": "c9a3fe35e20eb6eeaca716d6a23cde03f52d1558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
-                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c9a3fe35e20eb6eeaca716d6a23cde03f52d1558",
+                "reference": "c9a3fe35e20eb6eeaca716d6a23cde03f52d1558",
                 "shasum": ""
             },
             "require": {
@@ -3552,7 +3549,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2017-10-23T05:04:54+00:00"
+            "time": "2017-11-29T06:38:08+00:00"
         },
         {
             "name": "predis/predis",

@@ -1,7 +1,7 @@
 <template>
     <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
         <div class="vertical-center">
-            <div class="signup-container small naked">
+            <div class="signup-container small naked tc">
                 <div class="signup-main-icon">
                     <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
                 </div>
