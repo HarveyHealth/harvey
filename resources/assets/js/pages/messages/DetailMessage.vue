@@ -84,13 +84,13 @@
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right',
-              detailList:this.$root.$data.global.detailMessages[this.$props.thread_id]
+              detailList: this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => a.id - b.id)
             };
         },
         computed: {
             stateDetail() {
                 let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
-                let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                let details = messages.sort((a, b) => a.id - b.id);
                 this.setDetails(details);
                 return details;
             }
@@ -99,7 +99,7 @@
             stateDetail(val) {
                 if (!val) {
                     let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
-                    let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                    let details = messages.sort((a, b) => a.id - b.id);
                     this.setDetails(details);
                     return details;
                 }
@@ -110,7 +110,7 @@
             this.renderNewMessage = !this.renderNewMessage;
           },
           setDetails(data) {
-              this.detailList = data;
+              this.detailList = data.sort((a, b) => a.id - b.id);
           },
           reply() {
             this.renderReply = !this.renderReply;
