@@ -157,7 +157,6 @@ export default {
         }
     },
     mounted() {
-        window.foo = () => this;
         if (this.isSticky) {
             window.addEventListener('scroll', _.throttle(this.handleNavOnScroll, this.throttleTime), false);
         }
