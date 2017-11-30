@@ -46,6 +46,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
+                    v-model="notes"
                 />
             </div>
         </div>
@@ -56,6 +57,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
+                    v-model="quickNotes"
                 />
             </div>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
@@ -104,7 +106,8 @@ export default {
             selectedLabType: null,
             deleteModalActive: false,
             loading: false,
-            editorOption: editorOption
+            editorOption: editorOption,
+            notes: ''
         };
     },
     methods: {
@@ -138,6 +141,7 @@ export default {
             this.loading = true;
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
+            formData.append('notes', this.notes);
             axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, formData)
             .then((response) => {
                 let results = response.data.included.map(e => {
@@ -175,6 +179,10 @@ export default {
         resultUrl() {
             const prop = this.$parent.propData;
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotes() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
@@ -194,6 +202,12 @@ export default {
             if (!val) {
                 let labTests = Object.values(this.$parent.lab_tests);
                 return labTests.length ? [{included: {attributes: {name: ''}}, id: 0}].concat(labTests) : [{included: {attributes: {name: 'No Lab Tests'}}, id: 0}];
+            }
+        },
+        quickNotes(val) {
+            if (!val) {
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }

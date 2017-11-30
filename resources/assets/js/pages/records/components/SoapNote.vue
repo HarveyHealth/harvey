@@ -63,6 +63,7 @@
             <quill-editor
                 output="html"
                 :options="editorOption"
+                v-model="quickNotes"
             />
         </div>
 
@@ -225,6 +226,10 @@ export default {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
             this.setPlanTA(data);
             return data;
+        },
+        quickNotes() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
@@ -254,6 +259,12 @@ export default {
                 let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
                 this.setPlanTA(data);
                 return data;
+            }
+        },
+        quickNotes(val) {
+            if (!val) {
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }

@@ -39,6 +39,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
+                    v-model="quickNotes"
                 />
             </div>
         </div>
@@ -49,6 +50,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
+                    v-model="notes"
                 />
             </div>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
@@ -82,6 +84,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
+import editorOption from '../util/quillEditorObject';
 export default {
     props: {
         patient: Object
@@ -94,7 +97,9 @@ export default {
         return {
             selected: null,
             deleteModalActive: false,
-            loading: false
+            loading: false,
+            notes: '',
+            editorOption: editorOption
         };
     },
     methods: {
@@ -123,6 +128,7 @@ export default {
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
             formData.append('name', this.selected);
+            formData.append('notes', this.notes);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/prescriptions`, formData)
             .then((response) => {
                 let object = {};
@@ -155,6 +161,10 @@ export default {
         prescriptionUrl() {
             const prop = this.$parent.propData;
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotes() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch : {
@@ -162,6 +172,12 @@ export default {
             if (!val) {
                 const prop = this.$parent.propData;
                 return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            }
+        },
+        quickNotes(val) {
+            if (!val) {
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }

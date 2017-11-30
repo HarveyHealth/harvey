@@ -35,6 +35,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
+                    v-model="notes"
                 />
             </div>
         </div>
@@ -45,6 +46,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
+                    v-model="quickNotes"
                 />
             </div>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
@@ -96,7 +98,8 @@ export default {
             fileName: '',
             deleteModalActive: false,
             loading: false,
-            editorOption: editorOption
+            editorOption: editorOption,
+            notes: ''
         };
     },
     methods: {
@@ -124,6 +127,7 @@ export default {
             let formData = new FormData();
             this.loading = true;
             formData.append('file', file.target.files[0]);
+            formData.append('notes', this.notes);
             formData.append('name', this.fileName);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, formData)
             .then((response) => {
@@ -151,6 +155,10 @@ export default {
         attachmentUrl() {
             const prop = this.$parent.propData;
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotes() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
@@ -158,6 +166,12 @@ export default {
             if (!val) {
                 const prop = this.$parent.propData;
                 return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            }
+        },
+        quickNotes(val) {
+            if (!val) {
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }
