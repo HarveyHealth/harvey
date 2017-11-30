@@ -47,7 +47,7 @@ $font-family: "proxima-nova";
 // Footer
 
 .footer-logo {
-  max-width: 170px;
+  max-width: 160px;
   padding-bottom: 10px;
 }
 
@@ -82,6 +82,12 @@ $font-family: "proxima-nova";
   }
 
   i.fa {
+    font-size: 28px;
+    @include padding(7px);
+    color: #FFF;
+  }
+
+  i.fa.fa-heart {
     font-size: 14px;
     @include padding(2px);
     color: #E3BAB3;
