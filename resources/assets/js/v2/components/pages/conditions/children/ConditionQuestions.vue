@@ -2,11 +2,11 @@
     <div class="center mw7 mt3 min-height">
         <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
             <div class="center db tc mw6">
-                <Heading1 doesExpand class="pv2">{{ obj.question }}</Heading1>
+                <Heading1 doesExpand class="pv2">{{ qIndex+1 }}. {{ obj.question }}</Heading1>
             </div>
             <div class="pagination-container">
                 <button class="Button Button--condition-nav is-left" v-show="!displayBack()" @click="reset">
-                    <i class="fa fa-home"></i> Home
+                    <i class="fa fa-step-backward"></i> Home
                 </button>
                 <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
                     <i class="fa fa-chevron-left"></i>
@@ -82,7 +82,7 @@ export default {
                 'conditions.questionIndex': 0,
                 'conditions.answers': [],
                 'conditions.prefaceRead': false
-            })
+            });
         }
     }
 };
