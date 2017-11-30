@@ -35,7 +35,7 @@ export default {
     computed: {
         testInfo() {
             if (this.State('conditions.condition') && this.State('conditions.labTests')) {
-                const condition = this.State('conditions.condition.slug');
+                this.State('conditions.condition.slug');
                 const tests = this.State('conditions.labTests');
                 const testInfo = tests.filter(test => test.id === this.testId)[0];
                 return testInfo;
@@ -50,5 +50,5 @@ export default {
                 .replace(/([\s\W]+?\w*)$/gm, '');
         }
     }
-}
+};
 </script>

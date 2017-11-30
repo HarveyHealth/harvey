@@ -91,7 +91,7 @@
 
                         </div>
                     </div>
-                    <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
+                    <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
                         <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
                         <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
                         <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
@@ -140,7 +140,7 @@
                         <div v-if="page === 0">
                             <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
                         </div>
-                        <div class="card width70" v-if="page !== 0">
+                        <div class="card width70 print-full-width" v-if="page !== 0">
                             <div class="card-heading-container height65">
                                 <h2 class="left-records-label">
                                     {{ page === 1 ? `Treatment Plan` : null }}
@@ -172,7 +172,7 @@
 
                         </div>
                     </div>
-                    <div v-if="selectedUserPatient">
+                    <div v-if="selectedUserPatient" class="hide-print">
                         <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
                             <a class="flyout-links" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
                             <a class="flyout-links" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
