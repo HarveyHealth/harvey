@@ -290,7 +290,7 @@ const app = new Vue({
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        if (!invoices.length) {
+                        if (invoices.length) {
                             invoices.forEach(e => {
                                 obj[e.id] = e;
                             });

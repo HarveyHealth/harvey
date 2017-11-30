@@ -1,7 +1,7 @@
 <template>
   <TableData 
       :columns="tableColumns"
-      :empty-msg="'No lab orders in this category.'"
+      :empty-msg="emptyString"
       :loading="loading"
       :loading-msg="'Loading your lab orders...'"
       :on-row-click="handleRowClick"
@@ -30,6 +30,24 @@ export default {
   computed: {
     tableData() {
       return this.tableRowData;
+    },
+    emptyString() {
+        return `No lab orders in ${
+                this.$props.filterSelected === 0 ?
+                    "recommended" :
+                this.$props.filterSelected === 1 ?
+                    "confirmed" :
+                this.$props.filterSelected === 2 ?
+                    "shipped" :
+                this.$props.filterSelected === 3 ?
+                    "received" :
+                this.$props.filterSelected === 4 ?
+                    "mailed" :
+                this.$props.filterSelected === 5 ?
+                    "processing" :
+                this.$props.filterSelected === 6 ?
+                    "complete" : ''
+      } category.`;
     }
   },
   methods: {
@@ -42,6 +60,9 @@ export default {
     // other things within Appointments
     handleRowClick: {
       type: Function
+    },
+    filterSelected: {
+      type: Number
     },
     // Passed from Appointments because it is waiting for the app.js Promise to resolve
     loading: {

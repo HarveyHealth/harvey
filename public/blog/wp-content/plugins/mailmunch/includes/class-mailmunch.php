@@ -22,7 +22,7 @@ define( 'MAILMUNCH_SLUG', "mailmunch" );
 define( 'MAILMUNCH_PREFIX', 'mailmunch' );
 define( 'MAILMUNCH_POST_TYPE', 'mailmunch_page' );
 define( 'MAILMUNCH_PLUGIN_DIRECTORY', 'mailmunch' );
-define( 'MAILMUNCH_VERSION', '3.0.7' );
+define( 'MAILMUNCH_VERSION', '3.1.1' );
 
 /**
  * The core plugin class.
@@ -218,6 +218,8 @@ class Mailmunch {
 		$this->loader->add_action( 'wp_ajax_sign_up', $plugin_admin, 'sign_up' );
 		$this->loader->add_action( 'wp_ajax_sign_in', $plugin_admin, 'sign_in' );
 		$this->loader->add_action( 'wp_ajax_delete_widget', $plugin_admin, 'delete_widget' );
+		$this->loader->add_action( 'wp_ajax_delete_email', $plugin_admin, 'delete_email' );
+		$this->loader->add_action( 'wp_ajax_change_email_status', $plugin_admin, 'change_email_status' );
 		
 		// Dashboard
 		$this->loader->add_action( 'wp_dashboard_setup', $plugin_admin, 'dashboard_setup' );
@@ -265,6 +267,7 @@ class Mailmunch {
 		$this->loader->add_action('init', $plugin_post_type, 'create_post_type');
 		$this->loader->add_filter('template_include', $plugin_post_type, 'post_type_template');
 		$this->loader->add_filter('get_pages', $plugin_post_type, 'add_pages_to_dropdown', 10, 2);
+		$this->loader->add_filter('views_edit-'. MAILMUNCH_POST_TYPE, $plugin_post_type, 'post_type_desc');
 		$this->loader->add_action('add_meta_boxes', $plugin_post_type, 'post_meta_box', 10, 2);
 		$this->loader->add_action('save_post', $plugin_post_type, 'landing_page_save_meta', 10, 2 );
 		

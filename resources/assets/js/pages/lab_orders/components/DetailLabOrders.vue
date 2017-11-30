@@ -367,9 +367,11 @@
       </div>
 
       <!-- Mark as Shipped -->
+      <!-- HAR-1157 Hiding button until Shippo integration feature is complete
       <div class="button-wrapper">
         <button class="button" @click="confirmShipping">Generate Label</button>
       </div>
+      -->
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -524,19 +526,6 @@ export default {
       this.pricing = 0;
       this.newState = '';
       this.labPatients = {};
-      this.$parent.setupLabData();
-      if (this.$root.$data.permissions !== 'patient') {
-        let status = {
-          0: "Recommended",
-          1: "Confirmed",
-          2: "Shipped",
-          3: "Received",
-          4: "Mailed",
-          5: "Processing",
-          6: "Complete"
-        };
-        this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
-      }
     },
     updateStatus(e) {
       this.selectedStatus = e.target.value;
