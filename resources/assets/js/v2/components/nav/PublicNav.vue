@@ -3,7 +3,7 @@
         <div class="nav-overlay"></div>
         <div class="nav-container">
             <div class="nav-content">
-                <button class="nav-hamburger" @click="handleMenuClick()">
+                <button class="nav-hamburger" @click="handleMenuClick('TOGGLE')">
                     <i :class="hamburgerClasses"></i>
                 </button>
                 <a href="/" class="nav-logo" v-if="hasLogo">
@@ -12,7 +12,7 @@
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
                     <a href="/lab-tests">Labs</a>
-                    <a href="/#conditions" @click="handleMenuClick('conditions')">Conditions</a>
+                    <a href="/#conditions" @click="handleMenuClick(isHomepage)">Conditions</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
@@ -24,7 +24,7 @@
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="/#conditions" class="dim" @click="handleMenuClick('conditions')">Get Started</a>
+                        <a v-else href="/#conditions" class="dim" @click="handleMenuClick(isHomepage)">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -91,6 +91,9 @@ export default {
         hasDarkLogo() {
             return this.isNavSolid || (this.forceDark && !this.isMenuActive);
         },
+        isHomepage() {
+            return window.location.pathname === '/' ? 'conditions' : '';
+        },
         showDashboard() {
             const isSignedIn = Laravel.user.signedIn;
             const appointment = Laravel.user.has_an_appointment;
@@ -114,7 +117,7 @@ export default {
     },
     methods: {
         handleMenuClick(pageId) {
-            if (pageId) {
+            if (pageId && pageId !== 'TOGGLE') {
                 const pageSection = document.getElementById(pageId);
                 if (pageSection) this.yScroll = pageSection.offsetTop;
             }
@@ -129,7 +132,9 @@ export default {
                 setTimeout(this.menuClick, 200);
             }
 
-            this.isMenuActive = !this.isMenuActive;
+            // if no page id is supplied it means we're leaving the page
+            // and toggling is irrelevant
+            if (pageId) this.isMenuActive = !this.isMenuActive;
         },
 
         handleNavOnScroll() {
