@@ -39,7 +39,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
-                    v-model="quickNotes"
+                    v-model="notes"
                 />
             </div>
         </div>
@@ -50,7 +50,7 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
-                    v-model="notes"
+                    v-model="quickNotes"
                 />
             </div>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
