@@ -26,7 +26,7 @@
         <div class="signup-stage-instructions color-white">
           <StagesNav :current="'practitioner'" />
           <h2 class="heading-1 font-normal color-white">Choose Your Doctor</h2>
-          <p>The doctor(s) below are fully licensed and available to work with patients in your state. Please select the one that best suits your needs.</p>
+          <p>Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.</p>
         </div>
         <div class="signup-container large">
           <div class="signup-practitioner-wrapper cf">
@@ -59,11 +59,6 @@
                       <span>Specialties:</span> {{ practitioners[selected].info.specialty | specialty }}
                     </li>
                   </ul>
-                  <hr class="practitioner-divider" />
-                  <p class="practitioner-rate font-centered">
-                    <span class="font-bold font-spaced font-xl">$150</span>
-                    <span class="font-lg"> / hour</span>
-                  </p>
                 </div>
               </div>
             </div>

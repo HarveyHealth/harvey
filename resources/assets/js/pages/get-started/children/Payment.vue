@@ -16,16 +16,16 @@
         <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
           <div class="input-wrap">
             <input class="form-input form-input_text"
-                  :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
+                  :disabled="isComplete" name="card_name" type="text" placeholder="Full Name" v-model="cardName" />
           </div>
           <div class="input-wrap">
             <input class="form-input form-input_text"
-                  :disabled="isComplete" name="card_name" type="text" placeholder="Name on Card" v-model="cardName" />
+                  :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
           </div>
           <div>
             <div class="input-wrap input-half--sm">
               <input class="form-input form-input_text"
-                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YY" v-model="cardExpiration" />
+                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YYYY" v-model="cardExpiration" />
             </div>
             <div class="input-wrap input-half--sm last">
               <input class="form-input form-input_text"
