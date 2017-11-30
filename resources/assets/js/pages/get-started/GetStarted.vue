@@ -1,61 +1,57 @@
 <template>
-  <div class="font-centered height-100">
-    <div class="bg-blue-fade"></div>
-    <div v-if="!isSignup" class="phone-container">
-      <a href="tel:800-690-9989" class="button is-outlined is-hidden-mobile">(800) 690-9989</a>
+    <div class="height-100">
+        <PublicNav v-if="!isSignupForm" disableMobile giveSpace hasLogo hasPhone />
+        <div class="bg-blue-fade"></div>
+        <router-view />
     </div>
-    <router-view />
-  </div>
 </template>
 
 <script>
-  import Welcome from './children/Welcome.vue';
+import { PublicNav } from 'nav';
 
-  export default {
+export default {
     name: 'get-started',
     components: {
-      Welcome
+        PublicNav
     },
     computed: {
-      isSignup() {
-        return App.Router.history.current.name === 'sign-up';
-      }
+        isSignupForm() {
+            return App.Router.history.current.name === 'sign-up';
+        }
     },
     beforeMount() {
-      const zipValidation = App.Logic.getstarted.getZipValidation();
-      if (!zipValidation) {
-        window.location.href = '/conditions';
-      } else {
-        App.setState('getstarted.zipValidation', zipValidation);
-        App.setState('getstarted.userPost.zip', zipValidation.zip);
+        const zipValidation = App.Logic.getstarted.getZipValidation();
+        if (!zipValidation) {
+            window.location.href = '/conditions';
+        } else {
+            App.setState({
+                'getstarted.zipValidation': zipValidation,
+                'getstarted.userPost.zip': zipValidation.zip
+            });
       }
     },
     mounted() {
-      if (App.Config.user.isLoggedIn) {
-        window.onbeforeunload = () => {
-          return 'All your information will be reset.';
-        };
-      }
+        if (App.Config.user.isLoggedIn) {
+            window.onbeforeunload = () => {
+                return 'All your information will be reset.';
+            };
+        }
     }
-  };
+};
 </script>
 
 <style lang="scss" scoped>
-  .phone-container {
-    height: 58px;
-    margin: 0 auto;
-    max-width: 1152px; // same as Discovery navigation
-  }
+    @import '~sass';
 
-  .button {
-    border-width: 1px;
-    color: white;
-    float: right;
-    font-weight: 400;
-    margin: 24px 24px 0;
-  }
+    .button {
+        border-width: 1px;
+        color: $color-white;
+        float: right;
+        font-weight: 400;
+        margin: 24px 24px 0;
+    }
 
-  .height-100 {
-    height: calc(100% - 58px);
-  }
+    .height-100 {
+        height: calc(100% - 100px);
+    }
 </style>

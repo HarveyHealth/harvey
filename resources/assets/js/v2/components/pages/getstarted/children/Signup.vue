@@ -18,7 +18,7 @@
                   <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
                 </a>
               </div>
-              <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition!</p>
+              <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition. Please sign up to continue.</p>
             </div>
             <div class="signup-aside-icon-row">
               <span><svg><use xlink:href="#heart" /></svg></span>
@@ -31,7 +31,7 @@
           </div>
         </aside>
         <div class="Column-lg-1of2 Column-xl-3of7 margin-0a max-width-md">
-          <div class="signup-container signup-form-container space-children-md">
+          <div class="signup-container signup-form-container space-children-sm">
             <h1 class="heading-1 font-centered" v-html="title"></h1>
 
             <div class="input-wrap">
@@ -91,8 +91,8 @@
               />
               <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
-              <p class="is-padding font-xs"><em>We never share any financial or personal health information with Facebook. We only request from them your name and email.</em></p>
-              <p class="font-sm"><a href="/conditions/get-zip"><i class="fa fa-long-arrow-left margin-right-xs"></i>Update Location</a></p>
+              <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
+              <p class="font-md"><a href="/conditions/get-zip"><i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code</a></p>
             </div>
           </div>
         </div>
