@@ -74,9 +74,23 @@ Vue.prototype.State = (path, ifUndefined) => {
 //    App.setState('practitioners.data.all', 'practitioners');
 //    State.practitioners.data.all yields 'practitioners'
 App.setState = (state, value) => {
-  const path = state.split('.');
-  const prop = path.pop();
-  return App.Util.data.propDeep(path, State)[prop] = value;
+  const set = (s, v) => {
+    const path = s.split('.');
+    const prop = path.pop();
+    return App.Util.data.propDeep(path, State)[prop] = v;
+  };
+
+  switch(typeof state) {
+      case 'string':
+        set(state, value);
+        break;
+      case 'object':
+        for (var key in state) {
+          set(key, state[key]);
+        }
+        break;
+  }
+
 };
 
 Vue.prototype.setState = App.setState;

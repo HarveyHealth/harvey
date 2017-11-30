@@ -78,9 +78,11 @@ export default {
             setTimeout(this.goForward, 400);
         },
         reset() {
-            App.setState('conditions.questionIndex', 0);
-            App.setState('conditions.answers', []);
-            App.setState('conditions.prefaceRead', false);
+            App.setState({
+                'conditions.questionIndex': 0,
+                'conditions.answers': [],
+                'conditions.prefaceRead': false
+            })
         }
     }
 };
