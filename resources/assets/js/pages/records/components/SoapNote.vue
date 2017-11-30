@@ -58,7 +58,7 @@
 
         <div class="inline-centered padding15">
             <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
-            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Delete Note</button>
+            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Archive Note</button>
         </div>
 
         <Modal
@@ -69,9 +69,9 @@
             <div class="card-content-wrap">
                 <div class="inline-centered">
                     <h1 class="header-xlarge">
-                        <span class="text">Delete SOAP Note</span>
+                        <span class="text">Archive SOAP Note</span>
                     </h1>
-                    <p>Are you sure you want to delete this soap note?</p>
+                    <p>Are you sure you want to archive this soap note?</p>
                     <div class="button-wrapper">
                         <button class="button button--cancel" @click="modalClose">Cancel</button>
                         <button class="button" @click="deleteNote">Yes, Confirm</button>

@@ -36,9 +36,16 @@
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="prescriptionUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
-                <button @click="deleteModal()" class="button bg-danger margin15">Delete Prescription</button>
+            <iframe :class="{width70: $root.$data.permissions !== 'patient', floatLeft: $root.$data.permissions !== 'patient'}" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="prescriptionUrl" />
+            <div v-if="$root.$data.permissions !== 'patient'" class="width30 floatLeft">
+                <h2 class="text-center">Quick Notes</h2>
+                <quill-editor
+                    output="html"
+                    :options="editorOption"
+                />
+            </div>
+            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
+                <button @click="deleteModal()" class="button bg-danger margin15">Archive Prescription</button>
             </div>
             <Modal
                 :active="deleteModalActive"
@@ -48,9 +55,9 @@
                 <div class="card-content-wrap">
                     <div class="inline-centered">
                         <h1 class="header-xlarge">
-                            <span class="text">Delete Prescription</span>
+                            <span class="text">Archive Prescription</span>
                         </h1>
-                        <p>Are you sure you want to delete this prescription?</p>
+                        <p>Are you sure you want to archive this prescription?</p>
                         <div class="button-wrapper">
                             <button class="button button--cancel" @click="modalClose">Cancel</button>
                             <button class="button" @click="deleteItem">Yes, Confirm</button>
