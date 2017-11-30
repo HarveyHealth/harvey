@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Lib\TimeInterval;
+use App\Lib\Clients\Shippo as ShippoAPIClient;
 use App\Exceptions\{ServiceUnavailableException, StrictValidatorException};
 use App\Models\{DiscountCode, LabTest, SKU};
 use App\Http\Traits\{
@@ -71,6 +72,11 @@ class LabOrder extends Model
     public function labTests()
     {
         return $this->hasMany(LabTest::class);
+    }
+
+    public static function findByShipmentCode($shipment_code)
+    {
+        return self::where('shipment_code', $shipment_code)->first();
     }
 
     public function setStatus() {
@@ -217,7 +223,9 @@ class LabOrder extends Model
             throw new ServiceUnavailableException('This LabOrder does not contains any LabTest for shipping.');
         }
 
-        $carriers = Shippo_CarrierAccount::all(['carrier' => config('services.shippo.carrier')]);
+        $carrier = config('services.shippo.carrier');
+
+        $carriers = Shippo_CarrierAccount::all(['carrier' => $carrier]);
         $carrier_object_id = $carriers->results[0]->object_id ?? null;
 
         if (empty($carrier_object_id)) {
@@ -230,6 +238,7 @@ class LabOrder extends Model
                 'address_to' => $shippo_to_address_id,
                 'address_from' => $from,
                 'parcels' => $parcel_info,
+                'metadata' => "LabOrder ID #{$this->id}",
             ],
             'carrier_account' => $carrier_object_id,
             'servicelevel_token' => $servicelevel_token ?: config('services.shippo.carrier_service_level'),
@@ -250,6 +259,8 @@ class LabOrder extends Model
         $this->shipment_code = $transaction->tracking_number;
 
         $this->save();
+
+        (new ShippoAPIClient)->enableWebhook($carrier, $this->shipment_code);
 
         return $this;
     }
