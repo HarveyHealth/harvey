@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
+    <div class="vertical-center tc">
       <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-1 color-white">
         <div style="width: 22px; margin: 0 auto;">
           <ClipLoader :color="'white'" :size="'22px'" />
@@ -66,7 +66,7 @@
           <p class="closing-selection" v-if="hasSelection">
             Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND.</span>
           </p>
-          <p class="copy-error" v-html="errorText" v-show="errorText"></p>
+          <p class="copy-error tc" v-html="errorText" v-show="errorText"></p>
           <div class="font-centered" ref="button">
             <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
               <span v-if="!isProcessing">Continue</span>

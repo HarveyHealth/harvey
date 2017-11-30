@@ -74,9 +74,23 @@ Vue.prototype.State = (path, ifUndefined) => {
 //    App.setState('practitioners.data.all', 'practitioners');
 //    State.practitioners.data.all yields 'practitioners'
 App.setState = (state, value) => {
-  const path = state.split('.');
-  const prop = path.pop();
-  return App.Util.data.propDeep(path, State)[prop] = value;
+  const set = (s, v) => {
+    const path = s.split('.');
+    const prop = path.pop();
+    return App.Util.data.propDeep(path, State)[prop] = v;
+  };
+
+  switch(typeof state) {
+      case 'string':
+        set(state, value);
+        break;
+      case 'object':
+        for (var key in state) {
+          set(key, state[key]);
+        }
+        break;
+  }
+
 };
 
 Vue.prototype.setState = App.setState;
@@ -282,7 +296,7 @@ const app = new Vue({
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        if (!invoices.length) {
+                        if (invoices.length) {
                             invoices.forEach(e => {
                                 obj[e.id] = e;
                             });

@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
+    <div class="vertical-center tc">
       <div class="signup-container small naked">
         <router-link class="signup-back-button" :to="{ name: 'welcome', path: 'welcome' }">
           <i class="fa fa-long-arrow-left"></i>

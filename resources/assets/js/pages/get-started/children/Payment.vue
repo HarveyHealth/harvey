@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
+    <div class="vertical-center tc">
       <div class="signup-stage-instructions color-white">
         <StagesNav :current="'payment'" />
         <h2 class="heading-1 color-white" v-text="title"></h2>
@@ -117,9 +117,10 @@ export default {
       };
     },
     subtext() {
+      const dr = this.$root.$data.signup.practitionerName;
       return this.$root.$data.signup.billingConfirmed
         ? ''
-        : 'Please enter a credit or debit card to save on file. We will not charge your card until after your first consultation is complete.';
+        : `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${dr}, ND. Your card will be charged $150 after completion of your appointment. For short-term financing options, <a href="/financing">click here</a>.`;
     },
     title() {
       return this.$root.$data.signup.billingConfirmed
