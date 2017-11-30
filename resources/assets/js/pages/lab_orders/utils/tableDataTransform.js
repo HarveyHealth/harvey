@@ -29,7 +29,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             date: obj.attributes.created_at.date,
             total_price: 0,
             number_of_tests: 0,
-            paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
+            paid: obj.invoice && obj.invoice.attributes && obj.invoice.attributes.status === 'paid',
             invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
