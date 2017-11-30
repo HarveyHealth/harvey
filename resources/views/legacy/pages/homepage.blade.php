@@ -35,7 +35,51 @@
         </div>
     </section>
 
-        <div class="anchor" id="conditions"></div>
+    <section class="section how-it-works">
+        <div class="container has-text-centered">
+            <h2 class="title is-4 section-header"><span>How it Works</span></h2>
+            <div class="columns">
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                        <span class="icon icon_steps_1"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
+                        <p>Review your health conditions during a 1-hour video consultation with a naturopathic doctor.</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                        <span class="icon icon_steps_2"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
+                        <p>Receive a custom lab kit mailed to your home for sample collection (home blood draws available).</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                        <span class="icon icon_steps_3"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>3. Analysis</strong></p>
+                        <p>Review your test results with your doctor to help diagnose and gain actionable health insights.</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                        <span class="icon icon_steps_4"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
+                        <p>Receive a natural treatment plan that may include professional-grade vitamins and supplements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="anchor" id="conditions"></div>
 
     <section class="section how-it-works">
         <div class="container">
@@ -45,7 +89,7 @@
                 <div class="columns is-margin-top">
                     <div class="column" v-for="(condition, index) in conditions" v-if="index < 4">
                         <a :href="'/conditions/' + condition.slug">
-                            <figure :class="'icon-wrapper icon-wrapper-has-background ' + State.conditionIconColors[index]">
+                            <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
                                 <img class="icon full" :src="condition.image_url">
                             </figure>
                         </a>
@@ -59,7 +103,7 @@
                 <div class="columns">
                     <div class="column" v-for="(condition, index) in conditions" v-if="index > 3">
                         <a :href="'/conditions/' + condition.slug">
-                            <figure :class="'icon-wrapper icon-wrapper-has-background ' + State.conditionIconColors[index]">
+                            <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
                                 <img class="icon full" :src="condition.image_url">
                             </figure>
                         </a>
@@ -79,7 +123,7 @@
         <div class="container">
             <h2 class="title is-4 section-header"><span>Lab Testing</span></h2>
             <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">Gain access to specialty lab tests you can't find with conventional practitioners. All of our tests can be taken from the comfort of your home*.</p>
-            <p class="small has-text-centered has-max-width-lg"><em>*Our in-home blood draw technicians are unavailable in some remote areas.</em></p>
+            <p class="small has-text-centered has-max-width-lg"><em>*In-home blood draw technicians are unavailable in some rural areas.</em></p>
             <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
@@ -150,68 +194,6 @@
 
     <section class="section is-paddingless is-marginless" id="social-feed">
         <ul class="juicer-feed" data-feed-id="goharveyapp" data-per="15"></ul>
-        <section class="section" id="email-capture">
-            <div class="container">
-                <div class="has-text-centered">
-                    <h2 class="copy-has-max-width title has-text-centered">
-                        <div id="ebook-wrapper">
-                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/ebook.png">
-                        </div> Download the Harvey eBook</h2>
-                    <p class="copy-has-max-width subtitle">Provide us with your email to receive our exclusive Harvey Health eBook <em>"10 Best Things for Your Health"</em> so you can start feeling better than ever.</p>
-                    <form>
-                        <input type="text" name="_gotcha" style="display: none">
-                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
-                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Send Now</button>
-                        <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
-                        <div v-if="emailCaptureSuccess" class="success-text">Success! Check your email to download.</div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </section>
-
-    <section class="section" id="how-it-works">
-        <div class="container has-text-centered">
-            <h2 class="title is-4 section-header"><span>How it Works</span></h2>
-            <div class="columns">
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
-                        <span class="icon icon_steps_1"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
-                        <p>Review your health history during a 1-hour video consultation with a naturopathic doctor.</p>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-pink">
-                        <span class="icon icon_steps_2"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
-                        <p>Receive a custom lab kit mailed to your home for sample collection.</p>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
-                        <span class="icon icon_steps_3"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>3. Analysis</strong></p>
-                        <p>Review your test results with your doctor to gain actionable health insights.</p>
-                    </div>
-                </div>
-                <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
-                        <span class="icon icon_steps_4"></span>
-                    </figure>
-                    <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
-                        <p>Your doctor develops a personalized plan addressing your unique diagnosis.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <div class="anchor" id="prices"></div>
@@ -225,25 +207,25 @@
                         <h2 class="title is-4 is-marginless-bottom"><strong>Do you take insurance?</strong></h2>
                         <p class="is-6 is-margin is-marginless-left">We are not contracted with any insurance providers at this time. Preventative healthcare expenditures and specialty lab tests are not typically reimbursable under most health plans. However, you may be able to use an HSA/FSA account to pay for our services.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How much are lab tests?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we sell them at close to wholesale cost. <a href="lab-tests" alt="Lab Tests">Lab tests</a> start at $99 and are comparable to the out-of-pocket co-pays and deductibles you would pay at conventional medical clinics.</p>
+                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their speciality lab tests, we sell them at wholesale cost. <a href="lab-tests" alt="Lab Tests">Lab tests</a> range from $99 to $320.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How long are consultations?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">The initial consultation is 60 minutes ($150). However, follow-up appointments could be as low as 30 minutes ($75), depending on the number of lab tests and your individual needs.</p>
+                        <p class="is-6 is-margin is-marginless-left">The initial consultation is 60 minutes for $150. Follow-ups to review lab results are typically 30 minutes for $75.</p>
                     </div>
                 </div>
-                <div class="column is-6 is-auto-tablet">
+                <div class="column is-6 is-auto-tablet has-text-centered">
                     <figure>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/prices.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/pricing.png" alt="">
                     </figure>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="get-started">
+    <section class="section get-started">
         <div class="container">
             <div class="has-text-centered has-max-width-lg">
                 <h2 class="title is-3">Start your health journey.</h2>
-                <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Select your most concerning health issue out of the list below to learn how our integrative doctors might approach your condition.</p>
+                <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Our integrative doctors are available for virtual consultations, lab testing and treatment for a wide variety of health conditions.</p>
                 <div class="button-wrapper">
                     <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
                 </div>
