@@ -17,7 +17,7 @@ export default {
     computed: {
         isSignupForm() {
             return App.Router.history.current.name === 'sign-up';
-        },
+        }
     },
     beforeMount() {
         const zipValidation = App.Logic.getstarted.getZipValidation();
