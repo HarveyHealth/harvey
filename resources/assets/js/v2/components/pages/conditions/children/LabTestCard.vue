@@ -8,7 +8,7 @@
                     <p class="font-lg gray"><em>Sample: {{ testInfo.sample }}</em></p>
                 </div>
                 <div class="fl w-25">
-                    <p class="font-xxl font-right"><span class="green">${{ testInfo.sku.price }}</span></p>
+                    <p class="font-xl font-right"><span class="green">${{ testInfo.sku.price }}</span></p>
                 </div>
             </div>
         </div>

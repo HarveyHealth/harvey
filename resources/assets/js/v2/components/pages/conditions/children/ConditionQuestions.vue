@@ -2,14 +2,17 @@
   <div class="center mw7 mt3 min-height">
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
       <div class="center db tc mw6">
-        <Heading1 doesExpand class="pv2">{{ obj.question }}</Heading1>
+        <Heading1 doesExpand class="pv2">{{ qIndex+1 }}. {{ obj.question }}</Heading1>
       </div>
       <div class="pagination-container">
-        <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
-          <i class="fa fa-chevron-left"></i>
+        <button class="Button Button--condition-nav is-left dim" v-show="displayBack()" @click="goBack">
+          <i class="fa fa-chevron-left pr1"></i> Back
         </button>
-        <button class="Button Button--condition-nav is-right" v-show="displayForward()" @click="goForward">
-          <i class="fa fa-chevron-right"></i>
+        <button class="Button Button--condition-nav is-right dim" v-show="displayForward()" @click="goForward">
+          Forward <i class="fa fa-chevron-right pl1"></i>
+        </button>
+        <button class="Button Button--condition-nav is-left dim" v-show="displayCondition()" @click="goToCondition">
+          <i class="fa fa-home pr1"></i> Home
         </button>
       </div>
       <Grid :flexAt="'l'" :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">
@@ -57,7 +60,7 @@ export default {
     displayForward() {
       return this.hasAnswered > this.State('conditions.questionIndex');
     },
-    goToConditions() {
+    displayCondition() {
       return this.State('conditions.questionIndex') < 1;
     },
     goBack() {
@@ -68,6 +71,9 @@ export default {
         this.hasAnswered++;
       }
       return App.setState('conditions.questionIndex', this.State('conditions.questionIndex') + 1);
+    },
+    goToCondition() {
+      // TODO: Send back to condition page
     },
     next(question, answer, index) {
       const questionIndex = this.State('conditions.questionIndex');
