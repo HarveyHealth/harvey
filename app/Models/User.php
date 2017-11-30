@@ -22,6 +22,14 @@ class User extends Authenticatable implements Mailable
 {
     use HasApiTokens, Notifiable, Searchable, IsNot, Textable;
 
+    const ADDRESS_ATTRIBUTES = [
+        'address_1',
+        'address_2',
+        'city',
+        'state',
+        'zip',
+    ];
+
     public $asYouType = true;
 
     public $allowedSortBy = [

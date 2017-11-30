@@ -33,7 +33,7 @@ class PatientsController extends BaseAPIController
         $term = request('term');
         $builder = Patient::make()->with('user');
 
-        if ($term) {
+        if (!empty($term)) {
             $builder = $builder->whereIn('id', Patient::search($term)->get()->pluck('id'));
         }
         $this->transformer->availableIncludes = ['user'];

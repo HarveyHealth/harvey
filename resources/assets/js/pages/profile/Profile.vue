@@ -355,12 +355,15 @@
                     .then(response => {
                       this.callSuccessNotification();
                       this.handleTextSend();
-                        if (this.canEditUsers) {
-                            this.user_data = response.data.data;
-                        } else {
-                            this.$root.$data.global.user = response.data.data;
-                        }
-                        this.submitting = false;
+                      if (this.updates.address_1 || this.updates.address_2 || this.updates.city || this.updates.state || this.updates.zip) {
+                          this.$root.getLabData();
+                      }
+                      if (this.canEditUsers) {
+                          this.user_data = response.data.data;
+                      } else {
+                          this.$root.$data.global.user = response.data.data;
+                      }
+                      this.submitting = false;
                     })
                     .catch(err => {
                         this.errorMessages = err.response.data.errors;
