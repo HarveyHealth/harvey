@@ -3,7 +3,7 @@
         <div class="nav-overlay"></div>
         <div class="nav-container">
             <div class="nav-content">
-                <button class="nav-hamburger" @click="handleMenuClick('TOGGLE')">
+                <button class="nav-hamburger" @click="handleMenuClick(null, true)">
                     <i :class="hamburgerClasses"></i>
                 </button>
                 <a href="/" class="nav-logo" v-if="hasLogo">
@@ -116,8 +116,8 @@ export default {
         }
     },
     methods: {
-        handleMenuClick(pageId) {
-            if (pageId && pageId !== 'TOGGLE') {
+        handleMenuClick(pageId, willToggle) {
+            if (pageId && !willToggle) {
                 const pageSection = document.getElementById(pageId);
                 if (pageSection) this.yScroll = pageSection.offsetTop;
             }
@@ -134,7 +134,7 @@ export default {
 
             // if no page id is supplied it means we're leaving the page
             // and toggling is irrelevant
-            if (pageId) this.isMenuActive = !this.isMenuActive;
+            if (pageId || willToggle) this.isMenuActive = !this.isMenuActive;
         },
 
         handleNavOnScroll() {
