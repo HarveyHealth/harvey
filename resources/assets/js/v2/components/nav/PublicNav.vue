@@ -24,7 +24,7 @@
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="/get-started#/signup" class="dim" @click="handleMenuClick('conditions')">Get Started</a>
+                        <a v-else href="/#conditions" class="dim" @click="handleMenuClick('conditions')">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -152,6 +152,7 @@ export default {
         }
     },
     mounted() {
+        window.foo = () => this;
         if (this.isSticky) {
             window.addEventListener('scroll', _.throttle(this.handleNavOnScroll, this.throttleTime), false);
         }
@@ -230,20 +231,21 @@ export default {
                 left: 0;
                 padding: 0 24px;
                 width: 100%;
-
-                .menu-is-active & {
-                    bottom: 0;
-                    overflow: auto;
-                    padding-bottom: 60px;
-                    position: fixed;
-                    top: 0;
-                }
             }
             @include query(lg) {
                 left: 24px;
                 max-width: 1152px;
                 position: relative;
                 width: calc(100% - 48px);
+            }
+        }
+        .menu-is-active & {
+            @include query-up-to(lg) {
+                bottom: 0;
+                overflow: auto;
+                padding-bottom: 60px;
+                position: fixed;
+                top: 0;
             }
         }
 

@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
+    <div class="vertical-center tc">
       <div class="signup-stage-instructions color-white">
         <StagesNav :current="'schedule'" />
         <h2 class="heading-1 color-white">Choose Date &amp; Time</h2>
