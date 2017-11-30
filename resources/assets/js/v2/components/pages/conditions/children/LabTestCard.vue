@@ -4,7 +4,7 @@
         <div class="mw9 center">
             <div class="cf ph2">
                 <div class="fl w-75">
-                    <p class="font-xl font-bold margin-bottom-0">{{ testInfo.lab_name }}</p>
+                    <p class="font-xl font-bold margin-bottom-0">{{ testInfo.sku.name }}</p>
                     <p class="font-lg gray"><em>Sample: {{ testInfo.sample }}</em></p>
                 </div>
                 <div class="fl w-25">
@@ -13,7 +13,7 @@
             </div>
         </div>
         <Paragraph :size="'large'" class="ml2">{{ (testInfo.description || '') | descriptionFilter }}&hellip;</Paragraph>
-        <a :href="testInfo.sku.slug" class="button is-outlined ml2 mt3 font-lg dim">
+        <a :href="'/lab-tests/' + testInfo.sku.slug" class="button is-outlined ml2 mt3 font-lg dim">
             <i class="fa fa-flask mr1"></i> Learn More
         </a>
     </div>
