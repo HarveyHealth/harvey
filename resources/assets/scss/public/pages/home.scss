@@ -14,6 +14,10 @@ body[class*="lab-tests"] {
         font-weight: 600;
     }
 
+    .small {
+        font-size: 13px;
+    }
+
     // Hero Images
 
     .hero {
@@ -212,8 +216,9 @@ body[class*="lab-tests"] {
             @include padding(20px null null null);
             border-radius: 50%;
             display: inline-block;
+            transition:all 0.5s ease-out;
             &.is-lime {
-                @include background-gradient($harvey-lime);
+                @include background-gradient($harvey-sage);
             }
             &.is-pink {
                 @include background-gradient($harvey-pink);
@@ -235,6 +240,10 @@ body[class*="lab-tests"] {
             }
             &.is-ford {
                 @include background-gradient($harvey-ford);
+            }
+            &:hover{
+                opacity: .80;
+                transform:scale(1.1);
             }
         }
     }
@@ -374,7 +383,7 @@ body[class*="lab-tests"] {
     .how-it-works {
 
         .instructions{
-            margin-bottom: 1rem;
+            margin-bottom: .5rem;
         }
 
         .icon {

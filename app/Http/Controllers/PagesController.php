@@ -12,9 +12,9 @@ use App\Models\{Condition, LabTestInformation};
  */
 class PagesController extends Controller
 {
-    protected function sendConditionsView($conditions, $index, $get_zip)
+    protected function sendConditionsView($conditions, $lab_tests, $index, $get_zip)
     {
-        return view('pages.conditions')->with(compact('conditions', 'index', 'get_zip'));
+        return view('pages.conditions')->with(compact('conditions', 'lab_tests', 'index', 'get_zip'));
     }
     /**
      * Show the home page.
@@ -55,7 +55,7 @@ class PagesController extends Controller
     public function getCondition(string $conditionSlug = null)
     {
         if($conditionSlug === 'get-zip') {
-            return $this->sendConditionsView(Condition::all(), null, true);
+            return $this->sendConditionsView(Condition::getAllFromCache(), null, null, true);
         }
 
         $condition = Condition::where('slug', $conditionSlug)->first();
@@ -63,7 +63,7 @@ class PagesController extends Controller
         // If valid condition, render view with conditions and proper index
         // Else redirect to first condition in db
         return $condition
-            ? $this->sendConditionsView(Condition::all(), $condition->id - 1, false)
+            ? $this->sendConditionsView(Condition::getAllFromCache(), LabTestInformation::publicFromCache(), $condition->id - 1, false)
             : redirect("/conditions/".Condition::first()->slug);
     }
 
