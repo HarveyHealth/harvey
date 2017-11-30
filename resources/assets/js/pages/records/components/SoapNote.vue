@@ -113,7 +113,7 @@ export default {
             planTA: null,
             deleteModalActive: false,
             selected: null,
-            editorOption: editorOption,
+            editorOption: editorOption
         };
     },
     methods: {
