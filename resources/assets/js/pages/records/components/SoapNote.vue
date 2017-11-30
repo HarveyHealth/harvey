@@ -1,62 +1,72 @@
 <template>
     <div id="SNScroller" class="records-container" style="overflow: scroll;">
 
-        <div class="top-soap-note">
-            <label name="Subject" class="card-header top-header">Subjective</label>
-            <quill-editor 
-                :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '125px': '50px'}" 
-                v-model="subjectiveTA" 
-                @click="setSelected('subject')"
+        <div class="width70 floatLeft">
+            <div class="top-soap-note">
+                <label name="Subject" class="card-header top-header">Subjective</label>
+                <quill-editor 
+                    :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '125px': '50px'}" 
+                    v-model="subjectiveTA" 
+                    @click="setSelected('subject')"
+                    output="html"
+                    :options="editorOption"
+                    class="input--textarea soap-textarea"
+                />
+            </div>
+
+            <div class="mid-soap-note">
+                <label name="Objective" class="card-header mid-header">Objective</label>
+                <quill-editor 
+                    :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '125px': '50px'}" 
+                    v-model="objectiveTA" 
+                    id="objective"
+                    @click="setSelected('objective')"
+                    output="html"
+                    :options="editorOption"
+                    class="input--textarea soap-textarea"
+                />
+            </div>
+
+            <div class="mid-soap-note">
+                <label name="Assessment" class="card-header mid-header">Assessment</label>
+                <quill-editor 
+                    :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '125px': '50px'}" 
+                    v-model="assessmentTA" 
+                    placeholder="Enter your text..."
+                    @click="setSelected('assessment')"
+                    output="html"
+                    :options="editorOption"
+                    class="input--textarea soap-textarea"
+                />
+            </div>
+
+            <div class="soap-divider">
+                - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - -
+            </div>
+
+            <div class="top-soap-note">
+                <label name="Treatment" 
+                class="card-header top-header">Plan/Treatment</label>
+                <quill-editor 
+                    :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '125px': '50px'}" 
+                    v-model="planTA" 
+                    @click="setSelected('treatment')"
+                    output="html"
+                    :options="editorOption"
+                    class="input--textarea soap-textarea"
+                />
+            </div>
+        </div>
+
+        <div class="width30 floatLeft quick-notes-border">
+            <h2 class="text-center">Quick Notes</h2>
+            <quill-editor
                 output="html"
                 :options="editorOption"
-                class="input--textarea soap-textarea"
             />
         </div>
 
-        <div class="mid-soap-note">
-            <label name="Objective" class="card-header mid-header">Objective</label>
-            <quill-editor 
-                :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '125px': '50px'}" 
-                v-model="objectiveTA" 
-                id="objective"
-                @click="setSelected('objective')"
-                output="html"
-                :options="editorOption"
-                class="input--textarea soap-textarea"
-            />
-        </div>
-
-        <div class="mid-soap-note">
-            <label name="Assessment" class="card-header mid-header">Assessment</label>
-            <quill-editor 
-                :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '125px': '50px'}" 
-                v-model="assessmentTA" 
-                placeholder="Enter your text..."
-                @click="setSelected('assessment')"
-                output="html"
-                :options="editorOption"
-                class="input--textarea soap-textarea"
-            />
-        </div>
-
-        <div class="soap-divider">
-            - - - - - - - - - - - - - - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - - - - - - - - - - - - - - -
-        </div>
-
-        <div class="top-soap-note">
-            <label name="Treatment" 
-            class="card-header top-header">Plan/Treatment</label>
-            <quill-editor 
-                :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '125px': '50px'}" 
-                v-model="planTA" 
-                @click="setSelected('treatment')"
-                output="html"
-                :options="editorOption"
-                class="input--textarea soap-textarea"
-            />
-        </div>
-
-        <div class="inline-centered padding15">
+        <div class="inline-centered padding15 floatLeft fullWidth">
             <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
             <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Archive Note</button>
         </div>
@@ -87,7 +97,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
-import hljs from 'highlight.js';
+import editorOption from '../util/quillEditorObject';
 export default {
     props: {
         patient: Object
@@ -103,29 +113,7 @@ export default {
             planTA: null,
             deleteModalActive: false,
             selected: null,
-            editorOption: {
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        [{ 'script': 'sub' }, { 'script': 'super' }],
-                        [{ 'indent': '-1' }, { 'indent': '+1' }],
-                        [{ 'direction': 'rtl' }],
-                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        [{ 'font': [] }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'align': [] }],
-                        ['clean'],
-                        ['link', 'image', 'video']
-                    ],
-                    syntax: {
-                        highlight: text => hljs.highlightAuto(text).value
-                    }
-                }
-            }
+            editorOption: editorOption,
         };
     },
     methods: {
@@ -272,7 +260,7 @@ export default {
 };
 </script>
 
-<<style lang="scss" scoped>
+<style lang="scss" scoped>
     .ql-editor {
         height: 200px !important;
     }
