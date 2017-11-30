@@ -10,7 +10,7 @@
                     The only file format accepted is a PDF.
                 </p>
             </div>
-            <div class="card-heading-container lab-spacing">
+            <div class="card-heading-container lab-spacing fullWidth floatLeft">
                 <div class="width-175">
                     <label class="input__label">lab name</label>
                     <span class="custom-select bg-white">
@@ -40,6 +40,13 @@
                     <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+            </div>
+            <div class="fullWidth floatLeft">
+                <h2 class="text-center">Quick Notes</h2>
+                <quill-editor
+                    output="html"
+                    :options="editorOption"
+                />
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
