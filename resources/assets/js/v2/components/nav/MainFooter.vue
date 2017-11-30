@@ -53,7 +53,7 @@ export default {
   components: {
       LogoIcon
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
