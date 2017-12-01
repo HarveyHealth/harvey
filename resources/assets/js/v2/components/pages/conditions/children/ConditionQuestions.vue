@@ -6,13 +6,13 @@
             </div>
             <div class="pagination-container">
                 <button class="Button Button--condition-nav is-left" v-show="!displayBack()" @click="reset">
-                    <i class="fa fa-step-backward"></i> Home
+                    <i class="fa fa-chevron-left mr2"></i>Home
                 </button>
                 <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
-                    <i class="fa fa-chevron-left"></i>
+                    <i class="fa fa-chevron-left mr2"></i>Back
                 </button>
                 <button class="Button Button--condition-nav is-right" v-show="displayForward()" @click="goForward">
-                    <i class="fa fa-chevron-right"></i>
+                    Forward<i class="fa fa-chevron-right ml2"></i>
                 </button>
             </div>
             <Grid :flexAt="'l'" :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">

@@ -123,7 +123,7 @@
         <div class="container">
             <h2 class="title is-4 section-header"><span>Lab Testing</span></h2>
             <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">Gain access to specialty lab tests you can't find with conventional practitioners. All of our tests can be taken from the comfort of your home*.</p>
-            <p class="small has-text-centered has-max-width-lg"><em>*In-home blood draw technicians are unavailable in some rural areas.</em></p>
+            <p class="small has-text-centered has-max-width-lg"><em>*Our in-home blood draw technicians are unavailable in some areas.</em></p>
             <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
@@ -180,10 +180,10 @@
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-3 is-padding-top"><strong>Lab testing delivered right to your doorstep.</strong></h2>
-                        <p class="is-6">All our lab tests can be taken in the comfort of your home. If recommended by your doctor, we will mail you a lab kit and (if necessary) schedule a mobile phlebotomist to perform a free in-home blood draw.</p>
+                        <p class="is-6">All our lab tests can be taken in the comfort of your home. We will mail you a lab kit and (if necessary) schedule you for a free in-home blood draw.</p>
                         <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">
-                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Lab Tests
+                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Explore Tests
                             </a>
                         </div>
                     </div>
