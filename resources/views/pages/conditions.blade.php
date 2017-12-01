@@ -50,7 +50,7 @@
         <script type="text/javascript" src="https://js.stripe.com/v3"></script>
         <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
-        <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
         <script>
             App.setState('conditions.all', {!! $conditions !!});
             App.setState('conditions.labTests', {!! $lab_tests !!});

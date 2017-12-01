@@ -13,7 +13,7 @@
               <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
             </div>
             <div class="signup-aside-text">
-              <div class="logo-wrapper">
+              <div class="logo-wrapper tc">
                 <a href="/">
                   <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
                 </a>

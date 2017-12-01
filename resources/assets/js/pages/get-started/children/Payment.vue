@@ -25,7 +25,7 @@
           <div>
             <div class="input-wrap input-half--sm">
               <input class="form-input form-input_text"
-                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YYYY" v-model="cardExpiration" />
+                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM / YYYY" v-model="cardExpiration" />
             </div>
             <div class="input-wrap input-half--sm last">
               <input class="form-input form-input_text"
@@ -52,6 +52,10 @@
           <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
           <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
         </button>
+        <div class="trust-logos input-half--sm margin-0a is-padding-top">
+          <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="stripe">
+          <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="bbb">
+        </div>
       </div>
     </div>
   </div>
@@ -120,7 +124,7 @@ export default {
       const dr = this.$root.$data.signup.practitionerName;
       return this.$root.$data.signup.billingConfirmed
         ? ''
-        : `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${dr}, ND. Your card will be charged $150 after completion of your appointment. For short-term financing options, <a href="/financing">click here</a>.`;
+        : `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${dr}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`;
     },
     title() {
       return this.$root.$data.signup.billingConfirmed
