@@ -10,7 +10,7 @@
                     The only file format accepted is a PDF.
                 </p>
             </div>
-            <div class="card-heading-container lab-spacing">
+            <div class="card-heading-container lab-spacing fullWidth floatLeft">
                 <div class="width-175">
                     <label class="input__label">lab name</label>
                     <span class="custom-select bg-white">
@@ -41,11 +41,27 @@
                 </div>
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
+            <div class="fullWidth floatLeft quick-notes-border topMargin30">
+                <h2 class="text-center">Quick Notes</h2>
+                <quill-editor
+                    output="html"
+                    :options="editorOption"
+                    v-model="notes"
+                />
+            </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="resultUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
-                <button @click="deleteModal()" class="button bg-danger margin15">Delete Result</button>
+            <iframe :class="{width70: $root.$data.permissions !== 'patient', floatLeft: $root.$data.permissions !== 'patient'}" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="resultUrl" />
+            <div v-if="$root.$data.permissions !== 'patient'" class="width30 floatLeft">
+                <h2 class="text-center">Quick Notes</h2>
+                <quill-editor
+                    output="html"
+                    :options="editorOption"
+                    v-model="quickNotes"
+                />
+            </div>
+            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
+                <button @click="deleteModal()" class="button bg-danger margin15">Archive Result</button>
             </div>
             <Modal
                 :active="deleteModalActive"
@@ -55,9 +71,9 @@
                 <div class="card-content-wrap">
                     <div class="inline-centered">
                         <h1 class="header-xlarge">
-                            <span class="text">Delete Lab Result</span>
+                            <span class="text">Archive Lab Result</span>
                         </h1>
-                        <p>Are you sure you want to delete this lab result?</p>
+                        <p>Are you sure you want to archive this lab result?</p>
                         <div class="button-wrapper">
                             <button class="button button--cancel" @click="modalClose">Cancel</button>
                             <button class="button" @click="deleteItem">Yes, Confirm</button>
@@ -75,6 +91,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
+import editorOption from '../util/quillEditorObject';
 export default {
     props: {
         patient: Object
@@ -88,7 +105,9 @@ export default {
             selectedLabName: null,
             selectedLabType: null,
             deleteModalActive: false,
-            loading: false
+            loading: false,
+            editorOption: editorOption,
+            notes: ''
         };
     },
     methods: {
@@ -122,6 +141,7 @@ export default {
             this.loading = true;
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
+            formData.append('notes', this.notes);
             axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, formData)
             .then((response) => {
                 let results = response.data.included.map(e => {
@@ -159,6 +179,10 @@ export default {
         resultUrl() {
             const prop = this.$parent.propData;
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotes() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
@@ -178,6 +202,12 @@ export default {
             if (!val) {
                 let labTests = Object.values(this.$parent.lab_tests);
                 return labTests.length ? [{included: {attributes: {name: ''}}, id: 0}].concat(labTests) : [{included: {attributes: {name: 'No Lab Tests'}}, id: 0}];
+            }
+        },
+        quickNotes(val) {
+            if (!val) {
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }
