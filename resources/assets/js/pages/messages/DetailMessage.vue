@@ -138,14 +138,14 @@
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
                 let ws = data.data;
-                let subject = `${makeThreadId(ws.attributes.sender_user_id, ws.attributes.recipient_user_id)}-${ws.attributes.subject}`;
+                let subject = `${this.makeThreadId(ws.attributes.sender_user_id, ws.attributes.recipient_user_id)}-${ws.attributes.subject}`;
                 let userId = this.$root.$data.global.user.id;
                 if (this.$root.$data.global.detailMessages[subject]) {
                     this.$root.$data.global.detailMessages[subject].push(ws);
                 } else {
-                    this.$root.$data.global.detailMessages[subject] = [ws]
+                    this.$root.$data.global.detailMessages[subject] = [ws];
                 }
-                this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages)
+                this.$root.$data.global.unreadMessages = _.flattenDeep(Object.values(this.$root.$data.global.detailMessages))
                     .filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
