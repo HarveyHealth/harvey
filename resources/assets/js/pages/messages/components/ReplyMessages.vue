@@ -59,7 +59,7 @@
                 .then(response => {
                     this.$root.$data.global.detailMessages[`${this.makeThreadId(response.data.data.attributes.sender_user_id, response.data.data.attributes.recipient_user_id)}-${response.data.data.attributes.subject}`].push(response.data.data);
                     this.$root.$data.global.detailMessages[`${this.makeThreadId(response.data.data.attributes.sender_user_id, response.data.data.attributes.recipient_user_id)}-${response.data.data.attributes.subject}`].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
-                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => b.id - a.id);
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
                 });

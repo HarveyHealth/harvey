@@ -149,7 +149,7 @@
       let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
       let userId = window.Laravel.user.id;
       channel.bind('App\\Events\\MessageCreated', (data) => {
-        let ws = data;
+        let ws = data.data;
         let subject = `${this.makeThreadId(ws.attributes.sender_user_id, ws.attributes.recipient_user_id)}-${ws.attributes.subject}`;
           this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
                 this.$root.$data.global.detailMessages[subject].push(ws) : [ws];
