@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
+    <div class="vertical-center tc">
       <div class="signup-stage-instructions color-white">
         <StagesNav :current="'confirmation'" />
         <h2 v-if="$root.isSignupBookingAllowed" class="heading-1 color-white">Final Confirmation</h2>

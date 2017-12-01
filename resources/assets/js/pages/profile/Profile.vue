@@ -152,7 +152,7 @@
             <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
 
             <!-- confirm code button -->
-            <button class="button button--blue phone-confirm-button" style="width: 160px; margin-top: 22px"
+            <button class="button button--blue phone-confirm-button" style="width: 170px; margin-top: 22px"
                     :disabled="isPhoneConfirming" @click="handleCodeConfirmation">
               <span v-if="!isPhoneConfirming">Confirm Code</span>
               <div v-else style="width: 12px; margin: 0 auto;">
@@ -355,12 +355,15 @@
                     .then(response => {
                       this.callSuccessNotification();
                       this.handleTextSend();
-                        if (this.canEditUsers) {
-                            this.user_data = response.data.data;
-                        } else {
-                            this.$root.$data.global.user = response.data.data;
-                        }
-                        this.submitting = false;
+                      if (this.updates.address_1 || this.updates.address_2 || this.updates.city || this.updates.state || this.updates.zip) {
+                          this.$root.getLabData();
+                      }
+                      if (this.canEditUsers) {
+                          this.user_data = response.data.data;
+                      } else {
+                          this.$root.$data.global.user = response.data.data;
+                      }
+                      this.submitting = false;
                     })
                     .catch(err => {
                         this.errorMessages = err.response.data.errors;

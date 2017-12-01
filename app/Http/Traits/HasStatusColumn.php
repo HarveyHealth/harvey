@@ -99,6 +99,14 @@ trait HasStatusColumn
         return $builder->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
     }
 
+    public function scopeRecommendedOrConfirmed(Builder $builder)
+    {
+        return $builder->where(function (Builder $builder)
+        {
+            $builder->where('status_id', self::RECOMMENDED_STATUS_ID)->orWhere('status_id', self::CONFIRMED_STATUS_ID);
+        });
+    }
+
     public function __call($method, $args)
     {
         if (starts_with($method, 'markAs')) {
