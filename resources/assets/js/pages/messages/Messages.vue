@@ -12,6 +12,7 @@
                             </button>
                             <ClipLoader class="main-action" style="background-color: transparent;" v-else :color="'#82BEF2'" :loading="true" />
                         </h1>
+                        <p class="heading-2">Please note: doctors may take up to 24 hours to respond. The messaging service should not to be used for urgent matters. Please call 911 in the event of emergency.</p>
                     </div>
                 </div>
                 <NotificationPopup
