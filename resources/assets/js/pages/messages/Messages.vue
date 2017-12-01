@@ -33,6 +33,7 @@
                     <router-link :to="{
                         name: 'detail',
                         params: {
+                        path: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                         thread_id: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                         subject: chat.attributes.subject,
                         sender_id : chat.attributes.sender_user_id,
