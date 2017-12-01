@@ -88,7 +88,7 @@
         computed: {
             messageState() {
                 let messages = this.$root.$data.global.messages || [];
-                let messageState = messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                let messageState = messages.sort((a, b) => b.id - a.id);
                 this.setMessages(messageState);
                 return messageState;
             }
@@ -97,7 +97,7 @@
             messageState(val) {
                 if (!val) {
                     let messages = this.$root.$data.global.messages || [];
-                    let messageState = messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                    let messageState = messages.sort((a, b) => b.id - a.id);
                     this.setMessages(messageState);
                     return messageState;
                 }
@@ -108,7 +108,7 @@
             this.renderNewMessage = !this.renderNewMessage;
           },
           setMessages(data) {
-              this.messageList = data;
+              this.messageList = data.sort((a, b) => b.id - a.id);
           },
           makeThreadId(userOne, userTwo) {
             return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
@@ -135,7 +135,7 @@
                     this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
                 this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
-                .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                    .sort((a, b) => b.id - a.id);
                 this.setMessages(this.$root.$data.global.messages);
             });
             this.$root.getMessages();

@@ -36,15 +36,10 @@
             We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.
         </Paragraph>
         <Spacer isBottom :size="4" />
-        <a href="#" @click="reEnterZip">
+        <a href="#" @click="reEnterZip" class="dark-gray">
           <i class="fa fa-undo"></i><Spacer isRight :size="3" />Try Again
         </a>
         <Spacer isBottom :size="4" />
-        <div>
-          <a class="social-icon f2" v-for="icon in Config.misc.socialMedia" :href="icon.href" target="_blank">
-            <i :class="icon.class"></i>
-          </a>
-        </div>
       </SlideIn>
     </div>
   </div>

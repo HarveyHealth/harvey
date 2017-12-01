@@ -13,7 +13,7 @@ export default {
   },
   computed: {
       style() {
-          return `bg is-${this.color}`;
+          return `bg is-${this.color || 'slate'}`;
       }
   }
 };

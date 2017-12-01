@@ -84,13 +84,13 @@
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right',
-              detailList:this.$root.$data.global.detailMessages[this.$props.thread_id]
+              detailList: this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => a.id - b.id)
             };
         },
         computed: {
             stateDetail() {
                 let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
-                let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                let details = messages.sort((a, b) => a.id - b.id);
                 this.setDetails(details);
                 return details;
             }
@@ -99,7 +99,7 @@
             stateDetail(val) {
                 if (!val) {
                     let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
-                    let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                    let details = messages.sort((a, b) => a.id - b.id);
                     this.setDetails(details);
                     return details;
                 }
@@ -110,7 +110,7 @@
             this.renderNewMessage = !this.renderNewMessage;
           },
           setDetails(data) {
-              this.detailList = data;
+              this.detailList = data.sort((a, b) => a.id - b.id);
           },
           reply() {
             this.renderReply = !this.renderReply;
@@ -140,7 +140,7 @@
                 let subject = `${makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
                 let userId = this.$root.$data.global.user.id;
                 this.$root.$data.global.detailMessages[subject].push(data.data);
-                this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
+                this.$root.$data.global.detailMessages[subject].sort((a, b) => a.id - b.id);
                 this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages)
                     .filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
