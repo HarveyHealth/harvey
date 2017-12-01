@@ -360,13 +360,6 @@ const app = new Vue({
                 .then(response => {
                     let data = {};
                     let messageData = response.data.data;
-                    if (typeof (response.data.data) === 'object') {
-                        if (response.data.data.id) {
-                            messageData = [response.data.data];
-                        } else {
-                            messageData = Object.values(response.data.data);
-                        }
-                    }
                     messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
@@ -379,6 +372,7 @@ const app = new Vue({
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+                        
                     }
                     this.global.loadingMessages = false;
                 });
