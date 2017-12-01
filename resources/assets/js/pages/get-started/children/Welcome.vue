@@ -1,34 +1,35 @@
 <template>
-    <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-        <div class="vertical-center">
-            <div class="signup-container small naked tc">
+    <SlideIn v-if="!$root.$data.signup.completedSignup" class="Container ph3 pv4">
+        <Card class="margin-0a mw6 tc">
+            <CardContent>
                 <div class="signup-main-icon">
                     <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
                 </div>
-                <h2 class="heading-1 font-normal">Welcome to Harvey</h2>
-                <p>You will need to answer a few basic questions before you can schedule a consultation with a Naturopathic Doctor.</p>
-                <p>Please have your phone ready to validate your mobile number. Once confirmed, we will ask you to fill out a more detailed client intake form for your doctor.</p>
+                <Heading1>Welcome to Harvey</Heading1>
+                <Spacer isBottom :size="3" />
+                <Paragraph>You will need to answer a few basic questions before you can schedule a consultation with a Naturopathic Doctor.</Paragraph>
+                <Spacer isBottom :size="3" />
+                <Paragraph>Please have your phone ready to validate your mobile number. Once confirmed, we will ask you to fill out a more detailed client intake form for your doctor.</Paragraph>
+                <Spacer isBottom :size="4" />
                 <button class="button button--blue" @click="$router.push('practitioner')">Let's Go!</button>
-            </div>
-        </div>
-    </div>
+            </CardContent>
+        </Card>
+    </SlideIn>
 </template>
 
 <script>
+import { Card, CardContent, SlideIn, Spacer } from 'layout';
+import { Heading1, Paragraph } from 'typography';
+
 export default {
     name: 'welcome',
-    data() {
-        return {
-            containerClasses: {
-                'anim-fade-slideup': true,
-                'anim-fade-slideup-in': false,
-                'container': true,
-                'pad-md': true,
-                'flex-wrapper': true,
-                'height-100': true,
-                'justify-center': true
-            }
-        };
+    components: {
+        Card,
+        CardContent,
+        Heading1,
+        Paragraph,
+        SlideIn,
+        Spacer
     },
     methods: {
         trackAccountCreation(validation) {
@@ -65,17 +66,22 @@ export default {
         if (Laravel.user.phone) this.$root.$data.signup.phoneConfirmed = true;
         if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
 
-        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
-
         const zipValidation = JSON.parse(App.Util.data.fromStorage('zip_validation'));
 
         this.trackAccountCreation(zipValidation);
 
         analytics.page('Welcome');
         analytics.identify();
-    },
-    beforeDestroy() {
-        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .Container {
+        @include query(lg) {
+            margin-top: 8%;
+        }
+    }
+</style>
