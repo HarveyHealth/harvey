@@ -30,7 +30,7 @@
                 :symbol="notificationSymbol"
                 :text="notificationMessage"
             />
-            <div class="content-container">
+            <div v-if="loading" class="content-container">
                 <div class="container-message">
                     <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
