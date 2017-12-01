@@ -1,5 +1,5 @@
 <template>
-    <div class="height-100">
+    <div>
         <PublicNav v-if="!isSignupForm" disableMobile giveSpace hasLogo hasPhone />
         <div class="bg-blue-fade"></div>
         <router-view />

@@ -52,8 +52,8 @@
 
       @include('_includes.svgs')
 
-      <main class="height-100">
-        <div id="app" class="height-100">
+      <main>
+        <div id="app">
           <router-view />
         </div>
       </main>
