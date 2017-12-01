@@ -4,9 +4,15 @@ import router from './routes';
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
 import VueRouter from 'vue-router';
+import VueQuillEditor from 'vue-quill-editor';
+
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
 
 Vue.use(VeeValidate);
 Vue.use(VueRouter);
+Vue.use(VueQuillEditor);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
@@ -321,7 +327,7 @@ const app = new Vue({
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        if (!invoices.length) {
+                        if (invoices.length) {
                             invoices.forEach(e => {
                                 obj[e.id] = e;
                             });

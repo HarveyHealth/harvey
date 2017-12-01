@@ -11,7 +11,7 @@
                     The only file format accepted is a PDF.
                 </p>
             </div>
-            <div class="card-heading-container records-spacing">
+            <div class="card-heading-container records-spacing fullWidth floatLeft">
                 <div class="width-175">
                     <label class="input__label">pharmacy</label>
                     <span class="custom-select bg-white">
@@ -34,11 +34,27 @@
                 </div>
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
+            <div class="fullWidth floatLeft quick-notes-border topMargin30">
+                <h2 class="text-center">Quick Notes</h2>
+                <quill-editor
+                    output="html"
+                    :options="editorOption"
+                    v-model="notes"
+                />
+            </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="prescriptionUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
-                <button @click="deleteModal()" class="button bg-danger margin15">Delete Prescription</button>
+            <iframe :class="{width70: $root.$data.permissions !== 'patient', floatLeft: $root.$data.permissions !== 'patient'}" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="prescriptionUrl" />
+            <div v-if="$root.$data.permissions !== 'patient'" class="width30 floatLeft">
+                <h2 class="text-center">Quick Notes</h2>
+                <quill-editor
+                    output="html"
+                    :options="editorOption"
+                    v-model="quickNotes"
+                />
+            </div>
+            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
+                <button @click="deleteModal()" class="button bg-danger margin15">Archive Prescription</button>
             </div>
             <Modal
                 :active="deleteModalActive"
@@ -48,9 +64,9 @@
                 <div class="card-content-wrap">
                     <div class="inline-centered">
                         <h1 class="header-xlarge">
-                            <span class="text">Delete Prescription</span>
+                            <span class="text">Archive Prescription</span>
                         </h1>
-                        <p>Are you sure you want to delete this prescription?</p>
+                        <p>Are you sure you want to archive this prescription?</p>
                         <div class="button-wrapper">
                             <button class="button button--cancel" @click="modalClose">Cancel</button>
                             <button class="button" @click="deleteItem">Yes, Confirm</button>
@@ -68,6 +84,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
+import editorOption from '../util/quillEditorObject';
 export default {
     props: {
         patient: Object
@@ -80,7 +97,9 @@ export default {
         return {
             selected: null,
             deleteModalActive: false,
-            loading: false
+            loading: false,
+            notes: '',
+            editorOption: editorOption
         };
     },
     methods: {
@@ -109,6 +128,7 @@ export default {
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
             formData.append('name', this.selected);
+            formData.append('notes', this.notes);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/prescriptions`, formData)
             .then((response) => {
                 let object = {};
@@ -141,6 +161,10 @@ export default {
         prescriptionUrl() {
             const prop = this.$parent.propData;
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotes() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch : {
@@ -148,6 +172,12 @@ export default {
             if (!val) {
                 const prop = this.$parent.propData;
                 return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            }
+        },
+        quickNotes(val) {
+            if (!val) {
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }

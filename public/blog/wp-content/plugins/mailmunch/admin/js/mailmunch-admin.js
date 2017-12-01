@@ -51,6 +51,50 @@
       })
       return false;
     })
+		
+		$('.change-email-status').click(function() {
+      if (!confirm('Are you sure you want to change the status for this email?')) return false;
+      $.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        data: {action: 'change_email_status', email_status: $(this).data('email-status'), email_id: $(this).data('email-id')},
+        dataType: 'json',
+        success: function(data) {
+          if (data.success) {
+						window.location.reload();
+          }
+          else {
+            alert('There was an error. Please try again later.');
+          }
+        }.bind(this),
+        error: function(data) {
+          alert('There was an error. Please try again later.');
+        }
+      })
+      return false;
+    })
+		
+		$('.delete-email').click(function() {
+      if (!confirm('Are you sure you want to delete this email?')) return false;
+      $.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        data: {action: 'delete_email', email_id: $(this).data('email-id')},
+        dataType: 'json',
+        success: function(data) {
+          if (data.success) {
+						$(this).parents('tr').slideUp();
+          }
+          else {
+            alert('There was an error. Please try again later.');
+          }
+        }.bind(this),
+        error: function(data) {
+          alert('There was an error. Please try again later.');
+        }
+      })
+      return false;
+    })
 
     $('#signup_form').submit(function(e) {
       e.preventDefault();
@@ -75,7 +119,10 @@
           if (!data.success) {
             $('.signup-alert').html(data.message).show();
           } else {
-            window.location.reload();
+            if (typeof mailmunchTrack != 'undefined') {
+              mailmunchTrack.track_all('CompleteRegistration');
+            }
+            setTimeout(function() { window.location.reload();	}, 500);
           }
         },
         error: function(data) {

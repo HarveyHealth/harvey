@@ -1,7 +1,10 @@
 <template>
     <div class="records-container">
         <div class="treatment-plan">
-            <textarea disabled v-model="plan" class="input--textarea" />
+            <div 
+                disabled 
+                v-html="plan"
+             />
         </div>
     </div>
 </template>

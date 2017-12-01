@@ -390,7 +390,7 @@ $factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
         'sku_id' => factory(SKU::class),
         'description' => $faker->sentence(100),
         'image' => '/images/lab_tests/micronutrients.png',
-        'lab_name' => 'Unknown',
+        'lab_name' => "{$faker->lastName} Labs Inc.",
         'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
         'quote' => $faker->sentence(10),
     ];

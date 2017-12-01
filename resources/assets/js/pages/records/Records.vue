@@ -91,7 +91,7 @@
 
                         </div>
                     </div>
-                    <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
+                    <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
                         <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
                         <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
                         <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
@@ -133,14 +133,14 @@
                     <p><i>Your records are loading...</i></p>
                 </div>
                 <div v-if="selectedUserPatient">
-                    {{ this.getTimelineData() }}
+                    {{ getTimelineData() }}
                 </div>
                 <div v-if="selectedUserPatient">
                     <div class="auto-height">
                         <div v-if="page === 0">
                             <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
                         </div>
-                        <div class="card width70" v-if="page !== 0">
+                        <div class="card width70 print-full-width" v-if="page !== 0">
                             <div class="card-heading-container height65">
                                 <h2 class="left-records-label">
                                     {{ page === 1 ? `Treatment Plan` : null }}
@@ -172,7 +172,7 @@
 
                         </div>
                     </div>
-                    <div v-if="selectedUserPatient">
+                    <div v-if="selectedUserPatient" class="hide-print">
                         <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
                             <a class="flyout-links" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
                             <a class="flyout-links" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
@@ -386,6 +386,9 @@ export default {
         setProps(data) {
             this.news = false;
             this.propData = data;
+        },
+        setPatientLoading(bool) {
+            this.patientLoading = bool;
         }
     },
     computed: {
@@ -394,12 +397,12 @@ export default {
                 let array = this.$root.$data.global.patients;
                 let matcher = new RegExp(this.search, 'ig');
                 return array.filter(ele => {
-                return matcher.test(ele.search_name) ||
-                            matcher.test(ele.email) ||
-                            matcher.test(ele.date_of_birth);
-                });
+                    return matcher.test(ele.search_name) ||
+                                matcher.test(ele.email) ||
+                                matcher.test(ele.date_of_birth);
+                    });
             } else {
-                return;
+                return [];
             }
         },
         timelineData() {
@@ -467,7 +470,7 @@ export default {
                         image: patientUserData.image_url,
                         created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
                     };
-                    this.patientLoading = false;
+                    this.setPatientLoading(false);
                     return object;
                 }
             }

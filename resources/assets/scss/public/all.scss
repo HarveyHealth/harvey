@@ -191,6 +191,11 @@ $font-family: "proxima-nova";
     @include margin(null null null auto);
     @include margin(null auto null null);
   }
+  .has-max-width-xl {
+    max-width: 970px;
+    @include margin(null null null auto);
+    @include margin(null auto null null);
+  }
 }
 
 // Animation

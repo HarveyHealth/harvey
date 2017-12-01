@@ -53,6 +53,7 @@
 }
 
 @media #{$breakpoint-not-small} {
+  .d-ns {               display: block; }
   .dn-ns {              display: none; }
   .di-ns {              display: inline; }
   .db-ns {              display: block; }

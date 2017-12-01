@@ -11,8 +11,14 @@
 .height500 {
     height: 500px;
 }
+.topMargin30 {
+    margin-top: 30px;
+}
 .no-records-label {
     color: #5f7278; 
+    text-align: center;
+}
+.text-center {
     text-align: center;
 }
 .soat-button {
@@ -32,6 +38,8 @@
     width: 150px; 
     margin-right: 15px; 
     float: left;
+    height: 36px;
+    padding: 0;
 }
 .grey-background {
     background-color: #ccc;
@@ -120,6 +128,18 @@
 .width70 {
     width: 70%;
 }
+.quick-notes-border {
+    border: 1px solid #ccc;
+}
+.width30 {
+    width: 30%;
+}
+.floatLeft {
+    float: left;
+}
+.fullWidth {
+    width: 100%;
+}
 .search-name-label {
     font-weight: 400; 
     float: right; 
@@ -149,12 +169,10 @@
 .lab-spacing {
     display: flex;
     justify-content: space-around;
-    width: 700px;
 }
 .records-spacing {
     display: flex;
     justify-content: space-around;
-    width: 500px;
 }
 .width-175 {
     width: 175px;
@@ -213,7 +231,7 @@
 .mid-soap-note {
     width: 97%;
     position: relative;
-    top: 15px;
+    top: 25px;
 
     .mid-header {
         height: 20px;
