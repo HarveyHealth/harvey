@@ -83,7 +83,7 @@
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right',
-              detailList: [],
+              detailList: []
             };
         },
         computed: {
@@ -168,6 +168,7 @@
            }
         },
         mounted() {
+            this.$root.$data.global.currentPage = 'details';
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
                 let ws = data.data;
