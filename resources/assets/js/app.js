@@ -373,11 +373,11 @@ const app = new Vue({
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                     });
                     if (data) {
-                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.id - b.id)));
                         this.global.detailMessages = data;
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
-                            .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
+                            .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
                     }
                     this.global.loadingMessages = false;
