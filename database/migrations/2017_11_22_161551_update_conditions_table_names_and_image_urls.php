@@ -1,10 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\Condition;
 
-class CreateConditionsTable extends Migration
+class UpdateConditionsTableNamesAndImageUrls extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +14,12 @@ class CreateConditionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('conditions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->boolean('enabled')->default(true);
-            $table->string('name')->unique();
-            $table->string('slug')->unique()->index();
-            $table->string('image_url');
-            $table->longText('description');
-            $table->json('questions');
-            $table->timestamps();
-        });
+        // Kind of unique in that our conditions migration doesn't just establish Schema
+        // but also populates the db with content. In order to update content on production
+        // we need additional migrations that update the table (until a FE is built to update).
+        // In this case, the changes are so significant that we're going to just truncate the table
+        // and add it again.
+        DB::table('conditions')->truncate();
 
         $conditions = [
             [
@@ -64,7 +61,7 @@ class CreateConditionsTable extends Migration
                 'description' => 'Allergic symptoms are thought to affect 50 million people in the United States. Allergic symptoms are your immune system’s extreme response to substances that are normally found, in your everyday environment. Very often, simple changes of diet, nutritional supplements, and herbal remedies can relieve this extreme reaction and the resulting inflammation that triggers most allergy symptoms.',
                 'questions' => [
                     [
-                        'question' => 'What generally causes your allergies?',
+                        'question' => 'What are your allergies caused by?',
                         'answers' => ['Food', 'Weather', 'Both', 'Other']
                     ],
                     [
@@ -80,7 +77,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ['Daily', 'Few time a month', 'Only as needed', 'Never']
                     ],
                     [
-                        'question' => 'Have you ever taken a food allergy test?',
+                        'question' => 'Have you ever had any food allergy tests done?',
                         'answers' => ['Yes', 'No', "I don't remember"]
                     ]
                 ]
@@ -104,11 +101,11 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Always", "Sometimes", "Never"]
                     ],
                     [
-                        'question' => "Is your conditions linked to a specific event or experience such as a job or relationship?",
+                        'question' => "Is your conditions linked to a specific event/experience (i.e. job issue, relationship loss, etc.)",
                         'answers' => ["Yes", "No - it's consistent no matter what"]
                     ],
                     [
-                        'question' => "Do you frequently spend time in nature or in the sun?",
+                        'question' => "Do you spend time in nature/out in the sun",
                         'answers' => ["Quite a bit", "Sometimes", "Almost never"]
                     ],
                     [
@@ -152,7 +149,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Annoying but I manage easily", "Painful, but I get by on my day", "Takes me out of action some days"]
                     ],
                     [
-                        'question' => "Have you ever tested your food sensitivities or microbiome?",
+                        'question' => "Have you ever tested your food sensitivities or the health of your microbiome?",
                         'answers' => ["Yes", "No", "Not sure"]
                     ]
                 ]
@@ -184,7 +181,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Tired without food", "Tired from eating", "Neither"]
                     ],
                     [
-                        'question' => "Have you ever checked your adrenals or micronutrient levels?",
+                        'question' => "Have you ever checked your adrenal status or micronutrient levels?",
                         'answers' => ["Yes", "No", "Not sure"]
                     ]
                 ]
@@ -208,7 +205,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Almost every day", "Sometimes", "Never"]
                     ],
                     [
-                        'question' => "How much sugar or simple carbs do you consume?",
+                        'question' => "How much sugar / simple carbs do you consume?",
                         'answers' => ["Quite a bit", "Average", "Very litte"]
                     ],
                     [
@@ -216,7 +213,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Yes and I've done it", "Heard of it, but have not tried", "Don't know about it"]
                     ],
                     [
-                        'question' => "Have you every tested your hormones or thyroid?",
+                        'question' => "Have you had your hormones and thyroid checked in the past?",
                         'answers' => ["Hormones", "Thyroid", "Both", "Neither"]
                     ]
                 ]
@@ -248,7 +245,7 @@ class CreateConditionsTable extends Migration
                         'answers' => ["Yes", "No"]
                     ],
                     [
-                        'question' => "Have you ever done a hormone or adrenal panel?",
+                        'question' => "Have you ever had a hormone or adrenal panel done?",
                         'answers' => ["Yes", "No", "I don't know"]
                     ]
                 ]
@@ -283,15 +280,15 @@ class CreateConditionsTable extends Migration
             ]
         ];
 
-        foreach ($conditions as &$condition) {
-            $newCondition = new \App\Models\Condition;
-            $newCondition->enabled = true;
-            $newCondition->name = $condition['name'];
-            $newCondition->slug = $condition['slug'];
-            $newCondition->image_url = $condition['image_url'];
-            $newCondition->description = $condition['description'];
-            $newCondition->questions = json_encode($condition['questions']);
-            $newCondition->save();
+        foreach ($conditions as $condition) {
+            Condition::create([
+                'enabled' => true,
+                'name' => $condition['name'],
+                'slug' => $condition['slug'],
+                'image_url' => $condition['image_url'],
+                'description' => $condition['description'],
+                'questions' => json_encode($condition['questions']),
+            ]);
         }
     }
 
@@ -302,6 +299,6 @@ class CreateConditionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conditions');
+        // No rollback for this update.
     }
 }

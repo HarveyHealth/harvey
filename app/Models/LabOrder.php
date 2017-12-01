@@ -206,12 +206,16 @@ class LabOrder extends Model
         $shippo_to_address_id = $shippo_address->object_id;
 
         if (!Shippo_Address::validate($shippo_to_address_id)->validation_results->is_valid) {
-            throw new StrictValidatorException('The address ' . json_encode($to) . ' is invalid.');
+            throw new StrictValidatorException('The address is invalid. Please check the address and try again.');
         }
 
-        $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
+        $parcel_info = $this->labTests()->notCanceled()->get()->pluck('sku.attributes')->map(function($i) {
             return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
         });
+
+        if ($parcel_info->isEmpty()) {
+            throw new ServiceUnavailableException('This LabOrder does not contains any LabTest for shipping.');
+        }
 
         $carriers = Shippo_CarrierAccount::all(['carrier' => config('services.shippo.carrier')]);
         $carrier_object_id = $carriers->results[0]->object_id ?? null;

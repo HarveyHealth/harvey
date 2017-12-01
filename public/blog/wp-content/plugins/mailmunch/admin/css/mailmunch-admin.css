@@ -498,19 +498,18 @@ label.mailmunch-form-label {
 }
 
 .mailmunch-dash-option {
-  display: inline-block;
-  width: 100px;
-  height: 80px;
+  display: block;
+  width: 200px;
+  height: 35px;
   vertical-align: middle;
   border: 1px solid #EEE;
   border-radius: 10px;
   background-color: #FFF;
-  text-align: center;
-  padding: 20px;
-  margin-right: 15px;
-  margin-bottom: 15px;
+  text-align: left;
+  padding: 10px 20px;
+  margin: 0 auto 15px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .mailmunch-dash-option:hover {
@@ -518,16 +517,10 @@ label.mailmunch-form-label {
 }
 
 .mailmunch-dash-option .dashicons {
-  font-size: 60px;
-  width: 60px;
-  height: 60px;
-  display: block;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.mailmunch-dash-option .mailmunch-dash-text {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
+  font-size: 35px;
+  width: 35px;
+  height: 35px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
 }

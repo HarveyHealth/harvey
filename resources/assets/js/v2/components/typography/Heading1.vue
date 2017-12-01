@@ -22,8 +22,6 @@ export default {
         'fw4': !this.isBold && !this.isThin,
         'fw6': this.isBold,
         'lh-title': true,
-        'ma0': true,
-        'pa0': true,
         'white': this.isLight
       };
     }
@@ -36,5 +34,6 @@ export default {
 
   .Heading1 {
     @extend %font-smooth;
+    margin: 0;
   }
 </style>

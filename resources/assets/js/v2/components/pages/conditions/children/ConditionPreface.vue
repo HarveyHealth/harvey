@@ -1,110 +1,123 @@
 <template>
   <div class="space-children-sm">
-    <SlideIn class="space-children-md max-width-xxl ">
+    <SlideIn class="space-children-sm max-width-xxl ">
+
+      <!-- Description -->
       <div class="mw9 pv2">
         <div class="cf">
-          <div class="fl w-25 pa5">
-            <SvgIcon :id="State('conditions.condition.slug')" :width="'120px'" :height="'120px'" />
+          <div class="fl w-100 w-25-l pa3 ph4-l pv5-l dn d-ns">
+            <SvgIcon :id="State('conditions.condition.slug')" :width="'100%'"/>
           </div>
-          <div class="fl w-75 pl3">
-            <h3 class="font-bold font-xxl">{{ State('conditions.condition.name') }}</h3>
-            <p class="font-md">{{ State('conditions.condition.description') }}</p>
-            <p class="font-sm gray">Not what you need? Go back to <a href="/#conditions">Conditions</a>.</p>
+          <div class="fl w-100 w-75-l pl0 pl3-l">
+            <Heading1 class="pv2">{{ State('conditions.condition.name') }}</Heading1>
+            <Paragraph :size="'large'">{{ State('conditions.condition.description') }}</Paragraph>
+            <Paragraph :color="'muted'" :size="'small'" class="pt2">
+                Not what you need? Go back to <a href="/#conditions" class="dim">Conditions</a>.
+            </Paragraph>
             <InputButton
               :text="button"
               :type="'whiteFilled'"
-              :on-click="() => setState('conditions.prefaceRead', true)"
+              :on-click="handleQuizStart"
               :width="'200px'"
-              class="mt3"
+              class="mt3 dim"
             />
           </div>
         </div>
       </div>
+
       <!-- Articles -->
-      <h4 class="font-xl font-normal">Knowledge Base: <em>{{ State('conditions.condition.name') }}</em></h4>
-      <ul class="juicer-feed" data-feed-id="food-allergies-articles" data-per="3" data-pages="1" data-truncate="250"></ul>
+      <Heading2>{{ State('conditions.condition.name') }} Articles</Heading2>
+      <Spacer isBottom :size="2" />
+      <ul
+        class="juicer-feed"
+        :data-feed-id="State('conditions.condition.slug')+'-articles'"
+        data-per="3"
+        data-pages="1"
+        data-truncate="250"
+      ></ul>
+
       <!-- Videos -->
-      <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul>
+      <Heading2>{{ State('conditions.condition.name') }} Videos</Heading2>
+      <Spacer isBottom :size="2" />
+      <ConditionVideos></ConditionVideos>
+
       <!-- Lab Tests -->
-      <div class="mw9 center">
-        <div class="cf">
-          <div class="fl w-50 pt2 pr2">
-            <div class="bg-white pa4 bn">
-              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xxs pa2">
-              <div class="mw9 center">
-                <div class="cf ph2-ns">
-                  <div class="fl w-75">
-                    <p class="font-xl font-bold margin-bottom-0">Micronutrient Test</p>
-                    <p class="font-lg gray"><em>Sample: Blood draw</em></p>
-                  </div>
-                  <div class="fl w-25">
-                    <p class="font-xxl font-right"><span class="green">$299</span></p>
-                  </div>
-                </div>
-              </div>
-              <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button is-outlined ml2 font-lg"><i class="fa fa-flask mr1"></i> Learn More</a></p>
-            </div>
+      <Heading2>Common Lab Tests</Heading2>
+      <Spacer isBottom :size="2" />
+      <Grid :flexAt="'l'" :columns="[{l: '1of2'}, {l: '1of2'}]" :gutters="{ s:3, l:3 }">
+          <div :slot="1" class="bg-white">
+              <LabTestCard :testId="tests[0] || false" />
           </div>
-          <div class="fl w-50 pt2 pl2">
-            <div class="bg-white pa4 bn">
-              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png" class="max-width-xxs pa2">
-              <div class="mw9 center">
-                <div class="cf ph2-ns">
-                  <div class="fl w-75">
-                    <p class="font-xl font-bold margin-bottom-0">Food Allergy Test</p>
-                    <p class="font-lg gray"><em>Sample: Blood draw</em></p>
-                  </div>
-                  <div class="fl w-25">
-                    <p class="font-xxl font-right"><span class="green">$299</span></p>
-                  </div>
-                </div>
-              </div>
-              <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button is-outlined ml2 font-lg"><i class="fa fa-flask mr1"></i> Learn More</a></p>
-            </div>
+          <div :slot="2" class="bg-white">
+              <LabTestCard :testId="tests[1] || false" />
           </div>
-        </div>
-      </div>
+      </Grid>
+
     </SlideIn>
+
     <!-- Quiz -->
-    <div class="tc w-100 pa5 ph5-ns">
-      <h2 class="font-xl font-thin w-50 margin-0a">Take our {{ State('conditions.condition.name') }} questionnaire to determine if Harvey is right for you.</h2>
+    <div class="tc w-100 w-80-ns w-50-l margin-0a pv5 ph4">
+      <Heading2>Take our {{ State('conditions.condition.name') }} quiz to determine if Harvey Health is right for you.</Heading2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
-        :on-click="() => setState('conditions.prefaceRead', true)"
+        :on-click="handleQuizStart"
         :width="'200px'"
-        class="mt4"
+        class="mt4 dim"
       />
     </div>
+
   </div>
 </template>
 
 <script>
 import { InputButton } from 'inputs';
-import { SlideIn, Spacer } from 'layout';
+import { Grid, SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { Paragraph, Heading1 } from 'typography';
+import { Paragraph, Heading1, Heading2 } from 'typography';
+
+import ConditionVideos from './ConditionVideos.vue';
+import LabTestCard from './LabTestCard.vue';
 
 export default {
   components: {
+    Grid,
     InputButton,
+    LabTestCard,
     SlideIn,
     Spacer,
     SvgIcon,
     Paragraph,
-    Heading1
+    ConditionVideos,
+    Heading1,
+    Heading2
   },
   data() {
     return {
-      button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
+      button: '<span style="font-size:20px; padding-right:16px;">Get Started</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
     };
+  },
+  methods: {
+      handleQuizStart() {
+          window.scroll({ top: 0, behavior: 'smooth' });
+          App.setState('conditions.prefaceRead', true);
+      }
+  },
+  computed: {
+      tests() {
+          return this.State('conditions.condition')
+            ? this.Config.conditions.labTests[this.State('conditions.condition.slug')]
+            : [];
+      }
   }
 };
 </script>
 
 <style>
+
+  * {
+    outline: 0;
+  }
 
   .juicer-feed.modern li.feed-item {
     box-shadow: none;
@@ -126,12 +139,12 @@ export default {
   }
 
   .j-poster a h3 {
-    color: #AAA !important;
+    color: #82BEF2 !important;
     font-size: 15px !important;
   }
 
   .j-text p, .j-message p {
-    color: #555;
+    color: #5f7278;
     font-family: "proxima-nova";
     font-weight: 500;
     font-size: 15px;
@@ -139,7 +152,12 @@ export default {
 
   .j-title {
     display: block;
-    min-height: 100px;
+    min-height: 75px;
+  }
+
+  a.j-truncate {
+    color: #82BEF2;
+    margin-left: 3px;
   }
 
   .j-title p {
@@ -149,7 +167,7 @@ export default {
     font-family: "proxima-nova";
     padding-bottom: 8px;
     display: inline-block;
-    color: #555;
+    color: #5f7278;
   }
 
 </style>
