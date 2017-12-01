@@ -21,7 +21,7 @@ class ZipVerificationController extends BaseAPIController
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
       $is_serviceable = $this->zipCodeValidator->isServiceable($state);
-      $practitioners = License::where('state', $state)->limit(1)->count();
+      $practitioners = License::where('state', $state)->count();
       $is_regulated = $this->zipCodeValidator->isRegulated($state);
 
       return response()->json(compact('city', 'practitioners', 'is_regulated', 'is_serviceable', 'state', 'zip'));
