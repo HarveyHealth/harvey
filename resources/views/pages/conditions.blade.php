@@ -4,6 +4,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0">
+        @isset($index)
+        <title>{{ $conditions[$index]->name }} | Harvey Health</title>
+        @endisset
+        @empty($index)
+        <title>{{ $conditions[0]->name }} | Harvey Health</title>
+        @endempty
         <title>Health Conditions | Harvey</title>
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
