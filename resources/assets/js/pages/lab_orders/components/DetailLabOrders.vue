@@ -755,6 +755,19 @@ export default {
                 this.$parent.currentData[i].data.shipment_code = respond.data.data.attributes.shipment_code;
               }
             });
+             if (this.$root.$data.permissions !== 'patient') {
+                let status = {
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
+                };
+                this.$parent.setupLabData();
+                this.$parent.handleFilter({name: status[this.$parent.activeFilter]}, this.$parent.activeFilter);
+            }
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
@@ -823,6 +836,19 @@ export default {
                 });
               }
             });
+             if (this.$root.$data.permissions !== 'patient') {
+                let status = {
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
+                };
+                this.$parent.setupLabData();
+                this.$parent.handleFilter({name: status[this.$parent.activeFilter]}, this.$parent.activeFilter);
+            }
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
