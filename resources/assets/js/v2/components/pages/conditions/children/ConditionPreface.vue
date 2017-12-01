@@ -152,7 +152,7 @@ export default {
 
   .j-title {
     display: block;
-    min-height: 100px;
+    min-height: 75px;
   }
 
   a.j-truncate {

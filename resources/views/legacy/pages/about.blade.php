@@ -160,7 +160,7 @@
     <section class="section get-started">
         <div class="container">
             <div class="has-text-centered has-max-width-lg">
-                <h2 class="title is-3">Start your health journey.</h2>
+                <h2 class="title is-3"><em>"Let food be thy medicine..."</em></h2>
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Our integrative doctors are available for virtual consultations, lab testing and treatment for a wide variety of health conditions.</p>
                 <div class="button-wrapper">
                     <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
