@@ -1,6 +1,5 @@
 <template>
     <div class="main-container">
-        <UserNav />
         <div @click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
         <div class="main-content">
             <div class="main-header">
