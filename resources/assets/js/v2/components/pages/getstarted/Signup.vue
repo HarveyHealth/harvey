@@ -105,14 +105,12 @@
 import { InputButton, FacebookSignin } from 'inputs';
 import { SlideIn } from 'layout';
 import { SvgIcon } from 'icons';
-import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
     InputButton,
     FacebookSignin,
-    LoadingGraphic,
     SlideIn,
     SvgIcon
   },
