@@ -32,18 +32,21 @@
                 <Card class="m0auto mw7">
                     <CardContent>
                         <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
-                            <div :slot="1" class="col">
+                            <div :slot="1" class="col ph2">
                                 <Spacer isBottom :size="3" />
                                 <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
                                 <Spacer isBottom :size="3" />
-                                <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
+                                <Grid :flexAt="'ns'" :columns="practitioners.map(dr => ({s:'1of2', ns:'1of4', m:'1of2'}))" :gutters="{s:2}">
                                     <AvatarSelection
+                                        v-for="(dr, index) in practitioners"
+                                        :slot="index + 1"
+                                        :key="index"
                                         :caption="dr.name"
                                         :image="determineImage(dr.info.picture_url, 'user')"
                                         :isActive="index === selected"
                                         :onClick="() => select(dr, index)"
                                     />
-                                </div>
+                                </Grid>
                             </div>
                             <div :slot="2" class="col">
                                 <div v-if="hasSelection">
@@ -222,5 +225,6 @@ export default {
 
     .col {
         background-color: $color-gray-0;
+        position: relative;
     }
 </style>
