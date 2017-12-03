@@ -32,8 +32,7 @@
                 <Card class="m0auto mw7">
                     <CardContent>
                         <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
-                            <div :slot="1" class="col ph2">
-                                <Spacer isBottom :size="3" />
+                            <div :slot="1" class="col pa3">
                                 <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
                                 <Spacer isBottom :size="3" />
                                 <Grid :flexAt="'ns'" :columns="practitioners.map(dr => ({s:'1of2', ns:'1of4', m:'1of2'}))" :gutters="{s:2}">
@@ -49,27 +48,7 @@
                                 </Grid>
                             </div>
                             <div :slot="2" class="col">
-                                <div v-if="hasSelection">
-                                    <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + determineImage(practitioners[selected].info.background_picture_url, 'background') + ')' }"></div>
-                                    <img class="practitioner-avatar" :src="determineImage(practitioners[selected].info.picture_url, 'user')" />
-                                    <h3 v-if="practitioners[selected].name" class="practitioner-name font-centered font-normal heading-3">{{ practitioners[selected].name }}, ND</h3>
-                                    <p v-if="practitioners[selected].info.license_number" class="practitioner-license text-centered">License {{ practitioners[selected].info.license_number }}</p>
-                                    <div class="practitioner-info-wrapper font-sm">
-                                        <p v-if="practitioners[selected].info.description">{{ practitioners[selected].info.description }}</p>
-                                        <hr class="practitioner-divider" />
-                                        <ul class="practitioner-info">
-                                            <li v-if="practitioners[selected].info.graduated_at">
-                                                <span>Graduated:</span> {{ practitioners[selected].info.graduated_at.date | year }}
-                                            </li>
-                                            <li v-if="practitioners[selected].info.school">
-                                                <span class="font-sm">Degree:</span> {{ practitioners[selected].info.school }}
-                                            </li>
-                                            <li v-if="practitioners[selected].info.specialty">
-                                                <span>Specialties:</span> {{ practitioners[selected].info.specialty | specialty }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <PractitionerInfo :practitioner="practitioners[selected]" />
                             </div>
                         </Grid>
                         <p class="closing-selection" v-if="hasSelection">
@@ -98,8 +77,8 @@ import { AvatarSelection, InputButton } from 'inputs';
 import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading3, Paragraph } from 'typography';
 
-import StagesNav from '../util/StagesNav.vue';
-import transformAvailability from '../../../utils/methods/transformAvailability';
+import PractitionerInfo from './PractitionerInfo.vue';
+import transformAvailability from '../../../../utils/methods/transformAvailability';
 
 export default {
   name: 'practitioner',
@@ -114,10 +93,10 @@ export default {
       InputButton,
       LoadingSpinner,
       Paragraph,
+      PractitionerInfo,
       SlideIn,
       SocialIcons,
-      Spacer,
-    StagesNav
+      Spacer
   },
   data() {
     return {
@@ -134,14 +113,6 @@ export default {
       isProcessing: false,
       store: this.$root.$data,
     };
-  },
-  filters: {
-    specialty(list) {
-      return list.join(', ');
-    },
-    year(value) {
-      return moment(value).format('YYYY');
-    }
   },
   // This is for when the component loads before the practitioner list has finished loading
   watch: {
@@ -175,9 +146,9 @@ export default {
     }
   },
   methods: {
-    determineImage(image, type) {
-      return image ? image : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
-    },
+      determineImage(image, type) {
+          return image ? image : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
+      },
     getAvailability(id) {
       this.isProcessing = true;
       if (!this.store.signup.data.practitioner_id) {

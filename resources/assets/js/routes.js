@@ -44,7 +44,7 @@ if (context === 'get-started' && loggedIn) {
       component: require('./v2/components/pages/getstarted/Welcome.vue') },
     { path: 'practitioner',
       name: 'practitioner',
-      component: require('./pages/get-started/children/Practitioner.vue') },
+      component: require('./v2/components/pages/getstarted/Practitioner.vue') },
     { path: 'phone',
       name: 'phone',
       component: require('./pages/get-started/children/Phone.vue') },
