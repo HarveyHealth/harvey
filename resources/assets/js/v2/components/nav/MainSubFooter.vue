@@ -27,7 +27,7 @@
                                 @click.prevent="handleEmailCapture"
                             />
                             <SlideIn v-if="emailCaptureSuccess">
-                                <span class="dark-gray dib mt3" v-if="emailCaptureSuccess">Success! Check your email to download.</span>
+                                <span class="font-lg green dib mt3" v-if="emailCaptureSuccess">Success! Check your email for a complimentary eBook.</span>
                             </SlideIn>
                             <div :class="emailCaptureClasses">{{ emailCaptureFeedback }}</div>
                         </div>

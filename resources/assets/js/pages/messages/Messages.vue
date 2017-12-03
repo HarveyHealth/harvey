@@ -12,6 +12,7 @@
                             </button>
                             <ClipLoader class="main-action" style="background-color: transparent;" v-else :color="'#82BEF2'" :loading="true" />
                         </h1>
+                        <p class="font-italic gray font-xs is-padding-left margin-bottom-0">Please note: doctors may take up to 24 hours to respond. The messaging service should not to be used for urgent matters. Please call 911 in the event of emergency.</p>
                     </div>
                 </div>
                 <NotificationPopup
@@ -33,6 +34,7 @@
                     <router-link :to="{
                         name: 'detail',
                         params: {
+                        path: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                         thread_id: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                         subject: chat.attributes.subject,
                         sender_id : chat.attributes.sender_user_id,

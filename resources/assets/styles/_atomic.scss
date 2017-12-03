@@ -17,8 +17,18 @@
 .m0auto {
     margin: 0 auto;
 }
+.mha {
+    margin-left: auto;
+    margin-right: auto;
+}
 
 // typography
 .uppercase {
     text-transform: uppercase;
+}
+// padding
+@include query(xl) {
+    .pa4-xl {
+        padding: $spacing-large;
+    }
 }
