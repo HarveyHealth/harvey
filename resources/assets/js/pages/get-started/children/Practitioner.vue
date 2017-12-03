@@ -23,20 +23,24 @@
             </div>
 
             <template v-else>
-                <div class="signup-stage-instructions color-white">
-                    <StagesNav :current="'practitioner'" />
-                    <h2 class="heading-1 font-normal color-white">Choose Your Doctor</h2>
-                    <p>Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.</p>
+                <div class="m0auto mw6">
+                    <Heading1 doesExpand :color="'light'">Choose Your Doctor</Heading1>
+                    <Spacer isBottom :size="3" />
+                    <Paragraph :color="'light'">Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.</Paragraph>
                 </div>
-                <div class="signup-container large">
-                    <div class="signup-practitioner-wrapper cf">
+                <Spacer isBottom :size="3" />
+                <Card class="m0auto mw7">
+                    <CardContent class="pv4 ph4-m">
                         <div class="practitioner-wrapper">
-                            <h3 class="signup-section-header heading-2 font-centered">Available Doctors</h3>
+                            <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
+                            <Spacer isBottom :size="2" />
                             <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
-                                <button :class="{ 'signup-practitioner-selector': true, 'active': index === selected }" @click="select(dr, index)">
-                                    <img :src="determineImage(dr.info.picture_url, 'user')" />
-                                </button>
-                                <small class="signup-practitioner-selector-name">{{ dr.name }}</small>
+                                <AvatarSelection
+                                    :caption="dr.name"
+                                    :image="determineImage(dr.info.picture_url, 'user')"
+                                    :isActive="index === selected"
+                                    :onClick="() => select(dr, index)"
+                                />
                             </div>
                         </div>
                         <div class="practitioner-wrapper right">
@@ -62,19 +66,19 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <p class="closing-selection" v-if="hasSelection">
-                        Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND.</span>
-                    </p>
-                    <p class="copy-error tc" v-html="errorText" v-show="errorText"></p>
-                    <div class="font-centered" ref="button">
-                        <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
-                            <span v-if="!isProcessing">Continue</span>
-                            <LoadingSpinner v-else-if="isProcessing" />
-                            <i v-else-if="isComplete" class="fa fa-check"></i>
-                        </button>
-                    </div>
-                </div>
+                        <p class="closing-selection" v-if="hasSelection">
+                            Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND.</span>
+                        </p>
+                        <p class="copy-error tc" v-html="errorText" v-show="errorText"></p>
+                        <div class="font-centered" ref="button">
+                            <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
+                                <span v-if="!isProcessing">Continue</span>
+                                <LoadingSpinner v-else-if="isProcessing" />
+                                <i v-else-if="isComplete" class="fa fa-check"></i>
+                            </button>
+                        </div>
+                    </CardContent>
+                </Card>
             </template>
         </div>
     </SlideIn>
@@ -84,9 +88,9 @@
 import moment from 'moment';
 import { LoadingSpinner } from 'feedback';
 import { Icon, SocialIcons } from 'icons';
-import { InputButton } from 'inputs';
+import { AvatarSelection, InputButton } from 'inputs';
 import { Card, CardContent, SlideIn, Spacer } from 'layout';
-import { Heading1, Paragraph } from 'typography';
+import { Heading1, Heading3, Paragraph } from 'typography';
 
 import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
@@ -94,9 +98,11 @@ import transformAvailability from '../../../utils/methods/transformAvailability'
 export default {
   name: 'practitioner',
   components: {
+      AvatarSelection,
       Card,
       CardContent,
       Heading1,
+      Heading3,
       Icon,
       InputButton,
       LoadingSpinner,
