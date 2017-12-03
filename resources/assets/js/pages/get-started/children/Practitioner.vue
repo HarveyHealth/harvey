@@ -30,42 +30,45 @@
                 </div>
                 <Spacer isBottom :size="3" />
                 <Card class="m0auto mw7">
-                    <CardContent class="pv4 ph4-m">
-                        <div class="practitioner-wrapper">
-                            <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
-                            <Spacer isBottom :size="2" />
-                            <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
-                                <AvatarSelection
-                                    :caption="dr.name"
-                                    :image="determineImage(dr.info.picture_url, 'user')"
-                                    :isActive="index === selected"
-                                    :onClick="() => select(dr, index)"
-                                />
-                            </div>
-                        </div>
-                        <div class="practitioner-wrapper right">
-                            <div v-if="hasSelection">
-                                <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + determineImage(practitioners[selected].info.background_picture_url, 'background') + ')' }"></div>
-                                <img class="practitioner-avatar" :src="determineImage(practitioners[selected].info.picture_url, 'user')" />
-                                <h3 v-if="practitioners[selected].name" class="practitioner-name font-centered font-normal heading-3">{{ practitioners[selected].name }}, ND</h3>
-                                <p v-if="practitioners[selected].info.license_number" class="practitioner-license text-centered">License {{ practitioners[selected].info.license_number }}</p>
-                                <div class="practitioner-info-wrapper font-sm">
-                                    <p v-if="practitioners[selected].info.description">{{ practitioners[selected].info.description }}</p>
-                                    <hr class="practitioner-divider" />
-                                    <ul class="practitioner-info">
-                                        <li v-if="practitioners[selected].info.graduated_at">
-                                            <span>Graduated:</span> {{ practitioners[selected].info.graduated_at.date | year }}
-                                        </li>
-                                        <li v-if="practitioners[selected].info.school">
-                                            <span class="font-sm">Degree:</span> {{ practitioners[selected].info.school }}
-                                        </li>
-                                        <li v-if="practitioners[selected].info.specialty">
-                                            <span>Specialties:</span> {{ practitioners[selected].info.specialty | specialty }}
-                                        </li>
-                                    </ul>
+                    <CardContent>
+                        <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
+                            <div :slot="1" class="col">
+                                <Spacer isBottom :size="3" />
+                                <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
+                                <Spacer isBottom :size="3" />
+                                <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
+                                    <AvatarSelection
+                                        :caption="dr.name"
+                                        :image="determineImage(dr.info.picture_url, 'user')"
+                                        :isActive="index === selected"
+                                        :onClick="() => select(dr, index)"
+                                    />
                                 </div>
                             </div>
-                        </div>
+                            <div :slot="2" class="col">
+                                <div v-if="hasSelection">
+                                    <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + determineImage(practitioners[selected].info.background_picture_url, 'background') + ')' }"></div>
+                                    <img class="practitioner-avatar" :src="determineImage(practitioners[selected].info.picture_url, 'user')" />
+                                    <h3 v-if="practitioners[selected].name" class="practitioner-name font-centered font-normal heading-3">{{ practitioners[selected].name }}, ND</h3>
+                                    <p v-if="practitioners[selected].info.license_number" class="practitioner-license text-centered">License {{ practitioners[selected].info.license_number }}</p>
+                                    <div class="practitioner-info-wrapper font-sm">
+                                        <p v-if="practitioners[selected].info.description">{{ practitioners[selected].info.description }}</p>
+                                        <hr class="practitioner-divider" />
+                                        <ul class="practitioner-info">
+                                            <li v-if="practitioners[selected].info.graduated_at">
+                                                <span>Graduated:</span> {{ practitioners[selected].info.graduated_at.date | year }}
+                                            </li>
+                                            <li v-if="practitioners[selected].info.school">
+                                                <span class="font-sm">Degree:</span> {{ practitioners[selected].info.school }}
+                                            </li>
+                                            <li v-if="practitioners[selected].info.specialty">
+                                                <span>Specialties:</span> {{ practitioners[selected].info.specialty | specialty }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </Grid>
                         <p class="closing-selection" v-if="hasSelection">
                             Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND.</span>
                         </p>
@@ -89,7 +92,7 @@ import moment from 'moment';
 import { LoadingSpinner } from 'feedback';
 import { Icon, SocialIcons } from 'icons';
 import { AvatarSelection, InputButton } from 'inputs';
-import { Card, CardContent, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading3, Paragraph } from 'typography';
 
 import StagesNav from '../util/StagesNav.vue';
@@ -101,6 +104,7 @@ export default {
       AvatarSelection,
       Card,
       CardContent,
+      Grid,
       Heading1,
       Heading3,
       Icon,
@@ -212,3 +216,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .col {
+        background-color: $color-gray-0;
+    }
+</style>
