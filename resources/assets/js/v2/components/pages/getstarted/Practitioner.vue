@@ -25,10 +25,10 @@
             <template v-else>
                 <div class="m0auto mw6">
                     <Heading1 doesExpand :color="'light'">Choose Your Doctor</Heading1>
-                    <Spacer isBottom :size="3" />
+                    <Spacer isBottom :size="2" />
                     <Paragraph :color="'light'">Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.</Paragraph>
                 </div>
-                <Spacer isBottom :size="3" />
+                <Spacer isBottom :size="4" />
                 <Card class="m0auto mw7">
                     <CardContent>
                         <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
@@ -51,16 +51,21 @@
                                 <PractitionerInfo :practitioner="practitioners[selected]" />
                             </div>
                         </Grid>
-                        <p class="closing-selection" v-if="hasSelection">
-                            Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND.</span>
-                        </p>
-                        <p class="copy-error tc" v-html="errorText" v-show="errorText"></p>
-                        <div class="font-centered" ref="button">
-                            <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
-                                <span v-if="!isProcessing">Continue</span>
-                                <LoadingSpinner v-else-if="isProcessing" />
-                                <i v-else-if="isComplete" class="fa fa-check"></i>
-                            </button>
+                        <Paragraph v-if="hasSelection">
+                            Your selection is <span class="bg-gray-0 font-bold">{{ practitioners[selected].name }}, ND.</span>
+                        </Paragraph>
+                        <Spacer isBottom :size="3" v-show="errorText" />
+                        <div v-show="errorText">
+                            <Paragraph class="red tc" v-html="errorText"></Paragraph>
+                        </div>
+                        <Spacer isBottom :size="3" />
+                        <div ref="button">
+                            <InputButton
+                                :isProcessing="isProcessing"
+                                :onClick="() => getAvailability(store.signup.data.practitioner_id)"
+                                :text="'Continue'"
+                                :width="'160px'"
+                            />
                         </div>
                     </CardContent>
                 </Card>
@@ -100,15 +105,6 @@ export default {
   },
   data() {
     return {
-      containerClasses: {
-        'anim-fade-slideup': true,
-        'anim-fade-slideup-in': false,
-        'container': true,
-        'pad-md': true,
-        'flex-wrapper': true,
-        'height-100': true,
-        'justify-center': true
-      },
       errorText: null,
       isProcessing: false,
       store: this.$root.$data,
