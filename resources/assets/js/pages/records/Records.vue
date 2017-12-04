@@ -69,7 +69,7 @@
                         </div>
 
                         <!-- Actions -->
-                        <div :slot="2" class="absolute top-1 right-1 w-33">
+                        <div :slot="2" class="absolute top-1 right-0 pr3 w-33">
                           <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, l:2 }">
                             <span :slot="1" class="custom-select">
                               <select class="f3 h-100" @change="updateMenu($event)">
@@ -82,12 +82,13 @@
                     </Grid>
                   </div>
 
-                  <div class="">
+                  <div class="pa2 pa3-m">
                     <div v-if="page === 0">
-                      <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
+                      <!-- <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt=""> -->
                     </div>
-                    <div class="card" v-if="page !== 0">
-                      <div class="card-heading-container">
+
+                    <div v-if="page !== 0">
+                      <!-- <div class="card-heading-container">
                         <h2 class="">
                           {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
                           {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
@@ -99,7 +100,7 @@
                         <h2 class="">
                           {{ selectedPatient.search_name }}
                         </h2>
-                      </div>
+                      </div> -->
 
                       <div v-if="page === 1">
                         <SoapNote :patient="selectedPatient" />
@@ -119,7 +120,6 @@
                       <div v-if="page === 6">
                         <Treatment :patient="selectedPatient" />
                       </div>
-
                     </div>
                   </div>
 
@@ -260,7 +260,7 @@
 <script>
 import { LoadingSpinner } from 'feedback';
 import { Paragraph, Heading2 } from 'typography';
-import { Card, Grid, PageHeader, PageContainer } from 'layout';
+import { Card, CardContent, Grid, PageHeader, PageContainer } from 'layout';
 
 import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
@@ -283,6 +283,7 @@ export default {
         Heading2,
         LoadingSpinner,
         Card,
+        CardContent,
         Grid,
         PageContainer,
         PageHeader,
