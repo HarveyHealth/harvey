@@ -552,7 +552,7 @@ export default {
     },
     validDiscountCode() {
       if (this.discountCode !== '') {
-        axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
+        axios.get(`${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}&applies_to=lab-test`)
           .then(this.processDiscount)
           .catch(() => this.disabledDiscount = true);
       } else {
