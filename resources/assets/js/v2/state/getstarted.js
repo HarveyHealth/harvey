@@ -33,6 +33,7 @@ export default {
         selectedPractitioner: 0,
         selectedWeek: null,
         selectedTime: null,
+        showProgress: false,
         steps: ['practitioner', 'phone', 'schedule', 'payment', 'confirmation'],
         stepsCompleted: 0
     },

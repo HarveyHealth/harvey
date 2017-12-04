@@ -2,7 +2,6 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="vertical-center tc">
       <div class="signup-stage-instructions color-white">
-        <StagesNav :current="'phone'" />
         <h2 class="heading-1 color-white" v-text="title"></h2>
         <p v-html="subtext"></p>
       </div>
@@ -63,7 +62,6 @@
 <script>
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import ConfirmInput from '../../../commons/ConfirmInput.vue';
-import StagesNav from '../util/StagesNav.vue';
 import { TheMask } from 'vue-the-mask';
 
 export default {
@@ -71,7 +69,6 @@ export default {
   components: {
     ClipLoader,
     ConfirmInput,
-    StagesNav,
     TheMask
   },
   data() {
@@ -149,7 +146,12 @@ export default {
             this.isPhoneConfirming = false;
             setTimeout(() => {
               this.$root.$data.signup.phoneConfirmed = true;
-              this.$router.push({ name: 'schedule', path: '/schedule' });
+
+              const completed = 'getstarted.signup.stepsCompleted';
+              if (this.State(completed) < 2) {
+                  App.setState(completed, this.State(completed) + 1);
+              }
+              this.$router.push({ path: `/${App.Logic.getstarted.nextStep.call(this, 'phone')}` });
             }, 500);
           } else {
             this.setInvalidCode();
@@ -219,8 +221,8 @@ export default {
     }
   },
   mounted () {
+    window.scroll(0, 0);
     this.$root.toDashboard();
-    this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
     analytics.page('Phone');

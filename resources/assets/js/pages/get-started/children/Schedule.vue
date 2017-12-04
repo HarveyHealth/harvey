@@ -2,7 +2,6 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="vertical-center tc">
       <div class="signup-stage-instructions color-white">
-        <StagesNav :current="'schedule'" />
         <h2 class="heading-1 color-white">Choose Date &amp; Time</h2>
         <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
       </div>
@@ -54,13 +53,9 @@
 
 <script>
 import moment from 'moment';
-import StagesNav from '../util/StagesNav.vue';
 
 export default {
   name: 'schedule',
-  components: {
-    StagesNav
-  },
   data() {
     return {
       containerClasses: {
@@ -192,6 +187,7 @@ export default {
     }
   },
   mounted () {
+    window.scroll(0, 0);
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('schedule');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);

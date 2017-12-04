@@ -73,6 +73,7 @@
 
 <script>
 import moment from 'moment';
+
 import { LoadingSpinner } from 'feedback';
 import { Icon, SocialIcons } from 'icons';
 import { AvatarSelection, InputButton } from 'inputs';
@@ -80,7 +81,6 @@ import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading3, Paragraph } from 'typography';
 
 import PractitionerInfo from './PractitionerInfo.vue';
-import transformAvailability from '../../../../utils/methods/transformAvailability';
 
 export default {
     name: 'practitioner',
@@ -150,6 +150,11 @@ export default {
                     this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
                     this.isProcessing = false;
                 } else {
+                    // If no steps have been completed, tick steps completed
+                    const completed = 'getstarted.signup.stepsCompleted';
+                    if (this.State(completed) < 1) {
+                        App.setState(completed, this.State(completed) + 1);
+                    }
                     this.$router.push({ path: `/${App.Logic.getstarted.nextStep.call(this, 'practitioner')}` });
                 }
             });
@@ -168,7 +173,11 @@ export default {
             this.errorText = null;
         }
     },
+    beforeMount() {
+        App.setState('getstarted.signup.showProgress', true);
+    },
     mounted () {
+        window.scroll(0, 0);
         App.Logic.getstarted.redirectDashboard();
         // This is for when the component loads after the practitioners had loaded
         if (this.practitioners.length) this.select(this.practitioners[0], 0, true);

@@ -2,6 +2,7 @@
 
 // background-color
 .bg-alt { background-color: $alt; }
+.bg-blue { background-color: $color-accent-dark; }
 .bg-green { background-color: $green; }
 .bg-gray-0 { background-color: $gray-0; }
 .bg-gray-1 { background-color: $gray-1; }
@@ -9,6 +10,7 @@
 .bg-gray-3 { background-color: $gray-3; }
 .bg-gray-4 { background-color: $gray-4; }
 .bg-gray-5 { background-color: $gray-5; }
+.bg-success { background-color: $color-good; }
 
 // color
 .alt { color: $alt; }

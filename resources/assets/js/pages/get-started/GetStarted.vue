@@ -2,16 +2,24 @@
     <div>
         <PublicNav v-if="!isSignupForm" disableMobile giveSpace hasLogo hasPhone />
         <div class="bg-blue-fade"></div>
+        <ProgressBar
+            v-show="State('getstarted.signup.showProgress')"
+            class="get-started-progress mha mt2 mw6 ph3"
+            :progress="State('getstarted.signup.stepsCompleted')"
+            :total="State('getstarted.signup.steps').length"
+        />
         <router-view />
     </div>
 </template>
 
 <script>
+import { ProgressBar } from 'feedback';
 import { PublicNav } from 'nav';
 
 export default {
     name: 'get-started',
     components: {
+        ProgressBar,
         PublicNav
     },
     computed: {
@@ -53,5 +61,9 @@ export default {
 
     .height-100 {
         height: calc(100% - 100px);
+    }
+
+    .get-started-progress {
+        color: rgba(255, 255, 255, 0.5);
     }
 </style>
