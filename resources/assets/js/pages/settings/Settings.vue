@@ -172,7 +172,7 @@ export default {
                 this.notificationMessage = "Successfully updated!";
                 this.notificationActive = true;
                 setTimeout(() => this.notificationActive = false, 3000);
-            })
+            });
         },
         closeDetails() {
             this.details = false;
