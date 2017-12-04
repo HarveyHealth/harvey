@@ -55,57 +55,74 @@
             <!-- Non-Patient Step Two -->
             <div v-if="step == 2">
               <div v-if="$root.$data.permissions !== 'patient'">
-                <div class="">
-                  <i class="fa fa-search"></i>
-                  <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="" />
-                </div>
-                <div class="">
-                  <span class="custom-select">
-                    <select @change="updateMenu($event)">
-                      <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
-                    </select>
-                  </span>
-                  <button @click="newRecord" class="button">New Record</button>
-                </div>
-                <div class="">
-                  <div v-if="page === 0">
-                    <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
-                  </div>
-                  <div class="card" v-if="page !== 0">
-                    <div class="card-heading-container">
-                      <h2 class="">
-                        {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
-                        {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
-                        {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
-                        {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
-                        {{ page === 5 ? `Intake Form` : null }}
-                        {{ page === 6 ? `Treatment Plan` : null }}
-                      </h2>
-                      <h2 class="">
-                        {{ selectedPatient.search_name }}
-                      </h2>
-                    </div>
 
-                    <div v-if="page === 1">
-                      <SoapNote :patient="selectedPatient" />
-                    </div>
-                    <div v-if="page === 2">
-                      <LabResults :patient="selectedPatient" />
-                    </div>
-                    <div v-if="page === 3">
-                      <Prescription :patient="selectedPatient" />
-                    </div>
-                    <div v-if="page === 4">
-                      <Attachment :patient="selectedPatient" />
-                    </div>
-                    <div v-if="page === 5">
-                      <Intake :patient="selectedPatient" />
-                    </div>
-                    <div v-if="page === 6">
-                      <Treatment :patient="selectedPatient" />
-                    </div>
+                <div class="content-with-flyout">
 
+                  <div class="bb b--light-gray bg-white pa4 w-100 relative">
+                    <!-- Search Bar -->
+                    <Grid :flexAt="'l'" :columns="[{ l:'2of3' }, { l:'1of3' }]">
+                        <div :slot="1">
+                          <form>
+                            <i class="fa fa-search absolute left-2"></i>
+                            <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
+                          </form>
+                        </div>
+
+                        <!-- Actions -->
+                        <div :slot="2" class="absolute top-1 right-1 w-33">
+                          <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, l:2 }">
+                            <span :slot="1" class="custom-select">
+                              <select class="f3 h-100" @change="updateMenu($event)">
+                                <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
+                              </select>
+                            </span>
+                            <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
+                          </Grid>
+                        </div>
+                    </Grid>
                   </div>
+
+                  <div class="">
+                    <div v-if="page === 0">
+                      <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
+                    </div>
+                    <div class="card" v-if="page !== 0">
+                      <div class="card-heading-container">
+                        <h2 class="">
+                          {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
+                          {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
+                          {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
+                          {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
+                          {{ page === 5 ? `Intake Form` : null }}
+                          {{ page === 6 ? `Treatment Plan` : null }}
+                        </h2>
+                        <h2 class="">
+                          {{ selectedPatient.search_name }}
+                        </h2>
+                      </div>
+
+                      <div v-if="page === 1">
+                        <SoapNote :patient="selectedPatient" />
+                      </div>
+                      <div v-if="page === 2">
+                        <LabResults :patient="selectedPatient" />
+                      </div>
+                      <div v-if="page === 3">
+                        <Prescription :patient="selectedPatient" />
+                      </div>
+                      <div v-if="page === 4">
+                        <Attachment :patient="selectedPatient" />
+                      </div>
+                      <div v-if="page === 5">
+                        <Intake :patient="selectedPatient" />
+                      </div>
+                      <div v-if="page === 6">
+                        <Treatment :patient="selectedPatient" />
+                      </div>
+
+                    </div>
+                  </div>
+
                 </div>
 
                 <!-- Flyout -->
@@ -573,5 +590,11 @@ export default {
       &:hover {
         background-color: $color-gray-5;
       }
+    }
+    .content-with-flyout {
+      padding-right: 350px;
+    }
+    .custom-select {
+      margin-top: 0;
     }
 </style>
