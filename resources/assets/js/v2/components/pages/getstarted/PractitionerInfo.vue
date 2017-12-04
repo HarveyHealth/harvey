@@ -4,25 +4,25 @@
         <img class="avatar" :src="practitionerAvatar" />
         <Spacer isBottom :size="3" />
         <div class="pa3">
-            <Heading2 v-if="practitioner.name">{{ practitioner.name }}, ND</Heading2>
+            <Heading2 v-if="practitioner.attributes.name">{{ practitioner.attributes.name }}, ND</Heading2>
             <Spacer isBottom :size="3" />
-            <Paragraph v-if="practitioner.info.license_number">
-                License {{ practitioner.info.license_number }}
+            <Paragraph v-if="practitioner.attributes.license_number">
+                License {{ practitioner.attributes.license_number }}
             </Paragraph>
             <div class="tl">
-                <Paragraph v-if="practitioner.info.description" :weight="'thin'">
-                    {{ practitioner.info.description }}
+                <Paragraph v-if="practitioner.attributes.description" :weight="'thin'">
+                    {{ practitioner.attributes.description }}
                 </Paragraph>
                 <hr class="divider mv3" />
                 <ul class="info">
-                    <li v-if="practitioner.info.graduated_at">
-                        <span>Graduated:</span> {{ practitioner.info.graduated_at.date | year }}
+                    <li v-if="practitioner.attributes.graduated_at">
+                        <span>Graduated:</span> {{ practitioner.attributes.graduated_at.date | year }}
                     </li>
-                    <li v-if="practitioner.info.school">
-                        <span>Degree:</span> {{ practitioner.info.school }}
+                    <li v-if="practitioner.attributes.school">
+                        <span>Degree:</span> {{ practitioner.attributes.school }}
                     </li>
-                    <li v-if="practitioner.info.specialty">
-                        <span>Specialties:</span> {{ practitioner.info.specialty | specialty }}
+                    <li v-if="practitioner.attributes.specialty">
+                        <span>Specialties:</span> {{ practitioner.attributes.specialty | specialty }}
                     </li>
                 </ul>
             </div>
@@ -46,11 +46,11 @@ export default {
     },
     computed: {
         practitionerAvatar() {
-            return this.determineImage(this.practitioner.info.picture_url, 'user');
+            return this.determineImage(this.practitioner.attributes.picture_url, 'user');
         },
         practitionerBackground() {
             return {
-                backgroundImage: `url(${this.determineImage(this.practitioner.info.background_picture_url, 'background')})`
+                backgroundImage: `url(${this.determineImage(this.practitioner.attributes.background_picture_url, 'background')})`
             }
         }
     },
