@@ -243,7 +243,7 @@
 <script>
 import { LoadingSpinner } from 'feedback';
 import { Paragraph, Heading2 } from 'typography';
-import { Card, CardContent, Grid, PageHeader, PageContainer, SlideIn, Spacer } from 'layout';
+import { Card, Grid, PageHeader, PageContainer } from 'layout';
 
 import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
