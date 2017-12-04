@@ -1,32 +1,32 @@
 <template>
     <div>
-        <div v-if="$parent.news" class="lab-body">
-            <div class="p-spacing">
+        <div v-if="$parent.news" class="">
+            <div class="">
                 <p>
-                    You are about upload a prescription for client {{ patient.search_name }}, 
-                    with adate of birth {{ patient.date_of_birth }}. 
-                    Please verify the name of the pharmacy before 
+                    You are about upload a prescription for client {{ patient.search_name }},
+                    with adate of birth {{ patient.date_of_birth }}.
+                    Please verify the name of the pharmacy before
                     uploading, so we can keep things organized.
                     Anything you upload will be viewable to your patient.
                     The only file format accepted is a PDF.
                 </p>
             </div>
-            <div class="card-heading-container records-spacing fullWidth floatLeft">
-                <div class="width-175">
+            <div class="card-heading-container">
+                <div class="">
                     <label class="input__label">pharmacy</label>
-                    <span class="custom-select bg-white">
+                    <span class="custom-select">
                         <select @change="updateName($event)">
                             <option v-for="script in prescriptionList" :data-id="script">{{ script.name }}</option>
                         </select>
                     </span>
                 </div>
-                <div class="width-175">
+                <div class="">
                     <label class="input__label">upload</label>
                     <label for="file-select-prescription" :class="{'disabled--cursor': !selected}">
-                        <div class="border-upload-container">
-                            <div class="upload-container">
-                                <i class="fa fa-book pdf-icons"></i>
-                                <p class="pdf-upload-text">Prescription (PDF)</p>
+                        <div class="">
+                            <div class="">
+                                <i class="fa fa-book"></i>
+                                <p class="">Prescription (PDF)</p>
                             </div>
                         </div>
                     </label>
@@ -34,8 +34,8 @@
                 </div>
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
-            <div class="fullWidth floatLeft quick-notes-border topMargin30">
-                <h2 class="text-center">Quick Notes</h2>
+            <div class="">
+                <h2 class="">Quick Notes</h2>
                 <quill-editor
                     output="html"
                     :options="editorOption"
@@ -43,18 +43,18 @@
                 />
             </div>
         </div>
-        <div class="record-image" v-if="!$parent.news">
-            <iframe :class="{width70: $root.$data.permissions !== 'patient', floatLeft: $root.$data.permissions !== 'patient'}" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="prescriptionUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="width30 floatLeft">
-                <h2 class="text-center">Quick Notes</h2>
+        <div class="" v-if="!$parent.news">
+            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="" :src="prescriptionUrl" />
+            <div v-if="$root.$data.permissions !== 'patient'" class="">
+                <h2 class="">Quick Notes</h2>
                 <quill-editor
                     output="html"
                     :options="editorOption"
                     v-model="quickNotes"
                 />
             </div>
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
-                <button @click="deleteModal()" class="button bg-danger margin15">Archive Prescription</button>
+            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
+                <button @click="deleteModal()" class="button bg-danger">Archive Prescription</button>
             </div>
             <Modal
                 :active="deleteModalActive"

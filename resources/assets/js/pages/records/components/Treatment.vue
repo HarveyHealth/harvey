@@ -1,8 +1,8 @@
 <template>
-    <div class="records-container">
+    <div class="">
         <div class="treatment-plan">
-            <div 
-                disabled 
+            <div
+                disabled
                 v-html="plan"
              />
         </div>
