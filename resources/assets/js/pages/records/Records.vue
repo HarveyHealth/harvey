@@ -454,21 +454,21 @@ export default {
                     let patientUserId = this.$root.$data.global.user.id;
                     let patientId = this.$root.$data.global.user.included.id;
                     let object = {
-                        address_1: patientUserData.address_1,
-                        address_2: patientUserData.address_2,
-                        city: patientUserData.city,
-                        date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
-                        email: patientUserData.email,
-                        has_a_card: patientUserData.has_a_card,
-                        id: patientId,
-                        name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
-                        phone: patientUserData.phone,
-                        search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
-                        state: patientUserData.state,
-                        user_id: patientUserId,
-                        zip: patientUserData.zip,
-                        image: patientUserData.image_url,
-                        created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
+                        address_1: patientUserData.address_1 || null,
+                        address_2: patientUserData.address_2 || null,
+                        city: patientUserData.city || null,
+                        date_of_birth: patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : null,
+                        email: patientUserData.email || null,
+                        has_a_card: patientUserData.has_a_card || null,
+                        id: patientId || null,
+                        name: `${patientUserData.last_name}, ${patientUserData.first_name}` || null,
+                        phone: patientUserData.phone || null,
+                        search_name: `${patientUserData.first_name} ${patientUserData.last_name}` || null,
+                        state: patientUserData.state || null,
+                        user_id: patientUserId || null,
+                        zip: patientUserData.zip || null,
+                        image: patientUserData.image_url || null,
+                        created_at: patientUserData.created_at && patientUserData.created_at.date ? moment(patientUserData.created_at.date).format("MM/DD/YY") : null
                     };
                     this.setPatientLoading(false);
                     return object;
