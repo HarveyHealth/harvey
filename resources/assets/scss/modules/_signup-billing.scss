@@ -11,7 +11,6 @@
 }
 
 #credit-card-form {
-    @include margin(null null 1em null);
     .input-wrap {
         @include margin(null null 1em null);
         .form-input {
@@ -19,5 +18,21 @@
             border-bottom: 2px solid $color-gray-3;
             @include padding(7px);
         }
-    }  
+    }
+}
+
+.trust-logos {
+  @media screen and (max-width: 560px) {
+      display: none;
+  }
+  .stripe {
+    max-width: 95px;
+    @include margin(-15px 10px null 8px);
+    float: left;
+  }
+  .bbb {
+    max-width: 80px;
+    @include margin(3px null null 5px);
+    float: left;
+  }
 }

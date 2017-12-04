@@ -82,6 +82,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\AttachmentCreated' => [
             'App\Listeners\SendPractitionerAttachmentCreatedEmail',
         ],
+
+        'App\Events\LabTestResultCreated' => [
+            'App\Listeners\SendPractitionerLabResultCreatedEmail',
+        ],
     ];
 
     protected $subscribe = [
