@@ -15,7 +15,7 @@ class SendPractitionerLabResultCreatedEmail implements ShouldQueue
         $to = $lab_test_result->labTest->labOrder->practitioner->user->email;
         $patient_name = $lab_test_result->labTest->labOrder->patient->user->full_name;
         $lab_test_name = $lab_test_result->labTest->sku->name;
-        
+
         $transactionalEmailJob = TransactionalEmail::createJob()
             ->setTo($to)
             ->setTemplate('practitioner.lab_test_result.created')
