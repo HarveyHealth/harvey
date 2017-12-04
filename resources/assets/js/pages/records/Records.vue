@@ -1,260 +1,246 @@
 <template>
-  <PageContainer>
+  <div class="main-container">
 
-          <!-- Non-Paitent -->
+      <!-- Non-Patient -->
+      <div v-if="$root.$data.permissions !== 'patient'">
+
+        <!-- Non-Patient Step One -->
+        <div v-if="step == 1" class="relative">
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
+            <div :slot="1" v-if="$root.$data.global.loadingPatients" class="pa2 pa3-m">
+              <LoadingSpinner class="mt3" />
+              <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
+            </div>
+          </Grid>
+
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
+            <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
+              <form>
+                <i class="fa fa-search absolute left-2"></i>
+                <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
+              </form>
+            </div>
+          </Grid>
+
+          <div class="pa2 pa3-m">
+
+            <!-- No results -->
+            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="mt6 tc">
+              <i class="fa fa-ban f2 mb-3"></i>
+              <Heading2>No Records Found</Heading2>
+            </div>
+
+            <!-- Results -->
+            <table v-if="search !== ''" class="w-100 fs3 collapse">
+              <tr v-for="patient in results" @click="selectPatient(patient)" class="patient-row">
+                <td class="pt2 pb2 pl2">{{ patient.search_name }}</td>
+                <td class="pt2 pb2">{{ patient.email }}</td>
+                <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth }}</td>
+              </tr>
+            </table>
+
+          </div>
+
+          <Modal :active="activeModal" :onClose="modalClose">
+            <div class="inline-centered">
+              <h1>Warning</h1>
+              <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
+              <button @click="modalClose" class="button">Go Back</button>
+              <button @click="nextStep" class="button">Yes, I agree</button>
+            </div>
+          </Modal>
+
+        </div>
+
+        <!-- Non-Patient Step Two -->
+        <div v-if="step == 2">
           <div v-if="$root.$data.permissions !== 'patient'">
 
-            <!-- Non-Patient Step One -->
-            <div v-if="step == 1">
-              <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
-                <div :slot="1" v-if="$root.$data.global.loadingPatients" class="pa2 pa3-m">
-                  <LoadingSpinner class="mt3" />
-                  <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
-                </div>
-              </Grid>
+            <div class="content-with-flyout">
 
-              <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
-                <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
-                  <form>
-                    <i class="fa fa-search absolute left-2"></i>
-                    <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
-                  </form>
-                </div>
-              </Grid>
+              <div class="bb b--light-gray bg-white pa4 w-100 relative">
+                <!-- Search Bar -->
+                <Grid :flexAt="'l'" :columns="[{ l:'2of3' }, { l:'1of3' }]">
+                    <div :slot="1">
+                      <form>
+                        <i class="fa fa-search absolute left-2"></i>
+                        <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
+                      </form>
+                    </div>
+
+                    <!-- Actions -->
+                    <div :slot="2" class="absolute top-1 right-0 pr3 w-33">
+                      <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, l:2 }">
+                        <span :slot="1" class="custom-select">
+                          <select class="f3 h-100" @change="updateMenu($event)">
+                            <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
+                          </select>
+                        </span>
+                        <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
+                      </Grid>
+                    </div>
+                </Grid>
+              </div>
 
               <div class="pa2 pa3-m">
-
-                <!-- No results -->
-                <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="mt6 tc">
-                  <i class="fa fa-ban f2 mb-3"></i>
-                  <Heading2>No Records Found</Heading2>
-                </div>
-
-                <!-- Results -->
-                <table v-if="search !== ''" class="w-100 fs3 collapse">
-                  <tr v-for="patient in results" @click="selectPatient(patient)" class="patient-row">
-                    <td class="pt2 pb2 pl2">{{ patient.search_name }}</td>
-                    <td class="pt2 pb2">{{ patient.email }}</td>
-                    <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth }}</td>
-                  </tr>
-                </table>
-
-              </div>
-
-              <Modal :active="activeModal" :onClose="modalClose">
-                <div class="inline-centered">
-                  <h1>Warning</h1>
-                  <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
-                  <button @click="modalClose" class="button">Go Back</button>
-                  <button @click="nextStep" class="button">Yes, I agree</button>
-                </div>
-              </Modal>
-
-            </div>
-
-            <!-- Non-Patient Step Two -->
-            <div v-if="step == 2">
-              <div v-if="$root.$data.permissions !== 'patient'">
-
-                <div class="content-with-flyout">
-
-                  <div class="bb b--light-gray bg-white pa4 w-100 relative">
-                    <!-- Search Bar -->
-                    <Grid :flexAt="'l'" :columns="[{ l:'2of3' }, { l:'1of3' }]">
-                        <div :slot="1">
-                          <form>
-                            <i class="fa fa-search absolute left-2"></i>
-                            <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
-                          </form>
-                        </div>
-
-                        <!-- Actions -->
-                        <div :slot="2" class="absolute top-1 right-0 pr3 w-33">
-                          <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, l:2 }">
-                            <span :slot="1" class="custom-select">
-                              <select class="f3 h-100" @change="updateMenu($event)">
-                                <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
-                              </select>
-                            </span>
-                            <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
-                          </Grid>
-                        </div>
-                    </Grid>
-                  </div>
-
-                  <div class="pa2 pa3-m">
-                    <div v-if="page === 0">
-                      <!-- <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt=""> -->
-                    </div>
-
-                    <div v-if="page !== 0">
-                      <!-- <div class="card-heading-container">
-                        <h2 class="">
-                          {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
-                          {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
-                          {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
-                          {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
-                          {{ page === 5 ? `Intake Form` : null }}
-                          {{ page === 6 ? `Treatment Plan` : null }}
-                        </h2>
-                        <h2 class="">
-                          {{ selectedPatient.search_name }}
-                        </h2>
-                      </div> -->
-
-                      <div v-if="page === 1">
-                        <SoapNote :patient="selectedPatient" />
-                      </div>
-                      <div v-if="page === 2">
-                        <LabResults :patient="selectedPatient" />
-                      </div>
-                      <div v-if="page === 3">
-                        <Prescription :patient="selectedPatient" />
-                      </div>
-                      <div v-if="page === 4">
-                        <Attachment :patient="selectedPatient" />
-                      </div>
-                      <div v-if="page === 5">
-                        <Intake :patient="selectedPatient" />
-                      </div>
-                      <div v-if="page === 6">
-                        <Treatment :patient="selectedPatient" />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <!-- Flyout -->
-                <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
-                  <a class="" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-                  <a class="" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
-                  <div class="" :style="`background-image: url(${selectedPatient.image});`" />
-                  <div class="" />
-                  <div class="input__container">
-                    <div class="">
-                      <span class="">ID: <b>#{{ selectedPatient.id }}</b></span>
-                      <span class="">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                      <span class="">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
-                    </div>
-                    <div class="">
-                      <span class="">City: <b>{{ selectedPatient.city }}</b></span>
-                      <span class="">State: <b>{{ selectedPatient.state }}</b></span>
-                    </div>
-                  </div>
-                  <div class="input__container">
-                    <Timeline
-                    :index="index"
-                    :items="timelineData"
-                    :emptyMessage="`No records for this patient`"
-                    :loading="loading" />
-                  </div>
-                </Flyout>
-
-                <NotificationPopup
-                :active="notificationActive"
-                :comes-from="notificationDirection"
-                :symbol="notificationSymbol"
-                :text="notificationMessage"
-                />
-
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Patient -->
-          <div v-if="$root.$data.permissions === 'patient'">
-
-            <!-- Loading state -->
-            <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
-              <div :slot="1" v-if="patientLoading" class="pa2 pa3-m">
-                <LoadingSpinner class="mt3" />
-                <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
-              </div>
-            </Grid>
-
-
-            <div v-if="selectedUserPatient">
-              {{ getTimelineData() }}
-            </div>
-
-            <div v-if="selectedUserPatient">
-              <div class="">
                 <div v-if="page === 0">
-                  <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
+                  <!-- <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt=""> -->
                 </div>
-                <div class="card print-full-width" v-if="page !== 0">
-                  <div class="card-heading-container">
-                    <h2 class="">
-                      {{ page === 1 ? `Treatment Plan` : null }}
-                      {{ page === 2 ? `Lab Results` : null }}
-                      {{ page === 3 ? `Prescription` : null }}
-                      {{ page === 4 ? `Attachment` : null }}
-                      {{ page === 5 ? `Intake Form` : null }}
-                    </h2>
-                    <h2 class="">
-                      {{ selectedUserPatient.search_name }}
-                    </h2>
-                  </div>
+
+                <div v-if="page !== 0">
 
                   <div v-if="page === 1">
-                    <Treatment :patient="selectedUserPatient" />
+                    <SoapNote :patient="selectedPatient" />
                   </div>
                   <div v-if="page === 2">
-                    <LabResults :patient="selectedUserPatient" />
+                    <LabResults :patient="selectedPatient" />
                   </div>
                   <div v-if="page === 3">
-                    <Prescription :patient="selectedUserPatient" />
+                    <Prescription :patient="selectedPatient" />
                   </div>
                   <div v-if="page === 4">
-                    <Attachment :patient="selectedUserPatient" />
+                    <Attachment :patient="selectedPatient" />
                   </div>
                   <div v-if="page === 5">
-                    <Intake :patient="selectedUserPatient" />
+                    <Intake :patient="selectedPatient" />
                   </div>
-
+                  <div v-if="page === 6">
+                    <Treatment :patient="selectedPatient" />
+                  </div>
                 </div>
               </div>
-              <div v-if="selectedUserPatient" class="hide-print">
-                <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
-                  <a class="" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
-                  <a class="" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
-                  <div class="" :style="`background-image: url(${selectedUserPatient.image});`" />
-                  <div class="" />
-                  <div class="input__container">
-                    <div class="">
-                      <span class="">ID: <b>#{{ selectedUserPatient.id }}</b></span>
-                      <span class="">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
-                      <span class="">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
-                    </div>
-                    <div class="">
-                      <span class="">City: <b>{{ selectedUserPatient.city }}</b></span>
-                      <span class="">State: <b>{{ selectedUserPatient.state }}</b></span>
-                    </div>
-                  </div>
-                  <div class="input__container">
-                    <Timeline
-                    :index="index"
-                    :items="timelineData"
-                    :emptyMessage="`No records for this patient`"
-                    :loading="loading" />
-                  </div>
-                </Flyout>
+
+            </div>
+
+            <!-- Flyout -->
+            <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
+              <a class="" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
+              <a class="" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+              <div class="" :style="`background-image: url(${selectedPatient.image});`" />
+              <div class="" />
+              <div class="input__container">
+                <div class="">
+                  <span class="">ID: <b>#{{ selectedPatient.id }}</b></span>
+                  <span class="">Joined: <b>{{ selectedPatient.created_at }}</b></span>
+                  <span class="">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                </div>
+                <div class="">
+                  <span class="">City: <b>{{ selectedPatient.city }}</b></span>
+                  <span class="">State: <b>{{ selectedPatient.state }}</b></span>
+                </div>
+              </div>
+              <div class="input__container">
+                <Timeline
+                :index="index"
+                :items="timelineData"
+                :emptyMessage="`No records for this patient`"
+                :loading="loading" />
+              </div>
+            </Flyout>
+
+            <NotificationPopup
+            :active="notificationActive"
+            :comes-from="notificationDirection"
+            :symbol="notificationSymbol"
+            :text="notificationMessage"
+            />
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Patient -->
+      <div v-if="$root.$data.permissions === 'patient'">
+
+        <!-- Loading state -->
+        <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
+          <div :slot="1" v-if="patientLoading" class="pa2 pa3-m">
+            <LoadingSpinner class="mt3" />
+            <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
+          </div>
+        </Grid>
+
+
+        <div v-if="selectedUserPatient">
+          {{ getTimelineData() }}
+        </div>
+
+        <div v-if="selectedUserPatient">
+          <div class="">
+            <div v-if="page === 0">
+              <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
+            </div>
+            <div class="card print-full-width" v-if="page !== 0">
+              <div class="card-heading-container">
+                <h2 class="">
+                  {{ page === 1 ? `Treatment Plan` : null }}
+                  {{ page === 2 ? `Lab Results` : null }}
+                  {{ page === 3 ? `Prescription` : null }}
+                  {{ page === 4 ? `Attachment` : null }}
+                  {{ page === 5 ? `Intake Form` : null }}
+                </h2>
+                <h2 class="">
+                  {{ selectedUserPatient.search_name }}
+                </h2>
               </div>
 
-              <NotificationPopup
-              :active="notificationActive"
-              :comes-from="notificationDirection"
-              :symbol="notificationSymbol"
-              :text="notificationMessage"
-              />
+              <div v-if="page === 1">
+                <Treatment :patient="selectedUserPatient" />
+              </div>
+              <div v-if="page === 2">
+                <LabResults :patient="selectedUserPatient" />
+              </div>
+              <div v-if="page === 3">
+                <Prescription :patient="selectedUserPatient" />
+              </div>
+              <div v-if="page === 4">
+                <Attachment :patient="selectedUserPatient" />
+              </div>
+              <div v-if="page === 5">
+                <Intake :patient="selectedUserPatient" />
+              </div>
 
             </div>
           </div>
+          <div v-if="selectedUserPatient" class="hide-print">
+            <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
+              <a class="" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
+              <a class="" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+              <div class="" :style="`background-image: url(${selectedUserPatient.image});`" />
+              <div class="" />
+              <div class="input__container">
+                <div class="">
+                  <span class="">ID: <b>#{{ selectedUserPatient.id }}</b></span>
+                  <span class="">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
+                  <span class="">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
+                </div>
+                <div class="">
+                  <span class="">City: <b>{{ selectedUserPatient.city }}</b></span>
+                  <span class="">State: <b>{{ selectedUserPatient.state }}</b></span>
+                </div>
+              </div>
+              <div class="input__container">
+                <Timeline
+                :index="index"
+                :items="timelineData"
+                :emptyMessage="`No records for this patient`"
+                :loading="loading" />
+              </div>
+            </Flyout>
+          </div>
 
+          <NotificationPopup
+          :active="notificationActive"
+          :comes-from="notificationDirection"
+          :symbol="notificationSymbol"
+          :text="notificationMessage"
+          />
 
-  </PageContainer>
+        </div>
+      </div>
+
+  </div>
 </template>
 
 <script>
@@ -585,6 +571,19 @@ export default {
 <style lang="scss" scoped>
     @import '~sass';
 
+    .main-container {
+      flex-grow: 1;
+      transition: left 200ms ease-in-out, margin-left 200ms ease-in-out;
+
+      .menu-open & {
+        left: 150px;
+      }
+
+      @include query(xl) {
+        margin-left: 150px;
+        left: 0px !important;
+      }
+    }
     .patient-row{
       cursor: pointer;
 

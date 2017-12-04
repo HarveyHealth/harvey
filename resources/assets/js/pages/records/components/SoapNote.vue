@@ -1,5 +1,6 @@
 <template>
   <div id="SNScroller" class="" style="overflow: scroll;">
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Soap Note' : 'Soap Note'" />
     <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
       <Card :slot="1" :heading="'SOAP Note'">
@@ -64,7 +65,7 @@
         </CardContent>
       </Card>
 
-      <!-- Quick Edit -->
+      <!-- Quick Notes -->
       <Card :slot="2" :heading="'Quick Notes'">
         <CardContent>
 
@@ -77,6 +78,13 @@
             />
           </div>
 
+        </CardContent>
+      </Card>
+    </Grid>
+
+    <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Card :slot="1">
+        <CardContent>
           <!-- Save -->
           <div class="inline-centered">
             <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button">Save Changes</button>
@@ -113,7 +121,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
-import { Card, CardContent, Grid } from 'layout';
+import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
     props: {
         patient: Object
@@ -122,7 +130,8 @@ export default {
         Modal,
         Card,
         CardContent,
-        Grid
+        Grid,
+        PageHeader
     },
     data() {
         return {

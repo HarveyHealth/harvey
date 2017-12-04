@@ -1,46 +1,76 @@
 <template>
-    <div>
-        <div v-if="$parent.news" class="">
+  <div>
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Attachment' : 'Attachment'" />
+
+    <!-- New -->
+    <div v-if="$parent.news" class="">
+      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1" :heading="'Attachment'">
+          <CardContent>
             <div class="">
-                <p>
-                    You are about upload an attachment for client {{ patient.search_name }},
-                    with adate of birth {{ patient.date_of_birth }}.
-                    Please verify the name of attachment before
-                    uploading, so we can keep things organized.
-                    Anything you upload will be viewable to your doctor and doctor's assisstants only.
-                    The only file format accepted is a PDF.
-                </p>
+              <p>
+                You are about upload an attachment for client {{ patient.search_name }},
+                with adate of birth {{ patient.date_of_birth }}.
+                Please verify the name of attachment before
+                uploading, so we can keep things organized.
+                Anything you upload will be viewable to your doctor and doctor's assisstants only.
+                The only file format accepted is a PDF.
+              </p>
             </div>
             <div class="card-heading-container">
-                <div class="">
-                    <label class="input__label">file upload</label>
-                    <input class="input--text" v-model="fileName" placeholder="Enter file name">
-                </div>
-                <div class="">
-                    <label class="input__label">upload</label>
-                    <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}">
-                        <div class="">
-                            <div class="">
-                                <i class="fa fa-book"></i>
-                                <p class="">Attachment (PDF)</p>
-                            </div>
-                        </div>
-                    </label>
-                    <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-                </div>
-                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+              <div class="">
+                <label class="input__label">file upload</label>
+                <input class="input--text" v-model="fileName" placeholder="Enter file name">
+              </div>
+              <div class="">
+                <label class="input__label">upload</label>
+                <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}">
+                  <div class="">
+                    <div class="">
+                      <i class="fa fa-book"></i>
+                      <p class="">Attachment (PDF)</p>
+                    </div>
+                  </div>
+                </label>
+                <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+              </div>
+              <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
+          </CardContent>
+        </Card>
+
+
+        <!-- Quick Notes -->
+        <Card :slot="2" :heading="'Quick Notes'">
+          <CardContent>
+
+            <!-- Editor -->
             <div class="">
-                <h2 class="">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="notes"
-                />
+              <quill-editor
+              output="html"
+              :options="editorOption"
+              v-model="quickNotes"
+              />
             </div>
-        </div>
-        <div class="" v-if="!$parent.news">
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="" :src="attachmentUrl" />
+
+          </CardContent>
+        </Card>
+      </Grid>
+    </div>
+
+    <!-- Existing -->
+    <div class="" v-if="!$parent.news">
+      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <!-- Main Card -->
+        <Card :slot="1" :heading="'Attachment'">
+          <CardContent>
+
+            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="w-100" :src="attachmentUrl" />
+          </CardContent>
+        </Card>
+
+        <Card :slot="1" :heading="'Quick Notes'">
+          <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="">
                 <h2 class="">Quick Notes</h2>
                 <quill-editor
@@ -49,29 +79,41 @@
                     v-model="quickNotes"
                 />
             </div>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
                 <button @click="deleteModal()" class="button bg-danger">Archive Attachment</button>
             </div>
-            <Modal
-                :active="deleteModalActive"
-                :onClose="modalClose"
-                class="modal-wrapper"
-            >
-                <div class="card-content-wrap">
-                    <div class="inline-centered">
-                        <h1 class="header-xlarge">
-                            <span class="text">Archive Attachment</span>
-                        </h1>
-                        <p>Are you sure you want to archive this attachment?</p>
-                        <div class="button-wrapper">
-                            <button class="button button--cancel" @click="modalClose">Cancel</button>
-                            <button class="button" @click="deleteItem">Yes, Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Modal
+        :active="deleteModalActive"
+        :onClose="modalClose"
+        class="modal-wrapper"
+      >
+        <div class="card-content-wrap">
+          <div class="inline-centered">
+            <h1 class="header-xlarge">
+              <span class="text">Archive Attachment</span>
+            </h1>
+            <p>Are you sure you want to archive this attachment?</p>
+            <div class="button-wrapper">
+              <button class="button button--cancel" @click="modalClose">Cancel</button>
+              <button class="button" @click="deleteItem">Yes, Confirm</button>
+            </div>
+          </div>
         </div>
+      </Modal>
     </div>
+
+  </div>
 </template>
 
 <script>
@@ -82,13 +124,18 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
 import axios from 'axios';
+import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
     props: {
         patient: Object
     },
     components: {
         Modal,
-        ClipLoader
+        ClipLoader,
+        Card,
+        CardContent,
+        Grid,
+        PageHeader
     },
     directives: {
         mask

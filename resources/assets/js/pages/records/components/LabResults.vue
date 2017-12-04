@@ -1,88 +1,128 @@
 <template>
-    <div>
-        <div v-if="$parent.news" class="">
+  <div>
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Lab Result' : 'Lab Result'" />
+    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+
+      <!-- News -->
+      <Card :slot="1" :heading="'Lab Results'">
+        <CardContent>
+          <div class="">
             <div class="">
-                <p>
-                    You are about upload a new lab test for client {{ patient.search_name }}
-                    (date of birth {{ patient.date_of_birth }}).
-                    Please verify the name of the lab and the type of lab test before
-                    uploading the results, so we can match the result with a lab test.
-                    The only file format accepted is a PDF.
-                </p>
+              <p>
+                You are about upload a new lab test for client {{ patient.search_name }}
+                (date of birth {{ patient.date_of_birth }}).
+                Please verify the name of the lab and the type of lab test before
+                uploading the results, so we can match the result with a lab test.
+                The only file format accepted is a PDF.
+              </p>
             </div>
             <div class="card-heading-container">
-                <div class="">
-                    <label class="input__label">lab name</label>
-                    <span class="custom-select">
-                        <select @change="updateLabType($event)">
-                            <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="">
-                    <label class="input__label">lab test</label>
-                    <span class="custom-select">
-                        <select @change="updateLab($event)">
-                            <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="">
-                    <label class="input__label">upload</label>
-                    <label for="file-select-prescription" :class="{'disabled--cursor': !selectedLabName || !selectedLabType}">
-                        <div class="">
-                            <div class="">
-                                <i class="fa fa-book"></i>
-                                <p class="">Lab Result (PDF)</p>
-                            </div>
-                        </div>
-                    </label>
-                    <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-                </div>
-                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
-            </div>
-            <div class="">
-                <h2 class="">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="notes"
-                />
-            </div>
-        </div>
-        <div class="" v-if="!$parent.news">
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="" :src="resultUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="">
-                <h2 class="">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="quickNotes"
-                />
-            </div>
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
-                <button @click="deleteModal()" class="button bg-danger">Archive Result</button>
-            </div>
-            <Modal
-                :active="deleteModalActive"
-                :onClose="modalClose"
-                class="modal-wrapper"
-            >
-                <div class="card-content-wrap">
-                    <div class="inline-centered">
-                        <h1 class="header-xlarge">
-                            <span class="text">Archive Lab Result</span>
-                        </h1>
-                        <p>Are you sure you want to archive this lab result?</p>
-                        <div class="button-wrapper">
-                            <button class="button button--cancel" @click="modalClose">Cancel</button>
-                            <button class="button" @click="deleteItem">Yes, Confirm</button>
-                        </div>
+              <div class="">
+                <label class="input__label">lab name</label>
+                <span class="custom-select">
+                  <select @change="updateLabType($event)">
+                    <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
+                  </select>
+                </span>
+              </div>
+              <div class="">
+                <label class="input__label">lab test</label>
+                <span class="custom-select">
+                  <select @change="updateLab($event)">
+                    <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
+                  </select>
+                </span>
+              </div>
+              <div class="">
+                <label class="input__label">upload</label>
+                <label for="file-select-prescription" :class="{'disabled--cursor': !selectedLabName || !selectedLabType}">
+                  <div class="">
+                    <div class="">
+                      <i class="fa fa-book"></i>
+                      <p class="">Lab Result (PDF)</p>
                     </div>
+                  </div>
+                </label>
+                <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+              </div>
+              <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card :slot="2" :heading="'Quick Notes'">
+        <CardContent>
+          <div class="">
+            <h2 class=""></h2>
+            <quill-editor
+            output="html"
+            :options="editorOption"
+            v-model="notes"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+    </Grid>
+
+    <div v-if="!$parent.news">
+      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <!-- Not News -->
+        <Card :slot="1" :heading="'Lab Results'">
+          <CardContent>
+            <div class="" >
+              <iframe class="w-100" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" :src="resultUrl" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card :slot="2" :heading="'Quick Notes'">
+          <CardContent>
+            <div class="">
+              <h2 class=""></h2>
+              <quill-editor
+              output="html"
+              :options="editorOption"
+              v-model="notes"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
+            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
+              <button @click="deleteModal()" class="button bg-danger">Archive Result</button>
+            </div>
+
+            <Modal
+            :active="deleteModalActive"
+            :onClose="modalClose"
+            class="modal-wrapper"
+            >
+              <div class="card-content-wrap">
+                <div class="inline-centered">
+                  <h1 class="header-xlarge">
+                    <span class="text">Archive Lab Result</span>
+                  </h1>
+                  <p>Are you sure you want to archive this lab result?</p>
+                  <div class="button-wrapper">
+                    <button class="button button--cancel" @click="modalClose">Cancel</button>
+                    <button class="button" @click="deleteItem">Yes, Confirm</button>
+                  </div>
                 </div>
+              </div>
             </Modal>
-        </div>
+          </CardContent>
+        </Card>
+
+      </Grid>
     </div>
+    
+  </div>
 </template>
 
 <script>
@@ -92,13 +132,18 @@ import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
+import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
     props: {
         patient: Object
     },
     components: {
         Modal,
-        ClipLoader
+        ClipLoader,
+        Card,
+        CardContent,
+        Grid,
+        PageHeader
     },
     data() {
         return {

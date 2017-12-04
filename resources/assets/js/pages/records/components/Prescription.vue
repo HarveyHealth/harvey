@@ -1,15 +1,21 @@
 <template>
-    <div>
-        <div v-if="$parent.news" class="">
+  <div>
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Prescription' : 'Prescription'" />
+
+    <!-- New -->
+    <div v-if="$parent.news" class="">
+      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1" :heading="'Prescription'">
+          <CardContent>
             <div class="">
-                <p>
-                    You are about upload a prescription for client {{ patient.search_name }},
-                    with adate of birth {{ patient.date_of_birth }}.
-                    Please verify the name of the pharmacy before
-                    uploading, so we can keep things organized.
-                    Anything you upload will be viewable to your patient.
-                    The only file format accepted is a PDF.
-                </p>
+              <p>
+                  You are about upload a prescription for client {{ patient.search_name }},
+                  with adate of birth {{ patient.date_of_birth }}.
+                  Please verify the name of the pharmacy before
+                  uploading, so we can keep things organized.
+                  Anything you upload will be viewable to your patient.
+                  The only file format accepted is a PDF.
+              </p>
             </div>
             <div class="card-heading-container">
                 <div class="">
@@ -34,48 +40,84 @@
                 </div>
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
+          </CardContent>
+        </Card>
+
+        <!-- Quick Notes -->
+        <Card :slot="2" :heading="'Quick Notes'">
+          <CardContent>
+
+            <!-- Editor -->
             <div class="">
-                <h2 class="">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="notes"
-                />
+              <quill-editor
+              output="html"
+              :options="editorOption"
+              v-model="quickNotes"
+              />
             </div>
-        </div>
-        <div class="" v-if="!$parent.news">
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="" :src="prescriptionUrl" />
+
+          </CardContent>
+        </Card>
+
+      </Grid>
+    </div>
+
+    <!-- Existing -->
+    <div class="" v-if="!$parent.news">
+      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <!-- Main Card -->
+        <Card :slot="1" :heading="'Prescription'">
+          <CardContent>
+            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="w-100" :src="prescriptionUrl" />
+          </CardContent>
+        </Card>
+
+        <!-- Quick Notes -->
+
+        <Card :slot="2" :heading="'Quick Notes'">
+          <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="">
-                <h2 class="">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="quickNotes"
-                />
+              <h2 class="">Quick Notes</h2>
+              <quill-editor
+                  output="html"
+                  :options="editorOption"
+                  v-model="quickNotes"
+              />
             </div>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
                 <button @click="deleteModal()" class="button bg-danger">Archive Prescription</button>
             </div>
-            <Modal
-                :active="deleteModalActive"
-                :onClose="modalClose"
-                class="modal-wrapper"
-            >
-                <div class="card-content-wrap">
-                    <div class="inline-centered">
-                        <h1 class="header-xlarge">
-                            <span class="text">Archive Prescription</span>
-                        </h1>
-                        <p>Are you sure you want to archive this prescription?</p>
-                        <div class="button-wrapper">
-                            <button class="button button--cancel" @click="modalClose">Cancel</button>
-                            <button class="button" @click="deleteItem">Yes, Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
-        </div>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Modal
+        :active="deleteModalActive"
+        :onClose="modalClose"
+        class="modal-wrapper"
+      >
+          <div class="card-content-wrap">
+              <div class="inline-centered">
+                  <h1 class="header-xlarge">
+                      <span class="text">Archive Prescription</span>
+                  </h1>
+                  <p>Are you sure you want to archive this prescription?</p>
+                  <div class="button-wrapper">
+                      <button class="button button--cancel" @click="modalClose">Cancel</button>
+                      <button class="button" @click="deleteItem">Yes, Confirm</button>
+                  </div>
+              </div>
+          </div>
+      </Modal>
     </div>
+  </div>
 </template>
 
 <script>
@@ -85,13 +127,18 @@ import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
+import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
     props: {
         patient: Object
     },
     components: {
         Modal,
-        ClipLoader
+        ClipLoader,
+        Card,
+        CardContent,
+        Grid,
+        PageHeader
     },
     data() {
         return {
