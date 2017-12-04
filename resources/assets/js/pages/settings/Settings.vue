@@ -90,6 +90,31 @@
 
                 </div>
             </div>
+            <div  class="card" style="width: 450px;">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
+                        Timezone Options
+                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
+                        <div class="loading">
+                            <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
+                        </div>
+                    </div>
+                    <div v-else class="card-contact-info">
+                        <span class="custom-select">
+                            <select name="timezone" @change="changeTimezone" v-model="user.attributes.timezone">
+                                <option v-for="timezone in timezones">{{ timezone }}</option>
+                            </select>
+                        </span>
+                        <div class="button-wrapper">
+                            <button @click="setTimezone" class="button">Save Timezone</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -98,6 +123,8 @@
 import axios from 'axios';
 import Modal from '../../commons/Modal.vue';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
+import timezones from '../../../../../public/timezones.json';
+
 export default {
     name: 'settings',
     components: {
@@ -119,6 +146,8 @@ export default {
             invalidModalActive: false,
             lastName: '',
             month: '',
+            timezones: timezones,
+            selectedTimezone: null,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12'],
             notificationActive: false,
             notificationDirection: 'top-right',
@@ -126,12 +155,6 @@ export default {
             notificationSymbol: '&#10003;',
             postalCode: '',
             sent: false,
-            user: {
-                attributes: {
-                    first_name: '',
-                    last_name: ''
-                }
-            },
             user_id: this.$route.params.id,
             year: '',
             stripe: this.$root.$data.stripe,
@@ -139,6 +162,18 @@ export default {
         };
     },
     methods: {
+        changeTimezone(e) {
+            this.selectedTimezone = e.target.value;
+        },
+        setTimezone() {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || Laravel.user.id}`, { timezone: this.selectedTimezone })
+            .then(() => {
+                this.$root.$data.global.user.attributes.timezone = this.selectedTimezone;
+                this.notificationMessage = "Successfully updated!";
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 3000);
+            })
+        },
         closeDetails() {
             this.details = false;
         },
@@ -300,11 +335,19 @@ export default {
                 this.setUserId(null);
             }
             this.getCards();
+        },
+        user(val) {
+            if (!val) {
+                return this.$root.$data.global.user;
+            }
         }
     },
     computed: {
         _user_id() {
           return this.$route.params.id;
+        },
+        user() {
+            return this.$root.$data.global.user;
         }
     }
 };
