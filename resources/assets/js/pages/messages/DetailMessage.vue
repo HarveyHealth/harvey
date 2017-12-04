@@ -1,12 +1,11 @@
 <template>
     <div class="main-container">
         <div @click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
-        <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                      <span class="text word-wrap">{{ subject }}</span>
+                      <span class="text word-wrap">{{ chat && chat.subject ? chat.subject : 'Loading your messages...' }}</span>
                     </h1>
                     <h3 class="font-sm copy-muted-2">
                       <router-link to="/messages">
@@ -16,7 +15,13 @@
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :senderId="sender_id" :header="subject" :id="user_id" />
+                <Reply 
+                    v-if="renderReply && chat" 
+                    :name="chat.recipient_user_id != your_id ? chat.recipient_full_name : chat.sender_full_name" 
+                    :senderId="chat.sender_user_id" 
+                    :header="chat.subject" 
+                    :id="other_id" 
+                />
             </div>
             <NotificationPopup
                 :active="notificationActive"
@@ -24,7 +29,7 @@
                 :symbol="notificationSymbol"
                 :text="notificationMessage"
             />
-            <div class="content-container">
+            <div v-if="loading" class="content-container">
                 <div class="container-message">
                     <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
@@ -57,12 +62,7 @@
     import _ from 'lodash';
     export default {
         props: {
-            sender_id: String,
-            subject: String,
-            recipient_id: String,
-            sender_name: String,
-            recipient_full_name: String,
-            thread_id: String
+            path: String
         },
         name: 'messages',
         components: {
@@ -77,31 +77,63 @@
               renderNewMessage: false,
               renderReply: false,
               isActive: null,
-              user: this.userName,
               your_id: window.Laravel.user.id,
-              user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right',
-              detailList: this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => a.id - b.id)
+              detailList: []
             };
         },
         computed: {
             stateDetail() {
-                let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
-                let details = messages.sort((a, b) => a.id - b.id);
-                this.setDetails(details);
-                return details;
+                if (this.$root.$data.global.detailMessages[this.$props.path]) {
+                    let messages = this.$root.$data.global.detailMessages[this.$props.path];
+                    let details = messages.sort((a, b) => a.id - b.id);
+                    this.setDetails(details);
+                    return details;
+                } else {
+                    return false;
+                }
+            },
+            loading() {
+                return this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length;
+            },
+            chat() {
+                if (this.$root.$data.global.detailMessages[this.$props.path]) {
+                    return this.$root.$data.global.detailMessages[this.$props.path][0].attributes;
+                }
+                return false;
+            },
+            other_id() {
+                if (this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path][0]) {
+                    return _.pull([this.$root.$data.global.detailMessages[this.$props.path][0].attributes.recipient_user_id, this.$root.$data.global.detailMessages[this.$props.path][0].attributes.sender_user_id], this.your_id)[0];
+                }
+                return false;
             }
         },
         watch: {
             stateDetail(val) {
                 if (!val) {
-                    let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                    let messages = this.$root.$data.global.detailMessages[this.$props.path];
                     let details = messages.sort((a, b) => a.id - b.id);
                     this.setDetails(details);
                     return details;
+                }
+            },
+            loading(val) {
+                if (!val) {
+                    return this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length;
+                }
+            },
+            chat(val) {
+                if (!val && this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length) {
+                    return this.$root.$data.global.detailMessages[this.$props.path][0].attributes;
+                }
+            },
+            other_id(val) {
+                if (!val && this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length) {
+                    return _.pull([this.$root.$data.global.detailMessages[this.$props.path][0].attributes.recipient_user_id, this.$root.$data.global.detailMessages[this.$props.path][0].attributes.sender_user_id], this.your_id)[0];
                 }
             }
         },
@@ -135,6 +167,7 @@
            }
         },
         mounted() {
+            this.$root.$data.global.currentPage = 'details';
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
                 let ws = data.data;
@@ -152,6 +185,7 @@
                     .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
                 this.setDetails(this.$root.$data.global.detailMessages[subject]);
             });
+            this.$root.getMessages();
         }
     };
 </script>
