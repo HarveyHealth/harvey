@@ -66,7 +66,7 @@
                                     {{ page === 6 ? `Treatment Plan` : null }}
                                 </h2>
                                 <h2 class="search-name-label">
-                                    {{ selectedPatient.search_name }}
+                                    {{ selectedPatient.search_name || "Anonymous" }}
                                 </h2>
                             </div>
 
@@ -92,19 +92,19 @@
                         </div>
                     </div>
                     <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
-                        <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-                        <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+                        <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email || "Unknown" }}</a>
+                        <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone || "Unknown" }}</a>
                         <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
                         <div class="records-divider" />
                         <div class="input__container mid-section-flyout">
                             <div class="half-left">
-                                <span class="full-left">ID: <b>#{{ selectedPatient.id }}</b></span>
-                                <span class="full-left">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                                <span class="full-left">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                                <span class="full-left">ID: <b>#{{ selectedPatient.id || "Unknown" }}</b></span>
+                                <span class="full-left">Joined: <b>{{ selectedPatient.created_at || "Unknown" }}</b></span>
+                                <span class="full-left">DOB: <b>{{ selectedPatient.date_of_birth || "Unknown" }}</b></span>
                             </div>
                             <div class="half-left">
-                                <span class="full-left">City: <b>{{ selectedPatient.city }}</b></span>
-                                <span class="full-left">State: <b>{{ selectedPatient.state }}</b></span>
+                                <span class="full-left">City: <b>{{ selectedPatient.city || "Unknown" }}</b></span>
+                                <span class="full-left">State: <b>{{ selectedPatient.state || "Unknown" }}</b></span>
                             </div>
                         </div>
                         <div class="input__container">
@@ -150,7 +150,7 @@
                                     {{ page === 5 ? `Intake Form` : null }}
                                 </h2>
                                 <h2 class="search-name-label">
-                                    {{ selectedUserPatient.search_name }}
+                                    {{ selectedUserPatient.search_name || "Anonymous" }}
                                 </h2>
                             </div>
 
@@ -173,20 +173,20 @@
                         </div>
                     </div>
                     <div v-if="selectedUserPatient" class="hide-print">
-                        <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
-                            <a class="flyout-links" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
-                            <a class="flyout-links" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+                        <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name || 'Unknown'">
+                            <a class="flyout-links" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email || "Unknown" }}</a>
+                            <a class="flyout-links" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone || "Unknown" }}</a>
                             <div class="records-image" :style="`background-image: url(${selectedUserPatient.image});`" />
                             <div class="records-divider" />
                             <div class="input__container mid-section-flyout">
                                 <div class="half-left">
-                                    <span class="full-left">ID: <b>#{{ selectedUserPatient.id }}</b></span>
-                                    <span class="full-left">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
-                                    <span class="full-left">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
+                                    <span class="full-left">ID: <b>#{{ selectedUserPatient.id || "Unknown" }}</b></span>
+                                    <span class="full-left">Joined: <b>{{ selectedUserPatient.created_at || "Unknown" }}</b></span>
+                                    <span class="full-left">DOB: <b>{{ selectedUserPatient.date_of_birth || "Unknown" }}</b></span>
                                 </div>
                                 <div class="half-left">
-                                    <span class="full-left">City: <b>{{ selectedUserPatient.city }}</b></span>
-                                    <span class="full-left">State: <b>{{ selectedUserPatient.state }}</b></span>
+                                    <span class="full-left">City: <b>{{ selectedUserPatient.city || "Unknown" }}</b></span>
+                                    <span class="full-left">State: <b>{{ selectedUserPatient.state || "Unknown" }}</b></span>
                                 </div>
                             </div>
                             <div class="input__container">
