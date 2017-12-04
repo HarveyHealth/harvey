@@ -4,7 +4,7 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  @include margin(0 5px 20px);
+  @include margin(0 5px);
   transition: background 200ms ease-in-out;
   &:hover {
     background: darken(#ddd, 15%);

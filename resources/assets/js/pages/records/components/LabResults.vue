@@ -107,7 +107,7 @@ export default {
             deleteModalActive: false,
             loading: false,
             editorOption: editorOption,
-            notes: ''
+            notes: null
         };
     },
     methods: {
@@ -141,7 +141,9 @@ export default {
             this.loading = true;
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
-            formData.append('notes', this.notes);
+            if (this.notes && this.notes !== '') {
+                formData.append('notes', this.notes);
+            }
             axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, formData)
             .then((response) => {
                 let results = response.data.included.map(e => {

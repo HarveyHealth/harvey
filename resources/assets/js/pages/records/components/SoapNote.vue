@@ -167,7 +167,7 @@ export default {
                 subjective: this.subjectiveTA,
                 objective: this.objectiveTA,
                 assessment: this.assessmentTA,
-                plan: this.planTA
+                plan: this.planTA,
             })
             .then(response => {
                 let object = {};

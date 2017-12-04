@@ -98,7 +98,7 @@ export default {
             selected: null,
             deleteModalActive: false,
             loading: false,
-            notes: '',
+            notes: null,
             editorOption: editorOption
         };
     },
@@ -128,7 +128,9 @@ export default {
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
             formData.append('name', this.selected);
-            formData.append('notes', this.notes);
+            if (this.notes && this.notes !== '') {
+                formData.append('notes', this.notes);
+            }
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/prescriptions`, formData)
             .then((response) => {
                 let object = {};

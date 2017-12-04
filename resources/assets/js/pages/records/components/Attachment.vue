@@ -99,7 +99,7 @@ export default {
             deleteModalActive: false,
             loading: false,
             editorOption: editorOption,
-            notes: ''
+            notes: null
         };
     },
     methods: {
@@ -127,7 +127,9 @@ export default {
             let formData = new FormData();
             this.loading = true;
             formData.append('file', file.target.files[0]);
-            formData.append('notes', this.notes);
+            if (this.notes && this.notes !== '') {
+                formData.append('notes', this.notes);
+            }
             formData.append('name', this.fileName);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, formData)
             .then((response) => {

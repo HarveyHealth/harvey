@@ -1,9 +1,9 @@
 <template>
-  <SlideIn :delay="400" class="height-100">
-    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm-sides max-width-xxl min-width-100 vertical-center-absolute margin-0a">
+  <SlideIn :delay="400">
+    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="form ph2 ph3-l max-width-xxl min-width-100 margin-0a">
       <div class="Row-lg align-middle">
         <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-sm">
-          <div class="is-padding">
+          <div class="pr2 pr3-l">
             <div class="signup-aside-icon-row">
               <span><svg><use xlink:href="#apple" /></svg></span>
               <span><svg><use xlink:href="#stethoscope" /></svg></span>
@@ -13,12 +13,12 @@
               <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
             </div>
             <div class="signup-aside-text">
-              <div class="logo-wrapper">
+              <div class="logo-wrapper tc">
                 <a href="/">
                   <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
                 </a>
               </div>
-              <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition!</p>
+              <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition. Please sign up to continue.</p>
             </div>
             <div class="signup-aside-icon-row">
               <span><svg><use xlink:href="#heart" /></svg></span>
@@ -30,9 +30,11 @@
             </div>
           </div>
         </aside>
-        <div class="Column-lg-1of2 Column-xl-3of7 margin-0a max-width-md">
-          <div class="signup-container signup-form-container space-children-md">
-            <h1 class="heading-1 font-centered" v-html="title"></h1>
+        <Card class="Column-lg-1of2 Column-xl-3of7 mha mv3 max-width-md">
+          <CardContent class="pa4-m pa3-l pa4-xl">
+            <Spacer isTop :size="2" />
+            <Heading1 doesExpand class="tc" v-html="title"></Heading1>
+            <Spacer isTop :size="2" />
 
             <div class="input-wrap">
               <input class="form-input form-input_text"
@@ -91,29 +93,32 @@
               />
               <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
-              <p class="is-padding font-xs"><em>We never share any financial or personal health information with Facebook. We only request from them your name and email.</em></p>
-              <p class="font-sm"><a href="/conditions/get-zip"><i class="fa fa-long-arrow-left margin-right-xs"></i>Update Location</a></p>
+              <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
+              <p class="font-md"><a href="/conditions/get-zip"><i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code</a></p>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </form>
   </SlideIn>
 </template>
 
 <script>
-import { InputButton, FacebookSignin } from 'inputs';
-import { SlideIn } from 'layout';
 import { SvgIcon } from 'icons';
-import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
+import { InputButton, FacebookSignin } from 'inputs';
+import { Card, CardContent, SlideIn, Spacer } from 'layout';
+import { Heading1 } from 'typography';
 
 export default {
   name: 'sign-up',
   components: {
+    Heading1,
+    Card,
+    CardContent,
     InputButton,
     FacebookSignin,
-    LoadingGraphic,
     SlideIn,
+    Spacer,
     SvgIcon
   },
   data() {
@@ -309,3 +314,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .form {
+        margin-top: 5%;
+    }
+</style>
