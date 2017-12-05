@@ -138,7 +138,7 @@ export default {
                 this.$parent.prescriptions[returns.id] = returns;
                 object.data = returns;
                 object.id = returns.id;
-                object.date = moment(returns.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                object.date = moment.tz(returns.attributes.created_at.date, returns.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                 object.original_date = returns.attributes.created_at.date;
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
                 object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');

@@ -363,7 +363,7 @@ export default {
                             object.doctor = e.attributes.doctor_name || "No Doctor";
                             object.original_date = null;
                             if (e.attributes && e.attributes.created_at && e.attributes.created_at.date) {
-                                object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                                object.date = moment.tz(e.attributes.created_at.date, e.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                                 object.original_date = e.attributes.created_at.date;
                             }
                             object.type = e.type.split('_').map(ele => capitalize(ele)).join(' ');
@@ -468,7 +468,7 @@ export default {
                         user_id: patientUserId || null,
                         zip: patientUserData.zip || null,
                         image: patientUserData.image_url || null,
-                        created_at: patientUserData.created_at && patientUserData.created_at.date ? moment(patientUserData.created_at.date).format("MM/DD/YY") : null
+                        created_at: patientUserData.created_at && patientUserData.created_at.date ? moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY") : null
                     };
                     this.setPatientLoading(false);
                     return object;
@@ -511,7 +511,7 @@ export default {
                     user_id: patientUserId,
                     zip: patientUserData.zip,
                     image: patientUserData.image_url,
-                    created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
+                    created_at: moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY")
                 };
                 this.patientLoading = false;
                 return object;
