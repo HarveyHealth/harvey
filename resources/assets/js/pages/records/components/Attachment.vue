@@ -8,34 +8,38 @@
         <Card :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
-              <p>
+              <Paragraph>
                 You are about upload an attachment for client {{ patient.search_name }},
                 with adate of birth {{ patient.date_of_birth }}.
                 Please verify the name of attachment before
                 uploading, so we can keep things organized.
                 Anything you upload will be viewable to your doctor and doctor's assisstants only.
                 The only file format accepted is a PDF.
-              </p>
+              </Paragraph>
+              <Spacer isBottom :size="5" />
             </div>
-            <div class="card-heading-container">
-              <div class="">
-                <label class="input__label">file upload</label>
-                <input class="input--text" v-model="fileName" placeholder="Enter file name">
-              </div>
-              <div class="">
-                <label class="input__label">upload</label>
-                <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}">
-                  <div class="">
-                    <div class="">
-                      <i class="fa fa-book"></i>
-                      <p class="">Attachment (PDF)</p>
-                    </div>
+
+            <Card>
+              <CardContent>
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, m:3 }">
+                  <div :slot="1">
+                    <Heading3>File Upload</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <input class="input--text" v-model="fileName" placeholder="Enter file name">
                   </div>
-                </label>
-                <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-              </div>
-              <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
-            </div>
+                  <div :slot="1">
+                    <Heading3>Upload</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}" class="button button--grey block">
+                      <i class="fa fa-book"></i>
+                      <Paragraph class="ml1 mb0 dib">Attachment (PDF)</Paragraph>
+                    </label>
+                    <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                  </div>
+                  <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                </Grid>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
 
@@ -125,7 +129,8 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import axios from 'axios';
-import { Card, CardContent, Grid, PageHeader } from 'layout';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -136,7 +141,10 @@ export default {
         Card,
         CardContent,
         Grid,
-        PageHeader
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     directives: {
         mask
@@ -243,5 +251,6 @@ export default {
     }
     .disabled--cursor {
       cursor: not-allowed;
+      opacity: 0.5;
     }
 </style>
