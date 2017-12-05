@@ -74,8 +74,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 import { LoadingSpinner } from 'feedback';
 import { Icon, SocialIcons } from 'icons';
 import { AvatarSelection, InputButton } from 'inputs';
@@ -110,7 +108,8 @@ export default {
             isProcessing: false
         };
     },
-    // This is for when the component loads before the practitioner list has finished loading
+    // This is for when the component mounts before the practitioner list has finished loading.
+    // This will happen on initial page load if someone clicks 'Continue' quickly on the Welcome step
     watch: {
         practitioners(list) {
             if (list.length) {
@@ -148,7 +147,9 @@ export default {
                 return;
             }
             this.$root.getAvailability(id, response => {
-                const availability = App.Logic.practitioners.transformAvailability(response.data.meta.availability, Laravel.user.user_type);
+                const userType = this.Config.user.info.user_type;
+                const payload = response.data.meta.availability;
+                const availability = App.Logic.practitioners.transformAvailability(payload, userType);
                 App.setState('getstarted.signup.availability', availability);
                 if (!this.State('getstarted.signup.availability').length) {
                     this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
@@ -178,8 +179,12 @@ export default {
     mounted () {
         window.scroll(0, 0);
         App.Logic.getstarted.redirectDashboard();
-        // This is for when the component loads after the practitioners had loaded
-        if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
+
+        // If the component mounts and there are practitioners in the list
+        // but none have been selected, auto-select the first practitioner
+        if (this.practitioners.length && this.selected === null) {
+            this.select(this.practitioners[0], 0, true);
+        }
 
         if(App.Logic.misc.shouldTrack()) {
             analytics.page('Practitioner');
