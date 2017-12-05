@@ -8,38 +8,43 @@
         <Card :slot="1" :heading="'Prescription'">
           <CardContent>
             <div class="">
-              <p>
+              <Paragraph>
                   You are about upload a prescription for client {{ patient.search_name }},
-                  with adate of birth {{ patient.date_of_birth }}.
+                  with a date of birth {{ patient.date_of_birth }}.
                   Please verify the name of the pharmacy before
                   uploading, so we can keep things organized.
                   Anything you upload will be viewable to your patient.
                   The only file format accepted is a PDF.
-              </p>
+              </Paragraph>
+              <Spacer isBottom :size="5" />
             </div>
-            <div class="card-heading-container">
-                <div class="">
-                    <label class="input__label">pharmacy</label>
-                    <span class="custom-select">
-                        <select @change="updateName($event)">
-                            <option v-for="script in prescriptionList" :data-id="script">{{ script.name }}</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="">
-                    <label class="input__label">upload</label>
-                    <label for="file-select-prescription" :class="{'disabled--cursor': !selected}">
-                        <div class="">
-                            <div class="">
-                                <i class="fa fa-book"></i>
-                                <p class="">Prescription (PDF)</p>
-                            </div>
-                        </div>
-                    </label>
-                    <input :class="{'disabled--cursor': !selected}" :disabled="!selected" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-                </div>
-                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
-            </div>
+            <Card>
+              <CardContent>
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, m:3 }">
+                  <div :slot="1">
+                      <Heading3 name="Subject">Pharmacy</Heading3>
+                      <Spacer isBottom :size="2" />
+                      <span class="custom-select">
+                          <select @change="updateName($event)">
+                              <option v-for="script in prescriptionList" :data-id="script">{{ script.name }}</option>
+                          </select>
+                      </span>
+                  </div>
+
+                  <div :slot="2">
+                      <Heading3 name="Subject">Upload</Heading3>
+                      <Spacer isBottom :size="2" />
+                      <label for="file-select-prescription" :class="{'disabled--cursor': !selected}" class="button button--grey block">
+                          <i class="fa fa-book"></i>
+                          <Paragraph class="ml1 mb0 dib">Prescription (PDF)</Paragraph>
+                      </label>
+                      <input :class="{'disabled--cursor': !selected}" :disabled="!selected" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+
+                      <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                  </div>
+                </Grid>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
 
@@ -128,7 +133,8 @@ import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
-import { Card, CardContent, Grid, PageHeader } from 'layout';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -139,7 +145,10 @@ export default {
         Card,
         CardContent,
         Grid,
-        PageHeader
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -248,6 +257,7 @@ export default {
     height: 250px;
   }
   .disabled--cursor {
-      cursor: not-allowed;
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 </style>
