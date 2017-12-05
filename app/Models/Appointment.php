@@ -258,7 +258,14 @@ class Appointment extends Model
 
         $message = View::make("sms/{$templateName}")->with($templateData)->render();
 
-        $user->sendText($message);
+        // split by paragraph
+        $paragraphs = explode("\n", trim($message));
+
+        $delay = 0;
+        foreach ($paragraphs as $text){
+            $user->sendText($message, $delay);
+            $delay += 5; // adds 5 seconds to the next message
+        }
 
         $this->setReminderSent($user, $typeId);
 
