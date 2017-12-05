@@ -32,3 +32,8 @@
     border-bottom: 1px solid $color-gray-5;
     padding: 8px;
 }
+
+%list-reset {
+    list-style: none;
+    padding: 0;
+}

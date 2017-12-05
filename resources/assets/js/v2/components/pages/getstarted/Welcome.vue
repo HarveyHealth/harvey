@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!$root.$data.signup.completedSignup" class="Container ph3 pv4">
+    <SlideIn v-if="!$root.$data.signup.completedSignup" class="Container ph2 ph3-m pv4">
         <Card class="m0auto mw6 tc">
             <CardContent class="pv4 ph4-m">
                 <Icon :fill="'gray-4'" :icon="'rocket'" :height="'80px'" :weight="'80px'" />

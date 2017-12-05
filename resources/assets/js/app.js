@@ -52,7 +52,9 @@ App.Router = router;
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
-Vue.filter('jsonParse', Filters.jsonParse);
+Vue.filter('fullDate', Filters.fullDate);
+Vue.filter('timeDisplay', Filters.timeDisplay);
+Vue.filter('weekDay', Filters.weekDay);
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed

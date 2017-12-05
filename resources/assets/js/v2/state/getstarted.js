@@ -2,8 +2,8 @@ import Util from '../util';
 
 export default {
     signup: {
+        appointmentIsSelected: false,
         availability: [],
-        availableTimes: [],
         billingConfirmed: false,
         cardBrand: '',
         cardCvc: '',
@@ -31,7 +31,7 @@ export default {
         practitionerState: '',
         selectedDate: null,
         selectedDay: null,
-        selectedPractitioner: 0,
+        selectedPractitioner: null,
         selectedWeek: null,
         selectedTime: null,
         showProgress: false,

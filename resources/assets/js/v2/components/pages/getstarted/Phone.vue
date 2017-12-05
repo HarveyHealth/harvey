@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph3 pv4">
+    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">{{ preface.heading }}</Heading1>
             <Spacer isBottom :size="2" />
@@ -72,6 +72,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

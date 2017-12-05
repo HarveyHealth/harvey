@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph3 pv4">
+    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
         <div class="tc">
             <div v-if="State('practitioners.isLoading')">
                 <LoadingSpinner :color="'light'" />
@@ -174,6 +174,7 @@ export default {
         }
     },
     beforeMount() {
+        // Will render ProgressBar at top of screen
         App.setState('getstarted.signup.showProgress', true);
     },
     mounted () {
