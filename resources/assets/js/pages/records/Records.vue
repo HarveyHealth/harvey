@@ -6,14 +6,14 @@
 
         <!-- Non-Patient Step One -->
         <div v-if="step == 1" class="relative">
-          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
             <div :slot="1" v-if="$root.$data.global.loadingPatients" class="pa2 pa3-m">
               <LoadingSpinner class="mt3" />
               <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
             </div>
           </Grid>
 
-          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
             <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
               <form>
                 <i class="fa fa-search absolute left-2"></i>
@@ -113,29 +113,44 @@
             </div>
 
             <!-- Flyout -->
-            <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
-              <a class="" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-              <a class="" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
-              <div class="" :style="`background-image: url(${selectedPatient.image});`" />
-              <div class="" />
-              <div class="input__container">
-                <div class="">
-                  <span class="">ID: <b>#{{ selectedPatient.id }}</b></span>
-                  <span class="">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                  <span class="">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
-                </div>
-                <div class="">
-                  <span class="">City: <b>{{ selectedPatient.city }}</b></span>
-                  <span class="">State: <b>{{ selectedPatient.state }}</b></span>
-                </div>
+            <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="false">
+
+              <!-- Info -->
+              <div class="flyout-patient-info">
+                <Heading2 class="dib no-border w-70">{{selectedPatient.search_name}}</Heading2>
+                <img class="w3 h3 fr" :src="selectedPatient.image" />
+                <a class="db" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
+                <a class="db" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
               </div>
-              <div class="input__container">
+
+              <Spacer isBottom :size="4" />
+
+              <!-- Details -->
+              <div class="flyout-patient-info">
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                  <div :slot="1">
+                    <span class="db">ID: <b>#{{ selectedPatient.id }}</b></span>
+                    <span class="db">Joined: <b>{{ selectedPatient.created_at }}</b></span>
+                    <span class="db">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                  </div>
+                  <div :slot="2">
+                    <span class="db">City: <b>{{ selectedPatient.city }}</b></span>
+                    <span class="db">State: <b>{{ selectedPatient.state }}</b></span>
+                  </div>
+                </Grid>
+              </div>
+
+              <Spacer isBottom :size="4" />
+
+              <!-- Timeline -->
+              <div>
                 <Timeline
                 :index="index"
                 :items="timelineData"
                 :emptyMessage="`No records for this patient`"
                 :loading="loading" />
               </div>
+
             </Flyout>
 
             <NotificationPopup
@@ -152,75 +167,74 @@
 
       <!-- Patient -->
       <div v-if="$root.$data.permissions === 'patient'">
-
-        <!-- Loading state -->
-        <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }" alignTo="middle">
-          <div :slot="1" v-if="patientLoading" class="pa2 pa3-m">
-            <LoadingSpinner class="mt3" />
-            <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
-          </div>
-        </Grid>
-
-
-        <div v-if="selectedUserPatient">
-          {{ getTimelineData() }}
-        </div>
-
-        <div v-if="selectedUserPatient">
-          <div class="">
-            <div v-if="page === 0">
-              <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
+        <div class="content-with-flyout">
+          <!-- Loading state -->
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+            <div :slot="1" v-if="patientLoading" class="pa2 pa3-m">
+              <LoadingSpinner class="mt3" />
+              <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
             </div>
-            <div class="card print-full-width" v-if="page !== 0">
-              <div class="card-heading-container">
-                <h2 class="">
-                  {{ page === 1 ? `Treatment Plan` : null }}
-                  {{ page === 2 ? `Lab Results` : null }}
-                  {{ page === 3 ? `Prescription` : null }}
-                  {{ page === 4 ? `Attachment` : null }}
-                  {{ page === 5 ? `Intake Form` : null }}
-                </h2>
-                <h2 class="">
-                  {{ selectedUserPatient.search_name }}
-                </h2>
+          </Grid>
+
+          <div v-if="selectedUserPatient">
+            {{ getTimelineData() }}
+          </div>
+
+          <div v-if="selectedUserPatient">
+            <div class="pa2 pa3-m">
+              <div v-if="page === 0">
+                <!-- <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt=""> -->
               </div>
 
-              <div v-if="page === 1">
-                <Treatment :patient="selectedUserPatient" />
-              </div>
-              <div v-if="page === 2">
-                <LabResults :patient="selectedUserPatient" />
-              </div>
-              <div v-if="page === 3">
-                <Prescription :patient="selectedUserPatient" />
-              </div>
-              <div v-if="page === 4">
-                <Attachment :patient="selectedUserPatient" />
-              </div>
-              <div v-if="page === 5">
-                <Intake :patient="selectedUserPatient" />
-              </div>
+              <div v-if="page !== 0">
 
+                <div v-if="page === 1">
+                  <Treatment :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 2">
+                  <LabResults :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 3">
+                  <Prescription :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 4">
+                  <Attachment :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 5">
+                  <Intake :patient="selectedUserPatient" />
+                </div>
+
+              </div>
             </div>
           </div>
-          <div v-if="selectedUserPatient" class="hide-print">
-            <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
-              <a class="" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
-              <a class="" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
-              <div class="" :style="`background-image: url(${selectedUserPatient.image});`" />
-              <div class="" />
-              <div class="input__container">
+
+          <div class="hide-print">
+            <Flyout :active="true" :onClose="null" :button="true" :header="false">
+
+              <!-- Info -->
+              <div>
+                <h2>{{selectedUserPatient.search_name}}</h2>
+                <img src="url(${selectedUserPatient.image});" />
+                <a class="" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
+                <a class="" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+              </div>
+
+              <!-- Details -->
+              <div>
                 <div class="">
                   <span class="">ID: <b>#{{ selectedUserPatient.id }}</b></span>
                   <span class="">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
                   <span class="">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
                 </div>
+
                 <div class="">
                   <span class="">City: <b>{{ selectedUserPatient.city }}</b></span>
                   <span class="">State: <b>{{ selectedUserPatient.state }}</b></span>
                 </div>
               </div>
-              <div class="input__container">
+
+              <!-- Timeline -->
+              <div>
                 <Timeline
                 :index="index"
                 :items="timelineData"
@@ -245,8 +259,8 @@
 
 <script>
 import { LoadingSpinner } from 'feedback';
-import { Paragraph, Heading2 } from 'typography';
-import { Card, CardContent, Grid, PageHeader, PageContainer } from 'layout';
+import { Paragraph, Heading2, Heading3 } from 'typography';
+import { Card, CardContent, Grid, PageHeader, PageContainer, Spacer } from 'layout';
 
 import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
@@ -283,7 +297,9 @@ export default {
         Attachment,
         Intake,
         Treatment,
-        NotificationPopup
+        NotificationPopup,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -583,6 +599,10 @@ export default {
         margin-left: 150px;
         left: 0px !important;
       }
+    }
+    .flyout-patient-info {
+      border-bottom: 1px solid $color-gray-5;
+      padding-bottom: 2rem;
     }
     .patient-row{
       cursor: pointer;

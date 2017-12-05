@@ -76,7 +76,7 @@
         <Card :slot="1" :heading="'Lab Results'">
           <CardContent>
             <div class="" >
-              <iframe class="w-100" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" :src="resultUrl" />
+              <iframe class="w-100" :style="'height:60vh'" :src="resultUrl" />
             </div>
           </CardContent>
         </Card>
@@ -95,10 +95,10 @@
         </Card>
       </Grid>
 
-      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
+            <div class="inline-centered">
               <button @click="deleteModal()" class="button bg-danger">Archive Result</button>
             </div>
 

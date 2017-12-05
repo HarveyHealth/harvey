@@ -70,7 +70,7 @@
         <Card :slot="1" :heading="'Attachment'">
           <CardContent>
 
-            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="w-100" :src="attachmentUrl" />
+            <iframe :style="'height:60vh'" class="w-100" :src="attachmentUrl" />
           </CardContent>
         </Card>
 
@@ -88,10 +88,10 @@
         </Card>
       </Grid>
 
-      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
+            <div class="inline-centered">
                 <button @click="deleteModal()" class="button bg-danger">Archive Attachment</button>
             </div>
           </CardContent>
