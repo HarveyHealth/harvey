@@ -132,6 +132,11 @@
                 <div v-if="patientLoading" class="card records-loading">
                     <p><i>Your records are loading...</i></p>
                 </div>
+                <div  v-if="!patientLoading" class="card records-loading" style="height: 50px;">
+                    <div class="records-button-container" style="width: auto;">
+                        <button @click="newAttachment" class="button records-button">New Attachment</button>
+                    </div>
+                </div>
                 <div v-if="selectedUserPatient">
                     {{ getTimelineData() }}
                 </div>
@@ -146,7 +151,7 @@
                                     {{ page === 1 ? `Treatment Plan` : null }}
                                     {{ page === 2 ? `Lab Results` : null }}
                                     {{ page === 3 ? `Prescription` : null }}
-                                    {{ page === 4 ? `Attachment` : null }}
+                                    {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
                                     {{ page === 5 ? `Intake Form` : null }}
                                 </h2>
                                 <h2 class="search-name-label">
@@ -269,12 +274,6 @@ export default {
             notificationMessage: '',
             notificationActive: false,
             notificationDirection: 'top-right',
-            dropDownMenu: [
-                'SOAP Note', 
-                'Prescription', 
-                'Lab Results', 
-                'Attachment' 
-            ],
             menuIndex: 1
         };
     },
@@ -293,9 +292,18 @@ export default {
                 case "Attachment":
                     this.menuIndex = 4;
                     break;
+                case "Treatment Plan":
+                    this.menuIndex = 1;
+                    break;
                 default:
                     break;
             }
+        },
+        newAttachment() {
+            this.news = true;
+            this.menuIndex = 4;
+            this.setIndex(null);
+            this.setPage(4);
         },
         newRecord() {
             this.news = true;
@@ -405,6 +413,16 @@ export default {
             } else {
                 return [];
             }
+        },
+        dropDownMenu() {
+            return this.$root.$data.permissions !== 'patient' ? [
+                'SOAP Note', 
+                'Prescription', 
+                'Lab Results', 
+                'Attachment' 
+            ] : [
+                'Attachment' 
+            ];
         },
         timelineData() {
                 let onClickFunctions = {
