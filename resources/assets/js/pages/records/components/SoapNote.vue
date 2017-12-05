@@ -11,12 +11,10 @@
               <Heading3 name="Subject">Subjective</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
-              :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="subjectiveTA"
               @click="setSelected('subject')"
               output="html"
               :options="editorOption"
-              class="input--textarea"
               />
               <Spacer isBottom :size="4" />
             </div>
@@ -25,13 +23,11 @@
               <Heading3 name="Objective">Objective</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
-              :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="objectiveTA"
               id="objective"
               @click="setSelected('objective')"
               output="html"
               :options="editorOption"
-              class="input--textarea"
               />
               <Spacer isBottom :size="4" />
             </div>
@@ -40,13 +36,11 @@
               <Heading3 name="Assessment">Assessment</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
-              :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="assessmentTA"
               placeholder="Enter your text..."
               @click="setSelected('assessment')"
               output="html"
               :options="editorOption"
-              class="input--textarea"
               />
               <Spacer isBottom :size="4" />
             </div>
@@ -62,12 +56,10 @@
               <Heading3 name="Treatment">Plan/Treatment</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
-              :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="planTA"
               @click="setSelected('treatment')"
               output="html"
               :options="editorOption"
-              class="input--textarea"
               />
             </div>
           </div>
@@ -82,8 +74,9 @@
           <div>
             <quill-editor
             output="html"
-            :options="editorOption"
+            :options="simpleEditor"
             v-model="quickNotes"
+            class="simple-editor"
             />
           </div>
 
@@ -130,6 +123,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
+import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
 import { Paragraph, Heading3 } from 'typography';
 export default {
@@ -154,7 +148,8 @@ export default {
             planTA: null,
             deleteModalActive: false,
             selected: null,
-            editorOption: editorOption
+            editorOption: editorOption,
+            simpleEditor: simpleEditor
         };
     },
     methods: {
@@ -314,8 +309,17 @@ export default {
 <style lang="scss" scoped>
     @import '~sass';
 
-    .ql-editor {
-        height: 200px !important;
+    .quill-editor {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0;
+      height: 150px;
+      overflow: hidden;
+      padding: 0;
+    }
+    .simple-editor {
+      border-bottom: none;
+      height: 250px;
     }
     .patient-disclaimer {
       color: $color-copy-alt;
