@@ -5,8 +5,8 @@
       <!-- Description -->
       <div class="mw9 pv2">
         <div class="cf">
-          <div class="fl w-100 w-25-l pa5">
-            <SvgIcon :id="State('conditions.condition.slug')" :width="'150px'" :height="'150px'" />
+          <div class="fl w-100 w-25-l pa3 ph4-l pv5-l dn d-ns">
+            <SvgIcon :id="State('conditions.condition.slug')" :width="'100%'"/>
           </div>
           <div class="fl w-100 w-75-l pl0 pl3-l">
             <Heading1 class="pv2">{{ State('conditions.condition.name') }}</Heading1>
@@ -152,7 +152,7 @@ export default {
 
   .j-title {
     display: block;
-    min-height: 100px;
+    min-height: 75px;
   }
 
   a.j-truncate {

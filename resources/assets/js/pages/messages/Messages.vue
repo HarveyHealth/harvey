@@ -12,6 +12,7 @@
                             </button>
                             <ClipLoader class="main-action" style="background-color: transparent;" v-else :color="'#82BEF2'" :loading="true" />
                         </h1>
+                        <p class="font-italic gray font-xs is-padding-left margin-bottom-0">Please note: doctors may take up to 24 hours to respond. The messaging service should not to be used for urgent matters. Please call 911 in the event of emergency.</p>
                     </div>
                 </div>
                 <NotificationPopup
@@ -33,6 +34,7 @@
                     <router-link :to="{
                         name: 'detail',
                         params: {
+                        path: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                         thread_id: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                         subject: chat.attributes.subject,
                         sender_id : chat.attributes.sender_user_id,
@@ -87,7 +89,7 @@
         computed: {
             messageState() {
                 let messages = this.$root.$data.global.messages || [];
-                let messageState = messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                let messageState = messages.sort((a, b) => b.id - a.id);
                 this.setMessages(messageState);
                 return messageState;
             }
@@ -96,7 +98,7 @@
             messageState(val) {
                 if (!val) {
                     let messages = this.$root.$data.global.messages || [];
-                    let messageState = messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                    let messageState = messages.sort((a, b) => b.id - a.id);
                     this.setMessages(messageState);
                     return messageState;
                 }
@@ -107,7 +109,7 @@
             this.renderNewMessage = !this.renderNewMessage;
           },
           setMessages(data) {
-              this.messageList = data;
+              this.messageList = data.sort((a, b) => b.id - a.id);
           },
           makeThreadId(userOne, userTwo) {
             return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
@@ -129,12 +131,17 @@
             let userId = this.$root.$data.global.user.id;
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
-                let subject = `${this.makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
-                this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                    this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
-                this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
+                let ws = data.data;
+                let subject = `${this.makeThreadId(ws.attributes.sender_user_id, ws.attributes.recipient_user_id)}-${ws.attributes.subject}`;
+                if (this.$root.$data.global.detailMessages[subject]) {
+                    this.$root.$data.global.detailMessages[subject].push(ws);
+                } else {
+                    this.$root.$data.global.detailMessages[subject] = [ws];
+                }
+                this.$root.$data.global.unreadMessages = _.flattenDeep(Object.values(this.$root.$data.global.detailMessages)).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
-                .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                    .map(e => e[e.length - 1])
+                    .sort((a, b) => b.id - a.id);
                 this.setMessages(this.$root.$data.global.messages);
             });
             this.$root.getMessages();
