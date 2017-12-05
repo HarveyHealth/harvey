@@ -51,8 +51,9 @@
             <div class="">
               <quill-editor
               output="html"
-              :options="editorOption"
+              :options="simpleEditor"
               v-model="quickNotes"
+              class="simple-editor"
               />
             </div>
 
@@ -77,11 +78,11 @@
         <Card :slot="2" :heading="'Quick Notes'">
           <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="">
-              <h2 class="">Quick Notes</h2>
               <quill-editor
                   output="html"
-                  :options="editorOption"
+                  :options="simpleEditor"
                   v-model="quickNotes"
+                  class="simple-editor"
               />
             </div>
           </CardContent>
@@ -126,7 +127,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
-import editorOption from '../util/quillEditorObject';
+import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
     props: {
@@ -146,7 +147,7 @@ export default {
             deleteModalActive: false,
             loading: false,
             notes: '',
-            editorOption: editorOption
+            simpleEditor: simpleEditor
         };
     },
     methods: {
@@ -231,8 +232,22 @@ export default {
 };
 </script>
 
-<style>
-    .disabled--cursor {
-        cursor: not-allowed;
-    }
+<style lang="scss" scoped>
+  @import '~sass';
+
+  .quill-editor {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    height: 150px;
+    overflow: hidden;
+    padding: 0;
+  }
+  .simple-editor {
+    border-bottom: none;
+    height: 250px;
+  }
+  .disabled--cursor {
+      cursor: not-allowed;
+  }
 </style>
