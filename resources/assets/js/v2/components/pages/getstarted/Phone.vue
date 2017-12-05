@@ -62,6 +62,9 @@ export default {
                     };
         }
     },
+    beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'phone');
+    },
     mounted() {
         App.Logic.getstarted.redirectDashboard();
         window.scroll(0, 0);
