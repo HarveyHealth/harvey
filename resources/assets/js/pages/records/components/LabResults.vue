@@ -88,7 +88,6 @@
 <script>
 import axios from 'axios';
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
-import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
@@ -146,22 +145,20 @@ export default {
             }
             axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, formData)
             .then((response) => {
-                let results = response.data.included.map(e => {
-                    let returns = e;
-                    this.$parent.lab_test_results[returns.id] = returns;
-                    let object = returns;
-                    object.id = returns.id;
-                    object.date = moment(returns.attributes.created_at.date).format('dddd, MMM Do YYYY');
-                    object.original_date = returns.attributes.created_at.date;
-                    object.doctor = returns.attributes.doctor_name || "No Doctor";
-                    object.type = returns.type.split('_').map(ele => capitalize(ele)).join(' ');
-                    return object;
-                });
-                this.$parent.timeline = results.concat(this.$parent.timeline);
+                let object = {};
+                let returns = response.data.data;
+                this.$parent.lab_test_results[returns.id] = returns;
+                object.data = returns;
+                object.id = returns.id;
+                object.date = moment(returns.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                object.original_date = returns.attributes.created_at.date;
+                object.doctor = returns.attributes.doctor_name || "No Doctor";
+                object.type = 'Lab Test Result';
+                this.$parent.timeline = [object].concat(this.$parent.timeline);
                 this.loading = false;
                 this.$parent.news = false;
                 this.$parent.setIndex(0);
-                this.$parent.propData = results[0];
+                this.$parent.propData = returns;
                 this.$parent.notificationMessage = "Successfully added!";
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
