@@ -25,7 +25,9 @@
                     <Spacer isBottom :size="2" />
                     <Paragraph :color="'light'">Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.</Paragraph>
                 </div>
-                <Spacer isBottom :size="4" />
+                <Spacer isBottom :size="3" />
+                <Pagination :step="'practitioner'" class="m0auto mw7" />
+                <Spacer isBottom :size="1" />
                 <Card class="m0auto mw7">
                     <CardContent>
                         <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
@@ -80,6 +82,7 @@ import { AvatarSelection, InputButton } from 'inputs';
 import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading3, Paragraph } from 'typography';
 
+import Pagination from './Pagination.vue';
 import PractitionerInfo from './PractitionerInfo.vue';
 
 export default {
@@ -94,6 +97,7 @@ export default {
         Icon,
         InputButton,
         LoadingSpinner,
+        Pagination,
         Paragraph,
         PractitionerInfo,
         SlideIn,
@@ -150,12 +154,7 @@ export default {
                     this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
                     this.isProcessing = false;
                 } else {
-                    // If no steps have been completed, tick steps completed
-                    const completed = 'getstarted.signup.stepsCompleted';
-                    if (this.State(completed) < 1) {
-                        App.setState(completed, this.State(completed) + 1);
-                    }
-                    this.$router.push({ path: `/${App.Logic.getstarted.nextStep.call(this, 'practitioner')}` });
+                    App.Logic.getstarted.nextStep.call(this, 'practitioner');
                 }
             });
         },

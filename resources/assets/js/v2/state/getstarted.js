@@ -24,6 +24,7 @@ export default {
         googleMeetLink: '',
         hasCompletedSignup: false,
         phone: '',
+        phoneCode: '',
         phonePending: false,
         phoneConfirmed: false,
         practitionerName: '',
