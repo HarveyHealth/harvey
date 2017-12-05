@@ -22,7 +22,7 @@
               <CardContent>
                 <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, m:3 }">
                   <div :slot="1">
-                      <Heading3 name="Subject">Pharmacy</Heading3>
+                      <Heading3>Pharmacy</Heading3>
                       <Spacer isBottom :size="2" />
                       <span class="custom-select">
                           <select @change="updateName($event)">
@@ -32,7 +32,7 @@
                   </div>
 
                   <div :slot="2">
-                      <Heading3 name="Subject">Upload</Heading3>
+                      <Heading3>Upload</Heading3>
                       <Spacer isBottom :size="2" />
                       <label for="file-select-prescription" :class="{'disabled--cursor': !selected}" class="button button--grey block">
                           <i class="fa fa-book"></i>

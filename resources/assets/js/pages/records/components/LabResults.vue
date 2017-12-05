@@ -8,45 +8,49 @@
         <CardContent>
           <div class="">
             <div class="">
-              <p>
+              <Paragraph>
                 You are about upload a new lab test for client {{ patient.search_name }}
                 (date of birth {{ patient.date_of_birth }}).
                 Please verify the name of the lab and the type of lab test before
                 uploading the results, so we can match the result with a lab test.
                 The only file format accepted is a PDF.
-              </p>
+              </Paragraph>
+              <Spacer isBottom :size="5" />
             </div>
-            <div class="card-heading-container">
-              <div class="">
-                <label class="input__label">lab name</label>
-                <span class="custom-select">
-                  <select @change="updateLabType($event)">
-                    <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
-                  </select>
-                </span>
-              </div>
-              <div class="">
-                <label class="input__label">lab test</label>
-                <span class="custom-select">
-                  <select @change="updateLab($event)">
-                    <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
-                  </select>
-                </span>
-              </div>
-              <div class="">
-                <label class="input__label">upload</label>
-                <label for="file-select-prescription" :class="{'disabled--cursor': !selectedLabName || !selectedLabType}">
-                  <div class="">
-                    <div class="">
-                      <i class="fa fa-book"></i>
-                      <p class="">Lab Result (PDF)</p>
-                    </div>
+            <Card>
+              <CardContent>
+                <Grid :flexAt="'l'" :columns="[{ s:'1of3' }, { s:'1of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+                  <div :slot="1">
+                    <Heading3>Lab Name</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <span class="custom-select">
+                      <select @change="updateLabType($event)">
+                        <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
+                      </select>
+                    </span>
                   </div>
-                </label>
-                <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-              </div>
-              <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
-            </div>
+                  <div :slot="2">
+                    <Heading3>Lab Test</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <span class="custom-select">
+                      <select @change="updateLab($event)">
+                        <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
+                      </select>
+                    </span>
+                  </div>
+                  <div :slot="3">
+                    <Heading3>Upload</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <label for="file-select-prescription" :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" class="button button--grey block">
+                      <i class="fa fa-book"></i>
+                      <Paragraph class="ml1 mb0 dib">Lab Result (PDF)</Paragraph>
+                    </label>
+                    <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                  </div>
+                  <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                </Grid>
+              </CardContent>
+            </Card>
           </div>
         </CardContent>
       </Card>
@@ -132,7 +136,8 @@ import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
-import { Card, CardContent, Grid, PageHeader } from 'layout';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -143,7 +148,10 @@ export default {
         Card,
         CardContent,
         Grid,
-        PageHeader
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -276,5 +284,6 @@ export default {
     }
     .disabled--cursor {
       cursor: not-allowed;
+      opacity: 0.5;
     }
 </style>
