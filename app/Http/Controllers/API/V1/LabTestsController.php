@@ -163,14 +163,14 @@ class LabTestsController extends BaseAPIController
                 ]
             );
 
-            $lab_test->results()->create([
+            $lab_test_result = $lab_test->results()->create([
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);
 
             $this->resource_name = 'lab_tests_results';
 
-            return $this->baseTransformItem($lab_test->fresh(), 'results')->respond();
+            return $this->baseTransformItem($lab_test_result, null, new LabTestResultTransformer)->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
