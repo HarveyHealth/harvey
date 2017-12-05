@@ -6,9 +6,10 @@
       <Card :slot="1" :heading="'SOAP Note'">
         <CardContent>
 
-          <div class="">
-            <div class="">
-              <label name="Subject" class="card-header">Subjective</label>
+          <div>
+            <div>
+              <Heading3 name="Subject">Subjective</Heading3>
+              <Spacer isBottom :size="2" />
               <quill-editor
               :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="subjectiveTA"
@@ -17,10 +18,12 @@
               :options="editorOption"
               class="input--textarea"
               />
+              <Spacer isBottom :size="4" />
             </div>
 
-            <div class="">
-              <label name="Objective" class="card-header">Objective</label>
+            <div >
+              <Heading3 name="Objective">Objective</Heading3>
+              <Spacer isBottom :size="2" />
               <quill-editor
               :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="objectiveTA"
@@ -30,10 +33,12 @@
               :options="editorOption"
               class="input--textarea"
               />
+              <Spacer isBottom :size="4" />
             </div>
 
-            <div class="">
-              <label name="Assessment" class="card-header">Assessment</label>
+            <div>
+              <Heading3 name="Assessment">Assessment</Heading3>
+              <Spacer isBottom :size="2" />
               <quill-editor
               :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="assessmentTA"
@@ -43,15 +48,19 @@
               :options="editorOption"
               class="input--textarea"
               />
+              <Spacer isBottom :size="4" />
+            </div>
+
+            <div>
+              <Paragraph class="patient-disclaimer ttu tc" :size="'small'">
+                <span class="disclaimer-inside">Fields below this line visible to patient</span>
+              </Paragraph>
+              <Spacer isBottom :size="4" />
             </div>
 
             <div class="">
-              - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - -
-            </div>
-
-            <div class="">
-              <label name="Treatment"
-              class="card-header">Plan/Treatment</label>
+              <Heading3 name="Treatment">Plan/Treatment</Heading3>
+              <Spacer isBottom :size="2" />
               <quill-editor
               :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '125px': '50px'}"
               v-model="planTA"
@@ -70,7 +79,7 @@
         <CardContent>
 
           <!-- Editor -->
-          <div class="">
+          <div>
             <quill-editor
             output="html"
             :options="editorOption"
@@ -121,7 +130,8 @@ import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
-import { Card, CardContent, Grid, PageHeader } from 'layout';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -131,7 +141,10 @@ export default {
         Card,
         CardContent,
         Grid,
-        PageHeader
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -299,7 +312,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    @import '~sass';
+
     .ql-editor {
         height: 200px !important;
+    }
+    .patient-disclaimer {
+      color: $color-copy-alt;
+      position: relative;
+
+      &:before {
+        border-top: 2px dashed $color-copy-alt;
+        content: "";
+        left: 0;
+        margin-top: -1px;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+      }
+
+      .disclaimer-inside {
+        background: $color-white;
+        padding: 0 5px;
+        position: relative;
+        z-index: 1;
+      }
     }
 </style>
