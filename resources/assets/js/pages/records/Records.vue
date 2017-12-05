@@ -324,6 +324,7 @@ export default {
         },
         selectPatient(patient) {
             this.selectedPatient = patient;
+            this.selectedPatient.created_at = moment.tz(patient.created_at.date, patient.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY");
             this.name = patient.search_name;
             this.activeModal = true;
         },
