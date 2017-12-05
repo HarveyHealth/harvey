@@ -48,8 +48,9 @@
             <div class="">
               <quill-editor
               output="html"
-              :options="editorOption"
+              :options="simpleEditor"
               v-model="quickNotes"
+              class="simple-editor"
               />
             </div>
 
@@ -72,12 +73,12 @@
         <Card :slot="1" :heading="'Quick Notes'">
           <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="">
-                <h2 class="">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="quickNotes"
-                />
+              <quill-editor
+              output="html"
+              :options="simpleEditor"
+              v-model="quickNotes"
+              class="simple-editor"
+              />
             </div>
           </CardContent>
         </Card>
@@ -122,7 +123,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
-import editorOption from '../util/quillEditorObject';
+import simpleEditor from '../util/quillSimple';
 import axios from 'axios';
 import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
@@ -145,7 +146,7 @@ export default {
             fileName: '',
             deleteModalActive: false,
             loading: false,
-            editorOption: editorOption,
+            simpleEditor: simpleEditor,
             notes: ''
         };
     },
@@ -225,8 +226,22 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .quill-editor {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0;
+      height: 150px;
+      overflow: hidden;
+      padding: 0;
+    }
+    .simple-editor {
+      border-bottom: none;
+      height: 250px;
+    }
     .disabled--cursor {
-        cursor: not-allowed;
+      cursor: not-allowed;
     }
 </style>
