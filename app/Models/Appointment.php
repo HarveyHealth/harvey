@@ -259,11 +259,11 @@ class Appointment extends Model
         $message = View::make("sms/{$templateName}")->with($templateData)->render();
 
         // split by paragraph
-        $paragraphs = explode("\n", trim($message));
+        $paragraphs = explode(PHP_EOL, trim($message));
 
         $delay = 0;
         foreach ($paragraphs as $text){
-            $user->sendText($message, $delay);
+            $user->sendText($text, $delay);
             $delay += 5; // adds 5 seconds to the next message
         }
 
