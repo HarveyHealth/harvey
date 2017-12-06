@@ -14,7 +14,7 @@
 
 <script>
     import moment from 'moment';
-    import { pull } from 'lodash';
+    import { remove } from 'lodash';
     export default {
         props: {
             id: String,
@@ -35,7 +35,7 @@
             deleteMessages() {
                 axios.delete(`${this.$root.$data.apiUrl}/messages/${this.$props.id}`)
                 .then(() => {
-                    this.$root.$data.global.detailMessages[this.$props.threadId] = pull(this.$root.$data.global.detailMessages[this.$props.threadId], { id: this.$props.id });
+                    this.$root.$data.global.detailMessages[this.$props.threadId] = remove(this.$root.$data.global.detailMessages[this.$props.threadId], (n) =>  n.id == this.$props.id).slice(0);
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
                     .sort((a, b) => b.id - a.id);                    
