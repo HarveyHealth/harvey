@@ -67,6 +67,21 @@ class PrescriptionsController extends BaseAPIController
         return $this->baseTransformItem($prescription->fresh())->respond();
     }
 
+    public function update(Request $request, Prescription $prescription)
+    {
+        if (currentUser()->cant('update', $prescription)) {
+            return $this->respondNotAuthorized('You do not have access to update this Prescription.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:1024',
+        ]);
+
+        $prescription->update($request->all());
+
+        return $this->baseTransformItem($prescription, request('include'))->respond();
+    }
+
     public function delete(Request $request, Prescription $prescription)
     {
         if (currentUser()->cant('delete', $prescription)) {

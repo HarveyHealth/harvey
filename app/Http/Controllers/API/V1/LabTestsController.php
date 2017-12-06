@@ -176,6 +176,22 @@ class LabTestsController extends BaseAPIController
         }
     }
 
+    public function updateResult(Request $request, LabTestResult $lab_test_result)
+    {
+        if (currentUser()->cant('update', $lab_test_result)) {
+            return $this->respondNotAuthorized('You do not have access to update this LabTestResult.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:1024',
+        ]);
+
+        $lab_test_result->update($request->all());
+
+        return $this->baseTransformItem($lab_test_result, request('include'))->respond();
+    }
+
+
     public function deleteResult(Request $request, LabTestResult $lab_test_result)
     {
         if (currentUser()->cant('delete', $lab_test_result->labTest)) {
