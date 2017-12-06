@@ -11,12 +11,14 @@
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>
           <p class="message-post-message copy-muted">{{ messages }}</p>
+          <i class="fa fa-trash-o" @click="deleteMessages"></i>
         </div>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
+    import axios from 'axios';
     export default {
         props: {
             id: String,
@@ -24,11 +26,19 @@
             header: String,
             image: String,
             message: String,
-            name: String
+            name: String,
+            threadId: String
         },
         name: 'MessagingPost',
         data() {
             return {  };
+        },
+        methods: {
+            deleteMessages() {
+                this.$root.$data.global.detailMessages[this.$props.threadId].forEach(e => {
+                    axios.delete(`${this.$root.$data.apiUrl}/messages/${e.id}`);
+                });
+            }
         },
         computed: {
             messages() {

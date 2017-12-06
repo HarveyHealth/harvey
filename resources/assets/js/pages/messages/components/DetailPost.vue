@@ -8,6 +8,7 @@
         <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ momentDate }}</h3>
       </div>
       <p class="message-post-body" :class="{highlight: yourId == userId ? 'highlight' : ''}">{{ message }}</p>
+      <i class="fa fa-trash-o" @click="deleteMessages"></i>
     </div>
 </template>
 
@@ -27,6 +28,14 @@
         name: 'DetailPost',
         data() {
             return {  };
+        },
+        methods: {
+            deleteMessages() {
+                axios.delete(`${this.$root.$data.apiUrl}/messages/${this.$props.id}`)
+                .then(() => {
+                    this.$root.$data.global.detailMessages;
+                });
+            }
         },
         computed: {
             momentDate() {
