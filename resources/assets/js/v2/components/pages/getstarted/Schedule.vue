@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
+    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup') && doctorInfo" class="ph2 ph3-m pv4">
 
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">Choose Date &amp; Time</Heading1>
@@ -23,7 +23,7 @@
                     </div>
                     <div :slot="2" class="bg-gray-0 pa2 pa3-m relative">
                         <div v-if="!selectedDate" class="doctor-container">
-                            <ScheduleDoctorInfo :doctorInfo="doctorInfo" />
+                            <ScheduleDoctorInfo v-if="doctorInfo" :doctorInfo="doctorInfo" />
                         </div>
                         <div v-else>
                             <Heading3 :color="'muted'" class="tc uppercase">Choose Time</Heading3>
@@ -96,10 +96,13 @@ export default {
             return this.State('getstarted.signup.appointmentIsSelected');
         },
         doctorInfo() {
-            const practitioners = this.State('practitioners.data.licensed');
-            const selected = this.State('getstarted.signup.selectedPractitioner');
+            if (this.State('getstarted.signup.selectedPractitioner') !== null) {
+                const selected = this.State('getstarted.signup.selectedPractitioner');
 
-            return practitioners[selected].attributes;
+                return this.State('practitioners.data.licensed')[selected].attributes;
+            }
+
+            return null;
         },
         selectedDate() {
             return this.State('getstarted.signup.selectedDate');
@@ -157,6 +160,9 @@ export default {
                 }
             });
         }
+    },
+    beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'schedule');
     },
     mounted () {
         App.Logic.getstarted.redirectDashboard();

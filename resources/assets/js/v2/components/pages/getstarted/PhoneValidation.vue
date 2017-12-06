@@ -123,7 +123,6 @@ export default {
             });
         },
         handlePhoneCodeInput(value) {
-            console.log(value);
             this.phoneCode = value;
         },
         // Patches the user's phone number which triggers a Twilio api call

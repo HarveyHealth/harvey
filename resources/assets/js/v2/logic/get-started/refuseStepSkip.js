@@ -8,7 +8,17 @@ export default function(name) {
     const completed = this.State('getstarted.signup.stepsCompleted');
     const index = steps.indexOf(name);
 
-    if (completed < index + 1) {
-        App.Router.push({ path: `/${steps[completed]}` });
+    const incompleteSteps = steps.filter((step, i) => {
+        const isPrevious = i < index;
+        const isNotComplete = !completed[step];
+
+        return isPrevious && isNotComplete;
+    });
+
+    // If incomplete steps exist, route to first incomplete step
+    if (incompleteSteps.length) {
+        App.Router.push({ path: `/${incompleteSteps[0]}` });
+    } else {
+        return false;
     }
 }
