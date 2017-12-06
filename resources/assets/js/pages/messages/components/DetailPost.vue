@@ -37,6 +37,7 @@
                 .then(() => {
                     if (this.$root.$data.global.detailMessages[this.$props.threadId].length == 1) {
                         this.$root.$data.global.detailMessages[this.$props.threadId] = [];
+                        this.$router.push('/messages')
                     } else {
                         this.$root.$data.global.detailMessages[this.$props.threadId] = remove(this.$root.$data.global.detailMessages[this.$props.threadId], (n) =>  n.id == this.$props.id).slice(0);
                     }
