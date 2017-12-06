@@ -26,15 +26,12 @@
         </SlideIn>
         <SlideIn :to="'left'" v-if="phoneIsSaved">
             <form @submit.prevent>
-                <TheMask
-                    class="phone-input"
-                    name="phone_code"
-                    type="phone"
-                    v-model="phoneCode"
-                    mask="#####"
-                    placeholder="Verification Code"
-                    :disabled="phoneCodeHasSent || phoneCodeIsConfirmed"
+                <CodeInput
+                    :isDisabled="phoneCodeHasSent || phoneCodeIsConfirmed"
+                    :mask="'#####'"
+                    :onInput="handlePhoneCodeInput"
                     :ref="'code_input'"
+                    :type="'phone'"
                 />
                 <Spacer isBottom :size="2" />
                 <span class="button-link db f6 fw3" @click="handleCodeResend">
@@ -61,12 +58,13 @@
 </template>
 
 <script>
-import { InputButton } from 'inputs';
+import { CodeInput, InputButton } from 'inputs';
 import { SlideIn, Spacer } from 'layout';
 import { TheMask } from 'vue-the-mask';
 
 export default {
     components: {
+        CodeInput,
         InputButton,
         TheMask,
         SlideIn,
@@ -123,6 +121,10 @@ export default {
                 this.phoneCodeHasSent = false;
                 this.isCodeProcessError = true;
             });
+        },
+        handlePhoneCodeInput(value) {
+            console.log(value);
+            this.phoneCode = value;
         },
         // Patches the user's phone number which triggers a Twilio api call
         handlePhoneNumber() {
