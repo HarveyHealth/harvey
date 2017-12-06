@@ -30,6 +30,7 @@ class SoapNote extends Model
     {
         return [
             'id' => $this->id,
+            'notes' => $this->notes,
             'patient_name' => $this->patient->user->full_name,
             'subjective' => $this->subjective,
             'objective' => $this->objective,
