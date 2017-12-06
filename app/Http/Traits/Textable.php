@@ -6,8 +6,14 @@ use App\Jobs\SendSMSMessage;
 
 trait Textable
 {
-    public function sendText(string $message)
+    public function sendText(string $message, int $delay = 0)
     {
-        return dispatch(new SendSMSMessage($this->phone, $message));
+        $job = new SendSMSMessage($this->phone, $message);
+
+        if ($delay > 0){
+            $job->delay($delay);
+        }
+
+        return dispatch($job);
     }
 }
