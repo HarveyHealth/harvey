@@ -35,11 +35,16 @@
             deleteMessages() {
                 axios.delete(`${this.$root.$data.apiUrl}/messages/${this.$props.id}`)
                 .then(() => {
-                    pull(this.$root.$data.global.detailMessages[this.$props.threadId], { id: this.$props.id });
+                    this.$root.$data.global.detailMessages[this.$props.threadId] = pull(this.$root.$data.global.detailMessages[this.$props.threadId], { id: this.$props.id });
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
-                    .sort((a, b) => b.id - a.id);
-                    this.$parent.$data.detailList = this.$root.$data.global.detailMessages[this.$props.threadId];
+                    .sort((a, b) => b.id - a.id);                    
+                    this.$parent.notificationActive = true;
+                    this.$parent.notificationMessage = "Message Deleted!";
+                    setTimeout(() => {
+                        this.$parent.notificationActive = false;
+                        this.$parent.notificationMessage = "Message Sent!";
+                    }, 3000);
                 });
             }
         },
