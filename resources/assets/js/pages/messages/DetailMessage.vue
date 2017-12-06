@@ -41,6 +41,7 @@
                         :name="detail.attributes.sender_full_name"
                         :userId="detail.attributes.recipient_user_id"
                         :yourId="your_id"
+                        :threadId="$props.path"
                       />
                     </div>
                     <div class="button-wrapper">

@@ -8,7 +8,7 @@
         <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ momentDate }}</h3>
       </div>
       <p class="message-post-body" :class="{highlight: yourId == userId ? 'highlight' : ''}">{{ message }}</p>
-      <i class="fa fa-trash-o" @click="deleteMessages"></i>
+      <i v-if="$root.$data.global.permissions !== 'patient'" class="fa fa-trash-o" @click="deleteMessages"></i>
     </div>
 </template>
 
@@ -23,7 +23,8 @@
             message: String,
             name: String,
             userId: String,
-            yourId: String
+            yourId: String,
+            threadId: String,
         },
         name: 'DetailPost',
         data() {
@@ -33,7 +34,10 @@
             deleteMessages() {
                 axios.delete(`${this.$root.$data.apiUrl}/messages/${this.$props.id}`)
                 .then(() => {
-                    this.$root.$data.global.detailMessages;
+                    delete this.$root.$data.global.detailMessages[threadId][this.$props.id];
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+                    .map(e => e[e.length - 1])
+                    .sort((a, b) => b.id - a.id);
                 });
             }
         },
