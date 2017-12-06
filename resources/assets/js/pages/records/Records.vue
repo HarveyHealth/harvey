@@ -84,7 +84,7 @@
 
               <div class="pa2 pa3-m">
                 <div v-if="page === 0">
-                  <!-- <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt=""> -->
+                  <!-- Add First card here -->
                 </div>
 
                 <div v-if="page !== 0">
@@ -183,7 +183,7 @@
           <div v-if="selectedUserPatient">
             <div class="pa2 pa3-m">
               <div v-if="page === 0">
-                <!-- <img class="inline-centered" src="images/if_ic_library_514023.svg" style="width: 70%;" alt=""> -->
+                <!-- Add First card here -->
               </div>
 
               <div v-if="page !== 0">

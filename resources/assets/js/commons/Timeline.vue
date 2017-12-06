@@ -162,7 +162,7 @@ export default {
 
     .timeline-empty-message {
         text-align: center;
-        font-size: 1.2rem !important;
-        color: #EDA1A6 !important;
+        font-size: 1.2rem;
+        color: #EDA1A6;
     }
 </style>

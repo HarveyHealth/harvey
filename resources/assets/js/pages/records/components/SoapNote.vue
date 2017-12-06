@@ -8,7 +8,7 @@
 
           <div>
             <div>
-              <Heading3 name="Subject">Subjective</Heading3>
+              <Heading3>Subjective</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
               v-model="subjectiveTA"
@@ -20,7 +20,7 @@
             </div>
 
             <div >
-              <Heading3 name="Objective">Objective</Heading3>
+              <Heading3>Objective</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
               v-model="objectiveTA"
@@ -33,7 +33,7 @@
             </div>
 
             <div>
-              <Heading3 name="Assessment">Assessment</Heading3>
+              <Heading3>Assessment</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
               v-model="assessmentTA"
@@ -53,7 +53,7 @@
             </div>
 
             <div class="">
-              <Heading3 name="Treatment">Plan/Treatment</Heading3>
+              <Heading3>Plan/Treatment</Heading3>
               <Spacer isBottom :size="2" />
               <quill-editor
               v-model="planTA"
