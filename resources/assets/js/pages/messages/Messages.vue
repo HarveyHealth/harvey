@@ -90,7 +90,7 @@
             messageState() {
                 let messages = this.$root.$data.global.messages;
                 if (!this.$root.$data.global.messages.length) {
-                    this.setMessages([]);
+                    this.setMessages(false);
                     return [];
                 } else {
                     let messageState = messages.sort((a, b) => b.id - a.id);
@@ -104,7 +104,7 @@
                 if (!val) {
                     let messages = this.$root.$data.global.messages;
                     if (!messages.length) {
-                        this.setMessages([]);
+                        this.setMessages(false);
                         return [];
                     } else {
                         let messageState = messages.sort((a, b) => b.id - a.id);
@@ -119,8 +119,7 @@
             this.renderNewMessage = !this.renderNewMessage;
           },
           setMessages(data) {
-              console.log(!data.length)
-              if (!data.length) {
+              if (!data) {
                   this.messageList = [];
               } else {
                   this.messageList = data.sort((a, b) => b.id - a.id).map(e => e.attributes);
