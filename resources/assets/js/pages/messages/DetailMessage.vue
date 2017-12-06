@@ -4,10 +4,13 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="heading-1">
+                    <h1  v-if="detailList.length" class="heading-1">
                       <span class="text word-wrap">{{ chat && chat.subject ? chat.subject : 'Loading your messages...' }}</span>
                     </h1>
-                    <h3 class="font-sm copy-muted-2">
+                    <h1 v-if="!detailList.length" class="heading-1">
+                      <span class="text word-wrap">Redirecting to messages page...</span>
+                    </h1>
+                    <h3 v-if="detailList.length" class="font-sm copy-muted-2">
                       <router-link to="/messages">
                         <i class="fa fa-long-arrow-left"></i> Back to Messages
                       </router-link>

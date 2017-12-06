@@ -34,22 +34,22 @@
                     <router-link :to="{
                         name: 'detail',
                         params: {
-                        path: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
-                        thread_id: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
-                        subject: chat.attributes.subject,
-                        sender_id : chat.attributes.sender_user_id,
-                        recipient_id : chat.attributes.recipient_user_id,
-                        sender_name: chat.attributes.sender_full_name,
-                        recipient_full_name: chat.attributes.recipient_full_name,
+                        path: `${makeThreadId(chat.sender_user_id, chat.recipient_user_id)}-${chat.subject}`,
+                        thread_id: `${makeThreadId(chat.sender_user_id, chat.recipient_user_id)}-${chat.subject}`,
+                        subject: chat.subject,
+                        sender_id : chat.sender_user_id,
+                        recipient_id : chat.recipient_user_id,
+                        sender_name: chat.sender_full_name,
+                        recipient_full_name: chat.recipient_full_name,
                         }
                     }">
                     <MessagePost
                         :id="chat.id"
-                        :created-at="chat.attributes.created_at"
-                        :header="chat.attributes.subject"
-                        :image="chat.attributes.sender_image_url"
-                        :message="chat.attributes.message"
-                        :name="chat.attributes.sender_user_id != user ? chat.attributes.sender_full_name : chat.attributes.recipient_full_name"
+                        :created-at="chat.created_at"
+                        :header="chat.subject"
+                        :image="chat.sender_image_url"
+                        :message="chat.message"
+                        :name="chat.sender_user_id != user ? chat.sender_full_name : chat.recipient_full_name"
                     />
                     </router-link>
                 </div>
@@ -89,7 +89,7 @@
         computed: {
             messageState() {
                 let messages = this.$root.$data.global.messages || [];
-                let messageState = messages.sort((a, b) => b.id - a.id);
+                let messageState = messages.sort((a, b) => b.id - a.id).map(e => e.attributes);
                 this.setMessages(messageState);
                 return messageState;
             }
@@ -98,7 +98,7 @@
             messageState(val) {
                 if (!val) {
                     let messages = this.$root.$data.global.messages || [];
-                    let messageState = messages.sort((a, b) => b.id - a.id);
+                    let messageState = messages.sort((a, b) => b.id - a.id).map(e => e.attributes);
                     this.setMessages(messageState);
                     return messageState;
                 }
