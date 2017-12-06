@@ -8,12 +8,13 @@
         <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ momentDate }}</h3>
       </div>
       <p class="message-post-body" :class="{highlight: yourId == userId ? 'highlight' : ''}">{{ message }}</p>
-      <i v-if="$root.$data.global.permissions !== 'patient'" class="fa fa-trash-o" @click="deleteMessages"></i>
+      <i v-if="$root.$data.global.permissions !== 'patient'" class="fa fa-trash-o float-right" @click="deleteMessages"></i>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
+    import { pull } from 'lodash';
     export default {
         props: {
             id: String,
@@ -34,10 +35,11 @@
             deleteMessages() {
                 axios.delete(`${this.$root.$data.apiUrl}/messages/${this.$props.id}`)
                 .then(() => {
-                    delete this.$root.$data.global.detailMessages[threadId][this.$props.id];
+                    pull(this.$root.$data.global.detailMessages[this.$props.threadId], { id: this.$props.id });
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
                     .sort((a, b) => b.id - a.id);
+                    this.$parent.$data.detailList = this.$root.$data.global.detailMessages[this.$props.threadId];
                 });
             }
         },

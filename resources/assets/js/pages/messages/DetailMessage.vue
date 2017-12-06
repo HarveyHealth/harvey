@@ -139,33 +139,42 @@
             }
         },
         methods: {
-          close() {
-            this.renderNewMessage = !this.renderNewMessage;
-          },
-          setDetails(data) {
-              this.detailList = data.sort((a, b) => a.id - b.id);
-          },
-          reply() {
-            this.renderReply = !this.renderReply;
-          },
-          highlights(user) {
-              return user === this.your_id;
-          },
-          makeThreadId(userOne, userTwo) {
-            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
-          },
-          userName() {
-              if (this.$root.$data.permissions === 'patient') {
-                  let arr = this.$root.$data.global.practitioners;
-                  return arr.filter(e => e.id === this.$route.params.id)[0].name;
-              } else if (this.$root.$data.permissions === 'practitioner') {
-                  let arr = this.$root.$data.global.patients;
-                  return arr.filter(e => e.id === this.$route.params.id)[0].name;
-              } else if (this.$root.$data.permissions === 'admin') {
-                  let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients);
-                  return all.filter(e => e.id === this.$route.params.id)[0].name;
-              }
-           }
+            deleteMessages() {
+                this.$root.$data.global.detailMessages[this.$props.thread_id].forEach(e => {
+                    axios.delete(`${this.$root.$data.apiUrl}/messages/${e.id}`);
+                });
+                delete this.$root.$data.global.detailMessages[this.$props.thread_id];
+                this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+                    .map(e => e[e.length - 1])
+                    .sort((a, b) => b.id - a.id);
+            },
+            close() {
+                this.renderNewMessage = !this.renderNewMessage;
+            },
+            setDetails(data) {
+                this.detailList = data.sort((a, b) => a.id - b.id);
+            },
+            reply() {
+                this.renderReply = !this.renderReply;
+            },
+            highlights(user) {
+                return user === this.your_id;
+            },
+            makeThreadId(userOne, userTwo) {
+                return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
+            },
+            userName() {
+                if (this.$root.$data.permissions === 'patient') {
+                    let arr = this.$root.$data.global.practitioners;
+                    return arr.filter(e => e.id === this.$route.params.id)[0].name;
+                } else if (this.$root.$data.permissions === 'practitioner') {
+                    let arr = this.$root.$data.global.patients;
+                    return arr.filter(e => e.id === this.$route.params.id)[0].name;
+                } else if (this.$root.$data.permissions === 'admin') {
+                    let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients);
+                    return all.filter(e => e.id === this.$route.params.id)[0].name;
+                }
+            }
         },
         mounted() {
             this.$root.$data.global.currentPage = 'details';

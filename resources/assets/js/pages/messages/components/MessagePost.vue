@@ -11,14 +11,12 @@
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>
           <p class="message-post-message copy-muted">{{ messages }}</p>
-          <i v-if="$root.$data.global.permissions !== 'patient'" class="fa fa-trash-o" @click="deleteMessages"></i>
         </div>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
-    import axios from 'axios';
     export default {
         props: {
             id: String,
@@ -32,17 +30,6 @@
         name: 'MessagingPost',
         data() {
             return {  };
-        },
-        methods: {
-            deleteMessages() {
-                this.$root.$data.global.detailMessages[this.$props.thread_id].forEach(e => {
-                    axios.delete(`${this.$root.$data.apiUrl}/messages/${e.id}`);
-                });
-                delete this.$root.$data.global.detailMessages[this.$props.thread_id];
-                this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
-                    .map(e => e[e.length - 1])
-                    .sort((a, b) => b.id - a.id);
-            }
         },
         computed: {
             messages() {
