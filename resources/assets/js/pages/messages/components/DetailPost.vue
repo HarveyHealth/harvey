@@ -24,7 +24,7 @@
             name: String,
             userId: String,
             yourId: String,
-            threadId: String,
+            threadId: String
         },
         name: 'DetailPost',
         data() {
