@@ -88,19 +88,29 @@
         },
         computed: {
             messageState() {
-                let messages = this.$root.$data.global.messages || [];
-                let messageState = messages.sort((a, b) => b.id - a.id).map(e => e.attributes);
-                this.setMessages(messageState);
-                return messageState;
+                let messages = this.$root.$data.global.messages;
+                if (!this.$root.$data.global.messages.length) {
+                    this.setMessages([]);
+                    return [];
+                } else {
+                    let messageState = messages.sort((a, b) => b.id - a.id);
+                    this.setMessages(messageState);
+                    return messageState;
+                }
             }
         },
         watch: {
             messageState(val) {
                 if (!val) {
-                    let messages = this.$root.$data.global.messages || [];
-                    let messageState = messages.sort((a, b) => b.id - a.id).map(e => e.attributes);
-                    this.setMessages(messageState);
-                    return messageState;
+                    let messages = this.$root.$data.global.messages;
+                    if (!messages.length) {
+                        this.setMessages([]);
+                        return [];
+                    } else {
+                        let messageState = messages.sort((a, b) => b.id - a.id);
+                        this.setMessages(messageState);
+                        return messageState;
+                    }
                 }
             }
         },
@@ -109,7 +119,12 @@
             this.renderNewMessage = !this.renderNewMessage;
           },
           setMessages(data) {
-              this.messageList = data.sort((a, b) => b.id - a.id);
+              console.log(!data.length)
+              if (!data.length) {
+                  this.messageList = [];
+              } else {
+                  this.messageList = data.sort((a, b) => b.id - a.id).map(e => e.attributes);
+              }
           },
           makeThreadId(userOne, userTwo) {
             return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
