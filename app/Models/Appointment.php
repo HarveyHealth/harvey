@@ -191,6 +191,7 @@ class Appointment extends Model
             'patient_state' => $this->patient->user->state,
             'practitioner_name' => $this->practitioner->user->full_name,
             'practitioner_state' => $this->practitioner->user->state,
+            'meet_link' => $this->google_meet_link,
         ];
 
         return $this->sendReminderEmail24Hs($this->patient->user, $templateData);
