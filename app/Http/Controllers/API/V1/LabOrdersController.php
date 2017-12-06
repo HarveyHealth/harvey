@@ -8,7 +8,7 @@ use App\Models\{DiscountCode, LabOrder};
 use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Cache, ResponseCode, Shippo_Transaction;
+use Cache, ResponseCode, Shippo_Track, Shippo_Transaction;
 
 class LabOrdersController extends BaseAPIController
 {
@@ -127,7 +127,6 @@ class LabOrdersController extends BaseAPIController
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
-
     /**
      * @param LabOrder $lab_order
      * @return \Illuminate\Http\JsonResponse
@@ -138,18 +137,12 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to track this LabOrder");
         }
 
-        if (empty($lab_order->shippo_id)) {
+        if (empty($lab_order->shipment_code) || empty($lab_order->carrier)) {
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 
-        $output = Cache::remember("transaction_for_shippo_id_{$lab_order->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_order) {
-            $filter_only = ['id', 'object_state', 'status', 'object_created', 'object_updated',
-                'test', 'tracking_number', 'tracking_status', 'eta', 'tracking_url_provider',
-                'label_url', 'metadata'
-            ];
-            $transaction = Shippo_Transaction::retrieve($lab_order->shippo_id)->__toArray(true);
-
-            return array_only($transaction, $filter_only);
+        $output = Cache::remember("track_for_shippo_id_{$lab_order->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_order) {
+            return Shippo_Track::create(['carrier' => $lab_order->carrier, 'tracking_number' => $lab_order->shipment_code])->__toArray(true)
         });
 
         return response()->json($output, ResponseCode::HTTP_OK);
@@ -166,10 +159,11 @@ class LabOrdersController extends BaseAPIController
         }
 
         StrictValidator::check($request->all(), [
-            'servicelevel_token' => ['filled', Rule::in(LabOrder::SERVICELEVEL_ALLOWED_TOKENS)],
+            'carrier' => ['filled', Rule::in(LabOrder::ALLOWED_CARRIERS)],
+            'servicelevel_token' => ['filled', Rule::in(LabOrder::ALLOWED_SERVICELEVEL_TOKENS)],
         ]);
 
-        $lab_order->ship($request->input('servicelevel_token'));
+        $lab_order->ship($request->input('carrier'), $request->input('servicelevel_token'));
 
         return $this->baseTransformItem($lab_order->fresh(), request('include'))->respond();
     }

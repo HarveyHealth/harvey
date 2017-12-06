@@ -188,4 +188,25 @@ class LabTestsController extends BaseAPIController
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @param LabTest $lab_test
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function track(Request $request, LabTest $lab_test)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized("You do not have access to track this LabTest");
+        }
+
+        if (empty($lab_test->shipment_code) || empty($lab_test->carrier)) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $output = Cache::remember("track_for_shippo_id_{$lab_test->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_test) {
+            return Shippo_Track::create(['carrier' => $lab_test->carrier, 'tracking_number' => $lab_test->shipment_code])->__toArray(true)
+        });
+
+        return response()->json($output, ResponseCode::HTTP_OK);
+    }
 }
