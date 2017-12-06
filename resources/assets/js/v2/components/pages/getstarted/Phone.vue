@@ -3,7 +3,7 @@
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">{{ preface.heading }}</Heading1>
             <Spacer isBottom :size="2" />
-            <Paragraph :color="'light'">{{ preface.subtext }}</Paragraph>
+            <Paragraph :color="'light'" :weight="'thin'">{{ preface.subtext }}</Paragraph>
         </div>
         <Spacer isBottom :size="3" />
         <Pagination :step="'phone'" class="mha mw6" />

@@ -4,14 +4,14 @@
             <div v-if="State('practitioners.isLoading')">
                 <LoadingSpinner :color="'light'" />
                 <Spacer isBottom :size="3" />
-                <Heading1 :color="'light'">Loading Practitioners...</Heading1>
+                <Heading1 :color="'light'" doesExpand>Loading Practitioners...</Heading1>
             </div>
             <div v-else-if="hasNoPractitioners" class="m0auto mw6">
                 <Icon :fill="'white'" :icon="'globe'" :height="'100px'" :weight="'100px'" />
                 <Spacer isBottom :size="3" />
                 <Heading1 doesExpand :color="'light'">We&rsquo;re sorry!</Heading1>
                 <Spacer isBottom :size="3" />
-                <Paragraph :color="'light'">
+                <Paragraph :color="'light'" :weight="'thin'">
                     Unfortunately, we no longer have practitioner availability in your area. Please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom right corner of the page.
                 </Paragraph>
                 <Spacer isBottom :size="3" />
@@ -23,7 +23,9 @@
                 <div class="m0auto mw6">
                     <Heading1 doesExpand :color="'light'">Choose Your Doctor</Heading1>
                     <Spacer isBottom :size="2" />
-                    <Paragraph :color="'light'">Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.</Paragraph>
+                    <Paragraph :color="'light'" :weight="'thin'">
+                        Doctor availability is based on state licensing and regulation. Please select the doctor that best suits your health needs.
+                    </Paragraph>
                 </div>
                 <Spacer isBottom :size="3" />
                 <Pagination :step="'practitioner'" class="m0auto mw7" />
@@ -40,7 +42,7 @@
                                         :slot="index + 1"
                                         :key="index"
                                         :caption="dr.attributes.name"
-                                        :image="determineImage(dr.attributes.picture_url, 'user')"
+                                        :image="Logic.practitioners.determineImage(dr.attributes.picture_url, 'user')"
                                         :isActive="index === selected"
                                         :onClick="() => select(dr, index)"
                                     />
@@ -136,9 +138,6 @@ export default {
         }
     },
     methods: {
-        determineImage(image, type) {
-            return image ? image : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
-        },
         getAvailability(id) {
             this.isProcessing = true;
             if (!this.State('getstarted.signup.data.practitioner_id')) {

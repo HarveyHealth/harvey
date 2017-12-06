@@ -12,6 +12,12 @@
 .bg-gray-5 { background-color: $gray-5; }
 .bg-success { background-color: $color-good; }
 
+// border-radius
+.circle {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 // color
 .alt { color: $alt; }
 

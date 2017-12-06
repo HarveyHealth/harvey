@@ -6,9 +6,9 @@
                 <Spacer isBottom :size="3" />
                 <Heading1 doesExpand>Welcome to Harvey</Heading1>
                 <Spacer isBottom :size="3" />
-                <Paragraph>You will need to answer a few basic questions before you can schedule a consultation with a Naturopathic Doctor.</Paragraph>
+                <Paragraph :weight="'thin'">You will need to answer a few basic questions before you can schedule a consultation with a Naturopathic Doctor.</Paragraph>
                 <Spacer isBottom :size="3" />
-                <Paragraph>Please have your phone ready to validate your mobile number. Once confirmed, we will ask you to fill out a more detailed client intake form for your doctor.</Paragraph>
+                <Paragraph :weight="'thin'">Please have your phone ready to validate your mobile number. Once confirmed, we will ask you to fill out a more detailed client intake form for your doctor.</Paragraph>
                 <Spacer isBottom :size="4" />
                 <InputButton
                     :onClick="() => $router.push('practitioner')"

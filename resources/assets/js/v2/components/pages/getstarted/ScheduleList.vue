@@ -16,7 +16,7 @@ export default {}
 
         li {
             display: inline-block;
-            padding: 5px 3px;
+            padding: 5px 3px 16px;
             text-align: center;
             width: 20%;
         }

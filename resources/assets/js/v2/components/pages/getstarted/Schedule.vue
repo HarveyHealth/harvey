@@ -4,7 +4,9 @@
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">Choose Date &amp; Time</Heading1>
             <Spacer isBottom :size="2" />
-            <Paragraph :color="'light'">Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</Paragraph>
+            <Paragraph :color="'light'" :weight="'thin'">
+                Tell us the best date and time to schedule a video consultation with Dr. {{ doctorInfo.name }}, ND. You can book it 2 days from now, or as far out as 4 weeks.
+            </Paragraph>
         </div>
 
         <Spacer isBottom :size="3" />
@@ -19,15 +21,24 @@
                         <Spacer isBottom :size="3" />
                         <DateSelector :weekData="weekData" :onSelect="() => scrollToSubmit()" />
                     </div>
-                    <div :slot="2" class="bg-gray-0 pa2 pa3-m">
-                        <Heading3 :color="'muted'" class="tc uppercase">Choose Time</Heading3>
-                        <div class="alt f6 tc">Time Zone: {{ Config.time.zoneAbbr }}</div>
-                        <TimeSelector :timeData="State('getstarted.signup.selectedTimes')" />
+                    <div :slot="2" class="bg-gray-0 pa2 pa3-m relative">
+                        <div v-if="!selectedDate" class="doctor-container">
+                            <ScheduleDoctorInfo :doctorInfo="doctorInfo" />
+                        </div>
+                        <div v-else>
+                            <Heading3 :color="'muted'" class="tc uppercase">Choose Time</Heading3>
+                            <Spacer isBottom :size="3" />
+                            <div class="alt f6 fw3 tc">Time Zone: {{ Config.time.zoneAbbr }}</div>
+                            <TimeSelector :timeData="State('getstarted.signup.selectedTimes')" />
+                        </div>
                     </div>
                 </Grid>
                 <div class="tc" ref="submit">
                     <Paragraph v-if="selectedDate" :weight="'thin'">
-                      Your consultation will be on <span class="fw5">{{ selectedDate | fullDate }}</span>.
+                        Your consultation will be on <span class="bg-gray-0 fw5">{{ selectedDate | fullDate }}</span>.
+                    </Paragraph>
+                    <Paragraph v-else :weight="'thin'">
+                        Please select a date and time.
                     </Paragraph>
                     <Spacer isBottom :size="3" />
                     <InputButton
@@ -53,6 +64,7 @@ import { Heading1, Heading3, Paragraph } from 'typography';
 
 import DateSelector from './DateSelector.vue';
 import Pagination from './Pagination.vue';
+import ScheduleDoctorInfo from './ScheduleDoctorInfo.vue';
 import TimeSelector from './TimeSelector.vue';
 
 export default {
@@ -67,6 +79,7 @@ export default {
       InputButton,
       Pagination,
       Paragraph,
+      ScheduleDoctorInfo,
       SlideIn,
       Spacer,
       TimeSelector
@@ -81,6 +94,12 @@ export default {
     computed: {
         appointmentIsSelected() {
             return this.State('getstarted.signup.appointmentIsSelected');
+        },
+        doctorInfo() {
+            const practitioners = this.State('practitioners.data.licensed');
+            const selected = this.State('getstarted.signup.selectedPractitioner');
+
+            return practitioners[selected].attributes;
         },
         selectedDate() {
             return this.State('getstarted.signup.selectedDate');
@@ -143,3 +162,14 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .doctor-container {
+        @include query(md) {
+            @include vertical-center-relative;
+            transform: translate(-50%, -65%);
+        }
+    }
+</style>

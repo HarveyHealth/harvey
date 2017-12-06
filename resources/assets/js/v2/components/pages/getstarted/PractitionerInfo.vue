@@ -46,11 +46,12 @@ export default {
     },
     computed: {
         practitionerAvatar() {
-            return this.determineImage(this.practitioner.attributes.picture_url, 'user');
+            return App.Logic.practitioners.determineImage(this.practitioner.attributes.picture_url, 'user');
         },
         practitionerBackground() {
+            const image = this.practitioner.attributes.background_picture_url;
             return {
-                backgroundImage: `url(${this.determineImage(this.practitioner.attributes.background_picture_url, 'background')})`
+                backgroundImage: `url(${App.Logic.practitioners.determineImage(image, 'background')})`
             }
         }
     },
@@ -61,11 +62,6 @@ export default {
         year(value) {
             return moment(value).format('YYYY');
         }
-    },
-    methods: {
-        determineImage(image, type) {
-            return image ? image : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
-        },
     }
 }
 </script>
