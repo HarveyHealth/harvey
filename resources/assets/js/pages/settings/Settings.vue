@@ -210,7 +210,8 @@ export default {
             }
         },
         updateCard() {
-            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
+            let userId = this.user_id || window.Laravel.user.id;
+            axios.patch(`${this.$root.$data.apiUrl}/users/${userId}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.attributes.address_city,
                 address_state: this.currentCard.attributes.address_state,
@@ -243,7 +244,7 @@ export default {
                     this.notificationActive = true;
                     Laravel.user.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
-                    axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
+                    axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
                         .then(respond => {
                             this.$root.$data.global.creditCards = respond.data.data;
                             this.$root.$data.global.loadingCreditCards = false;
@@ -255,10 +256,15 @@ export default {
             this.stopListeningForStripeFormErrors();
         },
         getCards() {
+            const userId = this.user_id || window.Laravel.user.id;
             this.$root.$data.global.loadingCreditCards = true;
-            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
-                this.$root.$data.global.creditCards = response.data.data;
+            axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`).then(response => {
+                this.$root.$data.global.creditCards = response.data.data || [];
                 this.$root.$data.global.loadingCreditCards = false;
+            }).catch(error => {
+                if (error.response){
+                    console.error(error.response);
+                }
             });
         },
         getUser() {
@@ -331,6 +337,7 @@ export default {
             if (id && 'admin' === Laravel.user.user_type) {
                 this.setUserId(id);
                 this.getUser();
+                this.getCards();
             } else {
                 this.setUserId(null);
             }

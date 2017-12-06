@@ -8,6 +8,7 @@ use Crell\ApiProblem\ApiProblem;
 use Illuminate\Validation\Validator;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use ResponseCode;
+use League\Fractal\Resource\Collection;
 
 class BaseAPIController extends Controller
 {

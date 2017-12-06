@@ -1,7 +1,7 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
+  <div class="nav-bar hide-print" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button" @click="handleMenu(null)">
+    <button class="menu-button hide-print" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
@@ -48,14 +48,12 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <!-- LEAVE THESE COMMENTS HERE -->
-
-       <!-- <router-link to="/records" title="Records"
+       <router-link to="/records" title="Records"
         :class="currentPageCheck('records')"
         @click.native="handleMenu(false, 'records')">
         <i class="fa fa-files-o icon icon-nav-bar"></i>
         <div class="text">Records</div>
-      </router-link>  -->
+      </router-link> 
 
       <router-link
         v-if="user === 'admin'"

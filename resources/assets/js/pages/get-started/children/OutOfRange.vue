@@ -12,7 +12,6 @@
         <p>Unfortunately, we are unable to service clients in your state yet, but we are recruiting doctors quickly. Subscribe to our newsletter and we will notify you when we launch in your state.</p>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
