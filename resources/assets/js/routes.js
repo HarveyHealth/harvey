@@ -21,7 +21,7 @@ let rootRoute = {
 switch(context) {
   case 'get-started':
     rootRoute.name = 'get-started';
-    rootRoute.component = require('./pages/get-started/GetStarted.vue');
+    rootRoute.component = require('./v2/components/pages/getstarted/GetStarted.vue');
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';

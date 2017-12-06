@@ -140,7 +140,10 @@ export default {
         handleAppointmentSelection() {
             this.isProcessing = true;
             setTimeout(() => {
-                App.setState('getstarted.signup.appointmentIsSelected', true);
+                App.setState({
+                    'getstarted.signup.stepsCompleted.schedule': true,
+                    'getstarted.signup.appointmentIsSelected': true
+                });
                 App.Logic.getstarted.nextStep.call(this, 'schedule');
             }, 500);
         },

@@ -58,6 +58,7 @@ export default {
           if (dayObj && dayObj.times.length) {
             // reset
             App.setState({
+                'getstarted.signup.stepsCompleted.schedule': false,
                 'getstarted.signup.selectedDate': null,
                 'getstarted.signup.selectedTime': null,
                 'getstarted.signup.data.appointment_at': null

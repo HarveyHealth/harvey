@@ -36,7 +36,13 @@ export default {
         selectedTime: null,
         showProgress: false,
         steps: ['practitioner', 'phone', 'schedule', 'payment', 'confirmation'],
-        stepsCompleted: 0
+        stepsCompleted: {
+            practitioner: false,
+            phone: false,
+            schedule: false,
+            payment: false,
+            confirmation: false
+        }
     },
     userPost: {
         email: Util.data.fromStorage('email') || '',

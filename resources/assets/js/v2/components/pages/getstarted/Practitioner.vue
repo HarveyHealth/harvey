@@ -62,6 +62,8 @@
                         <Spacer isBottom :size="3" />
                         <div ref="button">
                             <InputButton
+                                :isDisabled="State('getstarted.signup.stepsCompleted.practitioner')"
+                                :isDone="State('getstarted.signup.stepsCompleted.practitioner')"
                                 :isProcessing="isProcessing"
                                 :onClick="() => getAvailability(State('getstarted.signup.data.practitioner_id'))"
                                 :text="'Continue'"
@@ -164,6 +166,7 @@ export default {
             const shouldScroll = !noScroll || false;
             if (shouldScroll) this.$refs.button.scrollIntoView();
             App.setState({
+                'getstarted.signup.stepsCompleted.practitioner': false,
                 'getstarted.signup.selectedPractitioner': index,
                 'getstarted.signup.data.practitioner_id': dr.id,
                 'getstarted.signup.practitionerName': dr.attributes.name,

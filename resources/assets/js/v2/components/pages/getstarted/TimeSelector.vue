@@ -28,6 +28,7 @@ export default {
     methods: {
         handleTimeSelection(time, index) {
             App.setState({
+                'getstarted.signup.stepsCompleted.schedule': false,
                 'getstarted.signup.appointmentIsSelected': false,
                 'getstarted.signup.selectedTime': index,
                 'getstarted.signup.data.appointment_at': this.Util.time.toUtc(time)

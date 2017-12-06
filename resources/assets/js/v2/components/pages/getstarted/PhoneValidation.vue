@@ -99,7 +99,10 @@ export default {
         handleCodeResend() {
             this.resetErrors();
             this.phoneCode = '';
-            App.setState('getstarted.signup.phoneCode', '');
+            App.setState({
+                'getstarted.signup.stepsCompleted.phone': false,
+                'getstarted.signup.phoneCode': ''
+            });
             axios.post(`api/v1/users/${Laravel.user.id}/phone/send_verification_code`);
             Vue.nextTick(() => this.$refs.code_input.$el.focus());
         },
@@ -152,6 +155,7 @@ export default {
             this.phoneCode = '';
             this.phoneNumber = '';
             App.setState({
+                'getstarted.signup.stepsCompleted.phone': false,
                 'getstarted.signup.phoneCode': '',
                 'getstarted.signup.phone': ''
             });
