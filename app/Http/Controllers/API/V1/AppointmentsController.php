@@ -73,7 +73,7 @@ class AppointmentsController extends BaseAPIController
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
-     
+
         StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'cancellation_reason' => 'max:1024',
@@ -87,7 +87,7 @@ class AppointmentsController extends BaseAPIController
         ]);
 
         $appointment = Appointment::create($inputData);
-        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
+        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation')->save();
 
         return $this->baseTransformItem($appointment->fresh())->respond();
     }
