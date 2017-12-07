@@ -63,12 +63,12 @@
             <quill-editor
                 output="html"
                 :options="editorOption"
-                v-model="quickNotes"
+                v-model="notes"
             />
         </div>
 
         <div class="inline-centered padding15 floatLeft fullWidth">
-            <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
+            <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
             <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Archive Note</button>
         </div>
 
@@ -118,6 +118,26 @@ export default {
         };
     },
     methods: {
+        updateQuickNotes() {
+            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`, { notes:  this.notes })
+                .then((response) => {
+                    let data = response.data.data;
+                    this.$parent.propData = data;
+                    this.$parent.soap_notes[data.id] = data;
+                    this.$parent.timeline.map(e => {
+                        if (e.type === 'SOAP Note' && data.id == e.data.id) {
+                            e.data = data;
+                        }
+                        return e;
+                    });
+                    this.$parent.notificationMessage = "Successfully updated!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                });
+        },
+        setNotes(data) {
+            this.notes = data;
+        },
         setSubjectiveTA(data) {
             this.subjectiveTA = data;
         },
@@ -167,7 +187,8 @@ export default {
                 subjective: this.subjectiveTA,
                 objective: this.objectiveTA,
                 assessment: this.assessmentTA,
-                plan: this.planTA
+                plan: this.planTA,
+                notes: this.notes
             })
             .then(response => {
                 let object = {};
@@ -203,6 +224,9 @@ export default {
             });
         },
         submit() {
+            if (!this.$parent.news) {
+                this.updateQuickNotes();
+            }
             return this.$parent.news ? this.createSoapNote() : this.editSoapNote();
         }
     },
@@ -229,6 +253,9 @@ export default {
         },
         quickNotes() {
             const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                this.setNotes(prop.attributes.notes);
+            }
             return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
@@ -264,6 +291,9 @@ export default {
         quickNotes(val) {
             if (!val) {
                 const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    this.setNotes(prop.attributes.notes);
+                }
                 return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
