@@ -104,8 +104,9 @@ class LabOrdersController extends BaseAPIController
             'zip' => "sometimes|digits:5|order_was_not_shipped:{$lab_order->id}",
         ]);
 
-        $lab_order->update($request->all());
         $lab_order->setDiscountCode(currentUser(), $request->input('discount_code'), 'lab-test');
+        $lab_order->fill($request->all());
+        $lab_order->save();
 
         return $this->baseTransformItem($lab_order, request('include'))->respond();
     }

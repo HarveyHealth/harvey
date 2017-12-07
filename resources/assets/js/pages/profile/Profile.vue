@@ -50,14 +50,6 @@
                                         <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
                                     <div class="input__container">
-                                        <label class="input__label" for="timezone">Timezone</label>
-                                        <span class="custom-select">
-                                            <select name="timezone" v-model="user.attributes.timezone">
-                                                <option v-for="timezone in timezones">{{ timezone }}</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                    <div class="input__container">
                                         <label  class="input__label" for="gender">Gender</label>
                                         <div class="gender-options">
                                             <div class="gender-options__option">
@@ -152,7 +144,7 @@
             <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
 
             <!-- confirm code button -->
-            <button class="button button--blue phone-confirm-button" style="width: 160px; margin-top: 22px"
+            <button class="button button--blue phone-confirm-button" style="width: 170px; margin-top: 22px"
                     :disabled="isPhoneConfirming" @click="handleCodeConfirmation">
               <span v-if="!isPhoneConfirming">Confirm Code</span>
               <div v-else style="width: 12px; margin: 0 auto;">
@@ -198,7 +190,6 @@
                         email: '',
                         gender: '',
                         phone: '',
-                        timezone: '',
                         address_1: '',
                         address_2: '',
                         city: '',

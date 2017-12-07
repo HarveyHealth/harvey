@@ -185,6 +185,8 @@ class MessageTest extends TestCase
 
     public function test_it_allows_to_filter_by_term()
     {
+        $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
+
         $patient = factory(Patient::class)->create();
 
         factory(Message::class, 4)->create([
@@ -208,6 +210,8 @@ class MessageTest extends TestCase
 
     public function test_it_allows_to_filter_by_term_and_sender_id()
     {
+        $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
+
         $patient = factory(Patient::class)->create();
         $senderPatient = factory(Patient::class)->create();
 

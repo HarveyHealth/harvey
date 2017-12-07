@@ -207,7 +207,7 @@ class User extends Authenticatable implements Mailable
 
     public function hasUpcomingAppointment()
     {
-        return count($this->nextUpcomingAppointment()) == 1;
+        return (bool) $this->nextUpcomingAppointment();
     }
 
     public function isPatient()

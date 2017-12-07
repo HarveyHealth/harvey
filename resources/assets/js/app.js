@@ -74,9 +74,23 @@ Vue.prototype.State = (path, ifUndefined) => {
 //    App.setState('practitioners.data.all', 'practitioners');
 //    State.practitioners.data.all yields 'practitioners'
 App.setState = (state, value) => {
-  const path = state.split('.');
-  const prop = path.pop();
-  return App.Util.data.propDeep(path, State)[prop] = value;
+  const set = (s, v) => {
+    const path = s.split('.');
+    const prop = path.pop();
+    return App.Util.data.propDeep(path, State)[prop] = v;
+  };
+
+  switch(typeof state) {
+      case 'string':
+        set(state, value);
+        break;
+      case 'object':
+        for (var key in state) {
+          set(key, state[key]);
+        }
+        break;
+  }
+
 };
 
 Vue.prototype.setState = App.setState;
@@ -346,25 +360,19 @@ const app = new Vue({
                 .then(response => {
                     let data = {};
                     let messageData = response.data.data;
-                    if (typeof (response.data.data) === 'object') {
-                        if (response.data.data.id) {
-                            messageData = [response.data.data];
-                        } else {
-                            messageData = Object.values(response.data.data);
-                        }
-                    }
                     messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                     });
                     if (data) {
-                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.id - b.id)));
                         this.global.detailMessages = data;
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
-                            .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
+                            .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+                        
                     }
                     this.global.loadingMessages = false;
                 });
