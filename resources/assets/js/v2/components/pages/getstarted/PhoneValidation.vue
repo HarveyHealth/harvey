@@ -34,7 +34,7 @@
                     :type="'phone'"
                 />
                 <Spacer isBottom :size="2" />
-                <span class="button-link db f6 fw3" @click="handleCodeResend">
+                <span class="button-link db f6 fw3" @click="handleCodeResend" v-if="!phoneStepIsComplete">
                     <i class="fa fa-repeat" aria-hidden="true"></i>
                     Text Me Again
                 </span>
@@ -91,6 +91,9 @@ export default {
         },
         phoneCodeIsConfirmed() {
             return this.State('getstarted.signup.phoneCode').length > 0;
+        },
+        phoneStepIsComplete() {
+            return this.State('getstarted.signup.stepsCompleted.phone');
         }
     },
     methods: {

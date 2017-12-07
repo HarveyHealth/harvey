@@ -94,6 +94,7 @@ export default {
     @import '~sass';
 
     .container {
+        height: 48px;
         padding: 0;
 
         button {
@@ -110,8 +111,8 @@ export default {
         color: inherit;
         display: inline-block;
         font-weight: 600;
-        line-height: 1;
-        padding: 12px;
+        line-height: 48px;
+        padding: 0 12px;
         width: 100%;
     }
 </style>

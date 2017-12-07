@@ -51,19 +51,33 @@ export default {
             return this.hasPhone ? { position: 'relative', left: '12px' } : '';
         },
         preface() {
-            return this.hasPhone
-                ?   {
-                        heading: 'Enter Confirmation Code',
-                        subtext: 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn’t receive it.'
-                    }
-                :   {
-                        heading: 'Validate Phone Number',
-                        subtext: 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before every appointment.'
-                    };
+            if (this.State('getstarted.signup.stepsCompleted.phone')) {
+                return {
+                    heading: 'Phone Confirmed!',
+                    subtext: 'Your phone number has been confirmed. You can change your phone number, or continue to the scheduling step.'
+                }
+            } else if (this.hasPhone) {
+                return {
+                    heading: 'Enter Confirmation Code',
+                    subtext: 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn’t receive it.'
+                }
+            } else {
+                return {
+                    heading: 'Validate Phone Number',
+                    subtext: 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before every appointment.'
+                }
+            }
         }
     },
     beforeMount() {
         App.Logic.getstarted.refuseStepSkip.call(this, 'phone');
+        if (this.Config.user.info.phone) {
+            App.setState({
+                'getstarted.signup.phone': this.Config.user.info.phone,
+                'getstarted.signup.phoneCode': '12345',
+                'getstarted.signup.stepsCompleted.phone': true
+            });
+        }
     },
     mounted() {
         App.Logic.getstarted.redirectDashboard();

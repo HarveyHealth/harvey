@@ -71,16 +71,6 @@ export default {
         }
         App.Logic.getstarted.redirectDashboard();
 
-        const steps = this.State('getstarted.signup.steps');
-        // if (this.Config.user.info.phone) {
-        //     const noPhoneStep = this.State('getstarted.signup.steps').filter(s => s !== 'phone');
-        //     App.setState('getstarted.signup.steps', noPhoneStep);
-        // }
-        // if (this.Config.user.info.has_a_card) {
-        //     const noPaymentStep = this.State('getstarted.signup.steps').filter(s => s !== 'payment');
-        //     App.setState('getstarted.signup.steps', noPaymentStep);
-        // }
-
         const zipValidation = JSON.parse(App.Util.data.fromStorage('zip_validation'));
 
         this.trackAccountCreation(zipValidation);
@@ -89,7 +79,7 @@ export default {
         analytics.identify();
     }
 };
-// 937 395 0633
+
 </script>
 
 <style lang="scss" scoped>
