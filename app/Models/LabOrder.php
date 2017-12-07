@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Lib\TimeInterval;
+use App\Lib\Clients\Shippo as ShippoAPIClient;
 use App\Exceptions\{ServiceUnavailableException, StrictValidatorException};
 use App\Models\{DiscountCode, LabTest, SKU};
 use App\Http\Traits\{
@@ -13,7 +14,7 @@ use App\Http\Traits\{
 };
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\Redis;
-use Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Transaction;
+use Cache, Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Track, Shippo_Transaction;
 
 class LabOrder extends Model
 {
@@ -56,7 +57,7 @@ class LabOrder extends Model
         self::SHIPPED_STATUS_ID => 'shipped',
     ];
 
-    const SERVICELEVEL_ALLOWED_TOKENS = [
+    const ALLOWED_SERVICELEVEL_TOKENS = [
         'fedex_ground',
         'fedex_home_delivery',
         'fedex_smart_post',
@@ -68,9 +69,19 @@ class LabOrder extends Model
         'fedex_first_overnight',
     ];
 
+    const ALLOWED_CARRIERS = [
+        'fedex',
+        'ups',
+    ];
+
     public function labTests()
     {
         return $this->hasMany(LabTest::class);
+    }
+
+    public static function findByShipmentCode($shipment_code)
+    {
+        return self::where('shipment_code', $shipment_code)->first();
     }
 
     public function setStatus() {
@@ -178,7 +189,7 @@ class LabOrder extends Model
         return $invoiceData;
     }
 
-    public function ship($servicelevel_token = null)
+    public function ship(string $carrier = null, string $servicelevel_token = null)
     {
         if (!empty($this->shippo_id)) {
             return $this;
@@ -209,15 +220,25 @@ class LabOrder extends Model
             throw new StrictValidatorException('The address is invalid. Please check the address and try again.');
         }
 
-        $parcel_info = $this->labTests()->notCanceled()->get()->pluck('sku.attributes')->map(function($i) {
-            return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
+        $parcel_info = $this->labTests()->notCanceled()->get()->map(function($i) {
+            return [
+                'distance_unit' => $i->sku->distance_unit,
+                'height' => $i->sku->height,
+                'length' => $i->sku->length,
+                'mass_unit' => $i->sku->mass_unit,
+                'weight' => $i->sku->weight,
+                'width' => $i->sku->width,
+                'metadata' => "Lab Test ID #{$i->id}",
+            ];
         });
 
         if ($parcel_info->isEmpty()) {
             throw new ServiceUnavailableException('This LabOrder does not contains any LabTest for shipping.');
         }
 
-        $carriers = Shippo_CarrierAccount::all(['carrier' => config('services.shippo.carrier')]);
+        $carrier = $carrier ?: config('services.shippo.default_carrier');
+
+        $carriers = Shippo_CarrierAccount::all(['carrier' => $carrier]);
         $carrier_object_id = $carriers->results[0]->object_id ?? null;
 
         if (empty($carrier_object_id)) {
@@ -229,10 +250,11 @@ class LabOrder extends Model
             'shipment' => [
                 'address_to' => $shippo_to_address_id,
                 'address_from' => $from,
-                'parcels' => $parcel_info,
+                'parcels' => $parcel_info->toArray(),
+                'metadata' => "LabOrder ID #{$this->id}",
             ],
             'carrier_account' => $carrier_object_id,
-            'servicelevel_token' => $servicelevel_token ?: config('services.shippo.carrier_service_level'),
+            'servicelevel_token' => $servicelevel_token ?: config('services.shippo.default_carrier_service_level'),
             'label_file_type' => 'PDF',
             'async' => false,
             'test' => isNotProd(),
@@ -248,8 +270,13 @@ class LabOrder extends Model
 
         $this->shippo_id = $transaction->object_id;
         $this->shipment_code = $transaction->tracking_number;
+        $this->carrier = $carrier;
 
         $this->save();
+
+        Cache::remember("track_for_shippo_id_{$this->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($carrier, $transaction) {
+            return Shippo_Track::create(['carrier' => $carrier, 'tracking_number' => $transaction->tracking_number])->__toArray(true);
+        });
 
         return $this;
     }
