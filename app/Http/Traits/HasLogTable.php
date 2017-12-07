@@ -40,6 +40,7 @@ trait HasLogTable
                         'attribute' => $attribute,
                         'from' => $model->getOriginal($attribute),
                         'to' => $model->$attribute,
+                        'updated_by_user_id' => currentUser()->id ?? null,
                     ]);
                 }
             }
