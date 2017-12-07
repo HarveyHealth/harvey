@@ -64,7 +64,7 @@
                             <InputButton
                                 :isDisabled="State('getstarted.signup.stepsCompleted.practitioner')"
                                 :isDone="State('getstarted.signup.stepsCompleted.practitioner')"
-                                :isProcessing="isProcessing"
+                                :isProcessing="State('practitioners.availability.isLoading')"
                                 :onClick="() => getAvailability(State('getstarted.signup.data.practitioner_id'))"
                                 :text="'Continue'"
                                 :width="'160px'"
@@ -108,8 +108,7 @@ export default {
     },
     data() {
         return {
-            errorText: null,
-            isProcessing: false
+            errorText: null
         };
     },
     // This is for when the component mounts before the practitioner list has finished loading.
@@ -141,20 +140,13 @@ export default {
     },
     methods: {
         getAvailability(id) {
-            this.isProcessing = true;
             if (!this.State('getstarted.signup.data.practitioner_id')) {
                 this.errorText = 'Please select a practitioner by clicking their box.';
-                this.isProcessing = false;
                 return;
             }
-            this.$root.getAvailability(id, response => {
-                const userType = this.Config.user.info.user_type;
-                const payload = response.data.meta.availability;
-                const availability = App.Logic.practitioners.transformAvailability(payload, userType);
-                App.setState('getstarted.signup.availability', availability);
-                if (!this.State('getstarted.signup.availability').length) {
+            App.Http.practitioners.getAvailability(id, availability => {
+                if (!availability.length) {
                     this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
-                    this.isProcessing = false;
                 } else {
                     App.Logic.getstarted.nextStep.call(this, 'practitioner');
                 }

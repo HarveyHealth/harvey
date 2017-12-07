@@ -56,7 +56,7 @@ if (context === 'get-started' && loggedIn) {
       component: require('./v2/components/pages/getstarted/Payment.vue') },
     { path: 'confirmation',
       name: 'confirmation',
-      component: require('./pages/get-started/children/Confirmation.vue') },
+      component: require('./v2/components/pages/getstarted/Confirmation.vue') },
     { path: 'success',
       name: 'success',
       component: require('./pages/get-started/children/Success.vue') }

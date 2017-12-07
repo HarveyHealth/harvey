@@ -102,7 +102,7 @@ export default {
             return this.State('getstarted.signup.selectedDate');
         },
         weekData() {
-            const list = this.State('getstarted.signup.availability');
+            const list = this.State('practitioners.availability.data');
             const weeks = [];
 
             for (let i = 1; i <= this.weeks; i++) {
@@ -156,7 +156,7 @@ export default {
         }
     },
     beforeMount() {
-        App.Logic.getstarted.refuseStepSkip.call(this, 'schedule');
+        // App.Logic.getstarted.refuseStepSkip.call(this, 'schedule');
     },
     mounted () {
         App.Logic.getstarted.redirectDashboard();

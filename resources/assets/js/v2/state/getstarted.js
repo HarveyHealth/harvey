@@ -4,7 +4,6 @@ export default {
     signup: {
         appointmentIsSelected: false,
         availability: [],
-        billingConfirmed: false,
         cardBrand: '',
         cardCvc: '',
         cardExpiration: '',
@@ -27,8 +26,6 @@ export default {
         hasCompletedSignup: false,
         phone: '',
         phoneCode: '',
-        phonePending: false,
-        phoneConfirmed: false,
         practitioner: null,
         practitionerName: '',
         practitionerState: '',
