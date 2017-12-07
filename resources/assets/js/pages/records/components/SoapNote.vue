@@ -148,7 +148,8 @@ export default {
             deleteModalActive: false,
             selected: null,
             editorOption: editorOption,
-            simpleEditor: simpleEditor
+            simpleEditor: simpleEditor,
+            notes: null
         };
     },
     methods: {
