@@ -1,3 +1,4 @@
+export { default as AddEventButton } from './AddEventButton.vue';
 export { default as AvatarSelection } from './AvatarSelection.vue';
 export { default as CodeInput } from './CodeInput.vue';
 export { default as InputButton } from './InputButton.vue';
