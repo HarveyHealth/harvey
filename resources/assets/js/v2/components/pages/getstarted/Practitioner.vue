@@ -169,6 +169,7 @@ export default {
                 'getstarted.signup.stepsCompleted.practitioner': false,
                 'getstarted.signup.selectedPractitioner': index,
                 'getstarted.signup.data.practitioner_id': dr.id,
+                'getstarted.signup.practitioner': dr.attributes,
                 'getstarted.signup.practitionerName': dr.attributes.name,
                 'getstarted.signup.practitionerState': dr.attributes.license_state
             });

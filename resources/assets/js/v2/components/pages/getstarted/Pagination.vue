@@ -50,7 +50,7 @@ export default {
     @import '~sass';
 
     a {
-        color: $color-fade-light-muted;
+        color: $color-fade-light;
         transition: color 200ms ease-in-out;
 
         &:hover {

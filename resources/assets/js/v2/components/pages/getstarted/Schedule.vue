@@ -96,13 +96,7 @@ export default {
             return this.State('getstarted.signup.appointmentIsSelected');
         },
         doctorInfo() {
-            if (this.State('getstarted.signup.selectedPractitioner') !== null) {
-                const selected = this.State('getstarted.signup.selectedPractitioner');
-
-                return this.State('practitioners.data.licensed')[selected].attributes;
-            }
-
-            return null;
+            return this.State('getstarted.signup.practitioner');
         },
         selectedDate() {
             return this.State('getstarted.signup.selectedDate');

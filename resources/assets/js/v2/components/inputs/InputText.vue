@@ -1,7 +1,8 @@
 <template>
-    <div :class="{ 'input-container': true, 'has-error': this.error }">
+    <div :class="{ 'input-container': true, 'has-error': this.error, 'has-success': this.success }">
         <input
             :class="inputClasses"
+            :disabled="disabled"
             :maxlength="maxlength"
             :name="name"
             :type="type"
@@ -9,14 +10,19 @@
             :value="value || ''"
             @input="onInput"
             @blur="$event => { if (onBlur) onBlur($event) }"
+            ref="text_input"
         />
-        <div class="error-msg f7 ph2 pv1" v-html="error"></div>
+        <div class="feedback f7 ph2 pv1">
+            <span v-if="error">{{ error }}</span>
+            <span v-if="success"><i class="fa fa-check mr1"></i>{{ success }}</span>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     props: {
+        disabled: Boolean,
         error: String,
         maxlength: String,
         mode: String,
@@ -24,6 +30,7 @@ export default {
         onBlur: Function,
         onInput: Function,
         placeholder: String,
+        success: String,
         type: {
             type: String,
             default: 'text'
@@ -40,6 +47,11 @@ export default {
                 'pa2': true,
                 'bare': this.mode === 'bare'
             }
+        }
+    },
+    methods: {
+        focus() {
+            this.$refs.text_input.focus();
         }
     }
 }
@@ -67,13 +79,21 @@ export default {
         &.bare:focus {
             border-color: $color-accent-dark;
         }
+
+        &:disabled {
+            color: $color-copy-muted-1;
+        }
     }
 
-    .error-msg {
-        color: $color-error;
+    .feedback {
         height: 22px;
         opacity: 0;
         transition: opacity 200ms ease-in-out;
+    }
+
+    .has-error .feedback,
+    .has-success .feedback {
+        opacity: 1;
     }
 
     .has-error {
@@ -82,10 +102,15 @@ export default {
             border-color: $color-error;
         }
 
-        .error-msg {
-            opacity: 1;
+        .feedback {
+            color: $color-error;
         }
     }
 
+    .has-success .feedback {
+        color: $color-copy;
+        font-style: italic;
 
+        i { color: $color-good; }
+    }
 </style>

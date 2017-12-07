@@ -2,13 +2,14 @@
     <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
 
         <div class="mha mw6 tc">
-            <Heading1 doesExpand :color="'light'">Enter Payment Method</Heading1>
+            <Heading1 doesExpand :color="'light'">{{ preface.heading }}</Heading1>
             <Spacer isBottom :size="2" />
-            <Paragraph :color="'light'" :weight="'thin'">
-                Please enter a preferred method of payment for your 1-hour consultation with Dr.  , ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, click here.
-            </Paragraph>
+            <Paragraph :color="'light'" :weight="'thin'" v-html="preface.subtext"></Paragraph>
             <Spacer isBottom :size="3" />
-            <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
+            <div class="credit-card" v-show="!isConfirmed && !isAlreadyStored"></div>
+            <SlideIn v-if="isConfirmed || isAlreadyStored">
+                <i class="fa fa-check confirmed-check dib circle f2"></i>
+            </SlideIn>
         </div>
 
         <Spacer isBottom :size="3" />
@@ -18,56 +19,89 @@
         <Card class="mha mw6">
             <CardContent class="pa4">
                 <form id="credit-card-form" @submit.prevent>
-                    <InputText
-                        :error="formErrors.cardName"
-                        :mode="'bare'"
-                        :name="'card_name'"
-                        :onBlur="() => { validateFormInput('cardName') }"
-                        :onInput="e => { cardName = e.target.value }"
-                        :placeholder="'Full Name'"
-                        :value="cardName"
-                    />
-                    <InputText
-                        :error="formErrors.cardNumber"
-                        :mode="'bare'"
-                        :name="'card_number'"
-                        :onBlur="() => { validateFormInput('cardNumber') }"
-                        :onInput="e => { cardNumber = e.target.value }"
-                        :placeholder="'Card Number'"
-                        :value="cardNumber"
-                    />
-                    <Grid :flexAt="'m'" :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{m:2}">
+                    <div v-show="!isAlreadyStored">
                         <InputText
-                            :error="formErrors.cardExpiration"
-                            :slot="1"
+                            :error="formErrors.cardName"
+                            :disabled="isProcessing || isConfirmed"
                             :mode="'bare'"
-                            :name="'card_expiration'"
-                            :onBlur="() => { validateFormInput('cardExpiration') }"
-                            :onInput="e => { cardExpiration = e.target.value }"
-                            :placeholder="'MM / YYYY'"
-                            :value="cardExpiration"
+                            :name="'card_name'"
+                            :onBlur="() => { validateFormInput('cardName') }"
+                            :onInput="e => { cardName = e.target.value }"
+                            :placeholder="'Full Name'"
+                            :ref="'card_name'"
+                            :value="cardName"
                         />
                         <InputText
-                            :error="formErrors.cardCvc"
-                            :slot="2"
+                            :error="formErrors.cardNumber"
+                            :disabled="isProcessing || isConfirmed"
                             :mode="'bare'"
-                            :name="'card_cvc'"
-                            :onBlur="() => { validateFormInput('cardCvc') }"
-                            :onInput="e => { cardCvc = e.target.value }"
-                            :placeholder="'CVC'"
-                            :value="cardCvc"
+                            :name="'card_number'"
+                            :onBlur="() => { validateFormInput('cardNumber') }"
+                            :onInput="e => { cardNumber = e.target.value }"
+                            :placeholder="'Card Number'"
+                            :value="cardNumber"
                         />
-                    </Grid>
-                    <InputText
-                        :mode="'bare'"
-                        :name="'discount_card'"
-                        :onInput="e => { discountCode = e.target.value }"
-                        :placeholder="'Discount Code'"
-                        :value="discountCode"
-                    />
+                        <Grid :flexAt="'ns'" :columns="[{ns:'1of2'},{ns:'1of2'}]" :gutters="{ns:2}">
+                            <div :slot="1">
+                                <InputText
+                                    :error="formErrors.cardExpiration"
+                                    :disabled="isProcessing || isConfirmed"
+                                    :mode="'bare'"
+                                    :name="'card_expiration'"
+                                    :onBlur="() => { validateFormInput('cardExpiration') }"
+                                    :onInput="e => { cardExpiration = e.target.value }"
+                                    :placeholder="'MM / YYYY'"
+                                    :value="cardExpiration"
+                                />
+                            </div>
+                            <div :slot="2">
+                                <InputText
+                                    :error="formErrors.cardCvc"
+                                    :disabled="isProcessing || isConfirmed"
+                                    :mode="'bare'"
+                                    :name="'card_cvc'"
+                                    :onBlur="() => { validateFormInput('cardCvc') }"
+                                    :onInput="e => { cardCvc = e.target.value }"
+                                    :placeholder="'CVC'"
+                                    :value="cardCvc"
+                                />
+                            </div>
+                        </Grid>
+                        <InputText
+                            :error="discountError"
+                            :disabled="isProcessing || isConfirmed"
+                            :mode="'bare'"
+                            :name="'discount_card'"
+                            :onInput="e => { discountCode = e.target.value }"
+                            :placeholder="'Discount Code'"
+                            :success="discountSuccess"
+                            :value="discountCode"
+                        />
+                    </div>
 
-                    <div class="tc">
+                    <div v-show="isAlreadyStored" class="tc">
+                        <Paragraph>
+                            Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.
+                        </Paragraph>
+                    </div>
+
+                    <div v-if="isConfirmed || isAlreadyStored" class="tc">
+                        <Spacer isBottom :size="3" />
                         <InputButton
+                            :mode="'gray'"
+                            :text="'Enter New Card'"
+                            :onClick="resetCardData"
+                            :width="'160px'"
+                        />
+                    </div>
+
+
+                    <div class="tc" v-if="!isAlreadyStored && !isConfirmed">
+                        <Spacer isBottom :size="3" />
+                        <span class="db mb2 red" v-show="stripeError" v-html="stripeError"></span>
+                        <InputButton
+                            :isDisabled="isConfirmed"
+                            :isDone="isConfirmed"
                             :isProcessing="isProcessing"
                             :text="'Save & Continue'"
                             :onClick="handleCardSubmission"
@@ -87,24 +121,7 @@
                 </Grid>
             </CardContent>
         </Card>
-
-        <!-- <div v-if="!pageLogic.showForm" class="signup-main-icon">
-          <svg>
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
-          </svg>
-        </div>
-        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
-        <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
-        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
-        <button class="button button--blue" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
-        </button>
-        <div class="trust-logos input-half--sm margin-0a is-padding-top">
-          <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="stripe">
-          <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="bbb">
-        </div>
-      </div>  -->
-
-  </SlideIn>
+    </SlideIn>
 </template>
 
 <script>
@@ -136,15 +153,11 @@ export default {
             cardName: this.State('getstarted.signup.cardName') || '',
             cardNumber: this.State('getstarted.signup.cardNumber') || '',
             discountCode: this.State('getstarted.signup.data.discount_code') || '',
-            discountError: '',
-            discountSuccess: '',
-            hasCardStored: this.Config.user.info.has_a_card,
-            isComplete: this.$root.$data.signup.billingConfirmed,
-            isValidDiscount: false,
+            discountSuccess: this.State('getstarted.signup.discountSuccess') || '',
             postError: 'There was an unexpected error. Please try again or contact support at <a href="tel:8006909989">800-690-9989</a>',
-            stripeKey: Laravel.services.stripe.key,
             stripeError: '',
 
+            discountError: '',
             formErrors: {
                 cardName: '',
                 cardNumber: '',
@@ -155,53 +168,55 @@ export default {
         };
     },
     computed: {
-        pageLogic() {
+        cardData() {
             return {
-                submitContinue: this.isComplete,
-                submitDisabled: this.isProcessing,
-                editButton: this.isComplete,
-                showForm: (this.hasCardStored && !this.isComplete) || !this.hasCardStored,
-                formProcessing: this.isProcessing && !this.isComplete,
-                needSave: !this.isComplete
+                number: this.cardNumber,
+                exp_month: this.cardExpiration.substring(0, 2),
+                exp_year: this.cardExpiration.substring(5),
+                cvc: this.cardCvc,
+                address_zip: this.Config.user.info.zip,
+                name: this.cardName
             };
         },
-    cardData() {
-      return {
-        number: this.cardNumber,
-        exp_month: this.cardExpiration.substring(0, 2),
-        exp_year: this.cardExpiration.substring(5),
-        cvc: this.cardCvc,
-        address_zip: Laravel.user.zip,
-        name: this.cardName
-      };
+        isAlreadyStored() {
+            return this.State('getstarted.signup.cardIsStored');
+        },
+        isConfirmed() {
+            return this.State('getstarted.signup.cardNumber').length > 0;
+        },
+        preface() {
+            return this.isConfirmed || this.isAlreadyStored
+                ? {
+                    heading: 'Payment Confirmed',
+                    subtext: ''
+                }
+                : {
+                    heading: 'Enter Payment Method',
+                    subtext: `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${this.State('getstarted.signup.practitioner').name}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`
+                }
+        }
     },
-    subtext() {
-      const dr = this.$root.$data.signup.practitionerName;
-      return this.$root.$data.signup.billingConfirmed
-        ? ''
-        : `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${dr}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`;
-    },
-    title() {
-      return this.$root.$data.signup.billingConfirmed
-        ? 'Confirm Payment'
-        : 'Enter Payment Method';
-    }
-  },
     methods: {
         handleCardSubmission() {
-            // is processing
             this.isProcessing = true;
-            // reset feedback
+            this.stripeError = '';
 
-            // input validation
+            // Form input validation
             const isInvalid = this.validateFormInputs();
             if (isInvalid) {
-                this.isProcessing = false;
+                // Should still check discount code before returning
+                if (this.discountCode) {
+                    this.validateDiscount(() => this.isProcessing = false);
+                }
                 return;
             }
-            // discount check -> submitCardData
-            // or submitCardData
-            // toggle state
+
+            // If there is a discount code, stripe api is hit after discount has been checked
+            if (this.discountCode) {
+              this.validateDiscount(() => this.createStripeToken(this.cardData));
+            } else {
+              this.createStripeToken(this.cardData);
+            }
         },
         validateFormInput(name) {
             if (!this[name].length) {
@@ -220,142 +235,138 @@ export default {
             Object.keys(this.formErrors).map(key => this.validateFormInput(key));
             return Object.keys(this.formErrors).filter(key => this.formErrors[key].length).length > 0;
         },
+        validateDiscount(resolve) {
+            this.discountError = '';
+            this.discountSuccess = '';
+            const endpoint = `${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}?applies_to=consultation`;
+            axios.get(endpoint).then(response => {
+                if (response.data.errors) {
+                    this.discountError = 'Discount code is invalid.';
+                    this.isProcessing = false;
+                    return;
+                }
 
-    onSubmit(e) {
-      e.preventDefault();
-      this.toggleProcessing();
-      this.stripeError = '';
-      this.discountError = '';
-      this.discountSuccess = '';
-      this.isValidDiscount = false;
-
-      if (this.pageLogic.submitContinue) {
-        this.$router.push({ name: 'confirmation', path: '/confirmation' });
-        return;
-      }
-
-      const errors = this.validateCardInputs();
-      if (errors) {
-        this.setStripeError(errors);
-        if (this.discountCode) this.validateDiscount();
-        return;
-      }
-
-      if (this.discountCode) {
-        this.validateDiscount(() => this.createStripeToken(this.cardData));
-      } else {
-        this.createStripeToken(this.cardData);
-      }
-
+                const attributes = response.data.data.attributes;
+                this.isValidDiscount = true;
+                switch(attributes.discount_type) {
+                    case 'dollars':
+                        this.discountSuccess = `$${attributes.amount} consultation discount applied!`;
+                        break;
+                    case 'percent':
+                        this.discountSuccess = `${attributes.amount}% consultation discount applied!`;
+                        break;
+                }
+                if (resolve) resolve();
+            }).catch(() => {});
+        },
+        createStripeToken(cardData) {
+            // Send stripe token to Stripe
+            Stripe.card.createToken(cardData, (status, response) => {
+                if (response.error) {
+                    this.isProcessing = false;
+                    this.stripeError = response.error.message;
+                } else {
+                    const tokenResponse = response;
+                    // Update user's card information
+                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
+                        App.setState({
+                            'getstarted.signup.cardName': this.cardName,
+                            'getstarted.signup.cardNumber': this.cardNumber,
+                            'getstarted.signup.cardExpiration': this.cardExpiration,
+                            'getstarted.signup.cardCvc': this.cardCvc,
+                            'getstarted.signup.data.discount_code': this.discountCode,
+                            'getstarted.signup.discountSuccess': this.discountSuccess,
+                            'getstarted.signup.cardBrand': tokenResponse.card.brand,
+                            'getstarted.signup.cardLastFour': tokenResponse.card.last4
+                        });
+                        this.isProcessing = false;
+                        App.Logic.getstarted.nextStep.call(this, 'payment');
+                    }).catch(error => {
+                        if (error.response) {
+                            this.isProcessing = false;
+                            this.stripeError = this.postError;
+                        }
+                    });
+                }
+            });
+        },
+        resetCardData() {
+            App.setState({
+                'getstarted.signup.cardName': '',
+                'getstarted.signup.cardNumber': '',
+                'getstarted.signup.cardExpiration': '',
+                'getstarted.signup.cardCvc': '',
+                'getstarted.signup.cardBrand': '',
+                'getstarted.signup.cardLastFour': '',
+                'getstarted.signup.cardIsStored': false,
+                'getstarted.signup.discountSuccess': '',
+                'getstarted.signup.stepsCompleted.payment': false
+            });
+            this.cardCvc = '';
+            this.cardExpiration = '';
+            this.cardName = '';
+            this.cardNumber = '';
+            this.discountSuccess = '';
+            Vue.nextTick(() => {
+                this.$refs.card_name.focus();
+            });
+        },
     },
-    validateDiscount(resolve) {
-      const endpoint = `${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}?applies_to=consultation`;
-      axios.get(endpoint).then(response => {
-        if (response.data.errors) {
-          this.discountError = 'Invalid discount code';
-          if (!this.stripeError) {
-            this.toggleProcessing();
-          }
-          return;
+    beforeMount() {
+        if (!this.isConfirmed) {
+            App.setState({
+                'getstarted.signup.cardIsStored': this.Config.user.info.has_a_card
+            });
         }
-        const attributes = response.data.data.attributes;
-        this.isValidDiscount = true;
-        switch(attributes.discount_type) {
-          case 'dollars':
-            this.discountSuccess = `$${attributes.amount} consultation discount applied!`;
-            break;
-          case 'percent':
-            this.discountSuccess = `${attributes.amount}% consultation discount applied!`;
-            break;
-        }
-        if (resolve) resolve();
-      }).catch(() => {});
     },
-    createStripeToken(cardData) {
-      Stripe.card.createToken(cardData, (status, response) => {
-        if (response.error) {
-          this.setStripeError(response.error.message);
-        } else {
-          this.$root.$data.signup.cardBrand = response.card.brand;
-          this.$root.$data.signup.cardLastFour = response.card.last4;
-          this.$root.$data.signup.data.discount_code = this.discountCode;
-          axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
-            this.$router.push({ name: 'confirmation', path: '/confirmation' });
-            this.markComplete();
-          }).catch(error => {
-            if (error.response) {
-              this.setStripeError(this.postError);
+    mounted () {
+        App.Logic.getstarted.redirectDashboard();
+        window.scroll(0, 0);
+        Stripe.setPublishableKey(Laravel.services.stripe.key);
+
+        if (this.isAlreadyStored) {
+            App.setState('getstarted.signup.stepsCompleted.payment', true);
+        }
+
+        // Card.js - https://github.com/jessepollak/card
+        this.card = new window.Card({
+            container: '.credit-card',
+            form: '#credit-card-form',
+            formSelectors: {
+                numberInput: 'input[name="card_number"]',
+                expiryInput: 'input[name="card_expiration"]',
+                cvcInput: 'input[name="card_cvc"]',
+                nameInput: 'input[name="card_name"]'
             }
-          });
-        }
-      });
-    },
-    markComplete() {
-      this.isComplete = true;
-      this.$root.$data.signup.billingConfirmed = true;
-      this.$root.$data.signup.cardCvc = this.cardCvc;
-      this.$root.$data.signup.cardExpiration = this.cardExpiration;
-      this.$root.$data.signup.cardName = this.cardName;
-      this.$root.$data.signup.cardNumber = this.cardNumber;
-      this.isProcessing = false;
-    },
-    resetCardData() {
-      this.$root.$data.signup.cardCvc = '';
-      this.$root.$data.signup.cardExpiration = '';
-      this.$root.$data.signup.cardName = '';
-      this.$root.$data.signup.cardNumber = '';
-      this.$root.$data.signup.cardBrand = '';
-      this.$root.$data.signup.cardLastFour = '';
-      this.cardCvc = '';
-      this.cardExpiration = '';
-      this.cardName = '';
-      this.cardNumber = '';
-      this.$root.$data.signup.billingConfirmed = false;
-      this.isComplete = false;
-      Laravel.user.has_a_card = false;
-    },
-    setStripeError(msg) {
-      this.toggleProcessing();
-      this.stripeError = msg;
-    },
-    toggleProcessing() {
-      this.isProcessing = !this.isProcessing;
-    },
-    validateCardInputs() {
-      let result = '';
-      if (!this.cardNumber.length) result += 'Your card number is blank.<br>';
-      if (!this.cardName.length) result += 'Your card name is blank.<br>';
-      if (!this.cardExpiration.length) result += 'Your card expiration is blank.<br>';
-      if (!this.cardCvc.length) result += 'Your card CVC is blank.<br>';
-      return result;
+        });
+        analytics.page('Payment');
     }
-  },
-  mounted () {
-    this.$root.toDashboard();
-    Stripe.setPublishableKey(this.stripeKey);
-
-    // Card.js - https://github.com/jessepollak/card
-    this.card = new window.Card({
-      container: '.credit-card',
-      form: '#credit-card-form',
-      formSelectors: {
-        numberInput: 'input[name="card_number"]',
-        expiryInput: 'input[name="card_expiration"]',
-        cvcInput: 'input[name="card_cvc"]',
-        nameInput: 'input[name="card_name"]'
-      }
-    });
-    analytics.page('Payment');
-  }
 };
 </script>
 
 <style lang="scss" scoped>
+    @import '~sass';
+
+    @include query-up-to(md) {
+        .credit-card {
+            transform: scale(0.8);
+        }
+    }
+
     .image-container {
         line-height: 50px;
     }
+
     .assurance-image {
         max-width: 80px;
         vertical-align: bottom;
+    }
+
+    .confirmed-check {
+        border: 9px solid rgba(255, 255, 255, 0.8);
+        color: $color-good;
+        height: 120px;
+        line-height: 100px;
+        width: 120px;
     }
 </style>
