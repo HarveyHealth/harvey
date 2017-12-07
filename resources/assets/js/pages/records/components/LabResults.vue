@@ -57,10 +57,11 @@
                 <quill-editor
                     output="html"
                     :options="editorOption"
-                    v-model="quickNotes"
+                    v-model="notes"
                 />
             </div>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
+                <button @click="updateQuickNotes" class="button bg-danger margin15">Save Changes</button>
                 <button @click="deleteModal()" class="button bg-danger margin15">Archive Result</button>
             </div>
             <Modal
@@ -110,6 +111,26 @@ export default {
         };
     },
     methods: {
+        updateQuickNotes() {
+            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/results/${this.$parent.propData.id}`, { notes:  this.notes })
+                .then((response) => {
+                    let data = response.data.data;
+                    this.$parent.propData = data;
+                    this.$parent.lab_test_results[data.id] = data;
+                    this.$parent.timeline.map(e => {
+                        if (e.type === 'Lab Test Result' && data.id == e.data.id) {
+                            e.data = data;
+                        }
+                        return e;
+                    });
+                    this.$parent.notificationMessage = "Successfully updated!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                });
+        },
+        setNotes(data) {
+            this.notes = data;
+        },
         deleteModal() {
             this.deleteModalActive = true;
         },
@@ -180,6 +201,9 @@ export default {
         },
         quickNotes() {
             const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                this.setNotes(prop.attributes.notes);
+            }
             return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
@@ -205,6 +229,9 @@ export default {
         quickNotes(val) {
             if (!val) {
                 const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    this.setNotes(prop.attributes.notes);
+                }
                 return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
