@@ -16,8 +16,8 @@
           <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
             <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
               <form>
-                <i class="fa fa-search absolute left-2"></i>
-                <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
+                <i class="font-lg pt1 fa fa-search absolute left-2"></i>
+                <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
               </form>
             </div>
           </Grid>
@@ -63,8 +63,8 @@
                 <Grid :flexAt="'l'" :columns="[{ l:'2of3' }, { l:'1of3' }]">
                     <div :slot="1">
                       <form>
-                        <i class="fa fa-search absolute left-2"></i>
-                        <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="b--none w-100 pl4" />
+                        <i class="font-lg pt1 fa fa-search absolute left-2"></i>
+                        <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
                       </form>
                     </div>
 
@@ -129,13 +129,13 @@
               <div class="flyout-patient-info">
                 <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
                   <div :slot="1">
-                    <span class="db">ID: <b>#{{ selectedPatient.id }}</b></span>
-                    <span class="db">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                    <span class="db">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                    <span class="db pa1">ID: <b>#{{ selectedPatient.id }}</b></span>
+                    <span class="db pa1">Joined: <b>{{ selectedPatient.created_at }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
                   </div>
                   <div :slot="2">
-                    <span class="db">City: <b>{{ selectedPatient.city }}</b></span>
-                    <span class="db">State: <b>{{ selectedPatient.state }}</b></span>
+                    <span class="db pa1">City: <b>{{ selectedPatient.city }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedPatient.state }}</b></span>
                   </div>
                 </Grid>
               </div>

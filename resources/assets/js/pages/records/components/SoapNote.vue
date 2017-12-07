@@ -308,23 +308,27 @@ export default {
 
 <style lang="scss" scoped>
     @import '~sass';
-
     .quill-editor {
       border: none;
-      border-bottom: 1px solid #ccc;
       border-radius: 0;
-      height: 150px;
       overflow: hidden;
       padding: 0;
     }
     .simple-editor {
       border-bottom: none;
-      height: 250px;
+      height: 268px;
+    }
+    .disabled--cursor {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    .ql-toolbar.ql-snow {
+      height: 130px;
+      border: 1px solid #eee;
     }
     .patient-disclaimer {
       color: $color-copy-alt;
       position: relative;
-
       &:before {
         border-top: 2px dashed $color-copy-alt;
         content: "";
@@ -334,7 +338,6 @@ export default {
         top: 50%;
         width: 100%;
       }
-
       .disclaimer-inside {
         background: $color-white;
         padding: 0 5px;

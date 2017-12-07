@@ -9,12 +9,7 @@
           <CardContent>
             <div class="">
               <Paragraph>
-                You are about upload an attachment for client {{ patient.search_name }},
-                with adate of birth {{ patient.date_of_birth }}.
-                Please verify the name of attachment before
-                uploading, so we can keep things organized.
-                Anything you upload will be viewable to your doctor and doctor's assisstants only.
-                The only file format accepted is a PDF.
+                You are about upload an attachment for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of attachment before uploading, so we can keep things organized. Anything you upload will be viewable to your doctor and doctor's assisstants only. The only file format accepted is a PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>
@@ -238,21 +233,22 @@ export default {
 
 <style lang="scss" scoped>
     @import '~sass';
-
     .quill-editor {
       border: none;
-      border-bottom: 1px solid #ccc;
       border-radius: 0;
-      height: 150px;
       overflow: hidden;
       padding: 0;
     }
     .simple-editor {
       border-bottom: none;
-      height: 250px;
+      height: 268px;
     }
     .disabled--cursor {
       cursor: not-allowed;
       opacity: 0.5;
+    }
+    .ql-toolbar.ql-snow {
+      height: 130px;
+      border: 1px solid #eee;
     }
 </style>

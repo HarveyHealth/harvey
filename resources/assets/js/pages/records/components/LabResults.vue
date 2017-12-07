@@ -9,11 +9,7 @@
           <div class="">
             <div class="">
               <Paragraph>
-                You are about upload a new lab test for client {{ patient.search_name }}
-                (date of birth {{ patient.date_of_birth }}).
-                Please verify the name of the lab and the type of lab test before
-                uploading the results, so we can match the result with a lab test.
-                The only file format accepted is a PDF.
+                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>
@@ -267,21 +263,22 @@ export default {
 
 <style lang="scss" scoped>
     @import '~sass';
-
     .quill-editor {
       border: none;
-      border-bottom: 1px solid #ccc;
       border-radius: 0;
-      height: 150px;
       overflow: hidden;
       padding: 0;
     }
     .simple-editor {
       border-bottom: none;
-      height: 250px;
+      height: 268px;
     }
     .disabled--cursor {
       cursor: not-allowed;
       opacity: 0.5;
+    }
+    .ql-toolbar.ql-snow {
+      height: 130px;
+      border: 1px solid #eee;
     }
 </style>

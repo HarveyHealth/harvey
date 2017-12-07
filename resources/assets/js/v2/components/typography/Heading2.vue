@@ -16,8 +16,8 @@ export default {
         'f4': this.doesExpand,
         'f3': !this.doesExpand,
         'f3-m': this.doesExpand,
-        'fw4': true,
-        'pa0': true,
+        'fw3': true,
+        'ph3': true,
         'white': this.isLight
       };
     }
