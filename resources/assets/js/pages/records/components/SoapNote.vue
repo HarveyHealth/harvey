@@ -88,8 +88,8 @@
         <CardContent>
           <!-- Save -->
           <div class="inline-centered">
-            <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
-            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger">Archive Note</button>
+            <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
+            <button v-if="!$parent.news" @click="deleteModal" class="button bg-danger">Archive Note</button>
           </div>
         </CardContent>
       </Card>
