@@ -237,23 +237,20 @@ export default {
             })
             .then(response => {
                 let data = response.data.data;
-                    this.$parent.propData = data;
-                    this.$parent.soap_notes[data.id] = data;
-                    this.$parent.timeline.map(e => {
-                        if (e.type === 'SOAP Note' && data.id == e.data.id) {
-                            e.data = data;
-                        }
-                        return e;
-                    });
-                    this.$parent.notificationMessage = "Successfully updated!";
-                    this.$parent.notificationActive = true;
-                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                this.$parent.propData = data;
+                this.$parent.soap_notes[data.id] = data;
+                this.$parent.timeline = this.$parent.timeline.map(e => {
+                    if (e.type === 'SOAP Note' && data.id == e.id) {
+                        e.data = data;
+                    }
+                    return e;
+                });
+                this.$parent.notificationMessage = "Successfully updated!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
         },
         submit() {
-            if (!this.$parent.news) {
-                this.updateQuickNotes();
-            }
             return this.$parent.news ? this.createSoapNote() : this.editSoapNote();
         }
     },
