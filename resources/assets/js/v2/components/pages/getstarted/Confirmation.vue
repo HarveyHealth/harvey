@@ -6,13 +6,13 @@
             <Paragraph :color="'light'" :weight="'thin'"></Paragraph>
         </div>
         <Spacer isBottom :size="3" />
-        <Pagination :step="'phone'" class="mha mw6" />
+        <Pagination :step="'confirmation'" class="mha mw6" />
         <Spacer isBottom :size="1" />
         <Card class="mha mw6">
             <CardContent class="tc ph4 pv5">
                 <Icon :fill="'gray-4'" :icon="'clipboard'" :height="'100px'" :width="'100px'" />
                 <Spacer isBottom :size="3" />
-                <Paragraph :weight="'thin'">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</Paragraph>
+                <Paragraph :weight="'thin'">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Out of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</Paragraph>
                 <Spacer isBottom :size="3" />
                 <InputButton
                     :isDone="State('getstarted.signup.hasCompletedSignup')"
@@ -108,7 +108,6 @@ export default {
 
             axios.post('/api/v1/appointments', this.State('getstarted.signup.data')).then(response => {
                 this.isProcessing = false;
-                window.onbeforeunload = null;
                 analytics.track("Consultation Confirmed");
                 App.Util.data.killStorage('zip_validation');
                 App.setState({
@@ -140,6 +139,9 @@ export default {
                 App.Router.push({ path: '/schedule' });
             });
         }
+    },
+    beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'confirmation');
     },
     mounted () {
         window.scroll(0, 0);

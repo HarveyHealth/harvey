@@ -192,7 +192,7 @@ export default {
                 }
                 : {
                     heading: 'Enter Payment Method',
-                    subtext: `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${this.State('getstarted.signup.practitioner').name}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`
+                    subtext: `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${this.State('getstarted.signup.practitioner.name')}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`
                 }
         }
     },
@@ -313,6 +313,8 @@ export default {
         },
     },
     beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'payment');
+
         if (!this.isConfirmed) {
             App.setState({
                 'getstarted.signup.cardIsStored': this.Config.user.info.has_a_card

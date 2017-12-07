@@ -156,7 +156,7 @@ export default {
         }
     },
     beforeMount() {
-        // App.Logic.getstarted.refuseStepSkip.call(this, 'schedule');
+        App.Logic.getstarted.refuseStepSkip.call(this, 'schedule');
     },
     mounted () {
         App.Logic.getstarted.redirectDashboard();

@@ -157,8 +157,18 @@ export default {
             // The ref hasn't registered yet so it throws a console error
             const shouldScroll = !noScroll || false;
             if (shouldScroll) this.$refs.button.scrollIntoView();
+            // If a new doctor is selected, both the practitioner and schedule step are marked incomplete
+            // and all relevant state must be reset
             App.setState({
                 'getstarted.signup.stepsCompleted.practitioner': false,
+                'getstarted.signup.stepsCompleted.schedule': false,
+                'getstarted.signup.appointmentIsSelected': false,
+                'getstarted.signup.data.appointment_at': null,
+                'getstarted.signup.selectedDate': null,
+                'getstarted.signup.selectedDay': null,
+                'getstarted.signup.selectedTime': null,
+                'getstarted.signup.selectedTimes': null,
+                'getstarted.signup.selectedWeek': null,
                 'getstarted.signup.selectedPractitioner': index,
                 'getstarted.signup.data.practitioner_id': dr.id,
                 'getstarted.signup.practitioner': dr.attributes,
@@ -169,6 +179,7 @@ export default {
         }
     },
     beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'practitioner');
         // Will render ProgressBar at top of screen
         App.setState('getstarted.signup.showProgress', true);
     },

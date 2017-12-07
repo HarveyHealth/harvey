@@ -1,11 +1,14 @@
 <template>
     <span class="icon-container" :style="{ 'height': height, 'width': width }">
-        <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
-            <symbol :id="icon" :viewBox="icons[icon].viewbox" xmlns="http://www.w3.org/2000/svg" v-html="icons[icon].paths"></symbol>
-        </svg>
-        <svg class="svg-icon" :style="{ fill: colors[fill] || '', stroke: colors[stroke] || '' }">
-            <use :xlink:href="'#' + icon" />
-        </svg>
+        <template v-if="icons[icon].viewbox">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+                <symbol :id="icon" :viewBox="icons[icon].viewbox" xmlns="http://www.w3.org/2000/svg" v-html="icons[icon].paths"></symbol>
+            </svg>
+            <svg class="svg-icon" :style="{ fill: colors[fill] || '', stroke: colors[stroke] || '' }">
+                <use :xlink:href="'#' + icon" />
+            </svg>
+        </template>
+        <img v-else :src="icons[icon].src" :alt="icons[icon].alt" />
     </span>
 </template>
 
@@ -33,6 +36,10 @@ export default {
                 rocket: {
                     viewbox: '0 0 128 128',
                     paths: `<path d="M123.223 28.512l-23.94-24c15.065-5.67 25.82-4.955 27.357-3.42 1.536 1.54 2.24 12.314-3.417 27.42zm-65.75 95.85c-.035.2-.06.39-.06.59 0 .867.41 1.702 1.123 2.227.876.657 2.052.726 3.005.188 19.383-10.9 27.89-21.88 32.413-29.6 1.124-1.93 3.013-5.738 3.013-11.33V74.943c-9.94 9.38-21.837 17.488-33.133 22.8l-6.36 26.62zM3.048 70.463c.197 0 .386-.02.583-.064l26.532-6.357C35.44 52.77 43.53 40.946 53.08 30.83h-11.6c-5.58 0-9.383 1.884-11.306 3.02C22.466 38.374 11.51 46.9.638 66.33c-.54.952-.472 2.126.19 3.008.517.714 1.35 1.126 2.22 1.126zm28.3 34.998c-2.597 5.725-7.125 8.934-10.657 10.64-4.66 2.246-9.154 2.715-11.395 2.582-.137-2.245.335-6.75 2.576-11.42 1.703-3.54 4.9-8.077 10.613-10.675l-.02-.022c-.774-.78-1.32-1.694-1.752-2.65-.502.185-.996.37-1.554.556C.514 100.702-1.662 123.437 1.446 126.55c3.107 3.115 25.793.938 32.012-17.75.18-.54.36-1.023.537-1.513-.966-.44-1.863-1.037-2.635-1.81l-.01-.015zm63.16-98.96L121.32 33.37c-4.722 10.684-12.54 23.07-25.15 35.707-13.95 13.983-32.104 24.9-46.252 28.843L30.02 77.974c3.956-14.16 14.9-32.28 28.85-46.266 12.62-12.64 24.98-20.482 35.64-25.205zM90.15 37.66c-3.52-3.527-9.22-3.527-12.738 0-3.52 3.527-3.52 9.243 0 12.77 3.52 3.523 9.22 3.523 12.738 0 3.52-3.527 3.52-9.243 0-12.77zM24.908 88.994c-.485 1.453-.108 3.058.974 4.146l8.9 8.916c1.083 1.09 2.688 1.467 4.14.98l6.952-2.32-18.648-18.69-2.318 6.968z" />`
+                },
+                signup_success: {
+                    alt: '',
+                    src: 'https://d35oe889gdmcln.cloudfront.net/assets/images/signup/calendar.png'
                 },
                 phone: {
                     viewbox: '0 0 73 129',
