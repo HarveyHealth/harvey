@@ -118,23 +118,6 @@ export default {
         };
     },
     methods: {
-        updateQuickNotes() {
-            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`, { notes:  this.notes })
-                .then((response) => {
-                    let data = response.data.data;
-                    this.$parent.propData = data;
-                    this.$parent.soap_notes[data.id] = data;
-                    this.$parent.timeline.map(e => {
-                        if (e.type === 'SOAP Note' && data.id == e.data.id) {
-                            e.data = data;
-                        }
-                        return e;
-                    });
-                    this.$parent.notificationMessage = "Successfully updated!";
-                    this.$parent.notificationActive = true;
-                    setTimeout(() => this.$parent.notificationActive = false, 3000);
-                });
-        },
         setNotes(data) {
             this.notes = data;
         },
@@ -214,13 +197,22 @@ export default {
                 subjective: this.subjectiveTA,
                 objective: this.objectiveTA,
                 assessment: this.assessmentTA,
-                plan: this.planTA
+                plan: this.planTA,
+                notes: this.notes
             })
             .then(response => {
-                this.$parent.soap_notes[response.data.data.id] = response.data.data;
-                this.$parent.notificationMessage = "Successfully updated!";
-                this.$parent.notificationActive = true;
-                setTimeout(() => this.$parent.notificationActive = false, 3000);
+                let data = response.data.data;
+                    this.$parent.propData = data;
+                    this.$parent.soap_notes[data.id] = data;
+                    this.$parent.timeline.map(e => {
+                        if (e.type === 'SOAP Note' && data.id == e.data.id) {
+                            e.data = data;
+                        }
+                        return e;
+                    });
+                    this.$parent.notificationMessage = "Successfully updated!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
         },
         submit() {
