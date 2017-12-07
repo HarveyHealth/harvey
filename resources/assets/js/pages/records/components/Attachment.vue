@@ -50,7 +50,7 @@
                 />
             </div>
             <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
-                <button @click="updateQuickNotes" class="button margin15">Update Attachment</button>
+                <button @click="updateQuickNotes" class="button margin15">Save Changes</button>
                 <button @click="deleteModal()" class="button bg-danger margin15">Archive Attachment</button>
             </div>
             <Modal
