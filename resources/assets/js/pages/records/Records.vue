@@ -513,6 +513,9 @@ export default {
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
                     e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
+                    if (e.type === 'Lab Test Result') {
+                        e.type.replace(/Lab\ Test/g, this.$root.$data.labTests[this.lab_tests[e.attributes.lab_test_id].attributes.sku_id].attributes.name);
+                    }
                     return e;
                 });
                 return arrays;
