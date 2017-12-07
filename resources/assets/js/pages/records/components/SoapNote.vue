@@ -1,97 +1,120 @@
 <template>
-    <div id="SNScroller" class="records-container" style="overflow: scroll;">
+  <div id="SNScroller" class="" style="overflow: scroll;">
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Soap Note' : 'Soap Note'" />
+    <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <!-- Main Card -->
+      <Card :slot="1" :heading="'SOAP Note'">
+        <CardContent>
 
-        <div class="width70 floatLeft">
-            <div class="top-soap-note">
-                <label name="Subject" class="card-header top-header">Subjective</label>
-                <quill-editor 
-                    :style="{'min-height': selected === 'subject' ? '50vh' : selected === null ? '125px': '50px'}" 
-                    v-model="subjectiveTA" 
-                    @click="setSelected('subject')"
-                    output="html"
-                    :options="editorOption"
-                    class="input--textarea soap-textarea"
-                />
+          <div>
+            <div>
+              <Heading3>Subjective</Heading3>
+              <Spacer isBottom :size="2" />
+              <quill-editor
+              v-model="subjectiveTA"
+              @click="setSelected('subject')"
+              output="html"
+              :options="editorOption"
+              />
+              <Spacer isBottom :size="4" />
             </div>
 
-            <div class="mid-soap-note">
-                <label name="Objective" class="card-header mid-header">Objective</label>
-                <quill-editor 
-                    :style="{'min-height': selected === 'objective' ? '50vh' : selected === null ? '125px': '50px'}" 
-                    v-model="objectiveTA" 
-                    id="objective"
-                    @click="setSelected('objective')"
-                    output="html"
-                    :options="editorOption"
-                    class="input--textarea soap-textarea"
-                />
+            <div >
+              <Heading3>Objective</Heading3>
+              <Spacer isBottom :size="2" />
+              <quill-editor
+              v-model="objectiveTA"
+              id="objective"
+              @click="setSelected('objective')"
+              output="html"
+              :options="editorOption"
+              />
+              <Spacer isBottom :size="4" />
             </div>
 
-            <div class="mid-soap-note">
-                <label name="Assessment" class="card-header mid-header">Assessment</label>
-                <quill-editor 
-                    :style="{'min-height': selected === 'assessment' ? '50vh' : selected === null ? '125px': '50px'}" 
-                    v-model="assessmentTA" 
-                    placeholder="Enter your text..."
-                    @click="setSelected('assessment')"
-                    output="html"
-                    :options="editorOption"
-                    class="input--textarea soap-textarea"
-                />
+            <div>
+              <Heading3>Assessment</Heading3>
+              <Spacer isBottom :size="2" />
+              <quill-editor
+              v-model="assessmentTA"
+              placeholder="Enter your text..."
+              @click="setSelected('assessment')"
+              output="html"
+              :options="editorOption"
+              />
+              <Spacer isBottom :size="4" />
             </div>
 
-            <div class="soap-divider">
-                - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - -
+            <div>
+              <Paragraph class="patient-disclaimer ttu tc" :size="'small'">
+                <span class="disclaimer-inside">Fields below this line visible to patient</span>
+              </Paragraph>
+              <Spacer isBottom :size="4" />
             </div>
 
-            <div class="top-soap-note">
-                <label name="Treatment" 
-                class="card-header top-header">Plan/Treatment</label>
-                <quill-editor 
-                    :style="{'min-height': selected === 'treatment' ? '50vh' : selected === null ? '125px': '50px'}" 
-                    v-model="planTA" 
-                    @click="setSelected('treatment')"
-                    output="html"
-                    :options="editorOption"
-                    class="input--textarea soap-textarea"
-                />
+            <div class="">
+              <Heading3>Plan/Treatment</Heading3>
+              <Spacer isBottom :size="2" />
+              <quill-editor
+              v-model="planTA"
+              @click="setSelected('treatment')"
+              output="html"
+              :options="editorOption"
+              />
             </div>
-        </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <div class="width30 floatLeft quick-notes-border">
-            <h2 class="text-center">Quick Notes</h2>
+      <!-- Quick Notes -->
+      <Card :slot="2" :heading="'Quick Notes'">
+        <CardContent>
+
+          <!-- Editor -->
+          <div>
             <quill-editor
-                output="html"
-                :options="editorOption"
-                v-model="notes"
+            output="html"
+            :options="simpleEditor"
+            v-model="notes"
+            class="simple-editor"
             />
+          </div>
+        </CardContent>
+      </Card>
+    </Grid>
+
+    <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Card :slot="1">
+        <CardContent>
+          <!-- Save -->
+          <div class="inline-centered">
+            <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
+            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger">Archive Note</button>
+          </div>
+        </CardContent>
+      </Card>
+    </Grid>
+
+    <Modal
+    :active="deleteModalActive"
+    :onClose="modalClose"
+    class="modal-wrapper"
+    >
+      <div class="card-content-wrap">
+        <div class="inline-centered">
+          <h1 class="header-xlarge">
+            <span class="text">Archive SOAP Note</span>
+          </h1>
+          <p>Are you sure you want to archive this soap note?</p>
+          <div class="button-wrapper">
+            <button class="button button--cancel" @click="modalClose">Cancel</button>
+            <button class="button" @click="deleteNote">Yes, Confirm</button>
+          </div>
         </div>
+      </div>
+    </Modal>
 
-        <div class="inline-centered padding15 floatLeft fullWidth">
-            <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
-            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Archive Note</button>
-        </div>
-
-        <Modal
-            :active="deleteModalActive"
-            :onClose="modalClose"
-            class="modal-wrapper"
-        >
-            <div class="card-content-wrap">
-                <div class="inline-centered">
-                    <h1 class="header-xlarge">
-                        <span class="text">Archive SOAP Note</span>
-                    </h1>
-                    <p>Are you sure you want to archive this soap note?</p>
-                    <div class="button-wrapper">
-                        <button class="button button--cancel" @click="modalClose">Cancel</button>
-                        <button class="button" @click="deleteNote">Yes, Confirm</button>
-                    </div>
-                </div>
-            </div>
-        </Modal>
-
-    </div>
+  </div>
 </template>
 
 <script>
@@ -99,12 +122,22 @@ import axios from 'axios';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
+import simpleEditor from '../util/quillSimple';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
     },
     components: {
-        Modal
+        Modal,
+        Card,
+        CardContent,
+        Grid,
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -114,7 +147,8 @@ export default {
             planTA: null,
             deleteModalActive: false,
             selected: null,
-            editorOption: editorOption
+            editorOption: editorOption,
+            simpleEditor: simpleEditor
         };
     },
     methods: {
@@ -294,7 +328,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .ql-editor {
-        height: 200px !important;
+    @import '~sass';
+    .quill-editor {
+      border: none;
+      border-radius: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+    .simple-editor {
+      border-bottom: none;
+      height: 268px;
+    }
+    .disabled--cursor {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    .ql-toolbar.ql-snow {
+      height: 130px;
+      border: 1px solid #eee;
+    }
+    .patient-disclaimer {
+      color: $color-copy-alt;
+      position: relative;
+      &:before {
+        border-top: 2px dashed $color-copy-alt;
+        content: "";
+        left: 0;
+        margin-top: -1px;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+      }
+      .disclaimer-inside {
+        background: $color-white;
+        padding: 0 5px;
+        position: relative;
+        z-index: 1;
+      }
     }
 </style>

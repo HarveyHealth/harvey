@@ -1,89 +1,129 @@
 <template>
-    <div>
-        <div v-if="$parent.news" class="lab-body">
-            <div class="p-spacing">
-                <p>
-                    You are about upload a new lab test for client {{ patient.search_name }} 
-                    (date of birth {{ patient.date_of_birth }}). 
-                    Please verify the name of the lab and the type of lab test before 
-                    uploading the results, so we can match the result with a lab test. 
-                    The only file format accepted is a PDF.
-                </p>
+  <div>
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Lab Result' : 'Lab Result'" />
+    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+
+      <!-- News -->
+      <Card :slot="1" :heading="'Lab Results'">
+        <CardContent>
+          <div class="">
+            <div class="">
+              <Paragraph>
+                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
+              </Paragraph>
+              <Spacer isBottom :size="5" />
             </div>
-            <div class="card-heading-container lab-spacing fullWidth floatLeft">
-                <div class="width-175">
-                    <label class="input__label">lab name</label>
-                    <span class="custom-select bg-white">
-                        <select @change="updateLabType($event)">
-                            <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
-                        </select>
+            <Card>
+              <CardContent>
+                <Grid :flexAt="'l'" :columns="[{ s:'1of3' }, { s:'1of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+                  <div :slot="1">
+                    <Heading3>Lab Name</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <span class="custom-select">
+                      <select @change="updateLabType($event)">
+                        <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
+                      </select>
                     </span>
-                </div>
-                <div class="width-175">
-                    <label class="input__label">lab test</label>
-                    <span class="custom-select bg-white">
-                        <select @change="updateLab($event)">
-                            <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
-                        </select>
+                  </div>
+                  <div :slot="2">
+                    <Heading3>Lab Test</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <span class="custom-select">
+                      <select @change="updateLab($event)">
+                        <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
+                      </select>
                     </span>
-                </div>
-                <div class="width-175">
-                    <label class="input__label">upload</label>
-                    <label for="file-select-prescription" :class="{'disabled--cursor': !selectedLabName || !selectedLabType}">
-                        <div class="border-upload-container">
-                            <div class="upload-container">
-                                <i class="fa fa-book pdf-icons"></i>
-                                <p class="pdf-upload-text">Lab Result (PDF)</p>
-                            </div>
-                        </div>
+                  </div>
+                  <div :slot="3">
+                    <Heading3>Upload</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <label for="file-select-prescription" :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" class="button button--grey block">
+                      <i class="fa fa-book"></i>
+                      <Paragraph class="ml1 mb0 dib">Lab Result (PDF)</Paragraph>
                     </label>
                     <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-                </div>
-                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                  </div>
+                  <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                </Grid>
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card :slot="2" :heading="'Quick Notes'">
+        <CardContent>
+          <div class="">
+            <quill-editor
+            output="html"
+            :options="simpleEditor"
+            v-model="notes"
+            class="simple-editor"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+    </Grid>
+
+    <div v-if="!$parent.news">
+      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <!-- Not News -->
+        <Card :slot="1" :heading="'Lab Results'">
+          <CardContent>
+            <div class="" >
+              <iframe class="w-100" :style="'height:60vh'" :src="resultUrl" />
             </div>
-            <div class="fullWidth floatLeft quick-notes-border topMargin30">
-                <h2 class="text-center">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="notes"
-                />
+          </CardContent>
+        </Card>
+
+        <Card :slot="2" :heading="'Quick Notes'">
+          <CardContent>
+            <div class="">
+              <quill-editor
+              output="html"
+              :options="simpleEditor"
+              v-model="notes"
+              class="simple-editor"
+              />
             </div>
-        </div>
-        <div class="record-image" v-if="!$parent.news">
-            <iframe :class="{width70: $root.$data.permissions !== 'patient', floatLeft: $root.$data.permissions !== 'patient'}" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="resultUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="width30 floatLeft">
-                <h2 class="text-center">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="notes"
-                />
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
+            <div class="inline-centered">
+              <button @click="updateQuickNotes" class="button margin15">Save Changes</button>
+              <button @click="deleteModal()" class="button bg-danger">Archive Result</button>
             </div>
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
-                <button @click="updateQuickNotes" class="button bg-danger margin15">Save Changes</button>
-                <button @click="deleteModal()" class="button bg-danger margin15">Archive Result</button>
-            </div>
+
             <Modal
-                :active="deleteModalActive"
-                :onClose="modalClose"
-                class="modal-wrapper"
+            :active="deleteModalActive"
+            :onClose="modalClose"
+            class="modal-wrapper"
             >
-                <div class="card-content-wrap">
-                    <div class="inline-centered">
-                        <h1 class="header-xlarge">
-                            <span class="text">Archive Lab Result</span>
-                        </h1>
-                        <p>Are you sure you want to archive this lab result?</p>
-                        <div class="button-wrapper">
-                            <button class="button button--cancel" @click="modalClose">Cancel</button>
-                            <button class="button" @click="deleteItem">Yes, Confirm</button>
-                        </div>
-                    </div>
+              <div class="card-content-wrap">
+                <div class="inline-centered">
+                  <h1 class="header-xlarge">
+                    <span class="text">Archive Lab Result</span>
+                  </h1>
+                  <p>Are you sure you want to archive this lab result?</p>
+                  <div class="button-wrapper">
+                    <button class="button button--cancel" @click="modalClose">Cancel</button>
+                    <button class="button" @click="deleteItem">Yes, Confirm</button>
+                  </div>
                 </div>
+              </div>
             </Modal>
-        </div>
+          </CardContent>
+        </Card>
+
+      </Grid>
     </div>
+
+  </div>
 </template>
 
 <script>
@@ -91,14 +131,23 @@ import axios from 'axios';
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
-import editorOption from '../util/quillEditorObject';
+import simpleEditor from '../util/quillSimple';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
     },
     components: {
         Modal,
-        ClipLoader
+        ClipLoader,
+        Card,
+        CardContent,
+        Grid,
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -106,7 +155,7 @@ export default {
             selectedLabType: null,
             deleteModalActive: false,
             loading: false,
-            editorOption: editorOption,
+            simpleEditor: simpleEditor,
             notes: null
         };
     },
@@ -239,8 +288,24 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import '~sass';
+    .quill-editor {
+      border: none;
+      border-radius: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+    .simple-editor {
+      border-bottom: none;
+      height: 268px;
+    }
     .disabled--cursor {
-        cursor: not-allowed;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    .ql-toolbar.ql-snow {
+      height: 130px;
+      border: 1px solid #eee;
     }
 </style>

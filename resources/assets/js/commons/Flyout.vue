@@ -6,7 +6,7 @@
             <button v-if="onClose !== null" class="button--close flyout-close" @click="onClose" data-test="close">
                 <svg><use xlink:href="#close" /></svg>
             </button>
-            <h2 class="heading-3-expand" v-html="heading"></h2>
+            <h2 v-if="heading" class="heading-3-expand" v-html="heading"></h2>
             <slot></slot>
     </aside>
 </template>
