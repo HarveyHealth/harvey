@@ -512,7 +512,14 @@ export default {
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
-                    e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
+                    let reg = new RegExp('Lab Test', 'ig');
+                    let regex = new RegExp('Result', 'ig');
+                    if (regex.test(e.type)) {
+                        e.type = e.type.replace(reg, this.$root.$data.labTests[this.lab_tests[e.data.attributes.lab_test_id].attributes.sku_id].attributes.name);
+                        e.onClick = onClickFunctions['Lab Test Result'].bind(this, e.data, i);
+                    } else {
+                        e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
+                    }
                     return e;
                 });
                 return arrays;

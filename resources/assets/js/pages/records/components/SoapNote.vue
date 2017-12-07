@@ -88,8 +88,8 @@
         <CardContent>
           <!-- Save -->
           <div class="inline-centered">
-            <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
-            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger">Archive Note</button>
+            <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
+            <button v-if="!$parent.news" @click="deleteModal" class="button bg-danger">Archive Note</button>
           </div>
         </CardContent>
       </Card>
@@ -148,7 +148,8 @@ export default {
             deleteModalActive: false,
             selected: null,
             editorOption: editorOption,
-            simpleEditor: simpleEditor
+            simpleEditor: simpleEditor,
+            notes: null
         };
     },
     methods: {
@@ -236,23 +237,20 @@ export default {
             })
             .then(response => {
                 let data = response.data.data;
-                    this.$parent.propData = data;
-                    this.$parent.soap_notes[data.id] = data;
-                    this.$parent.timeline.map(e => {
-                        if (e.type === 'SOAP Note' && data.id == e.data.id) {
-                            e.data = data;
-                        }
-                        return e;
-                    });
-                    this.$parent.notificationMessage = "Successfully updated!";
-                    this.$parent.notificationActive = true;
-                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                this.$parent.propData = data;
+                this.$parent.soap_notes[data.id] = data;
+                this.$parent.timeline = this.$parent.timeline.map(e => {
+                    if (e.type === 'SOAP Note' && data.id == e.id) {
+                        e.data = data;
+                    }
+                    return e;
+                });
+                this.$parent.notificationMessage = "Successfully updated!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
         },
         submit() {
-            if (!this.$parent.news) {
-                this.updateQuickNotes();
-            }
             return this.$parent.news ? this.createSoapNote() : this.editSoapNote();
         }
     },
