@@ -14,7 +14,7 @@ use App\Http\Traits\{
 };
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\Redis;
-use Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Transaction;
+use Cache, Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Track, Shippo_Transaction;
 
 class LabOrder extends Model
 {
@@ -274,7 +274,9 @@ class LabOrder extends Model
 
         $this->save();
 
-        (new ShippoAPIClient)->enableWebhook($carrier, $this->shipment_code);
+        Cache::remember("track_for_shippo_id_{$this->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($carrier, $transaction) {
+            return Shippo_Track::create(['carrier' => $carrier, 'tracking_number' => $transaction->tracking_number])->__toArray(true);
+        });
 
         return $this;
     }

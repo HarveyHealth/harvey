@@ -142,7 +142,7 @@ class LabOrdersController extends BaseAPIController
         }
 
         $output = Cache::remember("track_for_shippo_id_{$lab_order->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_order) {
-            return Shippo_Track::create(['carrier' => $lab_order->carrier, 'tracking_number' => $lab_order->shipment_code])->__toArray(true)
+            return Shippo_Track::create(['carrier' => $lab_order->carrier, 'tracking_number' => $lab_order->shipment_code])->__toArray(true);
         });
 
         return response()->json($output, ResponseCode::HTTP_OK);

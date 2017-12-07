@@ -8,7 +8,7 @@ use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabT
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Exception, ResponseCode, Storage;
+use Cache, Exception, ResponseCode, Storage;
 
 class LabTestsController extends BaseAPIController
 {
@@ -64,6 +64,7 @@ class LabTestsController extends BaseAPIController
 
         StrictValidator::check($request->all(), [
             'lab_order_id' => 'required|exists:lab_orders,id',
+            'carrier' => 'string|max:16',
             'sku_id' => 'required|exists:skus,id',
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
             'shipment_code' => 'string',
@@ -81,6 +82,7 @@ class LabTestsController extends BaseAPIController
         StrictValidator::checkUpdate($request->all(), [
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
             'shipment_code' => 'filled|string',
+            'carrier' => 'filled|string|max:16',
         ]);
 
         $lab_test->update($request->all());
@@ -203,8 +205,8 @@ class LabTestsController extends BaseAPIController
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 
-        $output = Cache::remember("track_for_shippo_id_{$lab_test->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_test) {
-            return Shippo_Track::create(['carrier' => $lab_test->carrier, 'tracking_number' => $lab_test->shipment_code])->__toArray(true)
+        $output = Cache::remember("track_for_lab_test_id_{$lab_test->id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_test) {
+            return Shippo_Track::create(['carrier' => $lab_test->carrier, 'tracking_number' => $lab_test->shipment_code])->__toArray(true);
         });
 
         return response()->json($output, ResponseCode::HTTP_OK);
