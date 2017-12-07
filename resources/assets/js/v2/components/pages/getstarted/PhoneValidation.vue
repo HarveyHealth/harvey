@@ -159,7 +159,6 @@ export default {
             this.phoneCode = '';
             this.phoneNumber = '';
             App.setState({
-                'getstarted.signup.stepsCompleted.phone': false,
                 'getstarted.signup.phoneCode': '',
                 'getstarted.signup.phone': ''
             });
