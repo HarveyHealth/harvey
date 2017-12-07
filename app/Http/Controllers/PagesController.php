@@ -71,4 +71,12 @@ class PagesController extends Controller
     {
         return view('legacy.pages.financing');
     }
+
+    public function getRobots()
+    {
+        $extension = isProd() ? 'prod' : 'generic';
+        $robots = file_get_contents(resource_path() . "/robots.{$extension}");
+
+        return response()->make($robots)->header('Content-Type', 'text/plain');
+    }
 }
