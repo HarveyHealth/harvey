@@ -45,6 +45,7 @@ class SoapNotesController extends BaseAPIController
         }
 
         StrictValidator::check($request->all(), [
+            'notes' => 'string|max:1024',
             'subjective' => 'string|max:2048',
             'objective' => 'string|max:2048',
             'assessment' => 'string|max:2048',
@@ -66,6 +67,7 @@ class SoapNotesController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'string|max:1024',
             'subjective' => 'filled|string|max:2048',
             'objective' => 'filled|string|max:2048',
             'assessment' => 'filled|string|max:2048',

@@ -95,6 +95,7 @@
         <Card :slot="1">
           <CardContent>
             <div class="inline-centered">
+              <button @click="updateQuickNotes" class="button margin15">Save Changes</button>
               <button @click="deleteModal()" class="button bg-danger">Archive Result</button>
             </div>
 
@@ -154,11 +155,31 @@ export default {
             selectedLabType: null,
             deleteModalActive: false,
             loading: false,
-            editorOption: simpleEditor,
+            simpleEditor: simpleEditor,
             notes: null
         };
     },
     methods: {
+        updateQuickNotes() {
+            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/results/${this.$parent.propData.id}`, { notes:  this.notes })
+                .then((response) => {
+                    let data = response.data.data;
+                    this.$parent.propData = data;
+                    this.$parent.lab_test_results[data.id] = data;
+                    this.$parent.timeline.map(e => {
+                        if (e.type === 'Lab Test Result' && data.id == e.data.id) {
+                            e.data = data;
+                        }
+                        return e;
+                    });
+                    this.$parent.notificationMessage = "Successfully updated!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                });
+        },
+        setNotes(data) {
+            this.notes = data;
+        },
         deleteModal() {
             this.deleteModalActive = true;
         },
@@ -229,6 +250,9 @@ export default {
         },
         quickNotes() {
             const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                this.setNotes(prop.attributes.notes);
+            }
             return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
@@ -254,6 +278,9 @@ export default {
         quickNotes(val) {
             if (!val) {
                 const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    this.setNotes(prop.attributes.notes);
+                }
                 return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }

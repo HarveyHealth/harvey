@@ -21,8 +21,7 @@
     "test:watch": "npm test -- --watch"
   },
   "pre-commit": [
-    "lint",
-    "test"
+    "lint"
   ],
   "dependencies": {
     "ajv": "^5.5.0",
