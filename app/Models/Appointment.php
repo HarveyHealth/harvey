@@ -191,6 +191,7 @@ class Appointment extends Model
             'patient_state' => $this->patient->user->state,
             'practitioner_name' => $this->practitioner->user->full_name,
             'practitioner_state' => $this->practitioner->user->state,
+            'meet_link' => $this->google_meet_link,
         ];
 
         return $this->sendReminderEmail24Hs($this->patient->user, $templateData);
@@ -258,7 +259,14 @@ class Appointment extends Model
 
         $message = View::make("sms/{$templateName}")->with($templateData)->render();
 
-        $user->sendText($message);
+        // split by paragraph
+        $paragraphs = explode(PHP_EOL, trim($message));
+
+        $delay = 0;
+        foreach ($paragraphs as $text){
+            $user->sendText($text, $delay);
+            $delay += 5; // adds 5 seconds to the next message
+        }
 
         $this->setReminderSent($user, $typeId);
 
