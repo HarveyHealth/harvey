@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Webhooks;
 
-use App\Models\LabOrder;
+use App\Models\{LabOrder, LabTest};
 use Log, ResponseCode;
 
 class ShippoController extends BaseWebhookController
@@ -27,32 +27,74 @@ class ShippoController extends BaseWebhookController
     public function handleTrackUpdated()
     {
         $payload = request()->all();
+        $tracking_number = $payload['data']['tracking_number'];
+        $tracking_status = $payload['data']['tracking_status'];
 
-        if (empty($lab_order = LabOrder::findByShipmentCode($payload['data']['tracking_number']))) {
-            ops_warning('Shippo webhook error', "Can't find LabOrder with tracking number #{$payload['data']['tracking_number']}", 'engineering');
+        if (!empty($lab_test = LabTest::findByShipmentCode($tracking_number))) {
+            $this->setLabTestStatus($lab_test, $tracking_status);
+        } elseif (!empty($lab_order = LabOrder::findByShipmentCode($tracking_number))) {
+            $this->setLabOrderStatus($lab_test, $tracking_status);
+        } else {
+            ops_warning('Shippo webhook error', "Can't find LabTest/Order with tracking number #{$tracking_number}", 'engineering');
             return false;
         }
 
-        switch ($payload['data']['tracking_status']) {
+        return true;
+    }
+
+    protected function setLabOrderStatus(LabOrder $lab_order, string $tracking_status)
+    {
+        switch ($tracking_status) {
             case 'DELIVERED':
-                $lab_order->markAsReceived();
+                $lab_order->labTests->each->markAsReceived();
+                $lab_order->setStatus()->save();
                 ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} delivered.", 'operations');
                 break;
             case 'TRANSIT':
-                $lab_order->markAsShipped();
+                $lab_order->labTests->each->markAsShipped();
+                $lab_order->setStatus()->save();
                 ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} in transit.", 'operations');
                 break;
             case 'FAILURE':
                 ops_error('Shippo webhook error', "The Postal Service has identified a problem when processing LabOrder ID #{$lab_order->id}.", 'operations');
                 break;
             case 'RETURNED':
-                ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} returned to sender.", 'operations');
+                ops_warning('Shippo webhook warning', "LabOrder ID #{$lab_order->id} returned to sender.", 'operations');
                 break;
             case 'UNKNOWN':
-                ops_warning('Shippo webhook warning', "Unknown status when processing LabOrder ID #{$lab_order->id}.", 'operations');
+                ops_info('Shippo webhook', "Unknown status reported for LabOrder ID #{$lab_order->id}.", 'operations');
                 break;
             default:
-                ops_warning('Shippo webhook warning', "Unknown status '{$payload['data']['tracking_status']}' when processing LabOrder ID #{$lab_order->id}.", 'engineering');
+                ops_warning('Shippo webhook warning', "Status '{$tracking_status}' reported for LabOrder ID #{$lab_order->id}.", 'operations');
+                return false;
+                break;
+        }
+
+        return true;
+    }
+
+    protected function setLabTestStatus(LabTest $lab_test, string $tracking_status)
+    {
+        switch ($tracking_status) {
+            case 'DELIVERED':
+                $lab_test->markAsProcessing();
+                ops_info('Shippo webhook', " LabTest ID #{$lab_test->id} delivered.", 'operations');
+                break;
+            case 'TRANSIT':
+                $lab_test->markAsMailed();
+                ops_info('Shippo webhook', " LabTest ID #{$lab_test->id} in transit.", 'operations');
+                break;
+            case 'FAILURE':
+                ops_error('Shippo webhook error', "The Postal Service has identified a problem when processing LabTest ID #{$lab_test->id}.", 'operations');
+                break;
+            case 'RETURNED':
+                ops_warning('Shippo webhook warning', "LabTest ID #{$lab_test->id} returned to sender.", 'operations');
+                break;
+            case 'UNKNOWN':
+                ops_info('Shippo webhook', "Unknown status reported for LabTest ID #{$lab_test->id}.", 'operations');
+                break;
+            default:
+                ops_warning('Shippo webhook warning', "Status '{$tracking_status}' reported for LabTest ID #{$lab_test->id}.", 'operations');
                 return false;
                 break;
         }
