@@ -25,7 +25,7 @@
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
-        :tableRowData="appointments"
+        :tableRowData="appointments"        
       />
 
     </div>
