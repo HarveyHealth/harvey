@@ -149,7 +149,7 @@ export default {
             selected: null,
             editorOption: editorOption,
             simpleEditor: simpleEditor,
-            notes: ''
+            notes: null
         };
     },
     methods: {
@@ -201,13 +201,19 @@ export default {
                 });
         },
         createSoapNote() {
-            axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
+            let object = {
                 subjective: this.subjectiveTA,
                 objective: this.objectiveTA,
                 assessment: this.assessmentTA,
                 plan: this.planTA,
                 notes: this.notes
-            })
+            };
+            for (let i in object) {
+                if (object[i] === null) {
+                    delete object[i];
+                }
+            }
+            axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, object)
             .then(response => {
                 let object = {};
                 let returns = response.data.data;
@@ -228,13 +234,19 @@ export default {
             });
         },
         editSoapNote() {
-            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`, {
+            let object = {
                 subjective: this.subjectiveTA,
                 objective: this.objectiveTA,
                 assessment: this.assessmentTA,
                 plan: this.planTA,
                 notes: this.notes
-            })
+            };
+            for (let i in object) {
+                if (object[i] === null) {
+                    delete object[i];
+                }
+            }
+            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`, object)
             .then(response => {
                 let data = response.data.data;
                 this.$parent.propData = data;
