@@ -149,7 +149,7 @@ export default {
             selected: null,
             editorOption: editorOption,
             simpleEditor: simpleEditor,
-            notes: null
+            notes: ''
         };
     },
     methods: {
