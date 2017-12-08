@@ -306,7 +306,7 @@ class MessageTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_NO_CONTENT);
     }
 
-    public function test_it_does_not_allows_a_recipient_to_delete_a_message()
+    public function test_it_allows_a_practitioner_to_delete_a_message()
     {
         $practitioner = factory(Practitioner::class)->create();
         $message = factory(Message::class)->create(['recipient_user_id' => $practitioner->user->id]);
@@ -314,17 +314,60 @@ class MessageTest extends TestCase
         Passport::actingAs($practitioner->user);
         $response = $this->json('DELETE', "api/v1/messages/{$message->id}");
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_NO_CONTENT);
     }
 
-    public function test_it_does_not_allows_a_sender_to_delete_a_message()
+    public function test_it_doesnt_allows_a_patient_to_delete_a_message()
     {
-        $practitioner = factory(Practitioner::class)->create();
-        $message = factory(Message::class)->create(['sender_user_id' => $practitioner->user->id]);
+        $patient = factory(Patient::class)->create();
+        $message = factory(Message::class)->create(['sender_user_id' => $patient->user->id]);
 
-        Passport::actingAs($practitioner->user);
+        Passport::actingAs($patient->user);
         $response = $this->json('DELETE', "api/v1/messages/{$message->id}");
 
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+    }
+
+    public function test_patient_can_view_deleted_message()
+    {
+
+        $patient = factory(Patient::class)->create();
+
+        $message = factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+        ]);
+
+        $message->delete();
+
+        // patient access it
+        Passport::actingAs($patient->user);
+
+        $response = $this->json('PUT', "api/v1/messages/{$message->id}/read");
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response = $this->json('GET', "api/v1/messages/{$message->id}");
+        $response->assertStatus(ResponseCode::HTTP_OK);
+    }
+
+    public function test_practitioner_can_not_view_deleted_message()
+    {
+
+        $practitioner = factory(Practitioner::class)->create();
+
+        $message = factory(Message::class)->create([
+            'recipient_user_id' => $practitioner->user->id,
+        ]);
+
+        $message->delete();
+
+        // patient access it
+        Passport::actingAs($practitioner->user);
+
+        $response = $this->json('PUT', "api/v1/messages/{$message->id}/read");
+        $response->assertStatus(ResponseCode::HTTP_NOT_FOUND);
+
+        $response = $this->json('GET', "api/v1/messages/{$message->id}");
+        $response->assertStatus(ResponseCode::HTTP_NOT_FOUND);
+
     }
 }

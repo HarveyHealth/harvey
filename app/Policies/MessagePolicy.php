@@ -55,6 +55,7 @@ class MessagePolicy
      */
     public function delete(User $user, Message $message)
     {
-        return false;
+        return ($user->is($message->sender) || $user->is($message->recipient))
+                && $user->isPractitioner();
     }
 }

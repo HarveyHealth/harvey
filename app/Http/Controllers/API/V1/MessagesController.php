@@ -58,6 +58,11 @@ class MessagesController extends BaseAPIController
             $builder = $builder->senderOrRecipient(currentUser());
         }
 
+        // patients can not delete messages so we include soft deletes
+        if (currentUser()->isPatient()){
+            $builder = $builder->withTrashed();
+        }
+
         return $this->baseTransformBuilder($builder->with('sender')->with('recipient'), request('include'), new MessageTransformer, request('per_page'))->respond();
     }
 
@@ -66,14 +71,22 @@ class MessagesController extends BaseAPIController
      * @param Message     $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function read(Request $request, Message $message)
+    public function read(Request $request, $message_id)
     {
+        // patients can not delete messages so we include soft deletes
+        $builder = Message::make();
+        if (currentUser()->isPatient()){
+            $builder = $builder->withTrashed();
+        }
+
+        $message = $builder->find($message_id) ?? abort(404);
+
         if (currentUser()->can('markAsRead', $message)) {
             $message->setReadAt()->save();
             return $this->baseTransformItem($message)->respond();
         }
 
-        return $this->respondNotAuthorized("You do not have access to update the Message with ID #{$message->id}.");
+        return $this->respondNotAuthorized("You do not have access to read the Message with ID #{$message->id}.");
     }
 
     /**
@@ -103,8 +116,15 @@ class MessagesController extends BaseAPIController
      * @param Message $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getOne(Message $message)
+    public function getOne($message_id)
     {
+        // patients can not delete messages so we include soft deletes
+        $builder = Message::make();
+        if (currentUser()->isPatient()){
+            $builder = $builder->withTrashed();
+        }
+        $message = $builder->find($message_id) ?? abort(404);
+
         if (currentUser()->can('view', $message)) {
             return $this->baseTransformItem($message)->respond();
         }
