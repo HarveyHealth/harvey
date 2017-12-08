@@ -12,3 +12,16 @@
 
 // color
 .alt { color: $alt; }
+
+// margin
+.mha {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// padding
+@include query(xl) {
+    .pa4-xl {
+        padding: $spacing-large;
+    }
+}

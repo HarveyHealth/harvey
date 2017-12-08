@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses">
-    <div class="vertical-center">
+    <div class="vertical-center tc">
       <div class="signup-container small naked">
         <div class="signup-main-icon">
           <img class="success-icon" src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/calendar.png" alt="">
