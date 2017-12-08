@@ -25,12 +25,8 @@ class MessageObserver
         event(new MessageCreated($message, $this->transformer));
     }
 
-    public function saved(Message $message)
+    public function deleted(Message $message)
     {
-        // the phone is being updated
-        if ($message->isDirty('deleted_at') && !empty($message->deleted_at)
-            && $message->getOriginal('deleted_at') == null) {
-                event(new MessageDeleted($message, currentUser(), $this->transformer));
-        }
+        event(new MessageDeleted($message, $this->transformer, currentUser()));
     }
 }

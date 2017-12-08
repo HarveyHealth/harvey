@@ -6,7 +6,7 @@ use Illuminate\Broadcasting\{Channel, PrivateChannel, PresenceChannel, Interacts
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use League\Fractal\Serializer\JsonApiSerializer;
-use App\Models\Message;
+use App\Models\{Message, User};
 use App\Transformers\V1\MessageTransformer;
 
 class MessageDeleted implements ShouldBroadcast
@@ -24,7 +24,7 @@ class MessageDeleted implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Message $message, User $deleter, MessageTransformer $transformer)
+    public function __construct(Message $message, MessageTransformer $transformer, User $deleter=null)
     {
         $this->message = $message;
         $this->transformer = $transformer;
@@ -39,7 +39,9 @@ class MessageDeleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        new PrivateChannel("App.User.{$this->deleter->id}");
+        if ($this->deleter != null){
+            return new PrivateChannel("App.User.{$this->deleter->id}");
+        }
     }
 
     /**

@@ -368,5 +368,6 @@ class MessageTest extends TestCase
 
         $response = $this->json('GET', "api/v1/messages/{$message->id}");
         $response->assertStatus(ResponseCode::HTTP_NOT_FOUND);
+
     }
 }
