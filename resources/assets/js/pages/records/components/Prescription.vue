@@ -151,7 +151,7 @@ export default {
             selected: null,
             deleteModalActive: false,
             loading: false,
-            notes: null,
+            notes: '',
             simpleEditor: simpleEditor
         };
     },
