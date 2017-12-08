@@ -2,13 +2,14 @@
 
 namespace App\Http\Traits;
 
+use Illuminate\Database\Schema\Blueprint;
 use ReflectionClass;
 
 trait HasLogTable
 {
     protected static function bootHasLogTable()
     {
-        $table_name = self::getModel()->getTable() . '_log';
+        $table_name = static::getLogTableName();
         $class_name = (new ReflectionClass(self::getModel()))->getShortName() . 'LogEntry';
         eval("
             namespace App\Models;
@@ -50,5 +51,28 @@ trait HasLogTable
     public function logEntries()
     {
         return $this->hasMany(self::class . 'LogEntry');
+    }
+
+    public static function getLogTableName()
+    {
+        return self::getModel()->getTable() . '_log';
+    }
+
+    public static function getLogTableSchema() {
+        $foreign_key = self::getModel()->getForeignKey();
+        $table_name = static::getLogTableName();
+
+        return function (Blueprint $table) use ($foreign_key, $table_name) {
+            $table->increments('id');
+            $table->integer($foreign_key)->unsigned()->index();
+            $table->string('attribute')->index();
+            $table->string('from');
+            $table->string('to');
+            $table->integer('updated_by_user_id')->nullable()->unsigned()->index();
+            $table->foreign($foreign_key)->references('id')->on($table_name);
+            $table->foreign('updated_by_user_id')->references('id')->on('users');
+            $table->timestamps();
+            $table->softDeletes();
+        };
     }
 }

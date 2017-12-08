@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\LabTest;
 
 class CreateLabTestsLogTable extends Migration
 {
@@ -13,18 +13,7 @@ class CreateLabTestsLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('lab_tests_log', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('lab_test_id')->unsigned()->index();
-            $table->string('attribute')->index();
-            $table->string('from');
-            $table->string('to');
-            $table->integer('updated_by_user_id')->nullable()->unsigned()->index();
-            $table->foreign('lab_test_id')->references('id')->on('lab_tests');
-            $table->foreign('updated_by_user_id')->references('id')->on('users');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        Schema::create(LabTest::getLogTableName(), LabTest::getLogTableSchema());
     }
 
     /**
@@ -34,6 +23,6 @@ class CreateLabTestsLogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lab_tests_log');
+        Schema::dropIfExists(LabTest::getLogTableName());
     }
 }
