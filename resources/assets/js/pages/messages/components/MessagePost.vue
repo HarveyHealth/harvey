@@ -24,7 +24,8 @@
             header: String,
             image: String,
             message: String,
-            name: String
+            name: String,
+            thread_id: String
         },
         name: 'MessagingPost',
         data() {

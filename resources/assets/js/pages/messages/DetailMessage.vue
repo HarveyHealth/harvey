@@ -4,10 +4,13 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="heading-1">
+                    <h1  v-if="detailList.length" class="heading-1">
                       <span class="text word-wrap">{{ chat && chat.subject ? chat.subject : 'Loading your messages...' }}</span>
                     </h1>
-                    <h3 class="font-sm copy-muted-2">
+                    <h1 v-if="!detailList.length" class="heading-1">
+                      <span class="text word-wrap">Redirecting to messages page...</span>
+                    </h1>
+                    <h3 v-if="detailList.length" class="font-sm copy-muted-2">
                       <router-link to="/messages">
                         <i class="fa fa-long-arrow-left"></i> Back to Messages
                       </router-link>
@@ -41,6 +44,7 @@
                         :name="detail.attributes.sender_full_name"
                         :userId="detail.attributes.recipient_user_id"
                         :yourId="your_id"
+                        :threadId="$props.path"
                       />
                     </div>
                     <div class="button-wrapper">
@@ -138,33 +142,42 @@
             }
         },
         methods: {
-          close() {
-            this.renderNewMessage = !this.renderNewMessage;
-          },
-          setDetails(data) {
-              this.detailList = data.sort((a, b) => a.id - b.id);
-          },
-          reply() {
-            this.renderReply = !this.renderReply;
-          },
-          highlights(user) {
-              return user === this.your_id;
-          },
-          makeThreadId(userOne, userTwo) {
-            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
-          },
-          userName() {
-              if (this.$root.$data.permissions === 'patient') {
-                  let arr = this.$root.$data.global.practitioners;
-                  return arr.filter(e => e.id === this.$route.params.id)[0].name;
-              } else if (this.$root.$data.permissions === 'practitioner') {
-                  let arr = this.$root.$data.global.patients;
-                  return arr.filter(e => e.id === this.$route.params.id)[0].name;
-              } else if (this.$root.$data.permissions === 'admin') {
-                  let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients);
-                  return all.filter(e => e.id === this.$route.params.id)[0].name;
-              }
-           }
+            deleteMessages() {
+                this.$root.$data.global.detailMessages[this.$props.thread_id].forEach(e => {
+                    axios.delete(`${this.$root.$data.apiUrl}/messages/${e.id}`);
+                });
+                delete this.$root.$data.global.detailMessages[this.$props.thread_id];
+                this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+                    .map(e => e[e.length - 1])
+                    .sort((a, b) => b.id - a.id);
+            },
+            close() {
+                this.renderNewMessage = !this.renderNewMessage;
+            },
+            setDetails(data) {
+                this.detailList = data.sort((a, b) => a.id - b.id);
+            },
+            reply() {
+                this.renderReply = !this.renderReply;
+            },
+            highlights(user) {
+                return user === this.your_id;
+            },
+            makeThreadId(userOne, userTwo) {
+                return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
+            },
+            userName() {
+                if (this.$root.$data.permissions === 'patient') {
+                    let arr = this.$root.$data.global.practitioners;
+                    return arr.filter(e => e.id === this.$route.params.id)[0].name;
+                } else if (this.$root.$data.permissions === 'practitioner') {
+                    let arr = this.$root.$data.global.patients;
+                    return arr.filter(e => e.id === this.$route.params.id)[0].name;
+                } else if (this.$root.$data.permissions === 'admin') {
+                    let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients);
+                    return all.filter(e => e.id === this.$route.params.id)[0].name;
+                }
+            }
         },
         mounted() {
             this.$root.$data.global.currentPage = 'details';
