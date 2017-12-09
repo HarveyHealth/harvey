@@ -526,7 +526,7 @@ export default {
             },
             selectedUserPatient() {
                 if (this.$root.$data.permissions !== 'patient') {
-                    return false;
+                    return {};
                 } else {
                     let patientData = this.$root.$data.global.user.included.attributes;
                     let patientUserData = this.$root.$data.global.user.attributes;
@@ -595,7 +595,7 @@ export default {
                 this.patientLoading = false;
                 return object;
             } else {
-                return false;
+                return {};
             }
         }
     },
