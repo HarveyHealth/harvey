@@ -5,7 +5,7 @@
     <!-- New -->
     <div v-if="$parent.news" class="">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
-        <Card :slot="1" :heading="startCase($parent.propData.attributes.name) + ' Attachment'">
+        <Card :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
               <Paragraph>
