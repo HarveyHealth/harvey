@@ -81,6 +81,7 @@
             "php artisan calendar:get_credentials",
             "npm run prod"
         ],
+
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
@@ -93,8 +94,6 @@
             "php artisan scout:import 'App\\Models\\SoapNote'",
             "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
-            "php artisan cache:clear",
-            "php artisan calendar:get_credentials",
             "php artisan cache:clear",
             "npm run dev"
         ]

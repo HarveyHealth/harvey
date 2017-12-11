@@ -525,8 +525,8 @@ export default {
                 return arrays;
             },
             selectedUserPatient() {
-                if (!this.$root.$data.global.user || !this.$root.$data.global.user.attributes || !this.$root.$data.global.user.included) {
-                    return false;
+                if (this.$root.$data.permissions !== 'patient') {
+                    return {};
                 } else {
                     let patientData = this.$root.$data.global.user.included.attributes;
                     let patientUserData = this.$root.$data.global.user.attributes;
@@ -570,7 +570,7 @@ export default {
             }
         },
         selectedUserPatient(val) {
-            if (!val && this.$root.$data.global.user && this.$root.$data.global.user.id) {
+            if (!val && this.$root.$data.permissions !== 'patient') {
                 let patientData = this.$root.$data.global.user.included.attributes;
                 let patientUserData = this.$root.$data.global.user.attributes;
                 let patientUserId = this.$root.$data.global.user.id;
@@ -595,7 +595,7 @@ export default {
                 this.patientLoading = false;
                 return object;
             } else {
-                return false;
+                return {};
             }
         }
     },
