@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Traits\HasStatusColumn;
+use App\Http\Traits\{HasLogTable, HasStatusColumn};
 use App\Models\{LabOrder, LabTestResult, SKU};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 
 class LabTest extends Model
 {
-    use SoftDeletes, HasStatusColumn;
+    use SoftDeletes, HasLogTable, HasStatusColumn;
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -30,6 +30,10 @@ class LabTest extends Model
         'created_at',
         'completed_at',
         'deleted_at',
+        'status_id',
+    ];
+
+    protected $log = [
         'status_id',
     ];
 
