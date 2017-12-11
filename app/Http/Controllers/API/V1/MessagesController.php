@@ -61,9 +61,9 @@ class MessagesController extends BaseAPIController
 
         // filter by most recent messages
 
-        // get the date if the latest unread message
+        // get the date if the first unread message
         $query = clone $builder;
-        $unread_date = $query->orderBy('created_at', 'desc')->unread()->limit(1)->value('created_at');
+        $unread_date = $query->orderBy('created_at', 'asc')->unread()->limit(1)->value('created_at');
         $date_from = (!empty($unread_date))? \Carbon::parse($unread_date):null;
 
         if(empty($date_from)){

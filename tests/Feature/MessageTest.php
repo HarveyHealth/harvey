@@ -328,30 +328,58 @@ class MessageTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function test_it_returns_only_recent_messages()
+    public function test_it_returns_10_days_before_last_message()
     {
         $patient = factory(Patient::class)->create();
 
         // creates some old Messages
         factory(Message::class)->create([
             'recipient_user_id' => $patient->user->id,
-            'created_at' => \Carbon::parse('-15 days')
-        ]);
-        factory(Message::class, 3)->create([
-            'sender_user_id' => $patient->user->id,
-            'created_at' => \Carbon::parse('-13 days')
+            'created_at' => \Carbon::parse('-20 days')
         ]);
         factory(Message::class)->create([
             'recipient_user_id' => $patient->user->id,
+            'created_at' => \Carbon::parse('-15 days')
+        ]);
+        factory(Message::class)->create([
+            'sender_user_id' => $patient->user->id,
             'created_at' => \Carbon::parse('-10 days')
         ]);
-
-        factory(Message::class, 3)->create(['sender_user_id' => $patient->user->id]);
 
         Passport::actingAs($patient->user);
         $response = $this->json('GET', 'api/v1/messages');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(3, $response->original['data']);
+        $this->assertCount(2, $response->original['data']);
+    }
+
+    public function test_it_returns_10_days_before_unread()
+    {
+        $patient = factory(Patient::class)->create();
+
+        // creates some old Messages
+        factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-20 days'),
+            'created_at' => \Carbon::parse('-20 days')
+        ]);
+
+        factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+            'read_at' =>  null,
+            'created_at' => \Carbon::parse('-15 days')
+        ]);
+
+
+        factory(Message::class, 3)->create([
+            'sender_user_id' => $patient->user->id,
+            'read_at' => null,
+        ]);
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('GET', 'api/v1/messages');
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $this->assertCount(5, $response->original['data']);
     }
 }
