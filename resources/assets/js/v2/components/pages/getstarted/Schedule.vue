@@ -146,7 +146,7 @@ export default {
         },
         scrollToSubmit() {
             Vue.nextTick(() =>{
-                if (window.innerWidth < 641) {
+                if (window.innerWidth <= App.Config.misc.breakpoints.m) {
                     window.scroll({
                         top: document.body.scrollHeight,
                         behavior: 'smooth'
