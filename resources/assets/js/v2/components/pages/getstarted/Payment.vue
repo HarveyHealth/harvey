@@ -88,7 +88,7 @@
                     <div v-if="isConfirmed || isAlreadyStored" class="tc">
                         <Spacer isBottom :size="3" />
                         <InputButton
-                            :mode="'gray'"
+                            :mode="'secondary'"
                             :text="'Enter New Card'"
                             :onClick="resetCardData"
                             :width="'160px'"

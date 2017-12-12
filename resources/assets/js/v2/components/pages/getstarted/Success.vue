@@ -24,7 +24,7 @@
                     <div :slot="1" class="tr-m">
                         <InputButton
                             :href="'/dashboard'"
-                            :mode="'gray'"
+                            :mode="'secondary'"
                             :text="'Dashboard'"
                             :width="'200px'"
                         />

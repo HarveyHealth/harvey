@@ -41,7 +41,7 @@
                 <InputButton
                     :isDisabled="State('practitioners.availability.isLoading')"
                     :isProcessing="State('practitioners.availability.isLoading')"
-                    :mode="'gray'"
+                    :mode="'secondary'"
                     :text="'Back to Schedule'"
                     :onClick="handleNewAvailability"
                 />

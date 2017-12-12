@@ -33,7 +33,7 @@ export default {
         isDisabled: Boolean,
         isDone: Boolean,
         isProcessing: Boolean,
-        mode: { type: String, default: 'default' },
+        mode: { type: String, default: 'primary' },
         onClick: { type: Function },
         text: { type: String, required: true },
         width: String
@@ -44,21 +44,21 @@ export default {
     data() {
         return {
             config: {
-                default: {
+                primary: {
                     class: '',
                     doneIcon: this.doneIcon,
                     doneText: this.doneText,
                     loadingColor: 'light',
                     loadingSize: 'sm'
                 },
-                gray: {
+                secondary: {
                     class: 'gray-button',
                     doneIcon: this.doneIcon,
                     doneText: this.doneText,
                     loadingColor: 'light',
                     loadingSize: 'sm'
                 },
-                whiteFilled: {
+                inverse: {
                     class: 'Button--white-filled',
                     doneIcon: this.doneIcon,
                     doneText: this.doneText,
