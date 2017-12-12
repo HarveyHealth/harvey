@@ -21,7 +21,18 @@
 <script>
 export default {
     props: {
-        config: Object
+        config: Object,
+        required: true,
+        validator(config) {
+            return (
+                config.start && typeof config.start === 'string' &&
+                config.end && typeof config.end === 'string' &&
+                config.timezone && typeof config.timezone === 'string' &&
+                config.title && typeof config.title === 'string' &&
+                config.description && typeof config.description === 'string' &&
+                config.location && typeof config.location === 'string'
+            )
+        }
     },
     data() {
         return {
