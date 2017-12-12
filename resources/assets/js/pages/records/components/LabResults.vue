@@ -249,11 +249,14 @@ export default {
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
         },
         quickNotes() {
-            const prop = this.$parent.propData;
-            if (prop && prop.attributes && prop.attributes.notes) {
-                this.$parent.news ? this.setNotes('') : this.setNotes(prop.attributes.notes);
-            }
-            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+             const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+                } else {
+                    this.setNotes('')
+                }
+                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
@@ -279,7 +282,10 @@ export default {
             if (!val) {
                 const prop = this.$parent.propData;
                 if (prop && prop.attributes && prop.attributes.notes) {
-                    this.$parent.news ? this.setNotes('') : this.setNotes(prop.attributes.notes);
+                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+                } else {
+                    this.setNotes('')
                 }
                 return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
