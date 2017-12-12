@@ -240,7 +240,7 @@ export default {
                     let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
                     this.$parent.news ? this.setNotes('') : this.setNotes(notes);
                 } else {
-                    this.setNotes('')
+                    this.setNotes('');
                 }
                 return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
@@ -262,7 +262,7 @@ export default {
                     let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
                     this.$parent.news ? this.setNotes('') : this.setNotes(notes);
                 } else {
-                    this.setNotes('')
+                    this.setNotes('');
                 }
                 return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
