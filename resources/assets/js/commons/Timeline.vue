@@ -31,9 +31,9 @@
                             <i :class="`fa fa-${
                                 item.type === 'SOAP Note' ? 'pencil-square-o ' :
                                 item.type === 'Prescription' ? 'file-excel-o' :
-                                item.type === 'Attachment' ? 'paperclip' :
+                                attachmentRegex.test(item.type) ? 'paperclip' :
                                 item.type === 'Intake' ? 'clipboard' :
-                                item.type === 'Lab Test Result' ? 'flask' :
+                                resultsRegex.test(item.type) ? 'flask' :
                                 'book'
                             }`"></i>
                         </div>
@@ -59,6 +59,12 @@ export default {
         ClipLoader,
         Grid,
         Spacer
+    },
+    data() {
+        return {
+            resultsRegex: /(^|\W)Result($|\W)/,
+            attachmentRegex: /(^|\W)Attachment($|\W)/,
+        }
     },
     props: {
         items: {
