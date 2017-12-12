@@ -7,7 +7,7 @@ const editorOption = {
             [{ 'header': 1 }, { 'header': 2 }],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
             [{ 'indent': '-1' }, { 'indent': '+1' }],
-            ['link', 'image']
+            ['link']
         ],
         syntax: {
             highlight: text => hljs.highlightAuto(text).value
