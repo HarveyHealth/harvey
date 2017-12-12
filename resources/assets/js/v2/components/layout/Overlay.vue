@@ -29,7 +29,7 @@ export default {
             position: fixed;
             right: 0;
             top: 0;
-            z-index: 8000;
+            z-index: $z-index--8;
         }
     }
 </style>
