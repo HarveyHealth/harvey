@@ -117,11 +117,6 @@ export default {
     methods: {
         showIntakeModal() {
             this.showModal = true;
-        },
-        sendToIntake() {
-            if (this.$root.isOnProduction()) {
-                // place intake tracking here
-            }
         }
     },
     filters: {
