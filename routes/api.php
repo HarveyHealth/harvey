@@ -52,6 +52,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Patients
         Route::get('patients', 'PatientsController@getAll')->name('patients.get-all');
         Route::get('patients/{patient}', 'PatientsController@getOne')->name('patients.get-one');
+        Route::get('patients/{patient}/practitioners', 'PatientController@getSelecteablePractitioners')->name('patients.get-selecteable-practitioners');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
 
         # Attachments
@@ -85,6 +86,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('practitioners', 'PractitionersController@getAll')->name('practitioner.get-all');
         Route::get('practitioners/{practitioner}', 'PractitionersController@getOne')->name('practitioner.get-one');
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
+        Route::get('practitioners/{practitioner}/patients', 'PatientController@getServiceablePatients')->name('patients.get-serviceable-patients');
         Route::post('practitioners/{practitioner}/profile-image', 'PractitionersController@profileImageUpload')->name('practitioners.profile-image-upload');
         Route::post('practitioners/{practitioner}/bg-image', 'PractitionersController@backgroundImageUpload')->name('practitioners.bg-image-upload');
         Route::get('practitioners/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Attachment, Patient, Prescription, SoapNote};
-use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PrescriptionTransformer, SoapNoteTransformer};
+use App\Models\{Attachment, Patient, Practitioner, Prescription, SoapNote};
+use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PractitionerTransformer, PrescriptionTransformer, SoapNoteTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
 use Storage;
@@ -76,5 +76,10 @@ class PatientsController extends BaseAPIController
         $patient->update($request->all());
 
         return $this->baseTransformItem($patient)->respond();
+    }
+
+    public function getSelecteablePractitioners(Request $request, Patient $patient)
+    {
+        return $this->baseTransformBuilder(Practitioner::canServeOn($patient->user->state), null, new PractitionerTransformer, request('per_page'))->respond();
     }
 }

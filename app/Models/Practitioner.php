@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Lib\{PractitionerAvailability, TimeInterval};
+use App\Lib\{PractitionerAvailability, TimeInterval, ZipCodeValidator};
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Carbon\Carbon;
 
@@ -27,10 +27,23 @@ class Practitioner extends Model
         parent::boot();
 
         static::addGlobalScope('enabledUser', function (Builder $builder) {
-            return $builder->whereHas('user', function (Builder $query){
-                $query->where('users.enabled', true);
+            return $builder->whereHas('user', function (Builder $builder){
+                $builder->where('users.enabled', true);
             });
         });
+    }
+
+    public function scopeCanServeOn(Builder $builder, string $state)
+    {
+        if (in_array($state, ZipCodeValidator::UNSERVICEABLE_STATES)) {
+            return $builder->limit(0);
+        } elseif (in_array($state, ZipCodeValidator::REGULATED_STATES)) {
+            return $builder->whereHas('licenses', function (Builder $builder) use ($state) {
+                $builder->whereState($state);
+            });
+        }
+
+        return $builder;
     }
 
     public function getAvailabilityAttribute()

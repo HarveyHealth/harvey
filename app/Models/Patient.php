@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Lib\Clients\Typeform;
-use App\Lib\TimeInterval;
+use App\Lib\{TimeInterval, ZipCodeValidator};
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Laravel\Scout\Searchable;
 use Cache;
@@ -37,9 +37,16 @@ class Patient extends Model
         parent::boot();
 
         static::addGlobalScope('enabledUser', function (Builder $builder) {
-            return $builder->whereHas('user', function (Builder $query){
-                $query->where('users.enabled', true);
+            return $builder->whereHas('user', function (Builder $builder){
+                $builder->where('users.enabled', true);
             });
+        });
+    }
+
+    public function scopeServiceablesBy(Builder $builder, Practitioner $practitioner)
+    {
+        return $builder->whereHas('user', function (Builder $builder) use ($practitioner) {
+            return $builder->whereNotIn('state', ZipCodeValidator::REGULATED_STATES)->orWhereIn('state', $practitioner->licenses->pluck('state'));
         });
     }
 

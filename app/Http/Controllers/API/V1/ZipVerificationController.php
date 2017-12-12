@@ -16,13 +16,13 @@ class ZipVerificationController extends BaseAPIController
 
     public function getInfo(Request $request, string $zip)
     {
-      // Grab geocoding information from zip code
       $this->zipCodeValidator->setZip($zip);
+
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
-      $is_serviceable = $this->zipCodeValidator->isServiceable($state);
-      $practitioners = License::where('state', $state)->count();
-      $is_regulated = $this->zipCodeValidator->isRegulated($state);
+      $is_serviceable = $this->zipCodeValidator->isServiceable();
+      $is_regulated = $this->zipCodeValidator->isRegulated();
+      $practitioners = License::whereState($state)->count();
 
       return response()->json(compact('city', 'practitioners', 'is_regulated', 'is_serviceable', 'state', 'zip'));
     }

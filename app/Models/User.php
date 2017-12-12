@@ -11,12 +11,11 @@ use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Redis;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
 use Cache, Carbon, Exception, Log, Mail;
-use Illuminate\Support\Facades\Redis;
-
 
 class User extends Authenticatable implements Mailable
 {
@@ -293,26 +292,26 @@ class User extends Authenticatable implements Mailable
         return false;
     }
 
-    public function scopeMatching($query, $term)
+    public function scopeMatching(Builder $builder, $term)
     {
-        return $query->where('first_name', 'LIKE', "%{$term}%")
+        return $builder->where('first_name', 'LIKE', "%{$term}%")
         ->orWhere('last_name', 'LIKE', "%{$term}%")
         ->orWhere('email', 'LIKE', "%{$term}%");
     }
 
-    public function scopePractitioners($query)
+    public function scopePractitioners(Builder $builder)
     {
-        return $query->join('practitioners', 'practitioners.user_id', 'users.id')->select('users.*');
+        return $builder->join('practitioners', 'practitioners.user_id', 'users.id')->select('users.*');
     }
 
-    public function scopePatients($query)
+    public function scopePatients(Builder $builder)
     {
-        return $query->join('patients', 'patients.user_id', 'users.id')->select('users.*');
+        return $builder->join('patients', 'patients.user_id', 'users.id')->select('users.*');
     }
 
-    public function scopeAdmins($query)
+    public function scopeAdmins(Builder $builder)
     {
-        return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
+        return $builder->join('admins', 'admins.user_id', 'users.id')->select('users.*');
     }
 
     public function getCards()

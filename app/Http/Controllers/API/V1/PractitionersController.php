@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\Practitioner;
-use App\Transformers\V1\PractitionerAvailabilityTransformer;
-use App\Transformers\V1\PractitionerTransformer;
+use App\Models\{Patient, Practitioner};
+use App\Transformers\V1\{PatientTransformer, PractitionerTransformer, PractitionerAvailabilityTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -113,5 +112,10 @@ class PractitionersController extends BaseAPIController
         $practitioner->update(['background_picture_url' => Storage::cloud()->url($imagePath)]);
 
         return $this->baseTransformItem($practitioner)->respond();
+    }
+
+    public function getServiceablePatients(Request $request, Practitioner $practitioner)
+    {
+        return $this->baseTransformBuilder(Patient::serviceablesBy($practitioner), null, new PatientTransformer, request('per_page'))->respond();
     }
 }

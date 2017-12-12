@@ -4,26 +4,23 @@ namespace App\Lib;
 
 use App\Lib\Clients\Geocoder;
 use App\Models\License;
-use Cache;
-
 use Illuminate\Support\Facades\Redis;
+use Cache;
 
 class ZipCodeValidator
 {
     protected $city, $geocoder, $zip, $state = null;
 
-    protected $unserviceable_states = [
+    const UNSERVICEABLE_STATES = [
         'AL', 'FL', 'NY', 'SC', 'TN',
     ];
-    // Updated: 08/22/2017
-    // This is a hotfix and should be included in the backend logic when determining which
-    // practitioners to send to the frontend
-    protected $regulated_states = [
+
+    const REGULATED_STATES = [
       'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME',
       'MD', 'NH', 'VT', 'DC',
     ];
 
-    protected $unregulated_states = [
+    const UNREGULATED_STATES = [
         'AR', 'DE', 'GA', 'ID', 'IL', 'IN', 'IA', 'KY', 'LA', 'MA', 'MI', 'MS', 'MO', 'NE',
         'NV', 'NJ', 'NM', 'NC', 'OH', 'OK', 'PA', 'RI', 'SD', 'TX', 'VA', 'WV', 'WI', 'WY'
     ];
@@ -83,25 +80,19 @@ class ZipCodeValidator
         return $result;
     }
 
-    public function isRegulated($state)
+    public function isRegulated()
     {
-        return in_array($state, $this->regulated_states);
+        return in_array($this->getState(), self::REGULATED_STATES);
+    }
+
+    public function isNotServiceable()
+    {
+        $state = $this->getState();
+        return empty($state) || in_array($state, self::UNSERVICEABLE_STATES) || ($this->isRegulated() && !License::whereState($state)->first());
     }
 
     public function isServiceable()
     {
-        return $this->stateIsServiceable($this->getState());
-    }
-
-    protected function stateIsServiceable($state)
-    {
-        if (
-        empty($state) ||
-        in_array($state, $this->unserviceable_states) ||
-        (in_array($state, $this->regulated_states) && !License::where('state', $state)->first())) {
-            return false;
-        }
-
-        return true;
+        return !$this->isNotServiceable();
     }
 }

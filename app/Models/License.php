@@ -11,4 +11,9 @@ class License extends Model
         'state',
         'title',
     ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 }
