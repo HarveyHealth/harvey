@@ -147,7 +147,7 @@ class LabTestsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:pdf',
-            'notes' => 'string|max:1024',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = "{$lab_test->patient->user->id}";
@@ -183,7 +183,7 @@ class LabTestsController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'notes' => 'filled|string|max:1024',
+            'notes' => 'filled|string|max:4096',
         ]);
 
         $lab_test_result->update($request->all());

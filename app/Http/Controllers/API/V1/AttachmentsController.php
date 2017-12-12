@@ -39,8 +39,8 @@ class AttachmentsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
-            'name' => 'string|max:64',
-            'notes' => 'string|max:1024',
+            'name' => 'string|max:128',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = (string) $patient->user->id;
@@ -75,7 +75,7 @@ class AttachmentsController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'notes' => 'filled|string|max:1024',
+            'notes' => 'filled|string|max:4096',
         ]);
 
         $attachment->update($request->all());

@@ -39,7 +39,7 @@ class PrescriptionsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
-            'notes' => 'string|max:1024',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = (string) $patient->user->id;
@@ -74,7 +74,7 @@ class PrescriptionsController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'notes' => 'filled|string|max:1024',
+            'notes' => 'filled|string|max:4096',
         ]);
 
         $prescription->update($request->all());
