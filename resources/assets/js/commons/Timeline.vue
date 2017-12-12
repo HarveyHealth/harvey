@@ -63,8 +63,8 @@ export default {
     data() {
         return {
             resultsRegex: /(^|\W)Result($|\W)/,
-            attachmentRegex: /(^|\W)Attachment($|\W)/,
-        }
+            attachmentRegex: /(^|\W)Attachment($|\W)/
+        };
     },
     props: {
         items: {
