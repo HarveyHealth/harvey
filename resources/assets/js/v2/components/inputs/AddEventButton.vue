@@ -57,6 +57,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    // !important overrides are for overwriting the vendor CSS that gets
+    // injected when the library is called
     div.container {
         opacity: 0 !important;
     }
