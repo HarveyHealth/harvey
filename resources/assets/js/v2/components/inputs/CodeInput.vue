@@ -25,7 +25,10 @@ export default {
             type: String,
             default: 'text'
         },
-        onInput: Function,
+        onInput: {
+            type: Function,
+            default: () => {}
+        },
         value: String,
         width: {
             type: String,
