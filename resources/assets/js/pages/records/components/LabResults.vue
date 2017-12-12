@@ -251,9 +251,9 @@ export default {
         quickNotes() {
             const prop = this.$parent.propData;
             if (prop && prop.attributes && prop.attributes.notes) {
-                this.setNotes(prop.attributes.notes);
+                this.$parent.news ? this.setNotes('') : this.setNotes(prop.attributes.notes);
             }
-            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
@@ -279,9 +279,9 @@ export default {
             if (!val) {
                 const prop = this.$parent.propData;
                 if (prop && prop.attributes && prop.attributes.notes) {
-                    this.setNotes(prop.attributes.notes);
+                    this.$parent.news ? this.setNotes('') : this.setNotes(prop.attributes.notes);
                 }
-                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }
