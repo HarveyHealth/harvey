@@ -225,7 +225,7 @@ export default {
 
               // check for different error type responses
               if(errorType === 'email-in-use') {
-                this.errors.add('email', errorDetail, 'inuse');
+                this.errors.add('email', errorDetail.message, 'inuse');
                 this.errors.first('email:inuse');
 
                 // reset the submission to allow for another attempt
