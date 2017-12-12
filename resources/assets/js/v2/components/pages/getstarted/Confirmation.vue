@@ -52,6 +52,7 @@
 
 <script>
 import moment from 'moment';
+import { omit } from 'lodash';
 
 import { Icon } from 'icons';
 import { InputButton } from 'inputs';
@@ -101,12 +102,15 @@ export default {
     methods: {
         confirmSignup() {
             this.isProcessing = true;
+
             // Remove discount_code from sent data if it does not exist
-            if (!this.State('getstarted.signup.data.discount_code')) {
-                delete this.State('getstarted.signup.data').discount_code;
+            let signupData = this.State('getstarted.signup.data');
+
+            if (!signupData.discount_code) {
+                signupData = omit(signupData, ['discount_code']);
             }
 
-            axios.post('/api/v1/appointments', this.State('getstarted.signup.data')).then(response => {
+            axios.post('/api/v1/appointments', signupData).then(response => {
                 this.isProcessing = false;
                 analytics.track("Consultation Confirmed");
                 App.Util.data.killStorage('zip_validation');
