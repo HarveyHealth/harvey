@@ -3,7 +3,7 @@
     <PageHeader class="mb3" :heading="$parent.news ? 'New Soap Note' : 'Soap Note'" />
     <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
-      <Card :slot="1" :heading="'SOAP Note'">
+      <Card class="w-60" :slot="1" :heading="'SOAP Note'">
         <CardContent>
 
           <div>
@@ -67,7 +67,7 @@
       </Card>
 
       <!-- Quick Notes -->
-      <Card :slot="2" :heading="'Quick Notes'">
+      <Card class="w-30" :slot="2" :heading="'Quick Notes'">
         <CardContent>
 
           <!-- Editor -->
@@ -374,6 +374,12 @@ export default {
         padding: 0 5px;
         position: relative;
         z-index: 1;
+      }
+      .w-60 {
+          width: 60%;
+      }
+      .w-30 {
+          width: 30%;
       }
     }
 </style>
