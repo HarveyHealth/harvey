@@ -4,7 +4,7 @@
     <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
 
       <!-- News -->
-      <Card :slot="1" :heading="'Lab Results'">
+      <Card class="w-60" :slot="1" :heading="'Lab Results'">
         <CardContent>
           <div class="">
             <div class="">
@@ -51,7 +51,7 @@
         </CardContent>
       </Card>
 
-      <Card :slot="2" :heading="'Quick Notes'">
+      <Card class="w-30" :slot="2" :heading="'Quick Notes'">
         <CardContent>
           <div class="">
             <quill-editor
@@ -69,7 +69,7 @@
     <div v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
-        <Card :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
+        <Card class="w-60" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>
             <div class="" >
               <iframe class="w-100" :style="'height:60vh'" :src="resultUrl" />
@@ -77,7 +77,7 @@
           </CardContent>
         </Card>
 
-        <Card :slot="2" :heading="'Quick Notes'">
+        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
           <CardContent>
             <div class="">
               <quill-editor
@@ -307,5 +307,11 @@ export default {
     .ql-toolbar.ql-snow {
       height: 130px;
       border: 1px solid #eee;
+    }
+    .w-60 {
+        width: 60%;
+    }
+    .w-30 {
+        width: 30%;
     }
 </style>

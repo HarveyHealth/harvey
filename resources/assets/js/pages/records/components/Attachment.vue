@@ -5,7 +5,7 @@
     <!-- New -->
     <div v-if="$parent.news" class="">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
-        <Card :slot="1" :heading="'Attachment'">
+        <Card class="w-60" :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
               <Paragraph>
@@ -40,7 +40,7 @@
 
 
         <!-- Quick Notes -->
-        <Card :slot="2" :heading="'Quick Notes'">
+        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
           <CardContent>
 
             <!-- Editor -->
@@ -62,14 +62,14 @@
     <div class="" v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
-        <Card :slot="1" :heading="startCase($parent.propData.attributes.name) +  ' Attachment'">
+        <Card class="w-60" :slot="1" :heading="startCase($parent.propData.attributes.name) +  ' Attachment'">
           <CardContent>
 
             <iframe :style="'height:60vh'" class="w-100" :src="attachmentUrl" />
           </CardContent>
         </Card>
 
-        <Card :slot="1" :heading="'Quick Notes'">
+        <Card class="w-30" :slot="1" :heading="'Quick Notes'">
           <CardContent>
             <div v-if="$root.$data.permissions !== 'patient'" class="">
               <quill-editor
@@ -284,5 +284,11 @@ export default {
     .ql-toolbar.ql-snow {
       height: 130px;
       border: 1px solid #eee;
+    }
+    .w-60 {
+        width: 60%;
+    }
+    .w-30 {
+        width: 30%;
     }
 </style>
