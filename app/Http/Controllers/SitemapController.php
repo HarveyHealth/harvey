@@ -67,6 +67,7 @@ class SitemapController extends Controller
             'about',
             'terms',
             'privacy',
+            'blog',
         ];
 
         asort($base_paths);
