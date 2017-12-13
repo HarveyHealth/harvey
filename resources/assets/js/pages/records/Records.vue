@@ -72,13 +72,16 @@
 
               <!-- Actions -->
               <div :slot="2" class="searchbar-actions pa4">
-                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, l:2 }">
+                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }, { l:'2of2' }]" :gutters="{ s:2, l:2 }">
                   <span :slot="1" class="custom-select">
                     <select class="f3 h-100 bg-white" @change="updateMenu($event)">
                       <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
                     </select>
                   </span>
                   <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
+                  <button :slot="3" class="button flyout-toggle" @click="handleFlyoutOpen">
+                    View Current Records
+                  </button>
                 </Grid>
               </div>
 
@@ -113,7 +116,11 @@
             </div>
 
             <!-- Flyout -->
-            <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="false">
+            <Flyout class="hide-print" :active="isFlyoutActive" :on-close="null" :button="true" :header="false">
+
+              <button class="button--close flyout-close" @click="handleFlyoutClose" data-test="close">
+                  <svg><use xlink:href="#close" /></svg>
+              </button>
 
               <!-- Info -->
               <div class="flyout-patient-info">
@@ -307,6 +314,7 @@ export default {
             search: '',
             selectedPatient: null,
             activeModal: false,
+            isFlyoutActive: false,
             name: '',
             showing: [],
             page: 0,
@@ -396,6 +404,12 @@ export default {
         },
         modalClose() {
             this.activeModal = false;
+        },
+        handleFlyoutClose() {
+            this.isFlyoutActive = false;
+        },
+        handleFlyoutOpen() {
+            this.isFlyoutActive = true;
         },
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedUserPatient && this.selectedUserPatient.id ? this.selectedUserPatient.id : this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
@@ -637,7 +651,9 @@ export default {
       }
     }
     .content-with-flyout {
-      padding-right: 350px;
+      @include query(lg) {
+        padding-right: 350px;
+      }
     }
     .custom-select {
       margin-top: 0;
@@ -650,6 +666,17 @@ export default {
         position: absolute;
         right: 370px;
         top: 23px;
+      }
+    }
+    .flyout-toggle,
+    .flyout-close {
+      @include query(lg) {
+        display: none;
+      }
+    }
+    .flyout {
+      @include query(lg) {
+        right: 0!important;
       }
     }
 </style>

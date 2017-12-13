@@ -1,7 +1,7 @@
 <template>
   <div id="SNScroller" class="" style="overflow: scroll;">
     <PageHeader class="mb3" :heading="$parent.news ? 'New Soap Note' : 'Soap Note'" />
-    <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+    <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
       <Card class="w-60" :slot="1" :heading="'SOAP Note'">
         <CardContent>
