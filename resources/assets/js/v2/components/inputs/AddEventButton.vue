@@ -21,23 +21,25 @@
 <script>
 export default {
     props: {
-        config: Object,
-        required: true,
-        validator(config) {
-            return (
-                config.start && typeof config.start === 'string' &&
-                config.end && typeof config.end === 'string' &&
-                config.timezone && typeof config.timezone === 'string' &&
-                config.title && typeof config.title === 'string' &&
-                config.description && typeof config.description === 'string' &&
-                config.location && typeof config.location === 'string'
-            )
+        config: {
+            type: Object,
+            required: true,
+            validator(config) {
+                return (
+                    config.start && typeof config.start === 'string' &&
+                    config.end && typeof config.end === 'string' &&
+                    config.timezone && typeof config.timezone === 'string' &&
+                    config.title && typeof config.title === 'string' &&
+                    config.description && typeof config.description === 'string' &&
+                    config.location && typeof config.location === 'string'
+                );
+            }
         }
     },
     data() {
         return {
             isVisible: false
-        }
+        };
     },
     mounted() {
         // From https://www.addevent.com/buttons/add-to-calendar
@@ -53,7 +55,7 @@ export default {
         h.appendChild(s);
         s.onload = () => setTimeout(() => this.isVisible = true, 500);
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

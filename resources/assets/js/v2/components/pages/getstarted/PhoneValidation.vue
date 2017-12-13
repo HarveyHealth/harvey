@@ -83,7 +83,7 @@ export default {
             phoneProcessError: 'There was an error processing your phone number. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.',
             phoneCodeInvalidError: 'Invalid code entered.',
             phoneCodeProcessError: 'There was an error processing your confirmation number. Please try sending the code again.'
-        }
+        };
     },
     computed: {
         phoneIsSaved() {
@@ -120,7 +120,7 @@ export default {
                 } else {
                     this.isInvalidCode = true;
                 }
-            }).catch(error => {
+            }).catch(() => {
                 this.phoneCodeHasSent = false;
                 this.isCodeProcessError = true;
             });
@@ -132,7 +132,7 @@ export default {
         handlePhoneNumber() {
             this.phoneNumberHasSent = true;
             this.resetErrors();
-            axios.patch(`/api/v1/users/${this.Config.user.info.id}`, { phone: this.phoneNumber }).then(response => {
+            axios.patch(`/api/v1/users/${this.Config.user.info.id}`, { phone: this.phoneNumber }).then(() => {
                 this.phoneNumberHasSent = false;
                 App.setState('getstarted.signup.phone', this.phoneNumber);
                 Vue.nextTick(() => this.$refs.code_input.$el.focus());
@@ -171,7 +171,7 @@ export default {
             this.isCodeProcessError = false;
         }
     }
-}
+};
 </script>
 
 <style lang="scss">

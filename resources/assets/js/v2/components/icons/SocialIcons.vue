@@ -17,9 +17,9 @@ export default {
               { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp' },
               { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' }
             ]
-        }
+        };
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

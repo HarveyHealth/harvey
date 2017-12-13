@@ -26,7 +26,7 @@ export default {
                 practitioner: 'Practitioner',
                 schedule: 'Schedule'
             }
-        }
+        };
     },
 
     computed: {
@@ -39,13 +39,13 @@ export default {
             return {
                 next: this.State('getstarted.signup.steps')[this.stepIndex + 1],
                 previous: this.State('getstarted.signup.steps')[this.stepIndex - 1]
-            }
+            };
         },
         stepIndex() {
             return this.State('getstarted.signup.steps').indexOf(this.step);
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

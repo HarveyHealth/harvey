@@ -43,7 +43,7 @@ export default {
                 'The week after',
                 'In three weeks'
             ]
-        }
+        };
     },
     computed: {
         selectedDay() {
@@ -83,9 +83,9 @@ export default {
                 if (days[day] !== null) pass = true;
             }
             return pass;
-        },
+        }
     }
-}
+};
 </script>
 
 <style lang="scss">

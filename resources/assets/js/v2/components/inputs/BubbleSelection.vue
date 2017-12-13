@@ -10,7 +10,7 @@ export default {
         isActive: Boolean,
         onClick: Function
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

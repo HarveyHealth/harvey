@@ -103,7 +103,7 @@ export default {
               location: '',
               title: `Appointment with Dr. ${info.practitionerName}, ND`,
               description: `Your Google Meet Link: ${info.googleMeetLink || ''}`
-          }
+          };
       },
       time() {
           const timeObject = this.appointmentDate.format('h:mm a');
@@ -133,6 +133,6 @@ export default {
     },
     mounted () {
         analytics.page('Success');
-    },
+    }
 };
 </script>

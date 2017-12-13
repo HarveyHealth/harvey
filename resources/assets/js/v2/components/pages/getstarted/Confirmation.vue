@@ -130,7 +130,7 @@ export default {
             });
         },
         handleNewAvailability() {
-            App.Http.practitioners.getAvailability(this.State('getstarted.signup.data.practitioner_id'), availability => {
+            App.Http.practitioners.getAvailability(this.State('getstarted.signup.data.practitioner_id'), () => {
                 App.setState({
                     'getstarted.signup.selectedWeek': null,
                     'getstarted.signup.selectedDay': null,

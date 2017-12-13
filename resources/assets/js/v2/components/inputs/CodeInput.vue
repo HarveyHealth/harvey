@@ -71,7 +71,7 @@ export default {
             this.$refs.code_input_ref.$el.focus();
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
