@@ -7,26 +7,26 @@
             <Spacer isBottom :size="4" />
             <Paragraph :size="'large'">Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
             <Spacer isBottom :size="4" />
-            <MultiInput
-                :color="'dark'"
-                :focus-next="{ refs: $refs, ref: 'submit' }"
-                :get-value="zip => setState('conditions.zip', zip)"
-                :is-auto-focused="true"
-                :quantity="5"
-                :validation="/\d/"
-            />
-            <Spacer isBottom :size="4" />
-            <InputButton
-                :is-disabled="State('conditions.zip').length < 5"
-                :is-done="State('wasRequested.zip') && !State('isLoading.zip')"
-                :is-processing="State('isLoading.zip')"
-                :on-click="() => Http.zip.get(State('conditions.zip'), Http.zip.getResponse)"
-                :type="'whiteFilled'"
-                :text="'Verify'"
-                :ref="'submit'"
-                :width="'140px'"
-                :class="'mb3'"
-            />
+            <form @submit.prevent>
+                <CodeInput
+                    isAutoFocused
+                    :isDisabled="State('isLoading.zip') || (State('wasRequested.zip') && !State('isLoading.zip'))"
+                    :mask="'#####'"
+                    :onInput="zip => setState('conditions.zip', zip)"
+                />
+                <Spacer isBottom :size="4" />
+                <InputButton
+                    :isDisabled="State('conditions.zip').length < 5"
+                    :isDone="State('wasRequested.zip') && !State('isLoading.zip')"
+                    :isProcessing="State('isLoading.zip')"
+                    :onClick="() => Http.zip.get(State('conditions.zip'), Http.zip.getResponse)"
+                    :type="'whiteFilled'"
+                    :text="'Verify'"
+                    :ref="'submit'"
+                    :width="'140px'"
+                    :class="'mb3'"
+                />
+            </form>
         </SlideIn>
         <div v-if="State('conditions.zipValidation.is_serviceable') === false">
             <SlideIn>
@@ -46,13 +46,14 @@
 </template>
 
 <script>
-import { InputButton, MultiInput } from 'inputs';
+import { CodeInput, InputButton, MultiInput } from 'inputs';
 import { Heading1, Paragraph } from 'typography';
 import { SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 
 export default {
     components: {
+        CodeInput,
         InputButton,
         Heading1,
         Paragraph,

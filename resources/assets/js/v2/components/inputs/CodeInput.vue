@@ -4,6 +4,7 @@
         :disabled="isDisabled"
         :mask="mask"
         :placeholder="mask.split('').map(a => '●').join('')"
+        :ref="'code_input_ref'"
         :style="{ width: width }"
         :type="type"
         :value="value || ''"
@@ -16,6 +17,7 @@ import { TheMask } from 'vue-the-mask';
 
 export default {
     props: {
+        isAutoFocused: Boolean,
         isDisabled: Boolean,
         mask: {
             type: String,
@@ -35,12 +37,21 @@ export default {
             default: '160px'
         }
     },
+
     components: {
         TheMask
     },
+
     methods: {
         handleInput(v) {
             this.onInput(v);
+        }
+    },
+
+    mounted() {
+        if (this.isAutoFocused) {
+            console.log(this.$refs.code_input_ref);
+            this.$refs.code_input_ref.$el.focus();
         }
     }
 }
