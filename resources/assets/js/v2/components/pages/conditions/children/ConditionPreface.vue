@@ -57,7 +57,7 @@
 
     <!-- Quiz -->
     <div class="tc w-100 w-80-ns w-50-l margin-0a pv5 ph4">
-      <Heading2>Take our {{ State('conditions.condition.name') }} quiz to determine if Harvey Health is right for you.</Heading2>
+      <Heading2>Sign up and see if Harvey Health is right for you.</Heading2>
       <InputButton
         :text="button"
         :type="'whiteFilled'"
