@@ -85,36 +85,31 @@ export default {
             // Map column data to compile data
             this.columns.map(obj => {
                 let columnConfig = {};
-
-                // Map column breakpoints and create config interface
-                Object.keys(obj).map(bp => {
-                    columnConfig[bp] = {
-                        width: obj[bp],
-                        gutter: null
-                    };
+                Object.keys(App.Config.misc.breakpoints).map(bp => {
+                    columnConfig[bp] = { gutter: null, width: null };
                 });
 
-                if (this.gutters) {
-                    // Map gutters and apply
-                    Object.keys(this.gutters).map(bp => {
-                        if (!columnConfig[bp]) columnConfig[bp] = {
-                            width: null,
-                            gutter: null
-                        };
+                // Map column breakpoints and assign widths
+                Object.keys(obj).map(bp => { columnConfig[bp].width = obj[bp]; });
 
-                        columnConfig[bp].gutter = this.gutters[bp] * 1;
-                    });
+                if (this.gutters) {
+                    // Map gutters and assign gutters
+                    Object.keys(this.gutters).map(bp => { columnConfig[bp].gutter = this.gutters[bp] * 1; });
 
                     // Now loop through columnConfig to retroactively apply gutters if needed.
                     // This is based on the principle that a gutter from a previous breakpoint
                     // will apply to larger screen widths unless told otherwise.
                     let previous = null;
                     for (let key in columnConfig) {
-                        // Assign previous gutter to current gutter if no current gutter exists
-                        if (previous && !columnConfig[key].gutter) {
-                            columnConfig[key].gutter = columnConfig[previous].gutter;
+                        if (!obj[key] && !this.gutters[key]) {
+                            delete columnConfig[key];
+                        } else {
+                            // Assign previous gutter to current gutter if no current gutter exists
+                            if (previous && !columnConfig[key].gutter) {
+                                columnConfig[key].gutter = columnConfig[previous].gutter;
+                            }
+                            previous = key;
                         }
-                        previous = key;
                     }
                 }
 
@@ -147,7 +142,7 @@ export default {
             //  3. row margin offset for gutters
             //  4. column spacing for gutters
             //  5. IE-specific media-query to add calc() to column width
-            this.gridConfig.map((columnConfig, index) => {
+            this.gridConfig.map(columnConfig => {
                 const colSelector = `.${this.getColumnClass(index)}`;
 
                 Object.keys(columnConfig).map(bp => {
@@ -189,7 +184,7 @@ export default {
             const width = this.convertRatio(instructions);
             const gutterSize = gutter ? this.spacing[gutter] : null;
 
-            return gutterSize ? `flex-basis: calc(${width} - ${gutter}rem);` : `flex-basis: ${width};`;
+            return gutterSize ? `flex-basis: calc(${width} - ${gutterSize}rem);` : `flex-basis: ${width};`;
         },
 
         // Adds margin-left for container gutter offset
@@ -233,6 +228,7 @@ export default {
     // the component mounts (as opposed to using a computed property, for instance)
     mounted() {
         this.$refs.styles_here.innerHTML = this.gridCss;
+        console.log(this.gridConfig);
     }
 };
 </script>
