@@ -13,6 +13,7 @@
                     :isDisabled="State('isLoading.zip') || (State('wasRequested.zip') && !State('isLoading.zip'))"
                     :mask="'#####'"
                     :onInput="zip => setState('conditions.zip', zip)"
+                    :theme="'inverse-dark'"
                 />
                 <Spacer isBottom :size="4" />
                 <InputButton
