@@ -5,33 +5,64 @@
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
   >
-        <div class="input__container">
-            <label class="input__label" for="patient_name">Client</label>
-            <autocomplete
-                anchor="search_name"
-                label=false
-                url=true
-                :onShouldGetData="getData"
-                :on-select="handlePatientSelect"
-            />
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">Doctor</label>
-            <span class="custom-select">
-                <select @change="updateDoctor($event)">
-                    <option v-for="(doctor, key) in doctorList" :data-id="doctor.id" :selected="doctor.id === selectedDoctor">{{ doctor.name }}</option>
-                </select>
-            </span>
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">Lab Tests</label>
-            <div v-for="(test, index) in testNameList" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
-                <label :class="{highlightText: test.checked}" class="radio--text">
-                    <input :checked="test.checked" @click="updateTestSelection(test, index)" class="form-radio" type="checkbox">
-                        {{ test.attributes.name }}
-                    </input>
-                </label>
-            </div>
+    <div class="input__container">
+        <label class="input__label" for="patient_name">Client</label>
+        <autocomplete
+            anchor="search_name"
+            label=false
+            url=true
+            placeholder="Search name, email or birthday..."
+            :debounce="500"
+            :onShouldGetData="getData"
+            :on-select="handlePatientSelect"
+        >
+        </autocomplete>
+    </div>
+    <div class="input__container">
+      <label class="input__label" for="patient_name">Doctor</label>
+      <span class="custom-select">
+          <select @change="updateDoctor($event)">
+              <option v-for="(doctor, key) in doctorList" :data-id="doctor.id" :selected="doctor.id === selectedDoctor">{{ doctor.name }}</option>
+          </select>
+      </span>
+    </div>
+    <div class="input__container">
+      <label class="input__label" for="patient_name">Lab Tests</label>
+      <div v-for="(test, index) in testNameList" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
+          <label :class="{highlightText: test.checked}" class="radio--text">
+            <input :checked="test.checked" @click="updateTestSelection(test, index)" class="form-radio" type="checkbox">
+            {{ test.attributes.name }}
+            </input>
+          </label>
+      </div>
+    </div>
+    <div class="button-wrapper">
+        <button class="button"
+        @click="openModal()"
+        :disabled="!selectedClient || !selectedDoctor || !selectedTests.length">Create Lab Order</button>
+    </div>
+    <Modal
+      :active="$parent.addActiveModal"
+      :onClose="modalClose"
+      class="modal-wrapper"
+    >
+      <div class="card-content-wrap">
+        <div class="inline-centered">
+          <h1 class="header-xlarge">
+            <span class="text">Create Lab Order</span>
+          </h1>
+          <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b>, on behalf of <b>{{ selectedDoctorName }}</b>?</p>
+          <table border="0" cellpadding="0" cellspacing="0" class="modal-table inline-left">
+            <tr v-for="test in selectedTests">
+              <td width="25%"><strong>{{ test.attributes.lab_name }}</strong></td>
+              <td width="25%">{{ test.attributes.name }}</td>
+              <td width="25%" class="color-good">${{ test.attributes.price }}</td>
+            </tr>
+          </table>
+          <div class="button-wrapper">
+            <button class="button button--cancel" @click="modalClose">Cancel</button>
+            <button class="button" @click="createLabOrder">Yes, Confirm</button>
+          </div>
         </div>
         <div class="button-wrapper">
             <button class="button"

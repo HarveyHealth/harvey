@@ -263,30 +263,6 @@ button:focus {
   @include padding(7px);
 }
 
-// Add event button overrides
-
-#addeventatc1, .addeventatc1 {
-  font-family: $sans !important;
-  font-size: 16px !important;
-  color: #888 !important;
-  @include border-color( #ccc);
-  font-weight: 400 !important;
-  @include margin(10px auto 25px);
-  transition: opacity 200ms ease-in !important;
-  &:hover{
-    opacity: .75 !important;
-  }
-  &.isVisible {
-    opacity: 1 !important;
-  }
-}
-.addeventatc_dropdown .copy {
-  height: 8px !important;
-}
-.addeventatc_dropdown .copyx em {
-  display: none !important;
-}
-
 // New grid layout
 $signup-grid: (
   columns: 12,

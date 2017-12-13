@@ -10,6 +10,7 @@
         :onShouldGetData="getData"
         :on-select="handlePatientSelect"
         :initValue="name"
+        placeholder="Search name, email or birthday..."
     >
     </autocomplete>
     <p v-else-if="isVisible && name">{{ name }}</p>

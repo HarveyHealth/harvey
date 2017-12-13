@@ -5,6 +5,12 @@ import socialMedia from './socialMedia';
 export default function (laravel) {
   return {
     api: '/api/v1/',
+    breakpoints: {
+        ns: 420,
+        m: 640,
+        l: 780,
+        xl: 960
+    },
     colors,
     currentPage: null,
     defaultUserImage: '/images/default_user_image.png',
