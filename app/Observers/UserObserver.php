@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\UserUpdated;
 use App\Events\PhoneNumberChanged;
 use App\Models\User;
 
@@ -13,6 +14,11 @@ class UserObserver
         if ($user->isDirty('phone')) {
             $user->phone_verified_at = null;
         }
+    }
+
+    public function updated(User $user)
+    {
+        event(new UserUpdated($user));
     }
 
     public function saved(User $user)

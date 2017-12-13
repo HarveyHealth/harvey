@@ -27,6 +27,7 @@
     "test"
   ],
   "dependencies": {
+    "ajv": "^5.0.1",
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "bootstrap-sass": "^3.3.7",
