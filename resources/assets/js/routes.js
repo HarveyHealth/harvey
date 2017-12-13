@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 //    /getting-started -> signup funnel
 //    /intake -> intake form
 //    /dashboard -> user backoffice
-const loggedIn = Laravel.user.signedIn;
+const loggedIn = Laravel.user.signed_in;
 const context = window.$$context;
 
 const rootRedirect = context === 'get-started'

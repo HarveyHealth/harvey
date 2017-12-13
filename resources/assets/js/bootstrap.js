@@ -20,7 +20,7 @@ Vue.prototype.$http = Axios;
 
 Axios.interceptors.request.use(function(config){
     // Attach the csrf token to every request in the header
-    config.headers['X-CSRF-TOKEN'] = Laravel.app.csrfToken;
+    config.headers['X-CSRF-TOKEN'] = Laravel.app.csrf_token;
 
 
     // Notifies the back-end that this is an ajax request

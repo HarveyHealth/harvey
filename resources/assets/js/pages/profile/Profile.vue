@@ -198,7 +198,7 @@
                     }
                 },
                 thisUserId: Laravel.user.id,
-                practitioner: `${Laravel.user.practitionerId}` || null,
+                practitioner: `${Laravel.user.practitioner_id}` || null,
                 user_data: null,
                 user_id: this.$route.params.id,
                 timezones: timezones,
@@ -431,7 +431,7 @@
                 return this._user_id && Laravel.user.user_type === 'admin';
             },
             canEditPractitioners() {
-                return Laravel.user.practitionerId || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
+                return Laravel.user.practitioner_id || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
             },
             // loading is connected to global state since that's where the main user api call is made
             loading() {

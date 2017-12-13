@@ -29,7 +29,7 @@
                     const formData = new FormData(document.getElementById(this.type));
                     let request = new XMLHttpRequest();
                     request.open('POST', this.route);
-                    request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrfToken);
+                    request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrf_token);
                     request.send(formData);
                     request.onreadystatechange = function() {
                         if (request.readyState === 4) {

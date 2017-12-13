@@ -19,7 +19,7 @@
       window.Laravel = {!! $vue_data !!}
       window.$$context = 'intake';
 
-      // if (!Laravel.user.signedIn) {
+      // if (!Laravel.user.signed_in) {
       //   window.location.hash = '/signup';
       // } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
       //   window.location.href = '/dashboard';

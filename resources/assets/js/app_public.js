@@ -145,7 +145,7 @@ const app = new Vue({
             return this.State.conditions;
         },
         getStartedLink() {
-          if (Laravel.user.signedIn) {
+          if (Laravel.user.signed_in) {
             return Laravel.user.has_an_appointment
               ? { href: '/dashboard', display: `${this.userAvatar}<span>Dashboard</span>` }
               : { href: '/get-started', display: 'Get Started' };
@@ -159,7 +159,7 @@ const app = new Vue({
           return window.location.pathname === '/';
         },
         loginLink() {
-          return Laravel.user.signedIn
+          return Laravel.user.signed_in
             ? { href: '/logout', display: 'Log out' }
             : { href: '/login', display: 'Log in' };
         },
@@ -179,7 +179,7 @@ const app = new Vue({
             const visitorData = {
               to: this.guestEmail,
               template: 'subscribe',
-              _token: Laravel.app.csrfToken
+              _token: Laravel.app.csrf_token
             };
             axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
               this.emailCaptureSuccess = true;

@@ -39,7 +39,7 @@ describe('PublicNav:', ()=> {
     context("When 'hasStart' prop is passed", () => {
         const App = AppStub(PublicNav, 'PublicNav', { hasStart: true });
         Laravel.user.user_type = 'admin';
-        Laravel.user.signedIn = true;
+        Laravel.user.signed_in = true;
 
         it('.nav-start renders', () => {
             expect(App.contains('.nav-start')).to.equal(true);

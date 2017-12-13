@@ -11,7 +11,7 @@
 
     <script>
     window.Laravel = {!! $vue_data !!}
-    if ( Laravel.user.signedIn &&
+    if ( Laravel.user.signed_in &&
         !Laravel.user.has_an_appointment &&
         Laravel.user.user_type === 'patient' ) {
         window.location.href = '/get-started';

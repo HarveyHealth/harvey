@@ -95,7 +95,7 @@ export default {
             return window.location.pathname === '/' ? 'conditions' : '';
         },
         showDashboard() {
-            const isSignedIn = Laravel.user.signedIn;
+            const isSignedIn = Laravel.user.signed_in;
             const appointment = Laravel.user.has_an_appointment;
             const notPatient = Laravel.user.user_type !== 'patient';
 

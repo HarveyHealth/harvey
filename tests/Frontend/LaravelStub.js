@@ -1,6 +1,6 @@
 export default {
   user: {
-    "signedIn": true,
+    "signed_in": true,
     "id": "1",
     "address_1": "957 Herta Wall",
     "address_2": null,

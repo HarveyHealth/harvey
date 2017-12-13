@@ -29,7 +29,7 @@ class VueHelperViewComposer
     protected function appData()
     {
         $data = [
-            'csrfToken' => csrf_token()
+            'csrf_token' => csrf_token()
         ];
 
         return $data;
@@ -40,7 +40,7 @@ class VueHelperViewComposer
         $user = currentUser();
 
         if (empty($user)) {
-            return ['signedIn' => false];
+            return ['signed_in' => false];
         }
 
         $fractal = fractal()->item($user)
@@ -48,13 +48,14 @@ class VueHelperViewComposer
         ->serializeWith(new JsonApiSerializer)
         ->toArray();
 
-        $output = ['signedIn' => true];
+        $output = ['signed_in' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
 
         if ($user->isPractitioner()) {
-            $output += ['practitionerId' => $user->practitioner->id];
+            $output += ['practitioner_id' => $user->practitioner->id];
         } elseif ($user->isPatient()) {
+            $output += ['patient_id' => $user->patient->id];
             $output += ['intake_validation_token' => $user->patient->intake_validation_token];
         }
 

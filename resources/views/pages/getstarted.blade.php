@@ -37,7 +37,7 @@
           // the user's zip is serviceable or not
           var zipValidation  = localStorage.getItem('harvey_zip_validation');
           var isServiceable = zipValidation ? JSON.parse(zipValidation).is_serviceable : false;
-          var loggedIn = Laravel.user.signedIn;
+          var loggedIn = Laravel.user.signed_in;
 
           window.$$context = 'get-started';
 

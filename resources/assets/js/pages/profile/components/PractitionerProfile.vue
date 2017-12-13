@@ -121,7 +121,7 @@
         name: 'practitioner-profile',
         data() {
             return {
-                practitioner_id: Laravel.user.practitionerId || this.practitionerIdEditing,
+                practitioner_id: Laravel.user.practitioner_id || this.practitionerIdEditing,
                 practitioner: {
                     licenses: [{'number': '', 'state': '', 'title': ''}],
                     picture_url : 'https://d35oe889gdmcln.cloudfront.net/assets/images/default_user_image.png',

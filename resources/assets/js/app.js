@@ -14,7 +14,6 @@ import Usernav from './commons/UserNav.vue';
 
 // METHODS
 import combineAppointmentData from './utils/methods/combineAppointmentData';
-import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 import _ from 'lodash';
@@ -101,8 +100,6 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
-Vue.config.devtools = env !== 'production';
-
 const app = new Vue({
     router,
     components: {
@@ -129,25 +126,6 @@ const app = new Vue({
         addTimezone(value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
             else return this.timezoneAbbr;
-        },
-        // Filters patient list for practitioners according to state licensing regulations
-        // patients = patient list
-        // states = array of states practitioner is licensed in
-        filterPatients(patients, states) {
-          const stateList = states.map(s => s.state);
-          return patients.filter(patient => {
-            if (this.global.regulatedStates.indexOf(patient.state) > -1) {
-              return stateList.indexOf(patient.state) > -1;
-            } else {
-              return true;
-            }
-          });
-        },
-
-        // Cannot just bind this to filterPractitioners. You must wrap it in a function
-        // for 'this' to refer to the Vue instance
-        filterPractitioners(practitioners, state) {
-          return filterPractitioners.call(this, practitioners, state);
         },
 
         getAppointments(cb) {
@@ -184,109 +162,91 @@ const app = new Vue({
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
-        requestPatients(term='', cb=null){
+        requestPatients(term = '', cb = null) {
             let params = {
                 include: 'user'
             };
 
-            if (term != ''){
+            if (term != '') {
                 params.term = term;
             }
 
-            axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
+            let isPractitioner = 'practitioner' === Laravel.user.user_type;
+            let endpoint = isPractitioner ? `${this.apiUrl}/practitioner/${Laravel.user.practitioner_id}/patients` : `${this.apiUrl}/patients`;
+
+            axios.get(endpoint, {params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
-                const include = response.data.included;
-
                 response.data.data.forEach((obj, i) => {
-                    const includeData = include[i].attributes;
                     patients.push({
-                        address_1: includeData.address_1,
-                        address_2: includeData.address_2,
-                        city: includeData.city,
-                        date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
-                        email: includeData.email,
-                        has_a_card: includeData.has_a_card,
                         id: obj.id,
-                        name: `${includeData.last_name}, ${includeData.first_name}`,
-                        phone: includeData.phone,
-                        search_name: `${includeData.first_name} ${includeData.last_name}`,
-                        state: includeData.state,
+                        date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
                         user_id: obj.attributes.user_id,
-                        zip: includeData.zip
                     });
                 });
-
                 patients = sortByLastName(patients);
 
-                // if logged in user is practitioner, filter by states where the user can practice
-                if (this.global.practitioners.length && Laravel.user.user_type === 'practitioner') {
-                  patients = this.filterPatients(patients, this.global.practitioners[0].info.licenses);
-                }
-
-                // build an array with patient data to look up by ID
                 response.data.data.forEach(e => {
                     patientLookUp[e.id] = e;
                 });
-                this.global.patients = _.uniqBy(this.global.patients, 'id');
+
                 this.global.loadingPatients = false;
 
-                if (cb){
+                if (cb) {
                     cb(patients, patientLookUp);
                 }
             });
         },
         getPatients() {
-            this.requestPatients('',(patients, patientLookUp)=>{
+            this.requestPatients('', (patients, patientLookUp) => {
                 this.global.patients = patients;
                 this.global.patientLookUp = patientLookUp;
             });
         },
         getPractitioners() {
-            if (Laravel.user.user_type !== 'practitioner') {
-                axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                  if (Laravel.user.user_type === 'patient') {
-                    this.global.practitioners = this.filterPractitioners(response.data.data, Laravel.user.state);
-                  } else {
+            let userType = Laravel.user.user_type;
+
+            if ('patient' === userType) {
+                axios.get(`${this.apiUrl}/patients/${Laravel.user.patient_id}/practitioners`).then(response => {
                     this.global.practitioners = response.data.data;
-                  }
-                  this.global.practitioners = this.global.practitioners.map(dr => {
-                    return {
-                      id: dr.id,
-                      info: dr.attributes,
-                      name: `Dr. ${dr.attributes.name}`,
-                      user_id: dr.attributes.user_id
-                    };
-                  });
-                  response.data.data.forEach(e => {
-                      this.global.practitionerLookUp[e.id] = e;
-                  });
-                  this.global.practitioners = _.uniqBy(this.global.practitioners, 'id');
-                  this.global.loadingPractitioners = false;
-                });
-            } else {
-                axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data.filter(dr => {
-                        return dr.id === `${Laravel.user.practitionerId}`;
-                    }).map(obj => {
-                        return {
-                          info: obj.attributes,
-                          name: `Dr. ${obj.attributes.name}`,
-                          id: obj.id,
-                          user_id: obj.attributes.user_id };
-                    });
-                    response.data.data.forEach(e => {
-                        this.global.practitionerLookUp[e.id] = e;
-                    });
-                    if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
-                      this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
-                    }
-                    this.global.practitioners = _.uniqBy(this.global.practitioners, 'id');
-                    this.global.patients = _.uniqBy(this.global.patients, 'id');
-                    this.global.loadingPractitioners = false;
-                    this.getSelfPractitionerInfo();
                 });
             }
+
+            if ('admin' === userType) {
+                axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
+                    this.global.practitioners = response.data.data;
+                });
+            }
+
+            if ('practitioner' == userType) {
+                axios.get(`${this.apiUrl}/practitioners/${Laravel.user.practitioner_id}?include=user`).then(response => {
+                    this.global.practitioners = response.data.data;
+
+                    practitioner = response.data.data.pop();
+
+                    this.global.selfPractitionerInfo = {
+                        id: practitioner.id,
+                        name: `Dr. ${practitioner.attributes.name}`,
+                        info: practitioner.attributes,
+                        user_id: practitioner.attributes.user_id
+                    };
+                });
+            }
+
+            this.global.practitioners = this.global.practitioners.map(e => {
+                return {
+                  id: e.id,
+                  info: e.attributes,
+                  name: `Dr. ${e.attributes.name}`,
+                  user_id: e.attributes.user_id
+                };
+            });
+
+            this.global.practitioners.forEach(e => {
+                this.global.practitionerLookUp[e.id] = e;
+            });
+
+            this.global.loadingPractitioners = false;
         },
         getLabData() {
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
@@ -372,7 +332,7 @@ const app = new Vue({
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
-                        
+
                     }
                     this.global.loadingMessages = false;
                 });
@@ -400,15 +360,6 @@ const app = new Vue({
             this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id').filter(e => e !== undefined);
             this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id').filter(e => e !== undefined);
             this.global.loadingConfirmedUsers = false;
-        },
-        getSelfPractitionerInfo() {
-            let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
-            this.global.selfPractitionerInfo = {
-                id: self.id,
-                name: `Dr. ${self.attributes.name}`,
-                info: self.attributes,
-                user_id: self.attributes.user_id
-            };
         },
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
@@ -454,7 +405,7 @@ const app = new Vue({
         };
 
         // Initial GET requests
-        if (Laravel.user.signedIn) {
+        if (Laravel.user.signed_in) {
             this.setup();
         }
     }

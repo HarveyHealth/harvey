@@ -36,6 +36,7 @@ class PatientsController extends BaseAPIController
         if (!empty($term)) {
             $builder = $builder->whereIn('id', Patient::search($term)->get()->pluck('id'));
         }
+
         $this->transformer->availableIncludes = ['user'];
 
         return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();

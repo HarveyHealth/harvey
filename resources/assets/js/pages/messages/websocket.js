@@ -7,7 +7,7 @@ const socket = new Pusher(window.Laravel.services.pusher.key, {
   disabledTransports: ['xhr_streaming'],
   authEndpoint: `/broadcasting/auth`,
   auth: {
-    headers: { 'X-CSRF-Token': window.Laravel.app.csrfToken }
+    headers: { 'X-CSRF-Token': window.Laravel.app.csrf_token }
   }
 });
 

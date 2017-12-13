@@ -45,7 +45,7 @@ export default function(laravel, State) {
           regulatedStates: [
             'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'NH', 'VT', 'DC'
           ],
-          signed_in: laravel.user.signedIn,
+          signed_in: laravel.user.signed_in,
           test_results: [],
           upcoming_appointments: [],
           unreadMessages: [],

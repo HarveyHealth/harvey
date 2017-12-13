@@ -71,7 +71,7 @@ import { SlideIn } from 'layout';
                  const visitorData = {
                      to: this.guestEmail,
                      template: 'subscribe',
-                     _token: Laravel.app.csrfToken
+                     _token: Laravel.app.csrf_token
                  };
 
                  axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
