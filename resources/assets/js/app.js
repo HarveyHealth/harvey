@@ -177,11 +177,24 @@ const app = new Vue({
             axios.get(endpoint, {params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
-                response.data.data.forEach((obj) => {
+                const include = response.data.included;
+
+                response.data.data.forEach((obj, i) => {
+                    const includeData = include[i].attributes;
                     patients.push({
                         id: obj.id,
+                        address_1: includeData.address_1,
+                        address_2: includeData.address_2,
+                        city: includeData.city,
                         date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
-                        user_id: obj.attributes.user_id
+                        email: includeData.email,
+                        has_a_card: includeData.has_a_card,
+                        name: `${includeData.last_name}, ${includeData.first_name}`,
+                        phone: includeData.phone,
+                        search_name: `${includeData.first_name} ${includeData.last_name}`,
+                        state: includeData.state,
+                        user_id: obj.attributes.user_id,
+                        zip: includeData.zip
                     });
                 });
                 patients = sortByLastName(patients);

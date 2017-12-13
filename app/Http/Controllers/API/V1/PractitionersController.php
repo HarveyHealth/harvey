@@ -116,6 +116,8 @@ class PractitionersController extends BaseAPIController
 
     public function getServiceablePatients(Request $request, Practitioner $practitioner)
     {
-        return $this->baseTransformBuilder(Patient::serviceablesBy($practitioner), null, new PatientTransformer, request('per_page'))->respond();
+        $include = currentUser()->isAdminOrPractitioner() ? request('include') : null;
+
+        return $this->baseTransformBuilder(Patient::serviceablesBy($practitioner), $include, new PatientTransformer, request('per_page'))->respond();
     }
 }
