@@ -66,7 +66,6 @@ export default {
 
     data() {
         return {
-            css: '',
             // Namspacing the Grid instance
             rowId: `gridRow-${this.Config.misc.gridRowId++}`,
             // Spacing sizes based on Tachyons (rems)
@@ -98,20 +97,23 @@ export default {
             //  5. IE-specific media-query to add calc() to column width
             this.columns.map((obj, index) => {
                 const colBp = Object.keys(obj)[0];
+                const colSelector = `.${this.getColumnClass(index)}`;
                 const ratio = obj[colBp];
 
-                styles += this.mediaQuery(colBp, `.${this.getColumnClass(index)} { ${this.columnWidth(ratio)} }`);
+                styles += this.mediaQuery(colBp, `${colSelector} { ${this.columnWidth(ratio)} }`);
 
                 // At each column object we loop through the gutter options to set gutter-specific styles
                 Object.keys(this.gutters).map(gutBp => {
                     const size = this.gutters[gutBp];
-                    styles += this.mediaQuery(gutBp, `
-                        .${this.getColumnClass(index)} { ${this.columnWidth(ratio)} }
-                        .${this.rowId} { ${this.containerSpace(size)} }
-                        .${this.getColumnClass(index)} { ${this.columnSpace(size)} }
-                    `);
+                    const columnWidth = `${colSelector} { ${this.columnWidth(ratio)} }`;
+                    const containerGutters = `.${this.rowId} { ${this.containerSpace(size)} }`;
+                    const columnGutters = `${colSelector} { ${this.columnSpace(size)} }`;
+                    const columnWidthIEOverwrite = this.mediaQuery(gutBp, `${colSelector} { ${this.columnWidth(ratio, gutBp)} }`, true);
+
+                    // Default styling
+                    styles += this.mediaQuery(gutBp, `${columnWidth} ${containerGutters} ${columnGutters}`);
                     // And this is where we add IE-specific overwrites
-                    styles += this.mediaQuery(gutBp, `.${this.getColumnClass(index)} { ${this.columnWidth(ratio, gutBp)} }`, true);
+                    styles += columnWidthIEOverwrite;
                 });
             });
 
