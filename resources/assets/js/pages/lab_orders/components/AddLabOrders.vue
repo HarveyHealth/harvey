@@ -41,38 +41,6 @@
         @click="openModal()"
         :disabled="!selectedClient || !selectedDoctor || !selectedTests.length">Create Lab Order</button>
     </div>
-    <Modal
-      :active="$parent.addActiveModal"
-      :onClose="modalClose"
-      class="modal-wrapper"
-    >
-      <div class="card-content-wrap">
-        <div class="inline-centered">
-          <h1 class="header-xlarge">
-            <span class="text">Create Lab Order</span>
-          </h1>
-          <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b>, on behalf of <b>{{ selectedDoctorName }}</b>?</p>
-          <table border="0" cellpadding="0" cellspacing="0" class="modal-table inline-left">
-            <tr v-for="test in selectedTests">
-              <td width="25%"><strong>{{ test.attributes.lab_name }}</strong></td>
-              <td width="25%">{{ test.attributes.name }}</td>
-              <td width="25%" class="color-good">${{ test.attributes.price }}</td>
-            </tr>
-          </table>
-          <div class="button-wrapper">
-            <button class="button button--cancel" @click="modalClose">Cancel</button>
-            <button class="button" @click="createLabOrder">Yes, Confirm</button>
-          </div>
-        </div>
-        <div class="button-wrapper">
-            <button class="button"
-                @click="openModal()"
-                :disabled="!selectedClient || !selectedDoctor || !selectedTests.length"
-            >
-                Create Lab Order
-            </button>
-        </div>
-
         <Modal
             :active="$parent.addActiveModal"
             :onClose="modalClose"
