@@ -9,7 +9,8 @@ export default function (laravel) {
         ns: 420,
         m: 640,
         l: 780,
-        xl: 960
+        xl: 960,
+        xxl: 1280
     },
     colors,
     currentPage: null,

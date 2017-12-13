@@ -44,7 +44,12 @@ export default {
         // [{ m: 2 }, { l: 3 }]
         // This says at medium breakpoint, gutters are size 2
         // Sizing follows Tachyons spacing conventions
-        gutters: Object,
+        gutters: {
+            type: Object,
+            default: function() {
+                return {};
+            }
+        },
 
         // This is a string of a breakpoint key that defines when the
         // grid engages as display: flex
@@ -148,7 +153,11 @@ export default {
         // To isolate these styles, we wrap them in -ms specific media queries to ensure only IE10 and IE11
         // will parse and apply them.
         mediaQuery(bp, content, addIe) {
-            if (bp === 's') return content;
+            if (bp === 's') {
+                return addIe
+                    ? `@media (-ms-high-contrast: none), (-ms-high-contrast: active) {${content}}`
+                    : content;
+            }
             let query = `(min-width: ${App.Config.misc.breakpoints[bp]}px)`;
 
             return addIe

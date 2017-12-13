@@ -21,6 +21,11 @@
 // color
 .alt { color: $alt; }
 
+// display
+@include query(xl) {
+    .db-xl { display: block; }
+}
+
 // height
 .h100 {
     height: 100%;
