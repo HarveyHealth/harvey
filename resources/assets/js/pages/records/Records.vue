@@ -67,18 +67,18 @@
                         <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
                       </form>
                     </div>
+                </Grid>
+              </div>
 
-                    <!-- Actions -->
-                    <div :slot="2" class="absolute top-1 right-0 pr3 w-33">
-                      <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, l:2 }">
-                        <span :slot="1" class="custom-select">
-                          <select class="f3 h-100" @change="updateMenu($event)">
-                            <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
-                          </select>
-                        </span>
-                        <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
-                      </Grid>
-                    </div>
+              <!-- Actions -->
+              <div :slot="2" class="searchbar-actions pa4">
+                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, l:2 }">
+                  <span :slot="1" class="custom-select">
+                    <select class="f3 h-100 bg-white" @change="updateMenu($event)">
+                      <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
+                    </select>
+                  </span>
+                  <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
                 </Grid>
               </div>
 
@@ -641,5 +641,15 @@ export default {
     }
     .custom-select {
       margin-top: 0;
+    }
+    .searchbar-actions {
+      @include query(xxl) {
+        background: $color-white;
+        min-width: 400px;
+        padding: 0 0 0 15px;
+        position: absolute;
+        right: 370px;
+        top: 23px;
+      }
     }
 </style>
