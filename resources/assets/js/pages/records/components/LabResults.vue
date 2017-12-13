@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageHeader class="mb3" :heading="$parent.news ? 'New Lab Result' : 'Lab Result'" />
-    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
 
       <!-- News -->
       <Card class="w-60" :slot="1" :heading="'Lab Results'">
@@ -67,7 +67,7 @@
     </Grid>
 
     <div v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
         <Card class="w-60" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>

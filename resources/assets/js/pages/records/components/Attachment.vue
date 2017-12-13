@@ -4,7 +4,7 @@
 
     <!-- New -->
     <div v-if="$parent.news" class="">
-      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <Card class="w-60" :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
@@ -60,7 +60,7 @@
 
     <!-- Existing -->
     <div class="" v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
         <Card class="w-60" :slot="1" :heading="startCase($parent.propData.attributes.name) +  ' Attachment'">
           <CardContent>

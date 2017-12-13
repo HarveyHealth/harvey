@@ -187,6 +187,14 @@
             {{ getTimelineData() }}
           </div>
 
+          <div :slot="2" class="searchbar-actions pa4 mt4">
+            <Grid :flexAt="'l'" :columns="[{ l:'1of1' }]" :gutters="{ s:2, l:2 }">
+              <button :slot="1" class="button flyout-toggle" @click="handleFlyoutOpen">
+                View Current Records
+              </button>
+            </Grid>
+          </div>
+
           <div v-if="selectedUserPatient">
             <div class="pa2 pa3-m">
               <div v-if="page === 0">
@@ -216,29 +224,38 @@
           </div>
 
           <div class="hide-print">
-            <Flyout :active="true" :onClose="null" :button="true" :header="false">
+            <Flyout class="hide-print" :active="isFlyoutActive" :on-close="null" :button="true" :header="false">
+
+              <button class="button--close flyout-close" @click="handleFlyoutClose" data-test="close">
+                  <svg><use xlink:href="#close" /></svg>
+              </button>
 
               <!-- Info -->
-              <div>
-                <h2>{{selectedUserPatient.search_name}}</h2>
-                <img src="url(${selectedUserPatient.image});" />
-                <a class="" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
-                <a class="" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+              <div class="flyout-patient-info">
+                <Heading2 class="dib no-border w-70">{{selectedUserPatient.search_name}}</Heading2>
+                <img class="w3 h3 fr" :src="selectedUserPatient.image" />
+                <a class="db" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
+                <a class="db" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
               </div>
+
+              <Spacer isBottom :size="4" />
 
               <!-- Details -->
-              <div>
-                <div class="">
-                  <span class="">ID: <b>#{{ selectedUserPatient.id }}</b></span>
-                  <span class="">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
-                  <span class="">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
-                </div>
-
-                <div class="">
-                  <span class="">City: <b>{{ selectedUserPatient.city }}</b></span>
-                  <span class="">State: <b>{{ selectedUserPatient.state }}</b></span>
-                </div>
+              <div class="flyout-patient-info">
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                  <div :slot="1">
+                    <span class="db pa1">ID: <b>#{{ selectedUserPatient.id }}</b></span>
+                    <span class="db pa1">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
+                  </div>
+                  <div :slot="2">
+                    <span class="db pa1">City: <b>{{ selectedUserPatient.city }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedUserPatient.state }}</b></span>
+                  </div>
+                </Grid>
               </div>
+
+              <Spacer isBottom :size="4" />
 
               <!-- Timeline -->
               <div>
