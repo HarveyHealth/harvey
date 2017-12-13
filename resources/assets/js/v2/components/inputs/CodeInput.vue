@@ -56,7 +56,7 @@ export default {
             return {
                 'code-input': true,
                 [`${this.theme}`]: true
-            }
+            };
         }
     },
 

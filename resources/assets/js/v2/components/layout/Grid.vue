@@ -37,7 +37,10 @@ export default {
         // This says each each column will be 50% at the medium breakpoint
         // Breakpoint key names are the same used by Tachyons with 's' added for default
         // s, ns, m, l, xl
-        columns: Array,
+        columns: {
+            type: Array,
+            required: true
+        },
 
         // Gutter configuration is an array of objects which
         // defines the width of column gutters at specific breakpoints
@@ -74,7 +77,56 @@ export default {
     },
 
     computed: {
+        // Grid config is a compilation of column and gutter data.
+        // It allows us to map over both sets and combine width and gutters styles efficiently
+        gridConfig() {
+            let config = [];
+
+            // Map column data to compile data
+            this.columns.map(obj => {
+                let columnConfig = {};
+
+                // Map column breakpoints and create config interface
+                Object.keys(obj).map(bp => {
+                    columnConfig[bp] = {
+                        width: obj[bp],
+                        gutter: null
+                    };
+                });
+
+                if (this.gutters) {
+                    // Map gutters and apply
+                    Object.keys(this.gutters).map(bp => {
+                        if (!columnConfig[bp]) columnConfig[bp] = {
+                            width: null,
+                            gutter: null
+                        };
+
+                        columnConfig[bp].gutter = this.gutters[bp] * 1;
+                    });
+
+                    // Now loop through columnConfig to retroactively apply gutters if needed.
+                    // This is based on the principle that a gutter from a previous breakpoint
+                    // will apply to larger screen widths unless told otherwise.
+                    let previous = null;
+                    for (let key in columnConfig) {
+                        // Assign previous gutter to current gutter if no current gutter exists
+                        if (previous && !columnConfig[key].gutter) {
+                            columnConfig[key].gutter = columnConfig[previous].gutter;
+                        }
+                        previous = key;
+                    }
+                }
+
+                config.push(columnConfig);
+            });
+
+            return config;
+        },
+
         gridCss() {
+            if (!this.gridConfig) return;
+
             // First we set up default row container styles
             let styles = '';
             styles += `.${this.rowId} { display: flex; flex-wrap: wrap; overflow: hidden; }`;
@@ -95,25 +147,29 @@ export default {
             //  3. row margin offset for gutters
             //  4. column spacing for gutters
             //  5. IE-specific media-query to add calc() to column width
-            this.columns.map((obj, index) => {
-                const colBp = Object.keys(obj)[0];
+            this.gridConfig.map((columnConfig, index) => {
                 const colSelector = `.${this.getColumnClass(index)}`;
-                const ratio = obj[colBp];
 
-                styles += this.mediaQuery(colBp, `${colSelector} { ${this.columnWidth(ratio)} }`);
+                Object.keys(columnConfig).map(bp => {
+                    const ratio = columnConfig[bp].width;
+                    const gutter = columnConfig[bp].gutter;
 
-                // At each column object we loop through the gutter options to set gutter-specific styles
-                Object.keys(this.gutters).map(gutBp => {
-                    const size = this.gutters[gutBp];
-                    const columnWidth = `${colSelector} { ${this.columnWidth(ratio)} }`;
-                    const containerGutters = `.${this.rowId} { ${this.containerSpace(size)} }`;
-                    const columnGutters = `${colSelector} { ${this.columnSpace(size)} }`;
-                    const columnWidthIEOverwrite = this.mediaQuery(gutBp, `${colSelector} { ${this.columnWidth(ratio, gutBp)} }`, true);
+                    // If a width ratio exists, write default column width
+                    if (ratio) {
+                        styles += this.mediaQuery(bp, `${colSelector} { ${this.columnWidth(ratio)} }`);
+                        // If a gutter and width exist, write out IE overwrites
+                        if (gutter !== null) {
+                            styles += this.mediaQuery(bp, `${colSelector} { ${this.columnWidth(ratio, gutter)} }`, true);
+                        }
+                    }
 
-                    // Default styling
-                    styles += this.mediaQuery(gutBp, `${columnWidth} ${containerGutters} ${columnGutters}`);
-                    // And this is where we add IE-specific overwrites
-                    styles += columnWidthIEOverwrite;
+                    // Now apply container and column gutters if gutter exists
+                    if (gutter !== null) {
+                        const containerGutters = `.${this.rowId} { ${this.containerSpace(gutter)} }`;
+                        const columnGutters = `${colSelector} { ${this.columnSpace(gutter)} }`;
+
+                        styles += this.mediaQuery(bp, `${containerGutters} ${columnGutters}`);
+                    }
                 });
             });
 
@@ -128,19 +184,24 @@ export default {
         },
 
         // Determines flex-basis. If breakpoint is passed, will return calc() version for IE
-        columnWidth(instructions, bp) {
-            const ratio = instructions.split('of');
-            const width = `${(ratio[0] / ratio[1]) * 100}%`;
-            const gutter = this.gutters[bp]
-                ? this.spacing[this.gutters[bp]]
-                : null;
+        // instructions = the ratio string ('1of2')
+        columnWidth(instructions, gutter) {
+            const width = this.convertRatio(instructions);
+            const gutterSize = gutter ? this.spacing[gutter] : null;
 
-            return gutter ? `flex-basis: calc(${width} - ${gutter}rem);` : `flex-basis: ${width};`;
+            return gutterSize ? `flex-basis: calc(${width} - ${gutter}rem);` : `flex-basis: ${width};`;
         },
 
         // Adds margin-left for container gutter offset
         containerSpace(key) {
             return `margin-left: -${this.spacing[key]}rem;`;
+        },
+
+        // Converts ratio string ('1of2') to width ('50%')
+        convertRatio(ratio) {
+            const r = ratio.split('of');
+
+            return `${(r[0] / r[1]) * 100}%`;
         },
 
         // Returns a column selector
@@ -164,7 +225,7 @@ export default {
 
             return addIe
                 ? `@media ${query} and (-ms-high-contrast: none), ${query} and (-ms-high-contrast: active) {${content}}`
-                : `@media screen and ${query} {${content}}`
+                : `@media screen and ${query} {${content}}`;
         }
     },
 

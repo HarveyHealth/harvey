@@ -6,6 +6,7 @@ export default function (laravel) {
   return {
     api: '/api/v1/',
     breakpoints: {
+        s: 0,
         ns: 420,
         m: 640,
         l: 780,
