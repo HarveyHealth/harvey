@@ -21,6 +21,10 @@
     "test:watch": "npm test -- --watch",
     "validate": "npm ls"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "dependencies": {
     "ajv": "^5.5.0",
     "animate.css": "^3.5.2",
