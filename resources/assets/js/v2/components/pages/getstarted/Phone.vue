@@ -20,7 +20,6 @@
 
 <script>
 import { Icon } from 'icons';
-import { InputButton } from 'inputs';
 import { Card, CardContent, SlideIn, Spacer } from 'layout';
 import { Heading1, Paragraph } from 'typography';
 
@@ -55,17 +54,17 @@ export default {
                 return {
                     heading: 'Phone Confirmed!',
                     subtext: 'Your phone number has been confirmed. You can change your phone number, or continue to the scheduling step.'
-                }
+                };
             } else if (this.hasPhone) {
                 return {
                     heading: 'Enter Confirmation Code',
                     subtext: 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn’t receive it.'
-                }
+                };
             } else {
                 return {
                     heading: 'Validate Phone Number',
                     subtext: 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before every appointment.'
-                }
+                };
             }
         }
     },
@@ -84,5 +83,5 @@ export default {
         window.scroll(0, 0);
         analytics.page('Phone');
     }
-}
+};
 </script>

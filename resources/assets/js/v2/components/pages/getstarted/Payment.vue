@@ -164,7 +164,7 @@ export default {
                 cardExpiration: '',
                 cardCvc: ''
             },
-            isProcessing: false,
+            isProcessing: false
         };
     },
     computed: {
@@ -193,7 +193,7 @@ export default {
                 : {
                     heading: 'Enter Payment Method',
                     subtext: `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${this.State('getstarted.signup.practitioner.name')}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`
-                }
+                };
         }
     },
     methods: {
@@ -221,10 +221,18 @@ export default {
         validateFormInput(name) {
             if (!this[name].length) {
                 switch(name) {
-                    case 'cardName': this.formErrors[name] = 'Card name is required.';
-                    case 'cardNumber': this.formErrors[name] = 'Card number is required.';
-                    case 'cardExpiration': this.formErrors[name] = 'Card expiration is required.';
-                    case 'cardCvc': this.formErrors[name] = 'Card CVC is required.';
+                    case 'cardName':
+                        this.formErrors[name] = 'Card name is required.';
+                        break;
+                    case 'cardNumber':
+                        this.formErrors[name] = 'Card number is required.';
+                        break;
+                    case 'cardExpiration':
+                        this.formErrors[name] = 'Card expiration is required.';
+                        break;
+                    case 'cardCvc':
+                        this.formErrors[name] = 'Card CVC is required.';
+                        break;
                 }
             } else {
                 this.formErrors[name] = '';
@@ -310,7 +318,7 @@ export default {
             Vue.nextTick(() => {
                 this.$refs.card_name.focus();
             });
-        },
+        }
     },
     beforeMount() {
         App.Logic.getstarted.refuseStepSkip.call(this, 'payment');

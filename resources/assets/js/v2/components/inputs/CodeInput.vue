@@ -43,7 +43,7 @@ export default {
             this.onInput(v);
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

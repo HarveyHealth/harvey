@@ -25,7 +25,7 @@ export default {
                 practitioner: 'Practitioner',
                 schedule: 'Schedule'
             }
-        }
+        };
     },
     computed: {
         // We can show the link to the next step only if that step has been completed
@@ -37,13 +37,13 @@ export default {
             return {
                 next: this.State('getstarted.signup.steps')[this.stepIndex + 1],
                 previous: this.State('getstarted.signup.steps')[this.stepIndex - 1]
-            }
+            };
         },
         stepIndex() {
             return this.State('getstarted.signup.steps').indexOf(this.step);
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

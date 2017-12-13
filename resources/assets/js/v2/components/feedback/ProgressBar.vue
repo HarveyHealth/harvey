@@ -26,7 +26,7 @@ export default {
             return `${Math.round((this.progress / this.total) * 100)}%`;
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

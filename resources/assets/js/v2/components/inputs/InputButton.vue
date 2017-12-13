@@ -81,7 +81,7 @@ export default {
                 'dib': true,
                 'is-link': this.href,
                 [`${this.config[this.mode].class}`]: true
-            }
+            };
         },
         style() {
             return `width:${this.width || 'auto'}`;

@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'input-container': true, 'has-error': this.error, 'has-success': this.success }">
+    <div :class="{ 'input-container': true, 'has-error': error, 'has-success': success }">
         <input
             :class="inputClasses"
             :disabled="disabled"
@@ -46,7 +46,7 @@ export default {
                 'text-input': true,
                 'pa2': true,
                 'bare': this.mode === 'bare'
-            }
+            };
         }
     },
     methods: {
@@ -54,7 +54,7 @@ export default {
             this.$refs.text_input.focus();
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

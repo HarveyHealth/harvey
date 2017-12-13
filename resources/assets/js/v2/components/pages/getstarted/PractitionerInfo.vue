@@ -52,7 +52,7 @@ export default {
             const image = this.practitioner.attributes.background_picture_url;
             return {
                 backgroundImage: `url(${App.Logic.practitioners.determineImage(image, 'background')})`
-            }
+            };
         }
     },
     filters: {
@@ -63,7 +63,7 @@ export default {
             return moment(value).format('YYYY');
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
