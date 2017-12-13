@@ -322,10 +322,11 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed' && status !== 'Canceled'" class="button" @click="updateLabOrder">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
+          <button v-show="!hasCancelledTests" v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-          </button>
+        </button>
+
+          <button v-show="hasCancelledTests" v-if="(status !== 'Confirmed' || $root.$data.permissions === 'admin') && status !== 'Canceled'" class="button" @click="updateLabOrder">Update Order</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -440,6 +441,7 @@ export default {
   },
   data() {
     return {
+      hasCancelledTests: false,
       selectedStatus: null,
       selectedDoctor: null,
       selectedShipment: {},
@@ -534,6 +536,7 @@ export default {
     },
     updateTest(e, object) {
       this.selectedShipment[object.test_id] = e.target.value;
+      this.hasCancelledTests = this._hasCancelledTests();
     },
     processDiscount(response) {
       if (response.data.data.attributes.valid) {
@@ -777,6 +780,16 @@ export default {
             this.handleFlyoutClose();
           });
       });
+    },
+    _hasCancelledTests(){
+        for (var key in this.selectedShipment){
+            console.log(key);
+            console.log(this.selectedShipment[key])
+            if (this.selectedShipment[key] == 'Canceled') {
+                return true;
+            }
+        }
+        return false;
     },
     updateLabOrder() {
       let promises = [];
