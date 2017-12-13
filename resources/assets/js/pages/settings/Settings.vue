@@ -210,8 +210,7 @@ export default {
             }
         },
         updateCard() {
-            let userId = this.user_id || window.Laravel.user.id;
-            axios.patch(`${this.$root.$data.apiUrl}/users/${userId}/cards`, {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.attributes.address_city,
                 address_state: this.currentCard.attributes.address_state,
@@ -256,9 +255,8 @@ export default {
             this.stopListeningForStripeFormErrors();
         },
         getCards() {
-            const userId = this.user_id || window.Laravel.user.id;
             this.$root.$data.global.loadingCreditCards = true;
-            axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`).then(response => {
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
                 this.$root.$data.global.creditCards = response.data.data || [];
                 this.$root.$data.global.loadingCreditCards = false;
             }).catch(error => {
