@@ -8,14 +8,22 @@
 
 <script>
 import { flattenDeep, uniq } from 'lodash';
-// need separate container margin classes
-// need separate container class for default styles
+
 export default {
     props: {
+        // Array of column configuration objects.
+        // Each column object takes Tachyons breakpoints as keys.
+        // Values are column width based on a 12-point grid system.
+        // Example: [{ s: 6, m: 3 }, { s: 6, m: 3 }]
         columns: {
             type: Array,
             required: true
         },
+        // Object with Tachyons breakpoints as keys.
+        // Each value is a Tachyons spacing number. This will apply that amount
+        // of space between columns and below columns at the specified breakpoint
+        // and all subsequent widths.
+        // Example: { s: 2, m: 3 }
         gutters: {
             type: Object,
             default: function() {
@@ -26,6 +34,7 @@ export default {
 
     data() {
         return {
+            // Breakpoints and spacing are based on Tachyons values
             breakpoints: Object.keys(this.State('misc.grid')),
             spacing: this.Config.misc.spacing
         };
@@ -48,7 +57,8 @@ export default {
                 Object.keys(obj).map(bp => { columnConfig[bp].width = obj[bp]; });
 
                 if (this.gutters) {
-                    // Map gutters and assign gutters
+                    // Map gutters and assign gutters.
+                    // We multiply by 1 here so that the value is not a reference to the prop
                     Object.keys(this.gutters).map(bp => { columnConfig[bp].gutter = this.gutters[bp] * 1; });
 
                     // Now loop through columnConfig to retroactively apply gutters if needed.
@@ -68,6 +78,8 @@ export default {
                     }
                 }
 
+                // We'll loop through configuration again, this time applying widths retroactively.
+                // This is because column widths are based on flex-basis with a calc() value.
                 let previous = null;
                 for (let key in columnConfig) {
                     if (previous && !this.hasWidth(columnConfig[key])) {
@@ -82,6 +94,7 @@ export default {
             return config;
         },
 
+        // Returns a list of all column necessary column classes
         columnClasses() {
             return this.gridConfig.map(obj => {
                 let classes = [];
@@ -92,6 +105,8 @@ export default {
             });
         },
 
+        // Returns classes to determine when the grid starts and what
+        // spacing to apply to the container.
         gridClasses() {
             let classes = [];
 
@@ -134,6 +149,7 @@ export default {
     },
 
     beforeMount() {
+        // We update global state here which will be used by GridStyles to generate CSS
         this.gridClasses.map(cls => {
             const parts = cls.split('-');
             const bp = parts.length > 2 ? parts[2] : parts[1];
