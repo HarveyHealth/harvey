@@ -25,7 +25,7 @@
             </CardContent>
           </Card>
         </GridTest>
-        <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, m:3 }">
+        <GridTest :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Contact Info'">
             <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
             <CardContent>
@@ -48,7 +48,7 @@
               <LabeledTextBlock :label="'Available'">{{ Config.support.available }}</LabeledTextBlock>
             </CardContent>
           </Card>
-        </Grid>
+      </GridTest>
       </SlideIn>
     </div>
   </PageContainer>
