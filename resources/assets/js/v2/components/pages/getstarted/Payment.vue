@@ -86,10 +86,10 @@
                     </div>
 
                     <div v-if="isConfirmed || isAlreadyStored" class="tc">
-                        <Spacer isBottom :size="3" />
+                        <Spacer isBottom :size="4" />
                         <InputButton
                             :mode="'secondary'"
-                            :text="'Enter New Card'"
+                            :text="'Edit Card'"
                             :onClick="resetCardData"
                             :width="'160px'"
                         />
@@ -111,7 +111,7 @@
                     <Spacer isBottom :size="3" />
                 </form>
 
-                <Grid :columns="[{s:'1of2'},{s:'1of2'}]" :gutters="{s:3}">
+                <Grid :columns="[{s:'1of2'},{s:'1of2'}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
                     <div :slot="1" class="relative image-container">
                         <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
                     </div>
@@ -323,10 +323,15 @@ export default {
     beforeMount() {
         App.Logic.getstarted.refuseStepSkip.call(this, 'payment');
 
-        if (!this.isConfirmed) {
+        if (!this.isConfirmed && this.Config.user.info.has_a_card) {
             App.setState({
-                'getstarted.signup.cardIsStored': this.Config.user.info.has_a_card
+                'getstarted.signup.cardIsStored': this.Config.user.info.has_a_card,
+                'getstarted.signup.cardNumber': 'just_trigger_text'
             });
+
+            if (!this.State('getstarted.signup.stepsCompleted.payment')) {
+                App.Logic.getstarted.nextStep.call(this, 'payment');
+            }
         }
     },
     mounted () {
