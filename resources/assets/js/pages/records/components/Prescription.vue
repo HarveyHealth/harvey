@@ -67,7 +67,7 @@
     <div class="" v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
-        <Card class="w-60" :slot="1" :heading="'Prescription'">
+        <Card class="w-60" :class="{'w-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
           <CardContent>
             <iframe :style="'height:60vh'" class="w-100" :src="prescriptionUrl" />
           </CardContent>
@@ -75,9 +75,9 @@
 
         <!-- Quick Notes -->
 
-        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+        <Card v-if="$root.$data.permissions !== 'patient'" class="w-30" :slot="2" :heading="'Quick Notes'">
           <CardContent>
-            <div v-if="$root.$data.permissions !== 'patient'" class="">
+            <div class="">
               <quill-editor
                   output="html"
                   :options="simpleEditor"
@@ -290,5 +290,14 @@ export default {
     .ql-toolbar.ql-snow {
       height: 130px;
       border: 1px solid #eee;
+    }
+    .w-60 {
+        width: 60%;
+    }
+    .w-30 {
+        width: 30%;
+    }
+    .w-100 {
+        width: 100% !important;
     }
 </style>
