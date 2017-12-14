@@ -15,7 +15,7 @@
 
         <Card class="mha mw7">
             <CardContent class="pa0">
-                <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
+                <GridTest :columns="[{m:6},{m:6}]" :gutters="{s:3}">
                     <div :slot="1" class="bg-gray-0 pa2 pa3-m">
                         <Heading3 :color="'muted'" class="tc uppercase">Choose Date</Heading3>
                         <Spacer isBottom :size="3" />
@@ -32,7 +32,7 @@
                             <TimeSelector :timeData="State('getstarted.signup.selectedTimes')" />
                         </div>
                     </div>
-                </Grid>
+                </GridTest>
                 <div class="tc" ref="submit">
                     <Paragraph v-if="selectedDate" :weight="'thin'">
                         Your consultation will be on <span class="bg-gray-0 fw5">{{ selectedDate | fullDate }}</span>.
@@ -59,7 +59,7 @@
 import moment from 'moment';
 
 import { InputButton } from 'inputs';
-import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, GridTest, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading3, Paragraph } from 'typography';
 
 import DateSelector from './DateSelector.vue';
@@ -73,7 +73,7 @@ export default {
       Card,
       CardContent,
       DateSelector,
-      Grid,
+      GridTest,
       Heading1,
       Heading3,
       InputButton,
@@ -171,7 +171,7 @@ export default {
 
     .doctor-container {
         @include query(md) {
-            @include vertical-center-relative;
+            @include vertical-center-absolute;
             transform: translate(-50%, -65%);
         }
     }

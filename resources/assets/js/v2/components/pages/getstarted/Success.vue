@@ -20,7 +20,7 @@
                     You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. You can with us on this screen if you have any questions.
                 </Paragraph>
                 <Spacer isBottom :size="4" />
-                <Grid :flexAt="'m'" :columns="[{m:'1of2'}, {m:'1of2'}]" :gutters="{s:2, m:3}">
+                <GridTest :columns="[{m:6}, {m:6}]" :gutters="{s:2, m:3}">
                     <div :slot="1" class="tr-m">
                         <InputButton
                             :href="'/dashboard'"
@@ -36,7 +36,7 @@
                             :width="'200px'"
                         />
                     </div>
-                </Grid>
+                </GridTest>
             </CardContent>
         </Card>
 
@@ -66,7 +66,7 @@ import moment from 'moment';
 
 import { Icon } from 'icons';
 import { AddEventButton, InputButton } from 'inputs';
-import { Card, CardContent, Grid, Modal, Overlay, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, GridTest, Modal, Overlay, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading2, Paragraph } from 'typography';
 
 export default {
@@ -79,7 +79,7 @@ export default {
         Heading2,
         Icon,
         InputButton,
-        Grid,
+        GridTest,
         Modal,
         Overlay,
         Paragraph,

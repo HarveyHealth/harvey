@@ -15,7 +15,7 @@
                     Forward<i class="fa fa-chevron-right ml2"></i>
                 </button>
             </div>
-            <Grid :flexAt="'l'" :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">
+            <GridTest :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">
                 <div :slot="aIndex + 1" v-for="(answer, aIndex) in obj.answers">
                     <div :class="{'Button Button--answer font-lg':true, 'is-selected': answerIndex === aIndex}"
                         @click="next(obj.question, answer, aIndex)">
@@ -23,7 +23,7 @@
                         <i class="fa fa-check"></i>
                     </div>
                 </div>
-            </Grid>
+            </GridTest>
         </SlideIn>
     </div>
 </template>
@@ -31,18 +31,18 @@
 <script>
 import { Heading1 } from 'typography';
 import { SvgIcon } from 'icons';
-import { Grid, SlideIn } from 'layout';
+import { GridTest, SlideIn } from 'layout';
 
 export default {
     components: {
-        Grid,
+        GridTest,
         Heading1,
         SlideIn,
         SvgIcon
     },
     data() {
         return {
-            answerColumn: { m: '1of2' },
+            answerColumn: { m: 6 },
             hasAnswered: 0
         };
     },

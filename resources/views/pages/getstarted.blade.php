@@ -54,6 +54,7 @@
 
       <main>
         <div id="app">
+          <grid-styles></grid-styles>
           <router-view />
         </div>
       </main>
