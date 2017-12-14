@@ -32,11 +32,11 @@
                 <Spacer isBottom :size="1" />
                 <Card class="m0auto mw7">
                     <CardContent>
-                        <GridTest :columns="[{m:6},{m:6}]" :gutters="{s:3}">
+                        <Grid :columns="[{m:6},{m:6}]" :gutters="{s:3}">
                             <div :slot="1" class="col pa3">
                                 <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
                                 <Spacer isBottom :size="3" />
-                                <GridTest :flexAt="'s'" :columns="practitioners.map(dr => ({s:6, ns:3, m:6}))" :gutters="{s:2}">
+                                <Grid :flexAt="'s'" :columns="practitioners.map(dr => ({s:6, ns:3, m:6}))" :gutters="{s:2}">
                                     <AvatarSelection
                                         v-for="(dr, index) in practitioners"
                                         :slot="index + 1"
@@ -46,12 +46,12 @@
                                         :isActive="index === selected"
                                         :onClick="() => select(dr, index)"
                                     />
-                                </GridTest>
+                                </Grid>
                             </div>
                             <div :slot="2" class="col">
                                 <PractitionerInfo :practitioner="practitioners[selected]" />
                             </div>
-                        </GridTest>
+                        </Grid>
                         <Paragraph v-if="hasSelection">
                             Your selection is <span class="bg-gray-0 font-bold">{{ practitioners[selected].attributes.name }}, ND.</span>
                         </Paragraph>
@@ -81,7 +81,7 @@
 import { LoadingSpinner } from 'feedback';
 import { Icon, SocialIcons } from 'icons';
 import { AvatarSelection, InputButton } from 'inputs';
-import { Card, CardContent, GridTest, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading3, Paragraph } from 'typography';
 
 import Pagination from './Pagination.vue';
@@ -93,7 +93,7 @@ export default {
         AvatarSelection,
         Card,
         CardContent,
-        GridTest,
+        Grid,
         Heading1,
         Heading3,
         Icon,

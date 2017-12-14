@@ -1,5 +1,5 @@
 <template>
-    <GridTest :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
+    <Grid :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
         <div :slot="1" class="bg-white pa4 bn">
             <a :href="getVideoLink(linksA)" class="watch-video" frameborder="0" data-lity allowfullscreen>
                 <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/discovery/amanda-disc.jpg" alt="">
@@ -19,16 +19,16 @@
                 </Paragraph>
             </div>
         </div>
-    </GridTest>
+    </Grid>
 </template>
 
 <script>
-import { GridTest } from 'layout';
+import { Grid } from 'layout';
 import { Paragraph, Heading3 } from 'typography';
 
 export default {
   components: {
-      GridTest,
+      Grid,
       Heading3,
       Paragraph
   },

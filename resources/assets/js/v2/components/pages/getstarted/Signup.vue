@@ -1,7 +1,7 @@
 <template>
   <SlideIn :delay="400">
     <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="form ph2 ph3-l max-width-xxl min-width-100 margin-0a">
-      <GridTest :columns="[{ xl:6, xxl:7 }, { xl:6, xxl:5 }]">
+      <Grid :columns="[{ xl:6, xxl:7 }, { xl:6, xxl:5 }]">
         <aside :slot="1" class="dn db-xl relative">
           <div class="pr2 pr3-l quote-container">
             <div class="signup-aside-icon-row">
@@ -98,7 +98,7 @@
             </div>
           </CardContent>
         </Card>
-    </GridTest>
+    </Grid>
     </form>
   </SlideIn>
 </template>
@@ -106,7 +106,7 @@
 <script>
 import { SvgIcon } from 'icons';
 import { InputButton, FacebookSignin } from 'inputs';
-import { Card, CardContent, GridTest, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1 } from 'typography';
 
 export default {
@@ -115,7 +115,7 @@ export default {
     Heading1,
     Card,
     CardContent,
-    GridTest,
+    Grid,
     InputButton,
     FacebookSignin,
     SlideIn,

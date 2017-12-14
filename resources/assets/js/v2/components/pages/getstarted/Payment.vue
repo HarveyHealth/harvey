@@ -41,7 +41,7 @@
                             :placeholder="'Card Number'"
                             :value="cardNumber"
                         />
-                        <GridTest :columns="[{ns:6},{ns:6}]" :gutters="{ns:2}">
+                        <Grid :columns="[{ns:6},{ns:6}]" :gutters="{ns:2}">
                             <div :slot="1">
                                 <InputText
                                     :error="formErrors.cardExpiration"
@@ -66,7 +66,7 @@
                                     :value="cardCvc"
                                 />
                             </div>
-                        </GridTest>
+                        </Grid>
                         <InputText
                             :error="discountError"
                             :disabled="isProcessing || isConfirmed"
@@ -111,14 +111,14 @@
                     <Spacer isBottom :size="3" />
                 </form>
 
-                <GridTest :columns="[{s:6},{s:6}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
+                <Grid :columns="[{s:6},{s:6}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
                     <div :slot="1" class="relative image-container">
                         <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
                     </div>
                     <div :slot="2" class="relative image-container">
                         <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="assurance-image">
                     </div>
-                </GridTest>
+                </Grid>
             </CardContent>
         </Card>
     </SlideIn>
@@ -126,7 +126,7 @@
 
 <script>
 import { InputButton, InputText } from 'inputs';
-import { Card, CardContent, GridTest, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Paragraph } from 'typography';
 
 import Pagination from './Pagination.vue';
@@ -136,7 +136,7 @@ export default {
     components: {
         Card,
         CardContent,
-        GridTest,
+        Grid,
         Heading1,
         InputButton,
         InputText,

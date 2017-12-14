@@ -44,14 +44,14 @@
       <!-- Lab Tests -->
       <Heading2>Common Lab Tests</Heading2>
       <Spacer isBottom :size="2" />
-      <GridTest :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
+      <Grid :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
           <div :slot="1" class="bg-white">
               <LabTestCard :testId="tests[0] || false" />
           </div>
           <div :slot="2" class="bg-white">
               <LabTestCard :testId="tests[1] || false" />
           </div>
-      </GridTest>
+      </Grid>
 
     </SlideIn>
 
@@ -72,7 +72,7 @@
 
 <script>
 import { InputButton } from 'inputs';
-import { GridTest, SlideIn, Spacer } from 'layout';
+import { Grid, SlideIn, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { Paragraph, Heading1, Heading2 } from 'typography';
 
@@ -81,7 +81,7 @@ import LabTestCard from './LabTestCard.vue';
 
 export default {
   components: {
-    GridTest,
+    Grid,
     InputButton,
     LabTestCard,
     SlideIn,
