@@ -13,6 +13,12 @@ export default {
         };
     },
 
+    computed: {
+        CSS() {
+            return this.compileCSS(this.State('misc.grid'));
+        }
+    },
+
     methods: {
         compileCSS(config) {
             let styles = '';
@@ -44,11 +50,12 @@ export default {
             const width = parts[1] === 'x' ? null : `${(parts[1] / this.COLUMN_BASE) * 100}%`;
             const gutter = parts[2] === 'x' ? null : this.spacing[parts[2]];
 
-            return `${this.styleColumnWidth(width, gutter)}${this.styleColumnMargin(gutter)}`;
+            return `${this.styleColumnWidth(width, gutter)}${this.styleColumnMargin(width, gutter)}`;
         },
 
-        styleColumnMargin(gutter) {
-            if (gutter !== null) return `margin:0 ${gutter / 2}rem ${gutter}rem;`;
+        styleColumnMargin(width, gutter) {
+            if (width && gutter !== null) return `margin:0 ${gutter / 2}rem ${gutter}rem;`;
+            if (gutter !== null) return `margin:0 0 ${gutter}rem;`;
 
             return '';
         },
@@ -61,7 +68,7 @@ export default {
         },
 
         styleContainerSpacing(cls) {
-            const gutter = cls.split('-')[1];
+            const gutter = this.spacing[cls.split('-')[1]];
 
             return `margin:0 -${gutter / 2}rem;`;
         },
@@ -71,7 +78,7 @@ export default {
         },
 
         styleGridContainer(cls) {
-            const flexAt = this.selector(`.${cls}`, 'display:flex;flex:wrap;overflow:hidden;');
+            const flexAt = this.selector(`.${cls}`, 'display:flex;flex-wrap:wrap;overflow:hidden;');
             const minHeight = this.styleContentHeight(cls);
 
             return `${flexAt}${minHeight}`;
@@ -89,13 +96,21 @@ export default {
                 default:
                     return '';
             }
+        },
+
+        writeCSS(css) {
+            this.$refs.output.innerHTML = css;
+        }
+    },
+
+    watch: {
+        CSS(styles) {
+            this.writeCSS(styles);
         }
     },
 
     mounted() {
-        // const container = this.State('misc.grid.container.classes').flattenLists().weedDuplicates();
-        // const classes = this.columnClasses.concat(container);
-        this.$refs.output.innerHTML = this.compileCSS(this.State('misc.grid'));
+        this.writeCSS(this.CSS);
     }
 };
 </script>

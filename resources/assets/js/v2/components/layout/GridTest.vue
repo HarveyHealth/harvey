@@ -93,20 +93,20 @@ export default {
 
         gridClasses() {
             let classes = [];
-            let flexAtFound = false;
-            let gutterSize = null;
+
             this.gridConfig.map(obj => {
+                let flexAtIsFound = false;
+
                 for (let bp in obj) {
                     const config = obj[bp];
 
-                    if (this.hasWidth(config) && !flexAtFound) {
+                    if (this.hasWidth(config) && !flexAtIsFound) {
                         classes.push(`g-${bp}`);
-                        flexAtFound = true;
+                        flexAtIsFound = true;
                     }
 
-                    if (this.hasGutter(config) && config.gutter !== gutterSize) {
+                    if (this.hasGutter(config) && flexAtIsFound) {
                         classes.push(this.createGridClass(bp, config));
-                        gutterSize = config.gutter;
                     }
                 }
             });

@@ -4,7 +4,7 @@
     <div class="mw8 pa2 pa3-m">
       <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
       <SlideIn v-else>
-        <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
+        <GridTest :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Appointments'">
             <div v-if="upcomingAppointments.length">
               <AppointmentCardInfo
@@ -24,7 +24,7 @@
               <Paragraph :weight="'thin'">{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
             </CardContent>
           </Card>
-        </Grid>
+        </GridTest>
         <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Contact Info'">
             <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
@@ -73,7 +73,7 @@ export default {
       return App.Config.user.isPatient && this.State('practitioners.userDoctor');
     },
     topRowColumnConfig() {
-      return this.shouldShowDoctorInfo ? [{ l:'1of2' }, { l:'1of2' }] : [{ l:'1of1' }];
+      return this.shouldShowDoctorInfo ? [{ l:6 }, { l:6 }] : [{ l:12 }];
     },
     upcomingAppointments() {
       return this.State('appointments.data.upcoming').filter(a => a.attributes.status === 'pending');
