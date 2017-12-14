@@ -222,12 +222,14 @@ const app = new Vue({
             if ('patient' === userType) {
                 axios.get(`${this.apiUrl}/patients/${Laravel.user.patient_id}/practitioners`).then(response => {
                     this.global.practitioners = response.data.data;
+                    this.mapPractitionersData();
                 });
             }
 
             if ('admin' === userType) {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data;
+                    this.mapPractitionersData();
                 });
             }
 
@@ -243,9 +245,11 @@ const app = new Vue({
                         info: practitioner.attributes,
                         user_id: practitioner.attributes.user_id
                     };
+                    this.mapPractitionersData();
                 });
             }
-
+        },
+        mapPractitionersData() {
             this.global.practitioners = this.global.practitioners.map(e => {
                 return {
                   id: e.id,
@@ -254,11 +258,9 @@ const app = new Vue({
                   user_id: e.attributes.user_id
                 };
             });
-
             this.global.practitioners.forEach(e => {
                 this.global.practitionerLookUp[e.id] = e;
             });
-
             this.global.loadingPractitioners = false;
         },
         getLabData() {
