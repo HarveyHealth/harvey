@@ -54,6 +54,7 @@ class SitemapController extends Controller
         // a method called 'base' which is below
         $map->addPath('sitemap-base.xml');
         $map->addPath('sitemap-users.xml');
+        $map->addPath('blog/sitemap_index.xml');
 
         return $map->sitemapIndex();
     }
