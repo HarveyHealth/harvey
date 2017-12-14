@@ -525,6 +525,7 @@ export default {
       this.pricing = 0;
       this.newState = '';
       this.labPatients = {};
+      this.masterTracking = '';
     },
     updateStatus(e) {
       this.selectedStatus = e.target.value;
@@ -888,6 +889,9 @@ export default {
         return App.Config.user.isAdmin ? link : display;
       }
     },
+    currentRowData() {
+      return this.rowData;
+    },
     paid() {
       return this.$props.rowData ? this.$props.rowData.paid : false;
     },
@@ -993,7 +997,13 @@ export default {
     modalActive() {
         return this.shippingConfirmationModalActive || this.invalidModalActive;
     }
-  }
+  },
+  watch: {
+    currentRowData() {
+      // clear the shipping code on row update
+      this.masterTracking = this.shipmentCode || '';
+    }
+  },
 };
 
 </script>
