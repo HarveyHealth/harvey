@@ -127,12 +127,9 @@ body[class*="lab-tests"] {
         line-height: 1.5;
         font-weight: 500;
     }
-    figure {
-        @include margin(null 0 null null);
-    }
     .button.is-medium {
         height: auto;
-        @include padding(1rem 3rem);
+        @include padding(.5rem 2rem);
         @include margin(0.5rem null null null);
     }
     .columns.is-narrow {
@@ -166,7 +163,6 @@ body[class*="lab-tests"] {
     .section-header {
         text-transform: uppercase;
         text-align: center;
-        @include margin(null null 2em null);
         span {
             font-weight: 300;
         }
@@ -372,6 +368,7 @@ body[class*="lab-tests"] {
 
     #social-feed{
         opacity: .7;
+        //@include padding(0);
     }
 
     #social-feed, #symptoms {
@@ -476,14 +473,6 @@ body[class*="lab-tests"] {
                 color: gray;
                 font-size: 15px;
                 margin-top: 1em;
-            }
-        }
-    }
-
-    #pricing {
-        .container {
-            .section-header {
-                @include margin(null null 1em null);
             }
         }
     }
