@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { flattenDeep, uniq } from 'lodash';
 // need separate container margin classes
 // need separate container class for default styles
 export default {
@@ -110,7 +111,7 @@ export default {
                     }
                 }
             });
-            return classes.weedDuplicates();
+            return uniq(classes);
         }
     },
 
@@ -138,7 +139,7 @@ export default {
             const bp = parts.length > 2 ? parts[2] : parts[1];
             this.State(`misc.grid.${bp}.classes`).push(cls);
         });
-        this.columnClasses.flattenLists().map(cls => {
+        flattenDeep(this.columnClasses).map(cls => {
             const bp = cls.split('-')[3];
             this.State(`misc.grid.${bp}.classes`).push(cls);
         });

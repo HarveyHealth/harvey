@@ -50,14 +50,6 @@ App.Http = Http;
 App.Logic = Logic;
 App.Router = router;
 
-Array.prototype.flattenLists = function() {
-    return App.Util.flattenLists(this);
-};
-
-Array.prototype.weedDuplicates = function() {
-    return App.Util.removeDuplicates(this);
-};
-
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);

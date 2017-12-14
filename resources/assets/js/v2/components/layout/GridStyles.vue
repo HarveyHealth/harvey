@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { uniq } from 'lodash';
 
 export default {
     data() {
@@ -25,7 +26,7 @@ export default {
 
             for (let bp in config) {
                 const bpWidth = config[bp].width;
-                const classes = config[bp].classes.weedDuplicates();
+                const classes = uniq(config[bp].classes);
                 if (classes.length) {
                     const css = classes.map(this.writeClassStyles).join('');
                     styles += this.queryWrap(bpWidth, css);
