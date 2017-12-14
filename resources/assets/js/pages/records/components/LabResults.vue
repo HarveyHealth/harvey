@@ -79,7 +79,7 @@
 
         <Card class="w-30" :slot="2" :heading="'Quick Notes'">
           <CardContent>
-            <div class="">
+            <div v-if="$root.$data.permissions !== 'patient'">
               <quill-editor
               output="html"
               :options="simpleEditor"
