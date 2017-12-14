@@ -142,7 +142,7 @@ export default {
             //  3. row margin offset for gutters
             //  4. column spacing for gutters
             //  5. IE-specific media-query to add calc() to column width
-            this.gridConfig.map(columnConfig => {
+            this.gridConfig.map((columnConfig, index) => {
                 const colSelector = `.${this.getColumnClass(index)}`;
 
                 Object.keys(columnConfig).map(bp => {
