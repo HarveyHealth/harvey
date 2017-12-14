@@ -1,16 +1,16 @@
 <template>
   <SlideIn :delay="400">
     <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="form ph2 ph3-l max-width-xxl min-width-100 margin-0a">
-      <div class="Row-lg align-middle">
-        <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-sm">
-          <div class="pr2 pr3-l">
+      <Grid :flexAt="'xl'" :columns="[{ xl:'1of2', xxl:'4of7' }, { xl:'1of2', xxl:'3of7' }]">
+        <aside :slot="1" class="dn db-xl relative">
+          <div class="pr2 pr3-l quote-container">
             <div class="signup-aside-icon-row">
               <span><svg><use xlink:href="#apple" /></svg></span>
               <span><svg><use xlink:href="#stethoscope" /></svg></span>
               <span><svg><use xlink:href="#labs" /></svg></span>
               <span><svg><use xlink:href="#doctor" /></svg></span>
-              <span class="is-inline-xl"><svg><use xlink:href="#carrot" /></svg></span>
-              <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
+              <span class="hide-icon"><svg><use xlink:href="#carrot" /></svg></span>
+              <span class="hide-icon"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
             </div>
             <div class="signup-aside-text">
               <div class="logo-wrapper tc">
@@ -25,12 +25,12 @@
               <span><svg><use xlink:href="#bottle" /></svg></span>
               <span><svg><use xlink:href="#baby" /></svg></span>
               <span><svg><use xlink:href="#scale" /></svg></span>
-              <span class="is-inline-xl"><svg><use xlink:href="#yoga" /></svg></span>
-              <span class="is-inline-xl"><svg><use xlink:href="#medicine" /></svg></span>
+              <span class="hide-icon"><svg><use xlink:href="#yoga" /></svg></span>
+              <span class="hide-icon"><svg><use xlink:href="#medicine" /></svg></span>
             </div>
           </div>
         </aside>
-        <Card class="Column-lg-1of2 Column-xl-3of7 mha mv3 max-width-md">
+        <Card class="mha mv3 max-width-md" :slot="2">
           <CardContent class="pa4-m pa3-l pa4-xl">
             <Spacer isTop :size="2" />
             <Heading1 doesExpand class="tc" v-html="title"></Heading1>
@@ -98,7 +98,7 @@
             </div>
           </CardContent>
         </Card>
-      </div>
+      </Grid>
     </form>
   </SlideIn>
 </template>
@@ -106,7 +106,7 @@
 <script>
 import { SvgIcon } from 'icons';
 import { InputButton, FacebookSignin } from 'inputs';
-import { Card, CardContent, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1 } from 'typography';
 
 export default {
@@ -115,6 +115,7 @@ export default {
     Heading1,
     Card,
     CardContent,
+    Grid,
     InputButton,
     FacebookSignin,
     SlideIn,
@@ -320,5 +321,15 @@ export default {
 
     .form {
         margin-top: 5%;
+    }
+
+    .quote-container {
+        @include vertical-center-absolute;
+    }
+
+    @media screen and (max-width: 1100px) {
+        .hide-icon {
+            display: none;
+        }
     }
 </style>

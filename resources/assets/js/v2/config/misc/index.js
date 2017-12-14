@@ -6,10 +6,12 @@ export default function (laravel) {
   return {
     api: '/api/v1/',
     breakpoints: {
+        s: 0,
         ns: 420,
         m: 640,
         l: 780,
-        xl: 960
+        xl: 960,
+        xxl: 1280
     },
     colors,
     currentPage: null,
