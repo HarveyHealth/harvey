@@ -170,7 +170,7 @@
         <div class="content-with-flyout">
           <!-- Loading state -->
           <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
-            <div :slot="1" v-if="patientLoading" class="pa2 pa3-m">
+            <div :slot="1" v-if="patientLoading && !selectedUserPatient" class="pa2 pa3-m">
               <LoadingSpinner class="mt3" />
               <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
             </div>
@@ -532,29 +532,33 @@ export default {
                 if (this.$root.$data.permissions !== 'patient') {
                     return {};
                 } else {
-                    let patientData = this.$root.$data.global.user.included.attributes;
-                    let patientUserData = this.$root.$data.global.user.attributes;
-                    let patientUserId = this.$root.$data.global.user.id;
-                    let patientId = this.$root.$data.global.user.included.id;
-                    let object = {
-                        address_1: patientUserData.address_1 || null,
-                        address_2: patientUserData.address_2 || null,
-                        city: patientUserData.city || null,
-                        date_of_birth: patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : null,
-                        email: patientUserData.email || null,
-                        has_a_card: patientUserData.has_a_card || null,
-                        id: patientId || null,
-                        name: `${patientUserData.last_name}, ${patientUserData.first_name}` || null,
-                        phone: patientUserData.phone || null,
-                        search_name: `${patientUserData.first_name} ${patientUserData.last_name}` || null,
-                        state: patientUserData.state || null,
-                        user_id: patientUserId || null,
-                        zip: patientUserData.zip || null,
-                        image: patientUserData.image_url || null,
-                        created_at: patientUserData.created_at && patientUserData.created_at.date ? moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY") : null
-                    };
-                    this.setPatientLoading(false);
-                    return object;
+                    if (this.$root.$data.global.user && this.$root.$data.global.user.attributes) {
+                        let patientData = this.$root.$data.global.user.included.attributes;
+                        let patientUserData = this.$root.$data.global.user.attributes;
+                        let patientUserId = this.$root.$data.global.user.id;
+                        let patientId = this.$root.$data.global.user.included.id;
+                        let object = {
+                            address_1: patientUserData.address_1 || null,
+                            address_2: patientUserData.address_2 || null,
+                            city: patientUserData.city || null,
+                            date_of_birth: patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : null,
+                            email: patientUserData.email || null,
+                            has_a_card: patientUserData.has_a_card || null,
+                            id: patientId || null,
+                            name: `${patientUserData.last_name}, ${patientUserData.first_name}` || null,
+                            phone: patientUserData.phone || null,
+                            search_name: `${patientUserData.first_name} ${patientUserData.last_name}` || null,
+                            state: patientUserData.state || null,
+                            user_id: patientUserId || null,
+                            zip: patientUserData.zip || null,
+                            image: patientUserData.image_url || null,
+                            created_at: patientUserData.created_at && patientUserData.created_at.date ? moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY") : null
+                        };
+                        this.setPatientLoading(false);
+                        return object;
+                    } else {
+                        return false;
+                    }
                 }
             }
         },
