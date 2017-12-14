@@ -54,7 +54,8 @@ class SitemapController extends Controller
         // a method called 'base' which is below
         $map->addPath('sitemap-base.xml');
         $map->addPath('sitemap-users.xml');
-        $map->addPath('blog/sitemap_index.xml');
+        $map->addPath('blog/post-sitemap.xml');
+        $map->addPath('blog/category-sitemap.xml');
 
         return $map->sitemapIndex();
     }
@@ -68,7 +69,6 @@ class SitemapController extends Controller
             'about',
             'terms',
             'privacy',
-            'blog',
         ];
 
         asort($base_paths);
