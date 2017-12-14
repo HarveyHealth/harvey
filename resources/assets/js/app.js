@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
+import { GridStyles } from 'layout';
 import Usernav from './commons/UserNav.vue';
 
 // METHODS
@@ -48,6 +49,14 @@ App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
 App.Router = router;
+
+Array.prototype.flattenLists = function() {
+    return App.Util.flattenLists(this);
+};
+
+Array.prototype.weedDuplicates = function() {
+    return App.Util.removeDuplicates(this);
+};
 
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
@@ -109,6 +118,7 @@ const app = new Vue({
     router,
     components: {
         Dashboard,
+        GridStyles,
         Usernav
     },
     // Adding State to the root data object makes it globally reactive.

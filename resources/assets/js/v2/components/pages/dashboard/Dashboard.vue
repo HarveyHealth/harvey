@@ -57,14 +57,14 @@
 <script>
 import { LoadingSpinner } from 'feedback';
 import { Paragraph } from 'typography';
-import { Card, CardContent, Grid, PageHeader, PageContainer, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, GridTest, PageHeader, PageContainer, SlideIn, Spacer } from 'layout';
 import AppointmentCardInfo from './AppointmentCardInfo.vue';
 import AvatarCardHeading from './AvatarCardHeading.vue';
 import LabeledTextBlock from './LabeledTextBlock.vue';
 
 export default {
   name: 'dashboard',
-  components: { AppointmentCardInfo, AvatarCardHeading, Card, CardContent, Grid, LabeledTextBlock, LoadingSpinner, PageHeader, PageContainer, Paragraph, SlideIn, Spacer },
+  components: { AppointmentCardInfo, AvatarCardHeading, Card, CardContent, Grid, GridTest, LabeledTextBlock, LoadingSpinner, PageHeader, PageContainer, Paragraph, SlideIn, Spacer },
   computed: {
     isDoneLoading() {
       return this.State('practitioners.data.all').length && this.State('appointments.wasRequested.upcoming') && !this.State('appointments.isLoading.upcoming');
@@ -92,3 +92,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+    .test {
+        background: skyblue;
+        text-align: center;
+        padding: 1rem;
+        text-transform: uppercase;
+    }
+</style>

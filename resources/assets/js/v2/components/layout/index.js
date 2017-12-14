@@ -3,6 +3,8 @@ export { default as Card } from './Card.vue';
 export { default as CardContent } from './CardContent.vue';
 export { default as Column } from './Column.vue';
 export { default as Grid } from './Grid.vue';
+export { default as GridStyles } from './GridStyles.vue';
+export { default as GridTest } from './GridTest.vue';
 export { default as Modal } from './Modal.vue';
 export { default as Overlay } from './Overlay.vue';
 export { default as PageContainer } from './PageContainer.vue';

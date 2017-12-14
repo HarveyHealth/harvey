@@ -228,7 +228,6 @@ export default {
     // the component mounts (as opposed to using a computed property, for instance)
     mounted() {
         this.$refs.styles_here.innerHTML = this.gridCss;
-        console.log(this.gridConfig);
     }
 };
 </script>
