@@ -69,7 +69,7 @@
     <div v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
-        <Card class="w-60" :class="{'w-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
+        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>
             <div class="" >
               <iframe class="w-100" :style="'height:60vh'" :src="resultUrl" />
@@ -320,7 +320,7 @@ export default {
     .w-30 {
         width: 30%;
     }
-    .w-100 {
-        width: 100% !important;
+    .f-100 {
+        flex-basis: calc(100% - 1.3rem) !important;
     }
 </style>

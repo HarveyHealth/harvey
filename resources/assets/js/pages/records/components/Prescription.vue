@@ -67,7 +67,7 @@
     <div class="" v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
-        <Card class="w-60" :class="{'w-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
+        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
           <CardContent>
             <iframe :style="'height:60vh'" class="w-100" :src="prescriptionUrl" />
           </CardContent>
@@ -297,7 +297,7 @@ export default {
     .w-30 {
         width: 30%;
     }
-    .w-100 {
-        width: 100% !important;
+    .f-100 {
+        flex-basis: calc(100% - 1.3rem) !important;
     }
 </style>
