@@ -8,6 +8,7 @@ use App\Lib\Validation\StrictValidator;
 use App\Transformers\V1\PractitionerScheduleTransformer;
 use App\Models\PractitionerSchedule;
 use ResponseCode;
+use App\Http\Requests\StorePractitionerSchedule;
 
 class PractitionerScheduleController extends BaseAPIController
 {
@@ -37,41 +38,30 @@ class PractitionerScheduleController extends BaseAPIController
         return $this->baseTransformItem($practitionerSchedule)->respond();
     }
 
-    public function store(Practitioner $practitioner, Request $request)
+    public function store(Practitioner $practitioner, StorePractitionerSchedule $request)
     {
         if (currentUser()->isNotPractitioner()) {
             return $this->respondNotAuthorized('You do not have access to create a practitioner schedule.');
         }
-
-        StrictValidator::check($request->all(), [
-            'day_of_week' => 'required|string',
-            'start_time' => "required|string",
-            'stop_time' => "required|string",
-        ]);
 
         $practitionerSchedule = PractitionerSchedule::create([
             'practitioner_id' => $practitioner->id,
             'day_of_week' => $request->day_of_week,
             'start_time' => $request->start_time,
             'stop_time' => $request->stop_time,
+            'notes' => $request->notes,
         ]);
 
         return $this->baseTransformItem($practitionerSchedule)->respond(ResponseCode::HTTP_CREATED);
     }
 
-    public function update(Practitioner $practitioner, PractitionerSchedule $practitionerSchedule, Request $request)
+    public function update(Practitioner $practitioner, PractitionerSchedule $practitionerSchedule, StorePractitionerSchedule $request)
     {
         if (currentUser()->can('edit', $practitionerSchedule)) {
             return $this->respondNotAuthorized('You do not have access to modify this practitioner schedule.');
         }
 
-        StrictValidator::check($request->all(), [
-            'day_of_week' => 'required|string',
-            'start_time' => "required|string",
-            'stop_time' => "required|string",
-        ]);
-
-        $practitionerSchedule->update($request->all());
+        $practitionerSchedule->update($request->except('practitioner_id'));
         return $this->baseTransformItem($practitionerSchedule);
     }
 

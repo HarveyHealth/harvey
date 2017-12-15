@@ -15,6 +15,7 @@ class PractitionerScheduleTransformer extends TransformerAbstract
             'day_of_week' => $practitionerSchedule->day_of_week,
             'start_time' => $practitionerSchedule->start_time,
             'stop_time' => $practitionerSchedule->stop_time,
+            'notes' => $practitionerSchedule->notes,
         ];
     }
 }

@@ -4,14 +4,14 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice container-flex">
-                    <h1 class="heading-1">
-                        <span class="text">Lab Test Inventory</span>
-                        <button @click="newSkuModalOpen" class="button main-action circle">
-                            <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
-                        </button>
-                    </h1>
-                </div>
-            </div>
+            <h1 class="heading-1">
+                <span class="text">Lab Test Inventory</span>
+                <button @click="newSkuModalOpen" class="button main-action circle">
+                    <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                </button>
+            </h1>
+        </div>
+        </div>
             <Flyout
                 :active="activeModal"
                 :heading="flyoutHeading"

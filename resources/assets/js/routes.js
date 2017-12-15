@@ -31,10 +31,6 @@ switch(context) {
     rootRoute.name = 'conditions';
     rootRoute.component = require('./v2/components/pages/conditions/Conditions.vue');
     break;
-  // case 'intake':
-  //   rootRoute.name = 'intake';
-  //   rootRoute.component = require('./pages/intake/Intake');
-  //   break;
 }
 
 if (context === 'get-started' && loggedIn) {
@@ -120,6 +116,11 @@ let routes = [
         path: '/lab_tests/edit',
         props: true,
         component: require('./pages/sku-dashboard/SkuDashboard.vue')
+    },
+    {
+        path: '/schedule',
+        props: true,
+        component: require('./pages/schedule/Schedule.vue')
     },
     {
         path: '*',
