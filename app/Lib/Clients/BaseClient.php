@@ -34,8 +34,6 @@ class BaseClient
 
     public function post($call, $body = '', $headers = [])
     {
-        $client = $this->client();
-
         $data = [];
         $data['body'] = $body;
         $data['headers'] = array_merge($this->headers, $headers);
@@ -45,13 +43,11 @@ class BaseClient
 
     public function put($call, $body = '', $headers = [])
     {
-        $client = $this->client();
-
         $data = [];
         $data['body'] = $body;
         $data['headers'] = array_merge($this->headers, $headers);
 
-        $response = $client->put($this->baseEndpoint($call), $data);
+        $response = $this->client->put($this->baseEndpoint($call), $data);
 
         return $response;
     }
