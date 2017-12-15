@@ -25,7 +25,7 @@
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
-        :tableRowData="appointments"        
+        :tableRowData="appointments"
       />
 
     </div>
@@ -731,8 +731,6 @@ export default {
         this.appointment.patientAddress = this.setPatientAddress(data);
         this.appointment.patientState = data.state;
 
-        // If user is admin, filter practitioners by state licensing regulations
-        // First reset the practitioner list
         this.setupPractitionerList(this.$root.$data.global.practitioners);
 
         // store current date
@@ -1001,11 +999,8 @@ export default {
       this.appointment.date = '';
       this.appointment.time = '';
 
-      // If user is admin, filter practitioners by state licensing regulations
-      // First reset the practitioner list
       Vue.nextTick(() => {
         this.setupPractitionerList(this.$root.$data.global.practitioners);
-        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
       });
     },
 
@@ -1069,14 +1064,22 @@ export default {
     },
 
     setupPractitionerList(list) {
+      if (this.appointment.patientId) {
+        axios.get(`${this.$root.apiUrl}/patients/${this.appointment.patientId}/practitioners`).then(response => {
+          this.mapPractitionerList(response.data.data);
+        });
+      } else {
+        this.mapPractitionerList(list)
+      }
+    },
+
+    mapPractitionerList(list) {
       this.practitionerList = list.map(obj => {
         return { value: obj.name, data: obj };
       });
+
       if (this.userType === 'practitioner') {
         this.setPractitionerInfo(this.practitionerList[0].data);
-      }
-      if (this.userType === 'admin' && this.appointment.patientState) {
-        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, this.appointment.patientState);
       }
     }
 

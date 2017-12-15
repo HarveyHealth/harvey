@@ -7,9 +7,6 @@ import mockData from './mock_data';
 
 Vue.use(VueRouter);
 
-// methods
-import filterPractitioners from '../../resources/assets/js/utils/methods/filterPractitioners';
-
 // v2 architecture
 import Config from '../../resources/assets/js/v2/config';
 import Filters from '../../resources/assets/js/v2/filters';
@@ -104,7 +101,6 @@ const AppStub = function(component, componentName, props, setAppState) {
     components: { [`${componentName}`]: component },
     methods: {
       addTimezone() { return false; },
-      filterPractitioners: filterPractitioners.bind(this),
       getAppointments() { return false; },
       getLabData() { return false; },
       shouldTrack() { return false; }
