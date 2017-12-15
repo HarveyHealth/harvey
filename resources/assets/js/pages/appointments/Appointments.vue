@@ -1071,7 +1071,7 @@ export default {
           this.mapPractitionerList();
         });
       } else {
-        this.mapPractitionerList()
+        this.mapPractitionerList();
       }
     },
 
