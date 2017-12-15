@@ -66,7 +66,7 @@
                 <span class="custom-select">
                     <select name="visibility_id" id="visibility_id" v-model="formSku.attributes.lab_test_information.visibility_id">
                         <option value="0">Yes</option>
-                        <option value="3">No</option>
+                        <option value="1">No</option>
                     </select>
                 </span>
             </div>
@@ -98,7 +98,7 @@
     //             description: null,
     //             quote: null,
     //             image: null,
-    //             visibility_id: 3
+    //             visibility_id: 1
     //         }
     //     }
     // };
@@ -117,7 +117,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility_id: 1
                     }
                 }
             },
@@ -198,7 +198,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility_id: 1
                     }
                 }
             };
