@@ -55,7 +55,7 @@ class SkusController extends BaseAPIController
             'sample' => 'required',
             'quote' => 'required|max:200',
             'lab_name' => 'required',
-            'visibility_id' => 'required|integer',
+            'visibility' => 'required|string',
         ]);
 
         $sku = new SKU($request->only(['name', 'price', 'cost']));
@@ -66,7 +66,7 @@ class SkusController extends BaseAPIController
 
         $sku->save();
         $sku->labTestInformation()->save(new LabTestInformation(
-            $request->only(['lab_name', 'description', 'image', 'sample', 'quote', 'visibility_id'])
+            $request->only(['lab_name', 'description', 'image', 'sample', 'quote', 'visibility'])
         ));
         $sku->refresh();
 
@@ -88,14 +88,14 @@ class SkusController extends BaseAPIController
             'sample' => 'required',
             'quote' => 'required|max:200',
             'lab_name' => 'required',
-            'visibility_id' => 'required|integer',
+            'visibility' => 'required|string',
         ]);
 
         try {
             DB::transaction(function () use ($request, $sku) {
                 $sku->update($request->only(['name', 'price', 'cost']));
                 $sku->labTestInformation->fill(
-                    $request->only(['lab_name', 'description', 'image', 'sample', 'quote', 'visibility_id'])
+                    $request->only(['lab_name', 'description', 'image', 'sample', 'quote', 'visibility'])
                 );
                 $sku->labTestInformation->save();
             });
