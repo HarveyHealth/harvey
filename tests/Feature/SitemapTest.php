@@ -16,7 +16,7 @@ class SitemapTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_OK);
         $parsedResponse = (array) simplexml_load_string($response->original);
 
-        $this->assertCount(4, $parsedResponse['sitemap']);
+        $this->assertCount(3, $parsedResponse['sitemap']);
     }
 
     public function test_sitemap_base_xml_returns_ok()
@@ -25,7 +25,7 @@ class SitemapTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_OK);
         $parsedResponse = (array) simplexml_load_string($response->original);
 
-        $this->assertCount(6, $parsedResponse['url']);
+        $this->assertCount(5, $parsedResponse['url']);
     }
 
     public function test_sitemap_users_xml_returns_ok()
