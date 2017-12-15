@@ -481,7 +481,7 @@ export default {
     },
     loadedPractitioners(val) {
       if (!val) {
-        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.setupPractitionerList();
       }
     }
   },
@@ -731,7 +731,7 @@ export default {
         this.appointment.patientAddress = this.setPatientAddress(data);
         this.appointment.patientState = data.state;
 
-        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.setupPractitionerList();
 
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
@@ -1000,7 +1000,7 @@ export default {
       this.appointment.time = '';
 
       Vue.nextTick(() => {
-        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.setupPractitionerList();
       });
     },
 
@@ -1063,18 +1063,20 @@ export default {
       });
     },
 
-    setupPractitionerList(list) {
+    setupPractitionerList() {
       if (this.appointment.patientId) {
         axios.get(`${this.$root.apiUrl}/patients/${this.appointment.patientId}/practitioners`).then(response => {
-          this.mapPractitionerList(response.data.data);
+          this.$root.$data.global.practitioners = response.data.data;
+          this.$root.mapPractitionersData();
+          this.mapPractitionerList();
         });
       } else {
-        this.mapPractitionerList(list)
+        this.mapPractitionerList()
       }
     },
 
-    mapPractitionerList(list) {
-      this.practitionerList = list.map(obj => {
+    mapPractitionerList() {
+      this.practitionerList = this.$root.$data.global.practitioners.map(obj => {
         return { value: obj.name, data: obj };
       });
 
@@ -1082,7 +1084,6 @@ export default {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
     }
-
   },
 
   mounted() {
@@ -1091,11 +1092,10 @@ export default {
     // If data from app.js has loaded prior to mount, set data
     const appointments = this.$root.$data.global.appointments;
     const patients = this.$root.$data.global.patients;
-    const practitioners = this.$root.$data.global.practitioners;
 
     if (appointments.length) this.setupAppointments(appointments);
     if (patients.length) this.setupPatientList(patients);
-    if (practitioners.length) this.setupPractitionerList(practitioners);
+    if (this.$root.$data.global.practitioners.length) this.setupPractitionerList();
 
   }
 };
