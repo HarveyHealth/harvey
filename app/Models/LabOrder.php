@@ -14,7 +14,7 @@ use App\Http\Traits\{
 };
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\Redis;
-use Cache, Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Track, Shippo_Transaction;
+use Cache, Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Error, Shippo_Track, Shippo_Transaction;
 
 class LabOrder extends Model
 {
@@ -196,8 +196,9 @@ class LabOrder extends Model
         }
 
         $user = $this->patient->user;
+        $isTest = isNotProd();
 
-        $from = array_merge(config('services.shippo.from'), ['test' => isNotProd()]);
+        $from = array_merge(config('services.shippo.from'), ['test' => $isTest]);
 
         $to = [
             'name' => $user->full_name,
@@ -210,7 +211,7 @@ class LabOrder extends Model
             'country' => 'US',
             'phone' => $user->phone,
             'email' => $user->email,
-            'test' => isNotProd(),
+            'test' => $isTest,
         ];
 
         $shippo_address = Shippo_Address::create($to);
@@ -257,7 +258,7 @@ class LabOrder extends Model
             'servicelevel_token' => $servicelevel_token ?: config('services.shippo.default_carrier_service_level'),
             'label_file_type' => 'PDF',
             'async' => false,
-            'test' => isNotProd(),
+            'test' => $isTest,
         ]);
 
         if ('SUCCESS' != $transaction->status) {
@@ -274,8 +275,15 @@ class LabOrder extends Model
 
         $this->save();
 
-        Cache::remember("track_for_shippo_id_{$this->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($carrier, $transaction) {
-            return Shippo_Track::create(['carrier' => $carrier, 'tracking_number' => $transaction->tracking_number])->__toArray(true);
+        $lab_order_id = $this->id;
+
+        Cache::remember("track_for_shippo_id_{$this->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($carrier, $lab_order_id, $transaction) {
+            try {
+                return Shippo_Track::create(['carrier' => $carrier, 'tracking_number' => $transaction->tracking_number])->__toArray(true);
+            } catch (Shippo_Error $e) {
+                $shippo_error_detail = ucfirst($e->getJsonBody()['detail'] ?? 'No details');
+                ops_warning('Shippo warning!', "Can't start tracking of LabOrder ID #{$lab_order_id}, Carrier: '{$carrier}', Tracking number: #{$transaction->tracking_number}. {$shippo_error_detail}.", 'engineering');
+            }
         });
 
         return $this;
