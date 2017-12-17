@@ -1003,7 +1003,7 @@ export default {
       // clear the shipping code on row update
       this.masterTracking = this.shipmentCode || '';
     }
-  },
+  }
 };
 
 </script>
