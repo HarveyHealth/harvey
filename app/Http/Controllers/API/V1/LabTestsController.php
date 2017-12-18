@@ -72,7 +72,7 @@ class LabTestsController extends BaseAPIController
         ]);
 
         if ($request->input('carrier') && Shippo::isUsingTestKey()) {
-            $request->merge('carrier' => 'shippo');
+            $request->merge(['carrier' => 'shippo']);
         }
 
         return $this->baseTransformItem(LabTest::create($request->all()), request('include'))->respond();
@@ -91,7 +91,7 @@ class LabTestsController extends BaseAPIController
         ]);
 
         if ($request->input('carrier') && Shippo::isUsingTestKey()) {
-            $request->merge('carrier' => 'shippo');
+            $request->merge(['carrier' => 'shippo']);
         }
 
         $lab_test->update($request->all());
