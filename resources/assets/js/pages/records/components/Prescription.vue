@@ -4,7 +4,7 @@
 
     <!-- New -->
     <div v-if="$parent.news" class="">
-      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <Card class="w-60" :slot="1" :heading="'Prescription'">
           <CardContent>
             <div class="">
@@ -15,7 +15,7 @@
             </div>
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:'1of2' }, { m:'1of2' }]" :gutters="{ m:3 }">
                   <div :slot="1">
                       <Heading3>Pharmacy</Heading3>
                       <Spacer isBottom :size="2" />
@@ -65,7 +65,7 @@
 
     <!-- Existing -->
     <div class="" v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ s:'2of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
         <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
           <CardContent>

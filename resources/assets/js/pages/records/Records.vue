@@ -17,7 +17,7 @@
             <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
               <form>
                 <i class="font-lg pt1 fa fa-search absolute left-2"></i>
-                <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
+                <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none f5 f3-m font-m fw1 w-100 pl4" />
               </form>
             </div>
           </Grid>
@@ -67,18 +67,21 @@
                         <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
                       </form>
                     </div>
+                </Grid>
+              </div>
 
-                    <!-- Actions -->
-                    <div :slot="2" class="absolute top-1 right-0 pr3 w-33">
-                      <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, l:2 }">
-                        <span :slot="1" class="custom-select">
-                          <select class="f3 h-100" @change="updateMenu($event)">
-                            <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
-                          </select>
-                        </span>
-                        <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
-                      </Grid>
-                    </div>
+              <!-- Actions -->
+              <div :slot="2" class="searchbar-actions pa4">
+                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }, { l:'2of2' }]" :gutters="{ s:2, l:2 }">
+                  <span :slot="1" class="custom-select">
+                    <select class="f3 h-100 bg-white" @change="updateMenu($event)">
+                      <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
+                    </select>
+                  </span>
+                  <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
+                  <button :slot="3" class="button flyout-toggle" @click="handleFlyoutOpen">
+                    View Current Records
+                  </button>
                 </Grid>
               </div>
 
@@ -113,7 +116,11 @@
             </div>
 
             <!-- Flyout -->
-            <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="false">
+            <Flyout class="hide-print" :active="isFlyoutActive" :on-close="null" :button="true" :header="false">
+
+              <button class="button--close flyout-close" @click="handleFlyoutClose" data-test="close">
+                  <svg><use xlink:href="#close" /></svg>
+              </button>
 
               <!-- Info -->
               <div class="flyout-patient-info">
@@ -180,6 +187,14 @@
             {{ getTimelineData() }}
           </div>
 
+          <div :slot="2" class="searchbar-actions pa4 mt4">
+            <Grid :flexAt="'l'" :columns="[{ l:'1of1' }]" :gutters="{ s:2, l:2 }">
+              <button :slot="1" class="button flyout-toggle" @click="handleFlyoutOpen">
+                View Current Records
+              </button>
+            </Grid>
+          </div>
+
           <div v-if="selectedUserPatient">
             <div class="pa2 pa3-m">
               <div v-if="page === 0">
@@ -209,29 +224,38 @@
           </div>
 
           <div class="hide-print">
-            <Flyout :active="true" :onClose="null" :button="true" :header="false">
+            <Flyout class="hide-print" :active="isFlyoutActive" :on-close="null" :button="true" :header="false">
+
+              <button class="button--close flyout-close" @click="handleFlyoutClose" data-test="close">
+                  <svg><use xlink:href="#close" /></svg>
+              </button>
 
               <!-- Info -->
-              <div>
-                <h2>{{selectedUserPatient.search_name}}</h2>
-                <img src="url(${selectedUserPatient.image});" />
-                <a class="" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
-                <a class="" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+              <div class="flyout-patient-info">
+                <Heading2 class="dib no-border w-70">{{selectedUserPatient.search_name}}</Heading2>
+                <img class="w3 h3 fr" :src="selectedUserPatient.image" />
+                <a class="db" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
+                <a class="db" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
               </div>
+
+              <Spacer isBottom :size="4" />
 
               <!-- Details -->
-              <div>
-                <div class="">
-                  <span class="">ID: <b>#{{ selectedUserPatient.id }}</b></span>
-                  <span class="">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
-                  <span class="">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
-                </div>
-
-                <div class="">
-                  <span class="">City: <b>{{ selectedUserPatient.city }}</b></span>
-                  <span class="">State: <b>{{ selectedUserPatient.state }}</b></span>
-                </div>
+              <div class="flyout-patient-info">
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                  <div :slot="1">
+                    <span class="db pa1">ID: <b>#{{ selectedUserPatient.id }}</b></span>
+                    <span class="db pa1">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
+                  </div>
+                  <div :slot="2">
+                    <span class="db pa1">City: <b>{{ selectedUserPatient.city }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedUserPatient.state }}</b></span>
+                  </div>
+                </Grid>
               </div>
+
+              <Spacer isBottom :size="4" />
 
               <!-- Timeline -->
               <div>
@@ -307,6 +331,7 @@ export default {
             search: '',
             selectedPatient: null,
             activeModal: false,
+            isFlyoutActive: false,
             name: '',
             showing: [],
             page: 0,
@@ -396,6 +421,12 @@ export default {
         },
         modalClose() {
             this.activeModal = false;
+        },
+        handleFlyoutClose() {
+            this.isFlyoutActive = false;
+        },
+        handleFlyoutOpen() {
+            this.isFlyoutActive = true;
         },
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedUserPatient && this.selectedUserPatient.id ? this.selectedUserPatient.id : this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
@@ -641,9 +672,43 @@ export default {
       }
     }
     .content-with-flyout {
-      padding-right: 350px;
+      @include query(lg) {
+        padding-right: 350px;
+      }
+      @include query(xxl) {
+        position: relative;
+      }
     }
     .custom-select {
       margin-top: 0;
+    }
+    .searchbar-actions {
+      @include query(xxl) {
+        background: $color-white;
+        min-width: 400px;
+        padding: 0 0 0 15px;
+        position: absolute;
+        right: 370px;
+        top: 23px;
+      }
+    }
+    .flyout-toggle,
+    .flyout-close {
+      @include query(lg) {
+        display: none;
+      }
+    }
+    .flyout {
+      max-width: none;
+      right: -100%;
+
+      &.isactive {
+        right: 0;
+      }
+
+      @include query(lg) {
+        max-width: 25em;
+        right: 0!important;
+      }
     }
 </style>

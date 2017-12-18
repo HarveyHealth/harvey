@@ -78,6 +78,7 @@ export default {
         case 'm': return `@media screen and (min-width: 640px) {${content}}`;
         case 'l': return `@media screen and (min-width: 780px) {${content}}`;
         case 'xl': return `@media screen and (min-width: 960px) {${content}}`;
+        case 'xxl': return `@media screen and (min-width: 1280px) {${content}}`;
       }
     },
 
@@ -140,6 +141,7 @@ export default {
         case 'm': return this.atQuery('m', styles);
         case 'l': return this.atQuery('l', styles);
         case 'xl': return this.atQuery('xl', styles);
+        case 'xxl': return this.atQuery('xxl', styles);
       }
     },
 
