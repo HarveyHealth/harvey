@@ -695,7 +695,7 @@ export default {
       max-width: none;
       right: -100%;
 
-      &.is-active {
+      &.isactive {
         right: 0;
       }
 
