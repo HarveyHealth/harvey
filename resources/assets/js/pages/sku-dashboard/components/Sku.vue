@@ -35,7 +35,7 @@ export default {
                 public: 'All',
                 patients: 'Patient, Practitioners and Admins',
                 practitioners: 'Practitioners and Admins',
-                admins: 'Only Admins',
+                admins: 'Only Admins'
             };
 
             return translation[visibility] || 'Unknown';
