@@ -5,43 +5,42 @@
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
   >
-        <div class="input__container">
-            <label class="input__label" for="patient_name">Client</label>
-            <autocomplete
-                anchor="search_name"
-                label=false
-                url=true
-                :onShouldGetData="getData"
-                :on-select="handlePatientSelect"
-            />
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">Doctor</label>
-            <span class="custom-select">
-                <select @change="updateDoctor($event)">
-                    <option v-for="(doctor, key) in doctorList" :data-id="doctor.id" :selected="doctor.id === selectedDoctor">{{ doctor.name }}</option>
-                </select>
-            </span>
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">Lab Tests</label>
-            <div v-for="(test, index) in testNameList" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
-                <label :class="{highlightText: test.checked}" class="radio--text">
-                    <input :checked="test.checked" @click="updateTestSelection(test, index)" class="form-radio" type="checkbox">
-                        {{ test.attributes.name }}
-                    </input>
-                </label>
-            </div>
-        </div>
-        <div class="button-wrapper">
-            <button class="button"
-                @click="openModal()"
-                :disabled="!selectedClient || !selectedDoctor || !selectedTests.length"
-            >
-                Create Lab Order
-            </button>
-        </div>
-
+    <div class="input__container">
+        <label class="input__label" for="patient_name">Client</label>
+        <autocomplete
+            anchor="search_name"
+            label=false
+            url=true
+            placeholder="Search name, email or birthday..."
+            :debounce="500"
+            :onShouldGetData="getData"
+            :on-select="handlePatientSelect"
+        >
+        </autocomplete>
+    </div>
+    <div class="input__container">
+      <label class="input__label" for="patient_name">Doctor</label>
+      <span class="custom-select">
+          <select @change="updateDoctor($event)">
+              <option v-for="(doctor, key) in doctorList" :data-id="doctor.id" :selected="doctor.id === selectedDoctor">{{ doctor.name }}</option>
+          </select>
+      </span>
+    </div>
+    <div class="input__container">
+      <label class="input__label" for="patient_name">Lab Tests</label>
+      <div v-for="(test, index) in testNameList" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
+          <label :class="{highlightText: test.checked}" class="radio--text">
+            <input :checked="test.checked" @click="updateTestSelection(test, index)" class="form-radio" type="checkbox">
+            {{ test.attributes.name }}
+            </input>
+          </label>
+      </div>
+    </div>
+    <div class="button-wrapper">
+        <button class="button"
+        @click="openModal()"
+        :disabled="!selectedClient || !selectedDoctor || !selectedTests.length">Create Lab Order</button>
+    </div>
         <Modal
             :active="$parent.addActiveModal"
             :onClose="modalClose"

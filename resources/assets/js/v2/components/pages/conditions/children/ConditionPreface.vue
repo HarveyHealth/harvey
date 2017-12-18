@@ -99,7 +99,7 @@ export default {
   },
   methods: {
       handleQuizStart() {
-          window.scroll({ top: 0, behavior: 'smooth' });
+          window.scrollTo(0, 0);
           App.setState('conditions.prefaceRead', true);
       }
   },

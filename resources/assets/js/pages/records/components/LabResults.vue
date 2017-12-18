@@ -69,7 +69,7 @@
     <div v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
-        <Card class="w-60" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
+        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>
             <div class="" >
               <iframe class="w-100" :style="'height:60vh'" :src="resultUrl" />
@@ -77,9 +77,9 @@
           </CardContent>
         </Card>
 
-        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+        <Card v-if="$root.$data.permissions !== 'patient'" class="w-30" :slot="2" :heading="'Quick Notes'">
           <CardContent>
-            <div class="">
+            <div>
               <quill-editor
               output="html"
               :options="simpleEditor"
@@ -319,5 +319,8 @@ export default {
     }
     .w-30 {
         width: 30%;
+    }
+    .f-100 {
+        flex-basis: calc(100% - 1.3rem) !important;
     }
 </style>
