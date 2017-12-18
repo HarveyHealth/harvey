@@ -62,13 +62,13 @@
             </div>
 
             <div class="input__container">
-                <label class="input__label" for="visibility">Public</label>
+                <label class="input__label" for="visibility">Visible to</label>
                 <span class="custom-select">
                     <select name="visibility" id="visibility" v-model="formSku.attributes.lab_test_information.visibility">
-                        <option value="public">Public</option>
-                        <option value="patients">Patients</option>
-                        <option value="practitioners">Practitioners</option>
-                        <option value="admins">Admins</option>
+                        <option value="public">All</option>
+                        <option value="patients">Patient, Practitioners and Admins</option>
+                        <option value="practitioners">Practitioners and Admins</option>
+                        <option value="admins">Only Admins</option>
                     </select>
                 </span>
             </div>
