@@ -126,6 +126,10 @@ return [
             'phone' => env('SHIPPO_FROM_PHONE', '+18006909989'),
             'email' => env('SHIPPO_FROM_EMAIL', 'support@goharvey.com'),
         ],
+        'lab_order_box_height_in' => env('SHIPPO_LAB_ORDER_BOX_HEIGHT_IN', 10),
+        'lab_order_box_length_in' => env('SHIPPO_LAB_ORDER_BOX_LENGTH_IN', 12),
+        'lab_order_box_width_in' => env('SHIPPO_LAB_ORDER_BOX_WIDTH_IN', 4),
+        'lab_order_box_weight_lb' => env('SHIPPO_LAB_ORDER_BOX_WEIGHT_LB', 2),
     ],
 
     'typeform' => [

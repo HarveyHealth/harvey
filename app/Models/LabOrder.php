@@ -221,21 +221,19 @@ class LabOrder extends Model
             throw new StrictValidatorException('The address is invalid. Please check the address and try again.');
         }
 
-        $parcel_info = $this->labTests()->notCanceled()->get()->map(function($i) {
-            return [
-                'distance_unit' => $i->sku->distance_unit,
-                'height' => $i->sku->height,
-                'length' => $i->sku->length,
-                'mass_unit' => $i->sku->mass_unit,
-                'weight' => $i->sku->weight,
-                'width' => $i->sku->width,
-                'metadata' => "Lab Test ID #{$i->id}",
-            ];
-        });
-
-        if ($parcel_info->isEmpty()) {
+        if (!$this->labTests()->notCanceled()->first()) {
             throw new ServiceUnavailableException('This LabOrder does not contains any LabTest for shipping.');
         }
+
+        $parcel_info = [
+            'distance_unit' => 'in',
+            'height' => config('services.shippo.lab_order_box_height_in'),
+            'length' => config('services.shippo.lab_order_box_length_in'),
+            'mass_unit' => 'lb',
+            'metadata' => "Lab Order ID #{$this->id}",
+            'weight' => config('services.shippo.lab_order_box_weight_lb'),
+            'width' => config('services.shippo.lab_order_box_width_in'),
+        ];
 
         $carrier = $carrier ?: config('services.shippo.default_carrier');
 
@@ -251,7 +249,7 @@ class LabOrder extends Model
             'shipment' => [
                 'address_to' => $shippo_to_address_id,
                 'address_from' => $from,
-                'parcels' => $parcel_info->toArray(),
+                'parcels' => $parcel_info,
                 'metadata' => "LabOrder ID #{$this->id}",
             ],
             'carrier_account' => $carrier_object_id,
