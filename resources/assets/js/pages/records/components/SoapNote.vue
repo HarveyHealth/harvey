@@ -209,7 +209,7 @@ export default {
                 notes: this.notes
             };
             for (let i in object) {
-                if (object[i] === null) {
+                if (object[i] === '') {
                     delete object[i];
                 }
             }
@@ -242,7 +242,7 @@ export default {
                 notes: this.notes
             };
             for (let i in object) {
-                if (object[i] === null) {
+                if (object[i] === '') {
                     delete object[i];
                 }
             }
