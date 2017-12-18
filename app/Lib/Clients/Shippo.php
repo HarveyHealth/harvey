@@ -14,4 +14,8 @@ class Shippo extends BaseClient
 
         return $this->post('tracks/', compact('carrier', 'tracking_number'), $headers);
     }
+
+    public static function isUsingTestKey() {
+        return str_contains(config('services.shippo.key'), 'test');
+    }
 }

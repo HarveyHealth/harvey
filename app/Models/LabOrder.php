@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Lib\TimeInterval;
-use App\Lib\Clients\Shippo as ShippoAPIClient;
+use App\Lib\Clients\Shippo;
 use App\Exceptions\{ServiceUnavailableException, StrictValidatorException};
 use App\Models\{DiscountCode, LabTest, SKU};
 use App\Http\Traits\{
@@ -196,7 +196,7 @@ class LabOrder extends Model
         }
 
         $user = $this->patient->user;
-        $isTest = isNotProd();
+        $isTest = Shippo::isUsingTestKey();
 
         $from = array_merge(config('services.shippo.from'), ['test' => $isTest]);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
+use App\Lib\Clients\Shippo;
 use App\Models\{LabTest, LabTestInformation, LabTestResult};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
@@ -70,7 +71,11 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabTest::create($request->all())->fresh(), request('include'))->respond();
+        if ($request->input('carrier') && Shippo::isUsingTestKey()) {
+            $request->merge('carrier' => 'shippo');
+        }
+
+        return $this->baseTransformItem(LabTest::create($request->all()), request('include'))->respond();
     }
 
     public function update(Request $request, LabTest $lab_test)
@@ -84,6 +89,10 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'filled|string',
             'carrier' => 'filled|string|max:16',
         ]);
+
+        if ($request->input('carrier') && Shippo::isUsingTestKey()) {
+            $request->merge('carrier' => 'shippo');
+        }
 
         $lab_test->update($request->all());
 
