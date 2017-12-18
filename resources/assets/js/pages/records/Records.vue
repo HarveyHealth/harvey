@@ -692,7 +692,15 @@ export default {
       }
     }
     .flyout {
+      max-width: none;
+      right: -100%;
+
+      &.is-active {
+        right: 0;
+      }
+
       @include query(lg) {
+        max-width: 25em;
         right: 0!important;
       }
     }
