@@ -62,11 +62,13 @@
             </div>
 
             <div class="input__container">
-                <label class="input__label" for="visibility_id">Public</label>
+                <label class="input__label" for="visibility">Public</label>
                 <span class="custom-select">
-                    <select name="visibility_id" id="visibility_id" v-model="formSku.attributes.lab_test_information.visibility_id">
-                        <option value="0">Yes</option>
-                        <option value="3">No</option>
+                    <select name="visibility" id="visibility" v-model="formSku.attributes.lab_test_information.visibility">
+                        <option value="public">Public</option>
+                        <option value="patients">Patients</option>
+                        <option value="practitioners">Practitioners</option>
+                        <option value="admins">Admins</option>
                     </select>
                 </span>
             </div>
@@ -87,22 +89,6 @@
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import NotificationPopup from '../../../commons/NotificationPopup.vue';
 
-    // const defaultBlankSku = {
-    //         attributes: {
-    //         name: null,
-    //         price: 0,
-    //         cost: 0,
-    //         lab_test_information: {
-    //             lab_name: null,
-    //             sample: null,
-    //             description: null,
-    //             quote: null,
-    //             image: null,
-    //             visibility_id: 3
-    //         }
-    //     }
-    // };
-
     export default {
     data() {
         return {
@@ -117,7 +103,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility: 'patients'
                     }
                 }
             },
@@ -145,7 +131,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id
+                visibility: sku.attributes.lab_test_information.visibility
             })
             .then(() => {
                 this.submitting = false;
@@ -170,7 +156,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id
+                visibility: sku.attributes.lab_test_information.visibility
             })
                 .then(response => {
                     this.submitting = false;
@@ -198,7 +184,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility: 'patients'
                     }
                 }
             };
@@ -223,5 +209,4 @@
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
