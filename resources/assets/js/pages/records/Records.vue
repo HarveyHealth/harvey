@@ -671,6 +671,9 @@ export default {
       @include query(lg) {
         padding-right: 350px;
       }
+      @include query(xxl) {
+        position: relative;
+      }
     }
     .custom-select {
       margin-top: 0;
