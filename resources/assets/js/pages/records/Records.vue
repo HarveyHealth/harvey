@@ -17,7 +17,7 @@
             <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
               <form>
                 <i class="font-lg pt1 fa fa-search absolute left-2"></i>
-                <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
+                <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none f5 f3-m font-m fw1 w-100 pl4" />
               </form>
             </div>
           </Grid>
