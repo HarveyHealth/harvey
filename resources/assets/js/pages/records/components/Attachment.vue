@@ -16,7 +16,7 @@
 
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]" :gutters="{ s:2, m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:'1of2' }, { m:'1of2' }]" :gutters="{ m:3 }">
                   <div :slot="1">
                     <Heading3>File Upload</Heading3>
                     <Spacer isBottom :size="2" />

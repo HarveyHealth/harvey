@@ -15,7 +15,7 @@
             </div>
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ s:'1of3' }, { s:'1of3' }, { s:'1of3' }]" :gutters="{ s:2, m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:'1of3' }, { m:'1of3' }, { m:'1of3' }]" :gutters="{ m:3 }">
                   <div :slot="1">
                     <Heading3>Lab Name</Heading3>
                     <Spacer isBottom :size="2" />
