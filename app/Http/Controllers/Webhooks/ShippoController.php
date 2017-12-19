@@ -28,7 +28,7 @@ class ShippoController extends BaseWebhookController
     {
         $payload = request()->all();
         $tracking_number = $payload['data']['tracking_number'];
-        $tracking_status = $payload['data']['tracking_status'];
+        $tracking_status = $payload['data']['tracking_status']['status'];
 
         if (!empty($lab_test = LabTest::findByShipmentCode($tracking_number))) {
             $this->setLabTestStatus($lab_test, $tracking_status);
