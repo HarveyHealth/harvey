@@ -27,7 +27,7 @@ class PractitionerPolicy
      */
     public function view(User $user, Practitioner $practitioner)
     {
-        return $practitioner->enabled;
+        return $practitioner->user->enabled;
     }
     
     /**
