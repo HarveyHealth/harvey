@@ -147,5 +147,4 @@ class PractitionerScheduleTest extends TestCase
     {
         //
     }
-
 }

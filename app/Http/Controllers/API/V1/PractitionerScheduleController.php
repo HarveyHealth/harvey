@@ -39,7 +39,7 @@ class PractitionerScheduleController extends BaseAPIController
 
     public function store(Practitioner $practitioner, Request $request)
     {
-        if(currentUser()->isNotPractitioner()) {
+        if (currentUser()->isNotPractitioner()) {
             return $this->respondNotAuthorized('You do not have access to create a practitioner schedule.');
         }
 

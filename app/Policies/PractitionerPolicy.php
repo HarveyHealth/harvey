@@ -29,7 +29,7 @@ class PractitionerPolicy
     {
         return $practitioner->user->enabled;
     }
-    
+
     /**
      * @param User         $user
      * @param Practitioner $practitioner
