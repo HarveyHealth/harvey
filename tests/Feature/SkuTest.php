@@ -32,7 +32,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
@@ -49,7 +49,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
@@ -69,7 +69,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
@@ -107,13 +107,13 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonFragment(['name' => 'someothername']);
     }
-    
+
     public function test_descriptions_can_only_be_800_characters_long()
     {
         $admin = factory(Admin::class)->create();
@@ -128,9 +128,9 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
-        
+
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
     }
 }

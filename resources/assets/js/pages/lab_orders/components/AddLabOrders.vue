@@ -11,6 +11,7 @@
             anchor="search_name"
             label=false
             url=true
+            placeholder="Search name, email or birthday..."
             :debounce="500"
             :onShouldGetData="getData"
             :on-select="handlePatientSelect"

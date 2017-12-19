@@ -85,9 +85,4 @@ class LabTest extends Model
     {
       return $builder->leftJoin('skus', 'skus.id', '=', 'sku_id')->orderBy('skus.name');
     }
-
-    public function scopeShipped(Builder $builder)
-    {
-        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
-    }
 }

@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
+
+# Boot up the vagrant box. If one is not installed for the project, it will be created.
 vagrant up
+
+# Add the SSL cert to OSX Keychain. This will prompt the user for a password.
 sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "./vagrant_files/harvey.app.crt"

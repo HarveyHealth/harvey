@@ -346,7 +346,7 @@
 
       <div class="input__container">
         <label class="input__label">Master Tracking</label>
-        <input v-model="masterTracking" class="input--text" type="text">
+        <input v-model="masterTracking" :disabled="disableMasterTrackingInput" class="input--text" type="text">
       </div>
 
       <!-- Address -->
@@ -367,11 +367,9 @@
       </div>
 
       <!-- Mark as Shipped -->
-      <!-- HAR-1157 Hiding button until Shippo integration feature is complete
       <div class="button-wrapper">
         <button class="button" @click="confirmShipping">Generate Label</button>
       </div>
-      -->
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -460,6 +458,7 @@ export default {
       newZip: '',
       percentAmount: '',
       disabledDiscount: false,
+      disableMasterTrackingInput: false,
       newState: '',
       patchCode: '',
       cardNumber: '',
@@ -526,6 +525,7 @@ export default {
       this.pricing = 0;
       this.newState = '';
       this.labPatients = {};
+      this.masterTracking = '';
     },
     updateStatus(e) {
       this.selectedStatus = e.target.value;
@@ -552,7 +552,7 @@ export default {
     },
     validDiscountCode() {
       if (this.discountCode !== '') {
-        axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
+        axios.get(`${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}?applies_to=lab-test`)
           .then(this.processDiscount)
           .catch(() => this.disabledDiscount = true);
       } else {
@@ -704,6 +704,7 @@ export default {
         // PUT /api/v1/lab/orders/<lab_order_id>/ship
 
         axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
+          carrier: 'fedex',
           servicelevel_token: this.shippingOption
         }).then((response) => {
             // update the tracking number field for the package
@@ -712,6 +713,7 @@ export default {
 
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
+            this.disableMasterTrackingInput = true;
             this.loading = false;
         }).catch((error) => {
             // stop the loading
@@ -726,6 +728,8 @@ export default {
       let promises = [];
       this.$props.rowData.test_list.forEach((e) => {
         promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+          carrier: this.shippingCodes[e.test_id] ? 'fedex' : undefined,
+          shipment_code: this.shippingCodes[e.test_id],
           status: 'shipped'
         })
           .then(resp => {
@@ -791,8 +795,9 @@ export default {
           }));
         } else if (this.$props.rowData.completed_at === 'Confirmed') {
           promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            status: 'shipped',
-            shipment_code: this.shippingCodes[e.test_id]
+            carrier: this.shippingCodes[e.test_id] ? 'fedex' : undefined,
+            shipment_code: this.shippingCodes[e.test_id],
+            status: 'shipped'
           }).then(resp => {
             this.$root.$data.global.labTests.forEach((ele, idx) => {
               if (Number(ele.id) === Number(e.test_id)) {
@@ -883,6 +888,9 @@ export default {
 
         return App.Config.user.isAdmin ? link : display;
       }
+    },
+    currentRowData() {
+      return this.rowData;
     },
     paid() {
       return this.$props.rowData ? this.$props.rowData.paid : false;
@@ -988,6 +996,12 @@ export default {
     },
     modalActive() {
         return this.shippingConfirmationModalActive || this.invalidModalActive;
+    }
+  },
+  watch: {
+    currentRowData() {
+      // clear the shipping code on row update
+      this.masterTracking = this.shipmentCode || '';
     }
   }
 };

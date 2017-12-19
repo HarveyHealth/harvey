@@ -34,7 +34,7 @@ class BaseClient
 
     public function post($call, $params = [], $headers = [])
     {
-        $data['body'] = array_merge($params, $this->params);;
+        $data['form_params'] = array_merge($params, $this->params);;
         $data['headers'] = array_merge($this->headers, $headers);
 
         return $this->client->post($this->baseEndpoint($call), $data);
