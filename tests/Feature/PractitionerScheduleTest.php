@@ -142,9 +142,4 @@ class PractitionerScheduleTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_NO_CONTENT);
         $this->assertCount(0, PractitionerSchedule::all());
     }
-
-    public function test_a_practitioner_can_view_specific_schedule_rows()
-    {
-        //
-    }
 }
