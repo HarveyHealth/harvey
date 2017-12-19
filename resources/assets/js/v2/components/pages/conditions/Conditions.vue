@@ -4,7 +4,6 @@
         <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
         <div class="center mw9 pa3 pa4-m">
             <ConditionPreface v-if="!State('conditions.prefaceRead')" />
-            <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
             <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false" />
         </div>
         <MainSubFooter />

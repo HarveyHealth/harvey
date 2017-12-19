@@ -135,7 +135,11 @@
                 "s3",
                 "sdk"
             ],
+<<<<<<< HEAD
             "time": "2017-12-15 19:49:31"
+=======
+            "time": "2017-12-14 21:45:01"
+>>>>>>> master
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1580,6 +1584,7 @@
         },
         {
             "name": "google/apiclient-services",
+<<<<<<< HEAD
             "version": "v0.39",
             "source": {
                 "type": "git",
@@ -1590,6 +1595,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/d20b726adcc93f1617e420dc352a3ecb112c458d",
                 "reference": "d20b726adcc93f1617e420dc352a3ecb112c458d",
+=======
+            "version": "v0.38",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google/google-api-php-client-services.git",
+                "reference": "b7df3c72e7d7b4d9b7931d48ada036e57600c9de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/b7df3c72e7d7b4d9b7931d48ada036e57600c9de",
+                "reference": "b7df3c72e7d7b4d9b7931d48ada036e57600c9de",
+>>>>>>> master
                 "shasum": ""
             },
             "require": {
@@ -1613,7 +1630,11 @@
             "keywords": [
                 "google"
             ],
+<<<<<<< HEAD
             "time": "2017-12-18 00:23:19"
+=======
+            "time": "2017-12-10 00:23:17"
+>>>>>>> master
         },
         {
             "name": "google/auth",
@@ -2504,7 +2525,11 @@
                 "laravel",
                 "psysh"
             ],
+<<<<<<< HEAD
             "time": "2017-12-18 16:25:11"
+=======
+            "time": "2017-07-13 13:11:05"
+>>>>>>> master
         },
         {
             "name": "lcobucci/jwt",
@@ -5315,6 +5340,7 @@
         },
         {
             "name": "twilio/sdk",
+<<<<<<< HEAD
             "version": "5.16.2",
             "source": {
                 "type": "git",
@@ -5325,6 +5351,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/twilio/twilio-php/zipball/24b6830fa3157cb7e11108ee74eb678e83147593",
                 "reference": "24b6830fa3157cb7e11108ee74eb678e83147593",
+=======
+            "version": "5.16.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "e9bc80cedcbaa0ed8739a5b6da4b76eab07d1b97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/e9bc80cedcbaa0ed8739a5b6da4b76eab07d1b97",
+                "reference": "e9bc80cedcbaa0ed8739a5b6da4b76eab07d1b97",
+>>>>>>> master
                 "shasum": ""
             },
             "require": {
@@ -5357,7 +5395,11 @@
                 "sms",
                 "twilio"
             ],
+<<<<<<< HEAD
             "time": "2017-12-16 01:07:41"
+=======
+            "time": "2017-12-02 00:05:34"
+>>>>>>> master
         },
         {
             "name": "vlucas/phpdotenv",
@@ -6250,7 +6292,11 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< HEAD
             "time": "2017-12-17 06:14:38"
+=======
+            "time": "2017-11-14 14:50:51"
+>>>>>>> master
         },
         {
             "name": "phpunit/phpunit-mock-objects",
