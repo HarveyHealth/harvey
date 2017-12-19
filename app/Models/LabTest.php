@@ -74,6 +74,11 @@ class LabTest extends Model
         return $this->labOrder->practitioner();
     }
 
+    public static function findByShipmentCode(string $shipment_code)
+    {
+        return self::where('shipment_code', $shipment_code)->first();
+    }
+
     public function scopePatientOrPractitioner(Builder $builder, User $user)
     {
         return $builder->whereHas('labOrder', function ($builder) use ($user) {
