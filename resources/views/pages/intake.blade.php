@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Intake | Harvey</title>
+@extends('layouts.master')
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('page_title', 'Dashboard')
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+@push('stylesheets')
     <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+@endpush
+
+@section('content')
+    @include('_includes.svgs')
 
     <script type="text/javascript">
       window.Laravel = {!! $vue_data !!}
@@ -29,18 +23,10 @@
 
     </script>
 
-    <!-- Typekit -->
-    <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
-
-  </head>
-  <body>
-
-    @include('_includes.svgs')
-
     <main>
-      <div id="app">
-        <router-view />
-      </div>
+        <div id="app">
+            <router-view />
+        </div>
     </main>
 
     <!-- Stripe -->
@@ -49,5 +35,5 @@
     <!-- App.js -->
     <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
-  </body>
-</html>
+    @stack('scripts')
+@stop

@@ -31,10 +31,10 @@ switch(context) {
     rootRoute.name = 'conditions';
     rootRoute.component = require('./v2/components/pages/conditions/Conditions.vue');
     break;
-  // case 'intake':
-  //   rootRoute.name = 'intake';
-  //   rootRoute.component = require('./pages/intake/Intake');
-  //   break;
+  case 'intake':
+    rootRoute.name = 'intake';
+    rootRoute.component = require('./pages/intake/Intake');
+    break;
 }
 
 if (context === 'get-started' && loggedIn) {
