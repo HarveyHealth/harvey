@@ -1,5 +1,5 @@
 <template>
-    <div class="typeform-container">
+    <div class="typeform-container relative">
         <a href="/dashboard" class="close-link" v-show="shouldShowIntakeForm">
             <i class="fa fa-close" />
         </a>
@@ -12,13 +12,37 @@
             data-hide-footer=false
             style="width: 100%; height: 100vh;"
         />
-        <div v-if="!shouldShowIntakeForm">You already took the form thingy</div>
+        <SlideIn v-if="!shouldShowIntakeForm" class="complete-container">
+            <div class="complete-wrap tc mha mw6 pa4">
+                <LogoIcon justIcon :width="'50px'" :height="'60px'" />
+                <Spacer isBottom :size="4" />
+                <Paragraph>Your form was submitted successfully. You are finished with client intake and are ready to talk to your doctor.</Paragraph>
+                <Spacer isBottom :size="4" />
+                <InputButton
+                    :href="'/dashboard'"
+                    :mode="'secondary'"
+                    :text="'Dashboard'"
+                />
+            </div>
+        </SlideIn>
     </div>
 </template>
 
 <script>
+import { LogoIcon } from 'icons';
+import { InputButton } from 'inputs';
+import { SlideIn, Spacer } from 'layout';
+import { Paragraph } from 'typography';
+
 export default {
     name: 'Intake',
+    components: {
+        LogoIcon,
+        InputButton,
+        Paragraph,
+        SlideIn,
+        Spacer
+    },
     data() {
         return {
             typeformUrl: `https://goharvey.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
@@ -26,7 +50,9 @@ export default {
     },
     computed: {
         shouldShowIntakeForm() {
-            return this.State('users.intake.wasRequested') && !this.State('users.intake.data.self');
+            return  this.State('users.intake.wasRequested') &&
+                    !this.State('users.intake.isLoading') &&
+                    !this.State('users.intake.data.self');
         }
     },
     mounted() {
@@ -55,5 +81,13 @@ export default {
         position: fixed;
         z-index: 1000;
         right: 0;
+    }
+
+    .complete-container {
+        height: 100vh;
+    }
+
+    .complete-wrap {
+        @include vertical-center-absolute;
     }
 </style>

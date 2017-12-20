@@ -29,7 +29,7 @@ export default {
             return {
                 height: this.justIcon ? '110px' : '60px',
                 width: this.justIcon ? '80px' : '150px'
-            }
+            };
         },
         iconFill() {
             if (this.hasDarkIcon) return '#5f7278';
@@ -40,7 +40,7 @@ export default {
             return {
                 height: this.height || this.defaultStyles.height,
                 width: this.width || this.defaultStyles.width
-            }
+            };
         },
         textClass() {
             return {
