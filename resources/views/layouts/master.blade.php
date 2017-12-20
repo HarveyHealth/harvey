@@ -9,6 +9,7 @@
         @else
             <title>Holistic & Integrative Medicine | Harvey Health</title>
         @endif
+        <meta name="theme-color" content="#82bef2">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
         <meta property="og:locale" content="en_US">
