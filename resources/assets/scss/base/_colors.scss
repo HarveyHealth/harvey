@@ -40,6 +40,15 @@ $red: #FF0000;
     }
 }
 
+.bg-gray {
+    background-color: #ccc !important;
+    &:hover,
+    &:focus {
+      background-color: darken(#ccc, 10) !important;
+      color: white !important;
+    }
+}
+
 .color-white {
   color: $white;
 }

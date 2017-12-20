@@ -113,8 +113,8 @@ class SkuTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonFragment(['name' => 'someothername']);
     }
-    
-    public function test_descriptions_can_only_be_800_characters_long()
+
+    public function test_descriptions_can_only_be_2048_characters_long()
     {
         $admin = factory(Admin::class)->create();
         Passport::actingAs($admin->user);
@@ -123,14 +123,14 @@ class SkuTest extends TestCase
             'name' => 'Test',
             'price' => 200.00,
             'cost' => 200.00,
-            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies n',
+            'description' => str_random(2049),
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
             'visibility_id' => 0,
         ]);
-        
+
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
     }
 }

@@ -1,18 +1,30 @@
 <template>
-    <div class="records-container">
-        <div class="treatment-plan">
-            <div 
-                disabled 
+    <div>
+      <PageHeader class="mb3" :heading="'Treatment Plan'" />
+      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
+            <div
+                disabled
                 v-html="plan"
              />
-        </div>
+           </CardContent>
+         </Card>
+      </Grid>
     </div>
 </template>
 
 <script>
+import { Card, CardContent, Grid, PageHeader } from 'layout';
 export default {
     props: {
         patient: Object
+    },
+    components: {
+      Card,
+      CardContent,
+      Grid,
+      PageHeader
     },
     computed: {
         plan() {
@@ -28,9 +40,3 @@ export default {
     }
 };
 </script>
-
-<style lang="scss">
-    .treatment-plan {
-        padding: 20px 10px;
-    }
-</style>

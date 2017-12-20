@@ -1,94 +1,147 @@
 <template>
-    <div>
-        <div v-if="$parent.news" class="lab-body">
-            <div class="p-spacing">
-                <p>
-                    You are about upload an attachment for client {{ patient.search_name }}, 
-                    with adate of birth {{ patient.date_of_birth }}. 
-                    Please verify the name of attachment before 
-                    uploading, so we can keep things organized.
-                    Anything you upload will be viewable to your doctor and doctor's assisstants only.
-                    The only file format accepted is a PDF.
-                </p>
+  <div>
+    <PageHeader class="mb3" :heading="$parent.news ? 'New Attachment' : 'Attachment'" />
+
+    <!-- New -->
+    <div v-if="$parent.news" class="">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <Card class="w-60" :slot="1" :heading="'Attachment'">
+          <CardContent>
+            <div class="">
+              <Paragraph>
+                You are about upload an attachment for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of attachment before uploading, so we can keep things organized. Anything you upload will be viewable to your doctor and doctor's assisstants only. The only file format accepted is a PDF.
+              </Paragraph>
+              <Spacer isBottom :size="5" />
             </div>
-            <div class="card-heading-container records-spacing fullWidth floatLeft">
-                <div class="width-175">
-                    <label class="input__label">file upload</label>
-                    <input class="bg-white input--text" v-model="fileName" placeholder="Enter file name">
-                </div>
-                <div class="width-175">
-                    <label class="input__label">upload</label>
-                    <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}">
-                        <div class="border-upload-container">
-                            <div class="upload-container">
-                                <i class="fa fa-book pdf-icons"></i>
-                                <p class="pdf-upload-text">Attachment (PDF)</p>
-                            </div>
-                        </div>
+
+            <Card>
+              <CardContent>
+                <Grid :flexAt="'l'" :columns="[{ m:'1of2' }, { m:'1of2' }]" :gutters="{ m:3 }">
+                  <div :slot="1">
+                    <Heading3>File Upload</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <input class="input--text" v-model="fileName" placeholder="Enter file name">
+                  </div>
+                  <div :slot="1">
+                    <Heading3>Upload</Heading3>
+                    <Spacer isBottom :size="2" />
+                    <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}" class="button button--grey block">
+                      <i class="fa fa-book"></i>
+                      <Paragraph class="ml1 mb0 dib">Attachment (PDF)</Paragraph>
                     </label>
                     <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
-                </div>
-                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                  </div>
+                  <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                </Grid>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+
+
+        <!-- Quick Notes -->
+        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+          <CardContent>
+
+            <!-- Editor -->
+            <div class="">
+              <quill-editor
+              output="html"
+              :options="simpleEditor"
+              v-model="quickNotes"
+              class="simple-editor"
+              />
             </div>
-            <div class="fullWidth floatLeft quick-notes-border topMargin30">
-                <h2 class="text-center">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="notes"
-                />
-            </div>
-        </div>
-        <div class="record-image" v-if="!$parent.news">
-            <iframe :class="{width70: $root.$data.permissions !== 'patient', floatLeft: $root.$data.permissions !== 'patient'}" :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="attachmentUrl" />
-            <div v-if="$root.$data.permissions !== 'patient'" class="width30 floatLeft">
-                <h2 class="text-center">Quick Notes</h2>
-                <quill-editor
-                    output="html"
-                    :options="editorOption"
-                    v-model="quickNotes"
-                />
-            </div>
-            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered fullWidth floatLeft">
-                <button @click="deleteModal()" class="button bg-danger margin15">Archive Attachment</button>
-            </div>
-            <Modal
-                :active="deleteModalActive"
-                :onClose="modalClose"
-                class="modal-wrapper"
-            >
-                <div class="card-content-wrap">
-                    <div class="inline-centered">
-                        <h1 class="header-xlarge">
-                            <span class="text">Archive Attachment</span>
-                        </h1>
-                        <p>Are you sure you want to archive this attachment?</p>
-                        <div class="button-wrapper">
-                            <button class="button button--cancel" @click="modalClose">Cancel</button>
-                            <button class="button" @click="deleteItem">Yes, Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
-        </div>
+
+          </CardContent>
+        </Card>
+      </Grid>
     </div>
+
+    <!-- Existing -->
+    <div class="" v-if="!$parent.news">
+      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+        <!-- Main Card -->
+        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="startCase($parent.propData.attributes.name) +  ' Attachment'">
+          <CardContent>
+
+            <iframe :style="'height:60vh'" class="w-100" :src="attachmentUrl" />
+          </CardContent>
+        </Card>
+
+        <Card v-if="$root.$data.permissions !== 'patient'" class="w-30" :slot="1" :heading="'Quick Notes'">
+          <CardContent>
+            <div class="">
+              <quill-editor
+              output="html"
+              :options="simpleEditor"
+              v-model="notes"
+              class="simple-editor"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
+
+            <div class="inline-centered">
+                <button @click="updateQuickNotes" class="button margin15">Save Changes</button>
+                <button @click="deleteModal()" class="button bg-danger">Archive Attachment</button>
+            </div>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Modal
+        :active="deleteModalActive"
+        :onClose="modalClose"
+        class="modal-wrapper"
+      >
+        <div class="card-content-wrap">
+          <div class="inline-centered">
+            <h1 class="header-xlarge">
+              <span class="text">Archive Attachment</span>
+            </h1>
+            <p>Are you sure you want to archive this attachment?</p>
+            <div class="button-wrapper">
+              <button class="button button--cancel" @click="modalClose">Cancel</button>
+              <button class="button" @click="deleteItem">Yes, Confirm</button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </div>
+
+  </div>
 </template>
 
 <script>
 import {mask} from 'vue-the-mask';
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
-import {capitalize} from 'lodash';
+import {capitalize, startCase} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
-import editorOption from '../util/quillEditorObject';
+import simpleEditor from '../util/quillSimple';
 import axios from 'axios';
+import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
+import { Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
     },
     components: {
         Modal,
-        ClipLoader
+        ClipLoader,
+        Card,
+        CardContent,
+        Grid,
+        PageHeader,
+        Paragraph,
+        Heading3,
+        Spacer
     },
     directives: {
         mask
@@ -98,11 +151,34 @@ export default {
             fileName: '',
             deleteModalActive: false,
             loading: false,
-            editorOption: editorOption,
+            simpleEditor: simpleEditor,
             notes: ''
         };
     },
     methods: {
+        startCase(data) {
+            return startCase(data);
+        },
+        updateQuickNotes() {
+            axios.patch(`${this.$root.$data.apiUrl}/attachments/${this.$parent.propData.id}`, { notes:  this.notes })
+                .then((response) => {
+                    let data = response.data.data;
+                    this.$parent.propData = data;
+                    this.$parent.attachments[data.id] = data;
+                    this.$parent.timeline.map(e => {
+                        if (e.type === 'Attachment' && data.id == e.data.id) {
+                            e.data = data;
+                        }
+                        return e;
+                    });
+                    this.$parent.notificationMessage = "Successfully updated!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                });
+        },
+        setNotes(data) {
+            this.notes = data;
+        },
         deleteModal() {
             this.deleteModalActive = true;
         },
@@ -127,7 +203,9 @@ export default {
             let formData = new FormData();
             this.loading = true;
             formData.append('file', file.target.files[0]);
-            formData.append('notes', this.notes);
+            if (this.notes && this.notes !== '') {
+                formData.append('notes', this.notes);
+            }
             formData.append('name', this.fileName);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, formData)
             .then((response) => {
@@ -136,7 +214,7 @@ export default {
                 this.$parent.attachments[returns.id] = returns;
                 object.data = returns;
                 object.id = returns.id;
-                object.date = moment(returns.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                object.date = moment.tz(returns.attributes.created_at.date, returns.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                 object.original_date = returns.attributes.created_at.date;
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
                 object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
@@ -157,29 +235,69 @@ export default {
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
         },
         quickNotes() {
-            const prop = this.$parent.propData;
-            return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+             const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+                } else {
+                    this.setNotes('');
+                }
+                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
         attachmentUrl(val) {
             if (!val) {
                 const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    this.setNotes(prop.attributes.notes);
+                }
                 return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
             }
         },
         quickNotes(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                return prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+               const prop = this.$parent.propData;
+                if (prop && prop.attributes && prop.attributes.notes) {
+                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+                } else {
+                    this.setNotes('');
+                }
+                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import '~sass';
+    .quill-editor {
+      border: none;
+      border-radius: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+    .simple-editor {
+      border-bottom: none;
+      height: 268px;
+    }
     .disabled--cursor {
-        cursor: not-allowed;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    .ql-toolbar.ql-snow {
+      height: 130px;
+      border: 1px solid #eee;
+    }
+    .w-60 {
+        width: 60%;
+    }
+    .w-30 {
+        width: 30%;
+    }
+    .f-100 {
+        flex-basis: calc(100% - 1.3rem) !important;
     }
 </style>

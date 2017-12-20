@@ -1,219 +1,291 @@
 <template>
-    <div class="main-container">
-        <UserNav />
+  <div class="main-container">
 
-        <div v-if="$root.$data.permissions !== 'patient'">
-            <div v-if="step == 1">
-                <div class="main-content">
-                    <div class="card records-loading" v-if="$root.$data.global.loadingPatients">
-                        <p><i>Your records are loading...</i></p>
-                    </div>
-                    <form v-if="!$root.$data.global.loadingPatients" class="form full-width">
-                        <i class="fa fa-search search-icon"></i>
-                        <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
-                    </form>
-                    <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="inline-centered">
-                        <img class="inline-centered full-width height500" src="images/if_ic_library_514023.svg" alt="">
-                        <h1 class="no-records-label">No records found.</h1>
-                    </div>
-                    <div v-if="!$root.$data.global.loadingPatients && search === ''" class="inline-centered">
-                        <i class="inline-centered fa fa-search search-div-icon" />
-                        <h1 class="search-records-label">Search for records.</h1>
-                    </div>
-                    <Modal :active="activeModal" :onClose="modalClose">
-                        <div class="inline-centered">
-                            <h1>Warning</h1>
-                            <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
-                            <button @click="modalClose" class="button grey-background">Go Back</button>
-                            <button @click="nextStep" class="button">Yes, I agree</button>
-                        </div>
-                    </Modal>
-                    <div class="container container-backoffice" v-if="search !== ''">
-                        <div v-for="patient in results" @click="selectPatient(patient)" class="results">
-                            <div class="spacing">{{ patient.search_name }}</div>
-                            <div class="spacing">{{ patient.email }}</div>
-                            <div class="spacing">{{ patient.date_of_birth }}</div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Non-Patient -->
+      <div v-if="$root.$data.permissions !== 'patient'">
+
+        <!-- Non-Patient Step One -->
+        <div v-if="step == 1" class="relative">
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+            <div :slot="1" v-if="$root.$data.global.loadingPatients" class="pa2 pa3-m">
+              <LoadingSpinner class="mt3" />
+              <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
             </div>
-            <div v-if="step == 2" class="main-content">
-                <div v-if="$root.$data.permissions !== 'patient'">
-                    <div class="form">
-                        <i class="fa fa-search search-icon"></i>
-                        <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="search-bar" />
-                    </div>
-                    <div class="records-button-container">
-                        <span class="custom-select soat-button">
-                            <select @change="updateMenu($event)">
-                                <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
-                            </select>
-                        </span>
-                        <button @click="newRecord" class="button records-button">New Record</button>
-                    </div>
-                    <div class="auto-height">
-                        <div v-if="page === 0">
-                            <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
-                        </div>
-                        <div class="card width70" v-if="page !== 0">
-                            <div class="card-heading-container height65">
-                                <h2 class="left-records-label">
-                                    {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
-                                    {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
-                                    {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
-                                    {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
-                                    {{ page === 5 ? `Intake Form` : null }}
-                                    {{ page === 6 ? `Treatment Plan` : null }}
-                                </h2>
-                                <h2 class="search-name-label">
-                                    {{ selectedPatient.search_name }}
-                                </h2>
-                            </div>
+          </Grid>
 
-                            <div v-if="page === 1">
-                                <SoapNote :patient="selectedPatient" />
-                            </div>
-                            <div v-if="page === 2">
-                                <LabResults :patient="selectedPatient" />
-                            </div>
-                            <div v-if="page === 3">
-                                <Prescription :patient="selectedPatient" />
-                            </div>
-                            <div v-if="page === 4">
-                                <Attachment :patient="selectedPatient" />
-                            </div>
-                            <div v-if="page === 5">
-                                <Intake :patient="selectedPatient" />
-                            </div>
-                            <div v-if="page === 6">
-                                <Treatment :patient="selectedPatient" />
-                            </div>
-
-                        </div>
-                    </div>
-                    <Flyout class="hide-print" :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
-                        <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-                        <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
-                        <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
-                        <div class="records-divider" />
-                        <div class="input__container mid-section-flyout">
-                            <div class="half-left">
-                                <span class="full-left">ID: <b>#{{ selectedPatient.id }}</b></span>
-                                <span class="full-left">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                                <span class="full-left">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
-                            </div>
-                            <div class="half-left">
-                                <span class="full-left">City: <b>{{ selectedPatient.city }}</b></span>
-                                <span class="full-left">State: <b>{{ selectedPatient.state }}</b></span>
-                            </div>
-                        </div>
-                        <div class="input__container">
-                            <Timeline 
-                                :index="index" 
-                                :items="timelineData" 
-                                :emptyMessage="`No records for this patient`"
-                                :loading="loading" />
-                        </div>
-                    </Flyout>
-
-                    <NotificationPopup
-                        :active="notificationActive"
-                        :comes-from="notificationDirection"
-                        :symbol="notificationSymbol"
-                        :text="notificationMessage"
-                    />
-                    
-                </div>
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+            <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
+              <form>
+                <i class="font-lg pt1 fa fa-search absolute left-2"></i>
+                <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none f5 f3-m font-m fw1 w-100 pl4" />
+              </form>
             </div>
+          </Grid>
+
+          <div class="pa2 pa3-m">
+
+            <!-- No results -->
+            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="mt6 tc">
+              <i class="fa fa-ban f2 mb-3"></i>
+              <Heading2>No Records Found</Heading2>
+            </div>
+
+            <!-- Results -->
+            <table v-if="search !== ''" class="w-100 fs3 collapse">
+              <tr v-for="patient in results" @click="selectPatient(patient)" class="patient-row">
+                <td class="pt2 pb2 pl2">{{ patient.search_name }}</td>
+                <td class="pt2 pb2">{{ patient.email }}</td>
+                <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth }}</td>
+              </tr>
+            </table>
+
+          </div>
+
+          <Modal :active="activeModal" :onClose="modalClose">
+            <div class="inline-centered">
+              <h1>Warning</h1>
+              <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
+              <button @click="modalClose" class="bg-gray button">Go Back</button>
+              <button @click="nextStep" class="button">Yes, I agree</button>
+            </div>
+          </Modal>
+
         </div>
 
-        <div v-if="$root.$data.permissions === 'patient'">
-            <div class="main-content">
-                <div v-if="patientLoading" class="card records-loading">
-                    <p><i>Your records are loading...</i></p>
-                </div>
-                <div v-if="selectedUserPatient">
-                    {{ getTimelineData() }}
-                </div>
-                <div v-if="selectedUserPatient">
-                    <div class="auto-height">
-                        <div v-if="page === 0">
-                            <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
-                        </div>
-                        <div class="card width70 print-full-width" v-if="page !== 0">
-                            <div class="card-heading-container height65">
-                                <h2 class="left-records-label">
-                                    {{ page === 1 ? `Treatment Plan` : null }}
-                                    {{ page === 2 ? `Lab Results` : null }}
-                                    {{ page === 3 ? `Prescription` : null }}
-                                    {{ page === 4 ? `Attachment` : null }}
-                                    {{ page === 5 ? `Intake Form` : null }}
-                                </h2>
-                                <h2 class="search-name-label">
-                                    {{ selectedUserPatient.search_name }}
-                                </h2>
-                            </div>
+        <!-- Non-Patient Step Two -->
+        <div v-if="step == 2">
+          <div v-if="$root.$data.permissions !== 'patient'">
 
-                            <div v-if="page === 1">
-                                <Treatment :patient="selectedUserPatient" />
-                            </div>
-                            <div v-if="page === 2">
-                                <LabResults :patient="selectedUserPatient" />
-                            </div>
-                            <div v-if="page === 3">
-                                <Prescription :patient="selectedUserPatient" />
-                            </div>
-                            <div v-if="page === 4">
-                                <Attachment :patient="selectedUserPatient" />
-                            </div>
-                            <div v-if="page === 5">
-                                <Intake :patient="selectedUserPatient" />
-                            </div>
+            <div class="content-with-flyout">
 
-                        </div>
+              <div class="bb b--light-gray bg-white pa4 w-100 relative">
+                <!-- Search Bar -->
+                <Grid :flexAt="'l'" :columns="[{ l:'2of3' }, { l:'1of3' }]">
+                    <div :slot="1">
+                      <form>
+                        <i class="font-lg pt1 fa fa-search absolute left-2"></i>
+                        <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none font-xl fw1 w-100 pl4" />
+                      </form>
                     </div>
-                    <div v-if="selectedUserPatient" class="hide-print">
-                        <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
-                            <a class="flyout-links" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
-                            <a class="flyout-links" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
-                            <div class="records-image" :style="`background-image: url(${selectedUserPatient.image});`" />
-                            <div class="records-divider" />
-                            <div class="input__container mid-section-flyout">
-                                <div class="half-left">
-                                    <span class="full-left">ID: <b>#{{ selectedUserPatient.id }}</b></span>
-                                    <span class="full-left">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
-                                    <span class="full-left">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
-                                </div>
-                                <div class="half-left">
-                                    <span class="full-left">City: <b>{{ selectedUserPatient.city }}</b></span>
-                                    <span class="full-left">State: <b>{{ selectedUserPatient.state }}</b></span>
-                                </div>
-                            </div>
-                            <div class="input__container">
-                                <Timeline 
-                                    :index="index" 
-                                    :items="timelineData" 
-                                    :emptyMessage="`No records for this patient`"
-                                    :loading="loading" />
-                            </div>
-                        </Flyout>
-                    </div>
+                </Grid>
+              </div>
 
-                    <NotificationPopup
-                        :active="notificationActive"
-                        :comes-from="notificationDirection"
-                        :symbol="notificationSymbol"
-                        :text="notificationMessage"
-                    />
-                    
+              <!-- Actions -->
+              <div :slot="2" class="searchbar-actions pa4">
+                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }, { l:'2of2' }]" :gutters="{ s:2, l:2 }">
+                  <span :slot="1" class="custom-select">
+                    <select class="f3 h-100 bg-white" @change="updateMenu($event)">
+                      <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
+                    </select>
+                  </span>
+                  <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
+                  <button :slot="3" class="button flyout-toggle" @click="handleFlyoutOpen">
+                    View Current Records
+                  </button>
+                </Grid>
+              </div>
+
+              <div class="pa2 pa3-m">
+                <div v-if="page === 0">
+                  <!-- Add First card here -->
                 </div>
+
+                <div v-if="page !== 0">
+
+                  <div v-if="page === 1">
+                    <SoapNote :patient="selectedPatient" />
+                  </div>
+                  <div v-if="page === 2">
+                    <LabResults :patient="selectedPatient" />
+                  </div>
+                  <div v-if="page === 3">
+                    <Prescription :patient="selectedPatient" />
+                  </div>
+                  <div v-if="page === 4">
+                    <Attachment :patient="selectedPatient" />
+                  </div>
+                  <div v-if="page === 5">
+                    <Intake :patient="selectedPatient" />
+                  </div>
+                  <div v-if="page === 6">
+                    <Treatment :patient="selectedPatient" />
+                  </div>
+                </div>
+              </div>
+
             </div>
+
+            <!-- Flyout -->
+            <Flyout class="hide-print" :active="isFlyoutActive" :on-close="null" :button="true" :header="false">
+
+              <button class="button--close flyout-close" @click="handleFlyoutClose" data-test="close">
+                  <svg><use xlink:href="#close" /></svg>
+              </button>
+
+              <!-- Info -->
+              <div class="flyout-patient-info">
+                <Heading2 class="dib no-border w-70">{{selectedPatient.search_name}}</Heading2>
+                <img class="w3 h3 fr" :src="selectedPatient.image" />
+                <a class="db" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
+                <a class="db" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+              </div>
+
+              <Spacer isBottom :size="4" />
+
+              <!-- Details -->
+              <div class="flyout-patient-info">
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                  <div :slot="1">
+                    <span class="db pa1">ID: <b>#{{ selectedPatient.id }}</b></span>
+                    <span class="db pa1">Joined: <b>{{ selectedPatient.created_at }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                  </div>
+                  <div :slot="2">
+                    <span class="db pa1">City: <b>{{ selectedPatient.city }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedPatient.state }}</b></span>
+                  </div>
+                </Grid>
+              </div>
+
+              <Spacer isBottom :size="4" />
+
+              <!-- Timeline -->
+              <div>
+                <Timeline
+                :index="index"
+                :items="timelineData"
+                :emptyMessage="`No records for this patient`"
+                :loading="loading" />
+              </div>
+
+            </Flyout>
+
+            <NotificationPopup
+            :active="notificationActive"
+            :comes-from="notificationDirection"
+            :symbol="notificationSymbol"
+            :text="notificationMessage"
+            />
+
+          </div>
         </div>
 
-    </div>
+      </div>
+
+      <!-- Patient -->
+      <div v-if="$root.$data.permissions === 'patient'">
+        <div class="content-with-flyout">
+          <!-- Loading state -->
+          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+            <div :slot="1" v-if="patientLoading && !selectedUserPatient" class="pa2 pa3-m">
+              <LoadingSpinner class="mt3" />
+              <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
+            </div>
+          </Grid>
+
+          <div v-if="selectedUserPatient">
+            {{ getTimelineData() }}
+          </div>
+
+          <div :slot="2" class="searchbar-actions pa4 mt4">
+            <Grid :flexAt="'l'" :columns="[{ l:'1of1' }]" :gutters="{ s:2, l:2 }">
+              <button :slot="1" class="button flyout-toggle" @click="handleFlyoutOpen">
+                View Current Records
+              </button>
+            </Grid>
+          </div>
+
+          <div v-if="selectedUserPatient">
+            <div class="pa2 pa3-m">
+              <div v-if="page === 0">
+                <!-- Add First card here -->
+              </div>
+
+              <div v-if="page !== 0">
+
+                <div v-if="page === 1">
+                  <Treatment :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 2">
+                  <LabResults :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 3">
+                  <Prescription :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 4">
+                  <Attachment :patient="selectedUserPatient" />
+                </div>
+                <div v-if="page === 5">
+                  <Intake :patient="selectedUserPatient" />
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="hide-print">
+            <Flyout class="hide-print" :active="isFlyoutActive" :on-close="null" :button="true" :header="false">
+
+              <button class="button--close flyout-close" @click="handleFlyoutClose" data-test="close">
+                  <svg><use xlink:href="#close" /></svg>
+              </button>
+
+              <!-- Info -->
+              <div class="flyout-patient-info">
+                <Heading2 class="dib no-border w-70">{{selectedUserPatient.search_name}}</Heading2>
+                <img class="w3 h3 fr" :src="selectedUserPatient.image" />
+                <a class="db" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
+                <a class="db" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+              </div>
+
+              <Spacer isBottom :size="4" />
+
+              <!-- Details -->
+              <div class="flyout-patient-info">
+                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                  <div :slot="1">
+                    <span class="db pa1">ID: <b>#{{ selectedUserPatient.id }}</b></span>
+                    <span class="db pa1">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
+                  </div>
+                  <div :slot="2">
+                    <span class="db pa1">City: <b>{{ selectedUserPatient.city }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedUserPatient.state }}</b></span>
+                  </div>
+                </Grid>
+              </div>
+
+              <Spacer isBottom :size="4" />
+
+              <!-- Timeline -->
+              <div>
+                <Timeline
+                :index="index"
+                :items="timelineData"
+                :emptyMessage="`No records for this patient`"
+                :loading="loading" />
+              </div>
+            </Flyout>
+          </div>
+
+          <NotificationPopup
+          :active="notificationActive"
+          :comes-from="notificationDirection"
+          :symbol="notificationSymbol"
+          :text="notificationMessage"
+          />
+
+        </div>
+      </div>
+
+  </div>
 </template>
 
 <script>
+import { LoadingSpinner } from 'feedback';
+import { Paragraph, Heading2, Heading3 } from 'typography';
+import { Card, CardContent, Grid, PageHeader, PageContainer, Spacer } from 'layout';
+
 import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
 import Flyout from '../../commons/Flyout.vue';
@@ -226,11 +298,19 @@ import Intake from './components/Intake.vue';
 import Treatment from './components/Treatment.vue';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
 import axios from 'axios';
-import { capitalize } from 'lodash';
+import { capitalize, startCase } from 'lodash';
 import moment from 'moment';
 export default {
     name: 'Records',
     components: {
+        Paragraph,
+        Heading2,
+        LoadingSpinner,
+        Card,
+        CardContent,
+        Grid,
+        PageContainer,
+        PageHeader,
         UserNav,
         Modal,
         Flyout,
@@ -241,7 +321,9 @@ export default {
         Attachment,
         Intake,
         Treatment,
-        NotificationPopup
+        NotificationPopup,
+        Heading3,
+        Spacer
     },
     data() {
         return {
@@ -249,6 +331,7 @@ export default {
             search: '',
             selectedPatient: null,
             activeModal: false,
+            isFlyoutActive: false,
             name: '',
             showing: [],
             page: 0,
@@ -269,12 +352,6 @@ export default {
             notificationMessage: '',
             notificationActive: false,
             notificationDirection: 'top-right',
-            dropDownMenu: [
-                'SOAP Note', 
-                'Prescription', 
-                'Lab Results', 
-                'Attachment' 
-            ],
             menuIndex: 1
         };
     },
@@ -293,9 +370,18 @@ export default {
                 case "Attachment":
                     this.menuIndex = 4;
                     break;
+                case "Treatment Plan":
+                    this.menuIndex = 1;
+                    break;
                 default:
                     break;
             }
+        },
+        newAttachment() {
+            this.news = true;
+            this.menuIndex = 4;
+            this.setIndex(null);
+            this.setPage(4);
         },
         newRecord() {
             this.news = true;
@@ -324,6 +410,7 @@ export default {
         },
         selectPatient(patient) {
             this.selectedPatient = patient;
+            this.selectedPatient.created_at = moment.tz(patient.created_at.date, patient.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY");
             this.name = patient.search_name;
             this.activeModal = true;
         },
@@ -335,6 +422,12 @@ export default {
         modalClose() {
             this.activeModal = false;
         },
+        handleFlyoutClose() {
+            this.isFlyoutActive = false;
+        },
+        handleFlyoutOpen() {
+            this.isFlyoutActive = true;
+        },
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedUserPatient && this.selectedUserPatient.id ? this.selectedUserPatient.id : this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
                 .then(response => {
@@ -344,7 +437,7 @@ export default {
                             if (e.type === 'lab_tests') {
                                 e.included = this.$root.$data.labTests[e.attributes.sku_id];
                             }
-                            e.type === 'soap_note' ? 
+                            e.type === 'soap_note' ?
                                 this.soap_notes[e.id] = e :
                             e.type === 'attachment' ?
                                 this.attachments[e.id] = e :
@@ -363,7 +456,7 @@ export default {
                             object.doctor = e.attributes.doctor_name || "No Doctor";
                             object.original_date = null;
                             if (e.attributes && e.attributes.created_at && e.attributes.created_at.date) {
-                                object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                                object.date = moment.tz(e.attributes.created_at.date, e.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                                 object.original_date = e.attributes.created_at.date;
                             }
                             object.type = e.type.split('_').map(ele => capitalize(ele)).join(' ');
@@ -405,6 +498,16 @@ export default {
                 return [];
             }
         },
+        dropDownMenu() {
+            return this.$root.$data.permissions !== 'patient' ? [
+                'SOAP Note',
+                'Prescription',
+                'Lab Results',
+                'Attachment'
+            ] : [
+                'Attachment'
+            ];
+        },
         timelineData() {
                 let onClickFunctions = {
                     'Intake': (data, index) => {
@@ -440,38 +543,53 @@ export default {
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
-                    e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
+                    let reg = new RegExp('Lab Test', 'ig');
+                    let regex = new RegExp('Result', 'ig');
+                    let aregex = new RegExp('Attachment', 'ig');
+                    if (regex.test(e.type)) {
+                        e.type = e.type.replace(reg, this.$root.$data.labTests[this.lab_tests[e.data.attributes.lab_test_id].attributes.sku_id].attributes.name);
+                        e.onClick = onClickFunctions['Lab Test Result'].bind(this, e.data, i);
+                    } else if (aregex.test(e.type)) {
+                        e.type = startCase(this.attachments[e.id].attributes.name) + ' ' + e.type;
+                        e.onClick = onClickFunctions['Attachment'].bind(this, e.data, i);
+                    } else {
+                        e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
+                    }
                     return e;
                 });
                 return arrays;
             },
             selectedUserPatient() {
-                if (!this.$root.$data.global.user || !this.$root.$data.global.user.attributes || !this.$root.$data.global.user.included) {
-                    return false;
+                if (this.$root.$data.permissions !== 'patient') {
+                    return {};
                 } else {
-                    let patientData = this.$root.$data.global.user.included.attributes;
-                    let patientUserData = this.$root.$data.global.user.attributes;
-                    let patientUserId = this.$root.$data.global.user.id;
-                    let patientId = this.$root.$data.global.user.included.id;
-                    let object = {
-                        address_1: patientUserData.address_1,
-                        address_2: patientUserData.address_2,
-                        city: patientUserData.city,
-                        date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
-                        email: patientUserData.email,
-                        has_a_card: patientUserData.has_a_card,
-                        id: patientId,
-                        name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
-                        phone: patientUserData.phone,
-                        search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
-                        state: patientUserData.state,
-                        user_id: patientUserId,
-                        zip: patientUserData.zip,
-                        image: patientUserData.image_url,
-                        created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
-                    };
-                    this.setPatientLoading(false);
-                    return object;
+                    if (this.$root.$data.global.user && this.$root.$data.global.user.attributes) {
+                        let patientData = this.$root.$data.global.user.included.attributes;
+                        let patientUserData = this.$root.$data.global.user.attributes;
+                        let patientUserId = this.$root.$data.global.user.id;
+                        let patientId = this.$root.$data.global.user.included.id;
+                        let object = {
+                            address_1: patientUserData.address_1 || null,
+                            address_2: patientUserData.address_2 || null,
+                            city: patientUserData.city || null,
+                            date_of_birth: patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : null,
+                            email: patientUserData.email || null,
+                            has_a_card: patientUserData.has_a_card || null,
+                            id: patientId || null,
+                            name: `${patientUserData.last_name}, ${patientUserData.first_name}` || null,
+                            phone: patientUserData.phone || null,
+                            search_name: `${patientUserData.first_name} ${patientUserData.last_name}` || null,
+                            state: patientUserData.state || null,
+                            user_id: patientUserId || null,
+                            zip: patientUserData.zip || null,
+                            image: patientUserData.image_url || null,
+                            created_at: patientUserData.created_at && patientUserData.created_at.date ? moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY") : null
+                        };
+                        this.setPatientLoading(false);
+                        return object;
+                    } else {
+                        return false;
+                    }
                 }
             }
         },
@@ -491,7 +609,7 @@ export default {
             }
         },
         selectedUserPatient(val) {
-            if (!val && this.$root.$data.global.user && this.$root.$data.global.user.id) {
+            if (!val && this.$root.$data.permissions !== 'patient') {
                 let patientData = this.$root.$data.global.user.included.attributes;
                 let patientUserData = this.$root.$data.global.user.attributes;
                 let patientUserId = this.$root.$data.global.user.id;
@@ -511,12 +629,12 @@ export default {
                     user_id: patientUserId,
                     zip: patientUserData.zip,
                     image: patientUserData.image_url,
-                    created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
+                    created_at: moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY")
                 };
                 this.patientLoading = false;
                 return object;
             } else {
-                return false;
+                return {};
             }
         }
     },
@@ -525,3 +643,72 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .main-container {
+      flex-grow: 1;
+      transition: left 200ms ease-in-out, margin-left 200ms ease-in-out;
+
+      .menu-open & {
+        left: 150px;
+      }
+
+      @include query(xl) {
+        margin-left: 150px;
+        left: 0px !important;
+      }
+    }
+    .flyout-patient-info {
+      border-bottom: 1px solid $color-gray-5;
+      padding-bottom: 2rem;
+    }
+    .patient-row{
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-gray-5;
+      }
+    }
+    .content-with-flyout {
+      @include query(lg) {
+        padding-right: 350px;
+      }
+      @include query(xxl) {
+        position: relative;
+      }
+    }
+    .custom-select {
+      margin-top: 0;
+    }
+    .searchbar-actions {
+      @include query(xxl) {
+        background: $color-white;
+        min-width: 400px;
+        padding: 0 0 0 15px;
+        position: absolute;
+        right: 370px;
+        top: 23px;
+      }
+    }
+    .flyout-toggle,
+    .flyout-close {
+      @include query(lg) {
+        display: none;
+      }
+    }
+    .flyout {
+      max-width: none;
+      right: -100%;
+
+      &.isactive {
+        right: 0;
+      }
+
+      @include query(lg) {
+        max-width: 25em;
+        right: 0!important;
+      }
+    }
+</style>

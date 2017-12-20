@@ -86,7 +86,7 @@ class AppointmentsController extends BaseAPIController
         ]);
 
         $appointment = Appointment::create($inputData);
-        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
+        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation')->save();
 
         return $this->baseTransformItem($appointment->fresh())->respond();
     }

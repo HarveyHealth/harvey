@@ -25,7 +25,7 @@
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
-        :tableRowData="appointments"
+        :tableRowData="appointments"        
       />
 
     </div>
@@ -608,7 +608,7 @@ export default {
     },
     handleDiscount(callback) {
       this.discountError = '';
-      const endpoint = `${App.Config.misc.api}discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
+      const endpoint = `${App.Config.misc.api}discount_codes/${this.discountCode}?applies_to=consultation`;
       axios.get(endpoint).then(response => {
         if (response.data.errors) {
           this.discountError = 'Invalid discount code.';
