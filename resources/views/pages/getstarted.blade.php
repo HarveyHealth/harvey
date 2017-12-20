@@ -42,10 +42,9 @@
           window.$$context = 'get-started';
 
           // Now we redirect the user based on their logged in status and zip code
+          if (loggedIn) window.location.hash = '/welcome';
           if (!loggedIn && isServiceable) window.location.hash = '/signup';
-          if (loggedIn && isServiceable) window.location.hash = '/welcome';
-          if (!loggedIn && !isServiceable) window.location.href = '/conditions';
-          if (loggedIn && !isServiceable) window.location.href = '/logout';
+          if (!loggedIn && !isServiceable) window.location.href = '/conditions/get-zip';
         </script>
     </head>
     <body>
