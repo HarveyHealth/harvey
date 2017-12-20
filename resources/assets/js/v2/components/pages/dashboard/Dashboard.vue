@@ -4,9 +4,16 @@
         <div class="mw8 pa2 pa3-m">
             <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
             <SlideIn v-else>
-                <div v-if="shouldShowIntakeAlert">
-                    You should fill out the intake thingy
-                </div>
+                <Card isAlert v-if="shouldShowIntakeAlert" class="mb2 mb3-m">
+                    <CardContent class="pt4">
+                        <Grid :columns="[{m:'2of3'}, {m:'1of3'}]" :gutters="{s:3}">
+                            <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
+                            <div :slot="2" class="tc tr-m">
+                                <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
+                            </div>
+                        </Grid>
+                    </CardContent>
+                </Card>
                 <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
                     <Card :slot="1" :heading="'Appointments'">
                         <div v-if="upcomingAppointments.length">
@@ -58,9 +65,11 @@
 </template>
 
 <script>
+import { InputButton } from 'inputs';
 import { LoadingSpinner } from 'feedback';
-import { Paragraph } from 'typography';
 import { Card, CardContent, Grid, PageHeader, PageContainer, SlideIn, Spacer } from 'layout';
+import { Paragraph } from 'typography';
+
 import AppointmentCardInfo from './AppointmentCardInfo.vue';
 import AvatarCardHeading from './AvatarCardHeading.vue';
 import LabeledTextBlock from './LabeledTextBlock.vue';
@@ -73,6 +82,7 @@ export default {
         Card,
         CardContent,
         Grid,
+        InputButton,
         LabeledTextBlock,
         LoadingSpinner,
         PageHeader,
@@ -92,9 +102,10 @@ export default {
             return App.Config.user.isPatient && this.State('practitioners.userDoctor');
         },
         shouldShowIntakeAlert() {
-            return App.Config.user.isPatient &&
-                   this.State('users.intake.wasRequested') &&
-                  !this.State('users.intake.data.self');
+            return  App.Config.user.isPatient &&
+                    this.State('users.intake.wasRequested') &&
+                    !this.State('users.intake.isLoading') &&
+                    !this.State('users.intake.data.self');
         },
         topRowColumnConfig() {
             return this.shouldShowDoctorInfo ? [{ l:'1of2' }, { l:'1of2' }] : [{ l:'1of1' }];

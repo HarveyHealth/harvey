@@ -1,6 +1,6 @@
 <template>
     <div class="typeform-container relative">
-        <a href="/dashboard" class="close-link" v-show="shouldShowIntakeForm">
+        <a href="/dashboard" class="close-link" v-if="shouldShowIntakeForm">
             <i class="fa fa-close" />
         </a>
         <div
@@ -12,7 +12,7 @@
             data-hide-footer=false
             style="width: 100%; height: 100vh;"
         />
-        <SlideIn v-if="!shouldShowIntakeForm" class="complete-container">
+        <SlideIn v-if="isComplete" class="complete-container">
             <div class="complete-wrap tc mha mw6 pa4">
                 <LogoIcon justIcon :width="'50px'" :height="'60px'" />
                 <Spacer isBottom :size="4" />
@@ -45,6 +45,7 @@ export default {
     },
     data() {
         return {
+            isComplete: false,
             typeformUrl: `https://goharvey.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
         };
     },
@@ -64,6 +65,8 @@ export default {
                 if(!gi.call(d,id)) { js=ce.call(d,"script");
                 js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q); }
                 /* eslint-enable */
+            } else {
+                this.isComplete = true;
             }
         });
     }
