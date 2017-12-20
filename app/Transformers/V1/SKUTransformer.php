@@ -14,7 +14,6 @@ class SKUTransformer extends TransformerAbstract
             'item_type' => $sku->item_type,
             'name' => $sku->name,
             'price' => cast_to_string($sku->price),
-            'sample' => $sku->labTestInformation->sample ?? null,
             'cost' => cast_to_string($sku->cost),
             'lab_test_information' => $sku->labTestInformation ?? null,
         ];

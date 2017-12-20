@@ -8,7 +8,7 @@
                     </h1>
                 </div>
             </div>
-            <div class="card" style="width: 450px;">
+            <div class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Payment Options
@@ -90,7 +90,7 @@
 
                 </div>
             </div>
-            <div  class="card" style="width: 450px;">
+            <div  class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Timezone Options
@@ -356,5 +356,9 @@ export default {
 <style>
     .card-content-wrap .loading {
         margin: 0;
+    }
+    .card-width {
+        width: 93%;
+        max-width: 450px;
     }
 </style>

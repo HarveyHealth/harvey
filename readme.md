@@ -49,16 +49,23 @@ php artisan serve
 
 - run `./setup`
 
-SSL Certificates were created using the following commands from the project root:
+SSL Certificates were created using the following commands from the `vagrant_files` root directory.
+
+> You do not need to run these commands. This is just a reference to the commands used to generate the SSL files used for local development.
 
 ```
-mkdir vagrant_files
-cd vagrant_files
 openssl genrsa -des3 -passout pass:x -out harvey.app.pass.key 2048
 openssl rsa -passin pass:x -in harvey.app.pass.key -out harvey.app.key
 rm harvey.app.pass.key
-openssl req -new -key harvey.app.key -out harvey.app.csr
-openssl x509 -req -sha256 -days 365 -in harvey.app.csr -signkey harvey.app.key -out harvey.app.crt
+openssl req -new -key harvey.app.key -out harvey.app.csr -extensions req_ext -config ssl.conf
+
+> Country Name (2 letter code) []:US
+> State or Province Name (full name) []:CA
+> Locality Name (eg, city) []:Playa Vista
+> Organization Name (eg, company) []:Harvey Services, Inc.
+> Common Name (e.g. server FQDN or YOUR name) []:Harvey
+
+openssl x509 -req -sha256 -days 3650 -in harvey.app.csr -signkey harvey.app.key -out harvey.app.crt -extensions req_ext -extfile ssl.conf
 ```
 
 ### Database Seeding

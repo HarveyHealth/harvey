@@ -125,7 +125,7 @@ export default {
             if (this.isMenuActive) {
                 this.menuClick();
                 Vue.nextTick(() => {
-                    window.scroll(0, this.yScroll);
+                    window.scrollTo(0, this.yScroll);
                 });
             } else {
                 this.yScroll = window.scrollY;
