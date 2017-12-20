@@ -47,7 +47,7 @@ class Su_Generator {
 				'shortcode' => false
 			) );
 		// Prepare icon
-		if ( $args['icon'] ) $args['icon'] = '<img src="' . $args['icon'] . '" /> ';
+		if ( $args['icon'] ) $args['icon'] = '<img alt="" src="' . $args['icon'] . '" /> ';
 		// Print button
 		$button = '<a href="javascript:void(0);" class="su-generator-button ' . $args['class'] . '" title="' . $args['text'] . '" data-target="' . $args['target'] . '" data-mfp-src="#su-generator" data-shortcode="' . (string) $args['shortcode'] . '">' . $args['icon'] . $args['text'] . '</a>';
 		// Show generator popup

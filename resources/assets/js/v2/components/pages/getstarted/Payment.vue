@@ -113,10 +113,10 @@
 
                 <Grid :columns="[{s:'1of2'},{s:'1of2'}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
                     <div :slot="1" class="relative image-container">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
                     </div>
                     <div :slot="2" class="relative image-container">
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="assurance-image">
+                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="assurance-image">
                     </div>
                 </Grid>
             </CardContent>

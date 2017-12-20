@@ -1,7 +1,7 @@
 <template>
     <div>
         <button :class="{ 'avatar-button': true, 'is-active': isActive }" @click="onClick">
-            <img :src="image" class="avatar-image db" />
+            <img alt=""  :src="image" class="avatar-image db" />
         </button>
         <Spacer isBottom :size="2" />
         <small v-if="caption" v-html="caption" class="db"></small>

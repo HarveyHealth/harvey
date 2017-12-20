@@ -1,6 +1,5 @@
 @import url('https://use.typekit.net/ukw4upn.css');
-$fa-font-path: '~font-awesome/fonts';
-@import '~font-awesome/scss/font-awesome.scss';
+@import '../../css/vendors/fa.css';
 @import '../../css/vendors/lity.css';
 @import '../../css/vendors/juicer.css';
 @import 'mixins';

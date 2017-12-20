@@ -27,7 +27,7 @@
                 <vertical-tab class="tab" label="{{ $lab_test->sku->name }}" url="{{ $lab_test->sku->slug }}">
                     <header class="level">
                         <div class="media-left is-pulled-left">
-                            <img src="{{ $lab_test->image }}" alt="">
+                            <img alt="" src="{{ $lab_test->image }}" alt="">
                         </div>
                         <div class="media-content">
                             <h3 class="title font-xl"><strong>{{ $lab_test->sku->name }} Test</strong></h3>
