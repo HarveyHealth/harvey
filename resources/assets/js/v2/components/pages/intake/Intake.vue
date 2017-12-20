@@ -1,5 +1,8 @@
 <template>
     <div class="typeform-container">
+        <a href="/dashboard" class="close-link">
+            <i class="fa fa-close" />
+        </a>
         <div
             class="typeform-widget"
             :data-url="typeformUrl"
@@ -35,15 +38,13 @@ export default {
 <style lang="scss" scoped>
     @import '~sass';
 
-    .close-bar {
-        text-align: right;
-        vertical-align: middle;
-    }
-
     .close-link {
         color: $color-copy;
         display: inline-block;
-        font-size: 1.8rem;
+        font-size: 1.2rem;
         padding: 0.8rem 1.2rem;
+        position: fixed;
+        z-index: 1000;
+        right: 0;
     }
 </style>
