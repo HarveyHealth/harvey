@@ -99,6 +99,11 @@ class Patient extends Model
         return $this->hasMany(LabOrder::class);
     }
 
+    public function getByIntakeToken(string $token)
+    {
+        return self::where('intake_token', $token)->first();
+    }
+
     public function getIntakeData()
     {
         if (empty($token = $this->intake_token)) {
