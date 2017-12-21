@@ -10,14 +10,7 @@
     @include('_includes.svgs')
 
     <script>
-    window.Laravel = {!! $vue_data !!}
-    if ( Laravel.user.signedIn &&
-        !Laravel.user.has_an_appointment &&
-        Laravel.user.user_type === 'patient' ) {
-        window.location.href = '/get-started';
-    } else {
-      window.$$context = 'dashboard';
-    }
+        window.Laravel = {!! $vue_data !!}; if ( Laravel.user.signedIn && !Laravel.user.has_an_appointment && Laravel.user.user_type === 'patient' ) { window.location.href = '/get-started'; } else { window.$$context = 'dashboard'; }
     </script>
 
     <div class="admin-content">
