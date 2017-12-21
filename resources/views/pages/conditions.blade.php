@@ -39,7 +39,7 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
+          window.Laravel = {!! $vue_data !!};
           window.$$context = 'conditions';
         </script>
     </head>

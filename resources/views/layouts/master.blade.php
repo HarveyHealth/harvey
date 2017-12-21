@@ -30,7 +30,7 @@
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         @stack('stylesheets')
         <script>
-            window.Laravel = {!! $vue_data !!}
+            window.Laravel = {!! $vue_data !!};
         </script>
 
         <script>

@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
+          window.Laravel = {!! $vue_data !!};
           // Controller has determined that the user is:
           // logged in as patient with no Appointment or logged out
           // Now we check if there is zipValidation stored and whether

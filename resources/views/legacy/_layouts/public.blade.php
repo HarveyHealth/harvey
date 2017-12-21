@@ -29,7 +29,7 @@
     {{-- To add data here, see the VueHelperViewComposer --}}
 
     <script>
-        window.Laravel = {!! $vue_data !!}
+        window.Laravel = {!! $vue_data !!};
     </script>
 
     <script type="text/javascript" src="https://unpkg.com/gh-bideo@1.0.0/index.js"></script>
