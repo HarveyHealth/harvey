@@ -133,6 +133,18 @@ class Mailmunch_Admin {
 		echo json_encode($this->mailmunch_api->deleteWidget($_POST['widget_id']));
 		exit;
 	}
+	
+	public function change_email_status() {
+		$this->initiate_api();
+		echo json_encode($this->mailmunch_api->changeEmailStatus($_POST['email_id'], $_POST['email_status']));
+		exit;
+	}
+	
+	public function delete_email() {
+		$this->initiate_api();
+		echo json_encode($this->mailmunch_api->deleteEmail($_POST['email_id']));
+		exit;
+	}
 
 	/**
 	 * Register menu for the admin area
@@ -150,6 +162,7 @@ class Mailmunch_Admin {
 			add_submenu_page( MAILMUNCH_SLUG, $this->integration_name. ' Landing Pages', 'Landing Pages', 'manage_options', 'edit.php?post_type='. MAILMUNCH_POST_TYPE );
 		}
 		
+		add_submenu_page( MAILMUNCH_SLUG, $this->integration_name. ' Autoresponders', 'Autoresponders', 'manage_options', MAILMUNCH_SLUG. '-autoresponders', array($this, 'autoresponders_page') );
 		add_submenu_page( MAILMUNCH_SLUG, $this->integration_name. ' Settings', 'Settings', 'manage_options', MAILMUNCH_SLUG. '-settings', array($this, 'settings_page') );
 	}
 
@@ -268,6 +281,18 @@ class Mailmunch_Admin {
 	}
 	
 	/**
+	 * Autoresponders Page
+	 *
+	 * @since    3.0.7
+	 */
+	public function autoresponders_page() {
+		$this->initiate_api();
+		$currentStep = 'autoresponders';
+		require_once(plugin_dir_path( __FILE__ ) . 'partials/mailmunch-tabs.php');
+		require_once(plugin_dir_path(__FILE__) . 'partials/mailmunch-autoresponders.php');
+	}
+	
+	/**
 	 * Dashboard Widget
 	 *
 	 * @since    3.0.0
@@ -287,10 +312,11 @@ class Mailmunch_Admin {
 		$html .= '<div class="mailmunch-dash-widget-inner">';
 		$html .= '<p>Welcome to MailMunch! The #1 plugin to grow your email list.</p>';
 		$html .= '<div>';
-		$html .= '<a class="mailmunch-dash-option" href="'. admin_url('admin.php?page='.MAILMUNCH_SLUG) .'"><span class="dashicons dashicons-editor-table"></span><span class="mailmunch-dash-text">Forms</span></a>';
+		$html .= '<a class="mailmunch-dash-option" href="'. admin_url('admin.php?page='.MAILMUNCH_SLUG) .'"><span class="dashicons dashicons-editor-table"></span><span class="mailmunch-dash-text">Forms & Popups</span></a>';
 		if (empty($landingPagesEnabled) || $landingPagesEnabled == 'yes') {
 			$html .= '<a class="mailmunch-dash-option" href="'. admin_url('edit.php?post_type='.MAILMUNCH_POST_TYPE) .'"><span class="dashicons dashicons-admin-page"></span><span class="mailmunch-dash-text">Landing Pages</span></a>';
 		}
+		$html .= '<a class="mailmunch-dash-option" href="'. admin_url('admin.php?page='.MAILMUNCH_SLUG.'-autoresponders') .'"><span class="dashicons dashicons-email-alt"></span><span class="mailmunch-dash-text">Autoresponders</span></a>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
@@ -304,6 +330,8 @@ class Mailmunch_Admin {
 	 */
 	public function get_dashboard_html() {
 		$this->initiate_api();
+		$currentStep = 'forms';
+		require_once(plugin_dir_path( __FILE__ ) . 'partials/mailmunch-tabs.php');
 		require_once(plugin_dir_path( __FILE__ ) . 'partials/mailmunch-admin-display.php');
 		require_once(plugin_dir_path( __FILE__ ) . 'partials/mailmunch-modals.php');
 	}

@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0">
         @if (View::hasSection('page_title'))
-            <title>@yield('page_title') | Harvey</title>
+            <title>@yield('page_title') | Harvey Health</title>
         @else
-            <title>Holistic & Integrative Medicine | Harvey</title>
+            <title>Holistic & Integrative Medicine | Harvey Health</title>
         @endif
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
@@ -27,6 +27,8 @@
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
+        <link href="https://cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
+
         <!-- Typography -->
         <script src="https://use.typekit.net/ukw4upn.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>

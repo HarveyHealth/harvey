@@ -78,7 +78,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
 $factory->define(Patient::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => factory(User::class),        
+        'user_id' => factory(User::class),
         'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
         'height_feet' => $faker->numberBetween(4, 6),
         'height_inches' => $faker->numberBetween(0, 12),
@@ -182,13 +182,14 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     };
 
     return [
+        'appointment_at' => $start_time->toDateTimeString(),
+        'discount_code_id' => $discount_code_id,
         'duration_in_minutes' => $durationInMinutes,
-        'status_id' => $statusId,
+        'notes' => maybe($faker->sentence),
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
-        'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
-        'discount_code_id' => $discount_code_id,
+        'status_id' => $statusId,
     ];
 });
 
@@ -246,15 +247,15 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
     $output['message'] = $faker->text;
     $output['subject'] = $faker->sentence;
     $output['is_admin'] = Admin::class == $senderClassName;
-    $output['read_at'] = maybe() ? null : Carbon::parse('+ 10 seconds');
+    $output['read_at'] = maybe(Carbon::parse('+ 10 seconds'));
 
     return $output;
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
-    $discount_code_id = maybe() ? null : function () {
+    $discount_code_id = maybe(function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
-    };
+    });
 
     return [
         'patient_id' => factory(Patient::class),
@@ -389,7 +390,7 @@ $factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
         'sku_id' => factory(SKU::class),
         'description' => $faker->sentence(100),
         'image' => '/images/lab_tests/micronutrients.png',
-        'lab_name' => 'Unknown',
+        'lab_name' => "{$faker->lastName} Labs Inc.",
         'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
         'quote' => $faker->sentence(10),
     ];

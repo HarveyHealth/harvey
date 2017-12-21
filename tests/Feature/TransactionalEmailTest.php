@@ -8,6 +8,7 @@ use App\Models\{Appointment,Patient,User,LabOrder,LabTest,LabTestInformation};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Log;
+use App\Models\LabTestResult;
 
 class TransactionalEmailTest extends TestCase
 {
@@ -262,6 +263,24 @@ class TransactionalEmailTest extends TestCase
 
         $this->assertEmailTemplateDataWas([
             'lab_orders_link' => config('app.url') . '/dashboard#/lab_orders',
+            'lab_test_name' => $result->labTest->sku->name,
+        ]);
+    }
+    
+    public function test_labresult_created_notification()
+    {
+        // create a Lab Order
+        $result = factory(LabTestResult::class)->create();
+
+        // assert the notification email was sent to the patient
+        $this->assertEmailWasSentTo($result->labTest->labOrder->practitioner->user->email);
+
+        // assert the information sent was correct
+        $this->assertEmailTemplateNameWas('practitioner.lab_test_result.created');
+
+        $this->assertEmailTemplateDataWas([
+            'patient_name' => $result->labTest->labOrder->patient->user->full_name,
+            'lab_test_name' => $result->labTest->sku->name,
         ]);
     }
 

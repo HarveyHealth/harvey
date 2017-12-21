@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Background />
+        <Background :color="Config.conditions.backgrounds[State('conditions.condition.slug')] || ''" />
         <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
         <div class="center mw9 pa3 pa4-m">
             <ConditionPreface v-if="!State('conditions.prefaceRead')" />
@@ -13,14 +13,13 @@
 </template>
 
 <script>
-import { Heading1, Paragraph, Background } from 'typography';
-import { Spacer } from 'layout';
+import { Background, Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { MainSubFooter, MainFooter, PublicNav } from 'nav';
-import ConditionQuestions from './children/ConditionQuestions';
-import ConditionPreface from './children/ConditionPreface';
-import ConditionsAll from './children/ConditionsAll';
-import VerifyZip from './children/VerifyZip';
+
+import ConditionQuestions from './children/ConditionQuestions.vue';
+import ConditionPreface from './children/ConditionPreface.vue';
+import VerifyZip from './children/VerifyZip.vue';
 
 export default {
     name: 'conditions',
@@ -29,13 +28,10 @@ export default {
     },
     components: {
         Background,
-        ConditionsAll,
         ConditionPreface,
         ConditionQuestions,
         MainSubFooter,
         MainFooter,
-        Heading1,
-        Paragraph,
         PublicNav,
         Spacer,
         SvgIcon,

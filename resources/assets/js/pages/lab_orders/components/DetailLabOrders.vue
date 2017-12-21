@@ -367,9 +367,11 @@
       </div>
 
       <!-- Mark as Shipped -->
+      <!-- HAR-1157 Hiding button until Shippo integration feature is complete
       <div class="button-wrapper">
         <button class="button" @click="confirmShipping">Generate Label</button>
       </div>
+      -->
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -524,19 +526,6 @@ export default {
       this.pricing = 0;
       this.newState = '';
       this.labPatients = {};
-      this.$parent.setupLabData();
-      if (this.$root.$data.permissions !== 'patient') {
-        let status = {
-          0: "Recommended",
-          1: "Confirmed",
-          2: "Shipped",
-          3: "Received",
-          4: "Mailed",
-          5: "Processing",
-          6: "Complete"
-        };
-        this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
-      }
     },
     updateStatus(e) {
       this.selectedStatus = e.target.value;
@@ -563,7 +552,7 @@ export default {
     },
     validDiscountCode() {
       if (this.discountCode !== '') {
-        axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
+        axios.get(`${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}?applies_to=lab-test`)
           .then(this.processDiscount)
           .catch(() => this.disabledDiscount = true);
       } else {
@@ -724,10 +713,12 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
-        }).catch(() => {
+        }).catch((error) => {
             // stop the loading
             this.loading = false;
-            this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
+
+            // add the message
+            this.shippingErrorMessage = error.response.data.errors[0].detail;
         });
     },
     markedShipped() {
@@ -764,6 +755,19 @@ export default {
                 this.$parent.currentData[i].data.shipment_code = respond.data.data.attributes.shipment_code;
               }
             });
+             if (this.$root.$data.permissions !== 'patient') {
+                let status = {
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
+                };
+                this.$parent.setupLabData();
+                this.$parent.handleFilter({name: status[this.$parent.activeFilter]}, this.$parent.activeFilter);
+            }
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
@@ -832,6 +836,19 @@ export default {
                 });
               }
             });
+             if (this.$root.$data.permissions !== 'patient') {
+                let status = {
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
+                };
+                this.$parent.setupLabData();
+                this.$parent.handleFilter({name: status[this.$parent.activeFilter]}, this.$parent.activeFilter);
+            }
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;

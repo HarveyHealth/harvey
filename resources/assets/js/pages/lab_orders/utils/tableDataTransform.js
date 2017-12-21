@@ -29,7 +29,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             date: obj.attributes.created_at.date,
             total_price: 0,
             number_of_tests: 0,
-            paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
+            paid: obj.invoice && obj.invoice.attributes && obj.invoice.attributes.status === 'paid',
             invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
@@ -41,7 +41,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
                 data.total_price += eval(test.included.attributes.price);
-                data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample;
+                data.samples[test.included.attributes.lab_test_information.sample] = data.samples[test.included.attributes.lab_test_information.sample] ? data.samples[test.included.attributes.lab_test_information.sample] : test.included.attributes.lab_test_information.sample;
                 data.number_of_tests++;
                 data.sku_ids[test.attributes.sku_id] = test.included;
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status;

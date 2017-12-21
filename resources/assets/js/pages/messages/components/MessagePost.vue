@@ -33,23 +33,13 @@
         computed: {
             messages() {
                 let prop = this.$props.message;
-                if (prop.split('').length > 45) {
-                    let message = prop.split('').splice(0, 42);
-                    message[42] === ' ' ? message.push('...') : message.push(' ...');
-                    return message.join('');
-                }
                 return prop;
             },
             momentDate() {
-                return moment.tz(this.$props.createdAt.date, this.$props.createdAt.timezone).tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mma z');
+                return moment.tz(this.$props.createdAt.date, this.$props.createdAt.timezone).tz(this.$root.$data.timezone).tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mma z');
             },
             subjects() {
                 let prop = this.$props.header;
-                if (prop.split('').length > 45) {
-                    let header = prop.split('').splice(0, 42);
-                    header[42] === ' ' ? header.push('...') : header.push(' ...');
-                    return header.join('');
-                }
                 return prop;
             },
             read() {

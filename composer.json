@@ -30,13 +30,13 @@
         "wildbit/postmark-php": "^2.3",
         "laravel/homestead": "^5.2",
         "laravel/scout": "^3.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^3.0",
         "pusher/pusher-php-server": "^2.6",
         "twilio/sdk": "^5.11",
         "google/apiclient": "^2.2",
         "cviebrock/eloquent-sluggable": "^4.2",
         "shippo/shippo-php": "1.*",
-        "laravel/socialite": "^3.0"
+        "laravel/socialite": "^3.0",
+        "algolia/algoliasearch-client-php": "^1.23"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
@@ -72,21 +72,28 @@
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
+            "php artisan scout:import 'App\\Models\\Attachment'",
+            "php artisan scout:import 'App\\Models\\LabTestResult'",
+            "php artisan scout:import 'App\\Models\\Prescription'",
+            "php artisan scout:import 'App\\Models\\SoapNote'",
             "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan passport:getkeys",
             "php artisan calendar:get_credentials",
             "npm run prod"
         ],
+
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
+            "php artisan scout:import 'App\\Models\\Attachment'",
+            "php artisan scout:import 'App\\Models\\LabTestResult'",
+            "php artisan scout:import 'App\\Models\\Prescription'",
+            "php artisan scout:import 'App\\Models\\SoapNote'",
             "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
-            "php artisan cache:clear",
-            "php artisan calendar:get_credentials",
             "php artisan cache:clear",
             "npm run dev"
         ]

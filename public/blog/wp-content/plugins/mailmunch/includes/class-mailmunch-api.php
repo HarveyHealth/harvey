@@ -264,6 +264,19 @@
       $body = str_replace('{{TOKEN}}', $this->getUserToken(), $request['body']);
       return $body;
     }
+    
+    function getAutorespondersHtml($siteId=null) {
+      if (empty($siteId)) { $siteId = $this->getSiteId(); }
+
+      $this->requestType = 'get';
+      $request = $this->ping('/sites/'.$siteId.'/autoresponders/wordpress?plugin=mailmunch');
+      if( is_wp_error( $request ) ) {
+        return $request->get_error_message();
+      }
+
+      $body = str_replace('{{TOKEN}}', $this->getUserToken(), $request['body']);
+      return $body;
+    }
 
     function getSiteId() {
       return get_option($this->getPrefix(). 'site_id');
@@ -284,6 +297,28 @@
     function deleteWidget($widgetId) {
       $this->requestType = 'post';
       $request = $this->ping('/sites/'.$this->getSiteId().'/widgets/'.$widgetId.'/delete');
+      if ( is_wp_error( $request ) ) {
+        return array('success' => false);
+      }
+      return array('success' => true);
+    }
+    
+    function changeEmailStatus($emailId, $emailStatus) {
+      $this->requestType = 'put';
+      $request = $this->ping('/sites/'.$this->getSiteId().'/emails/'.$emailId, array(
+        'email' => array(
+          'status' => $emailStatus  
+        )
+      ));
+      if ( is_wp_error( $request ) ) {
+        return array('success' => false);
+      }
+      return array('success' => true);
+    }
+    
+    function deleteEmail($emailId) {
+      $this->requestType = 'delete';
+      $request = $this->ping('/sites/'.$this->getSiteId().'/emails/'.$emailId);
       if ( is_wp_error( $request ) ) {
         return array('success' => false);
       }
@@ -366,12 +401,20 @@
         'timeout' => 120,
       );
 
-      if ($type != 'post') {
-        $request = wp_remote_get($url, $args);
-      }
-      else {
+      if ($type == 'post') {
         $args = array_merge($args, array('method' => 'POST', 'body' => $options));
         $request = wp_remote_post($url, $args);
+      }
+      else if ($type == 'put') {
+        $args = array_merge($args, array('method' => 'PUT', 'body' => $options));
+        $request = wp_remote_request($url, $args);
+      }
+      else if ($type == 'delete') {
+        $args = array_merge($args, array('method' => 'DELETE', 'body' => $options));
+        $request = wp_remote_request($url, $args);
+      }
+      else {
+        $request = wp_remote_get($url, $args);
       }
 
       if ( !is_wp_error( $request ) && ( $request['response']['code'] == 500 || $request['response']['code'] == 503 ) ) {

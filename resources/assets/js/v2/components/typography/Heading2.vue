@@ -17,7 +17,6 @@ export default {
         'f3': !this.doesExpand,
         'f3-m': this.doesExpand,
         'fw3': true,
-        'ma0': true,
         'pa0': true,
         'white': this.isLight
       };
@@ -30,6 +29,6 @@ export default {
   @import '~sass';
 
   .Heading2 {
-    @extend %font-smooth;
+      margin: 0;
   }
 </style>
