@@ -3,7 +3,7 @@
     <div class="container">
         <div class="content has-text-centered">
             <a href="/">
-                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/logos/white-logo.png" class="footer-logo" alt="">
+                <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/logos/white-logo.png" class="footer-logo" alt="">
             </a>
             <div class="nav-links">
               <a class="" href="https://www.instagram.com/go_harvey" target="_blank">

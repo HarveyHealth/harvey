@@ -48,14 +48,14 @@ class The_Essence_About_Author_Widget extends WP_Widget {
 			<div class="about-author-widget" data-mtst-selector=".about-author-widget" data-mtst-label="About Author" data-mtst-no-support="typography">
 
 				<?php if ( $author_image !== '' ) : ?>
-					<div class="about-author-image"><img src="<?php echo esc_attr( $author_image ); ?>" alt="<?php echo esc_html( $name ); ?>" /></div>
+					<div class="about-author-image"><img alt="" src="<?php echo esc_attr( $author_image ); ?>" alt="<?php echo esc_html( $name ); ?>" /></div>
 				<?php endif; ?>
 				<div class="about-author-widget-info">
 					<h2 class="about-author-widget-name" data-mtst-selector=".about-author-widget-name" data-mtst-label="About Author - Name" data-mtst-no-support="background,borders"><?php echo esc_html( $name ); ?></h2>
 					<div class="about-author-widget-text" data-mtst-selector=".about-author-widget-text" data-mtst-label="About Author - Text" data-mtst-no-support="background,borders"><?php echo esc_html( $text ); ?></div>
 				</div><!-- .about-author-widget-info -->
 				<?php if ( $signature_image !== '' ) : ?>
-					<div class="about-author-signature-image"><img src="<?php echo esc_attr( $signature_image ); ?>" alt="<?php echo esc_html( $name ); ?>" /></div>
+					<div class="about-author-signature-image"><img alt="" src="<?php echo esc_attr( $signature_image ); ?>" alt="<?php echo esc_html( $name ); ?>" /></div>
 				<?php endif; ?>
 
 			</div><!-- .about-author-widget -->

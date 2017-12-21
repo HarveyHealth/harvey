@@ -321,7 +321,7 @@
 			'rand': t.intval(Math.random() * 1000000)
 		};
 
-		img = $( '<img id="image-preview-' + postid + '" alt="" />' )
+		img = $( '<img alt="" id="image-preview-' + postid + '" alt="" />' )
 			.on( 'load', { history: data.history }, function( event ) {
 				var max1, max2,
 					parent = $( '#imgedit-crop-' + postid ),

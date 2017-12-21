@@ -35,7 +35,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 
 		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
 		$notification .= sprintf(
-			'<img src="%1$s" height="%2$s" width="%3$d"  />',
+			'<img alt="" src="%1$s" height="%2$s" width="%3$d"  />',
 			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/new-to-configuration-notice.svg' ),
 			60,
 			60
