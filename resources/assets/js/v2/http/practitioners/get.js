@@ -7,11 +7,15 @@ export default function(response) {
   App.setState('practitioners.isLoading', true);
   App.setState('practitioners.wasRequested', true);
 
-  axios.get(`${App.Config.misc.api}practitioners?include=user`)
+  const endpointUrl = App.Logic.practitioners.endpointUrl();
+
+  if (endpointUrl) {
+    axios.get(endpointUrl)
     .then(r => response(r))
     .catch(error => {
       if (error.response) {
         console.warn(error.response);
       }
     });
+  }
 }

@@ -125,14 +125,14 @@ export default {
     },
     computed: {
         hasNoPractitioners() {
-            return !this.State('practitioners.isLoading') && !this.State('practitioners.data.licensed').length;
+            return !this.State('practitioners.isLoading') && !this.State('practitioners.data.all').length;
         },
         hasSelection() {
             return this.selected !== null;
         },
         // Grab up to 8 practitioners
         practitioners() {
-            return this.State('practitioners.data.licensed').slice(0, 8);
+            return this.State('practitioners.data.all').slice(0, 8);
         },
         selected() {
             return this.State('getstarted.signup.selectedPractitioner');

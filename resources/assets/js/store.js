@@ -39,12 +39,6 @@ export default function(laravel, State) {
           patients: [],
           practitioners: [],
           recent_appointments: [],
-          // Updated: 08/22/2017
-          // This is a hotfix and should be included in the backend logic when determining which
-          // practitioners to send to the frontend
-          regulatedStates: [
-            'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'NH', 'VT', 'DC'
-          ],
           signed_in: laravel.user.signed_in,
           test_results: [],
           upcoming_appointments: [],

@@ -81,6 +81,6 @@ class PatientsController extends BaseAPIController
 
     public function getSelecteablePractitioners(Request $request, Patient $patient)
     {
-        return $this->baseTransformBuilder(Practitioner::canServeOn($patient->user->state), null, new PractitionerTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder(Practitioner::canServeOn($patient->user->state), request('include'), new PractitionerTransformer, request('per_page'))->respond();
     }
 }
