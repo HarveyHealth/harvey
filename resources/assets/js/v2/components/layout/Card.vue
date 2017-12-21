@@ -30,7 +30,7 @@ export default {
                 'b--light-gray': !this.isAlert,
                 'bg-white': !this.isAlert,
                 'bg-alert': this.isAlert
-            }
+            };
         }
     }
 };

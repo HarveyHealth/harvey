@@ -4,16 +4,18 @@
         <div class="mw8 pa2 pa3-m">
             <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
             <SlideIn v-else>
-                <Card isAlert v-if="shouldShowIntakeAlert" class="mb2 mb3-m">
-                    <CardContent class="pt4">
-                        <Grid :columns="[{m:'2of3'}, {m:'1of3'}]" :gutters="{s:3}">
-                            <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
-                            <div :slot="2" class="tc tr-m">
-                                <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
-                            </div>
-                        </Grid>
-                    </CardContent>
-                </Card>
+                <SlideIn :to="'right'" v-if="shouldShowIntakeAlert">
+                    <Card isAlert class="alert mb2 mb3-m">
+                        <CardContent class="pt4">
+                            <Grid :columns="[{m:'2of3'}, {m:'1of3'}]" :gutters="{s:3}">
+                                <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
+                                <div :slot="2" class="tc tr-m">
+                                    <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
+                                </div>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                </SlideIn>
                 <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
                     <Card :slot="1" :heading="'Appointments'">
                         <div v-if="upcomingAppointments.length">
@@ -117,7 +119,7 @@ export default {
     mounted() {
         App.setState('misc.currentPage', 'dashboard');
 
-        if (!this.State('users.intake.data.self')) {
+        if (!this.State('users.intake.wasRequested')) {
             App.Http.users.getPatientIntake(App.Config.user.info.id);
         }
 
@@ -131,3 +133,11 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .alert {
+        border-left: 7px solid;
+    }
+</style>
