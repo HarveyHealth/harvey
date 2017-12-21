@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Dashboard')
+@section('page_title', 'Patient Intake')
 
 @push('stylesheets')
     <link rel="stylesheet" href="{{ mix('css/application.css') }}">
