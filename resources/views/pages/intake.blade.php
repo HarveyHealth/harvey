@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+    <style><?php include("css/application.css");?></style>
 
     <script type="text/javascript">
       window.Laravel = {!! $vue_data !!};
