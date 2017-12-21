@@ -64,6 +64,11 @@ trait HasStatusColumn
         return !$this->wasShipped();
     }
 
+    public function scopeShipped(Builder $builder)
+    {
+        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
+    }
+
     public function scopePending(Builder $builder)
     {
         return $builder->where('status_id', self::PENDING_STATUS_ID);

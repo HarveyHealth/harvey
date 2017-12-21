@@ -1,3 +1,39 @@
+%button-reset {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: $font-family-main;
+    font-size: $font-md;
+    outline: none;
+    padding: 0;
+    text-decoration: none;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+}
+
 %font-smooth {
   -webkit-font-smoothing: antialiased;
+}
+
+%input--text-reset {
+    appearance: none;
+    background: $color-white;
+    border: none;
+    color: $color-copy;
+    font-family: $font-family-main;
+    font-size: $font-md;
+    outline: none;
+    vertical-align: middle;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+%input--bare {
+    border-bottom: 1px solid $color-gray-5;
+    padding: 8px;
+}
+
+%list-reset {
+    list-style: none;
+    padding: 0;
 }

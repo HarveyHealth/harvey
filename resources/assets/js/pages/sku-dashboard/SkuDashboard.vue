@@ -33,7 +33,7 @@
                     <th class="sku-table__column heading-2">Quote</th>
                     <th class="sku-table__column heading-2">Price</th>
                     <th class="sku-table__column heading-2">Cost</th>
-                    <th class="sku-table__column heading-2">Public</th>
+                    <th class="sku-table__column heading-2">Visible to</th>
                 </thead>
                 <tbody class="copy-main">
                     <draggable v-model="skuList" @end="onDragComplete">
@@ -82,7 +82,7 @@ export default {
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility: ''
                     }
                 }
             };
