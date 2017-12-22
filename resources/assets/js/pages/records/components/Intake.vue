@@ -46,7 +46,8 @@ export default {
     computed: {
         questionsList() {
             let quest = {};
-            let props = this.$parent.propData;
+            // Have to go up two parents because of PageContainer
+            let props = this.$parent.$parent.propData;
             props.attributes.questions.forEach(e => {
                 quest[e.id] = {};
                 quest[e.id].question = e.question;

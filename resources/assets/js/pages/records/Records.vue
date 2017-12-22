@@ -1,20 +1,18 @@
 <template>
-  <div class="main-container">
+  <PageContainer>
 
       <!-- Non-Patient -->
       <div v-if="$root.$data.permissions !== 'patient'">
 
         <!-- Non-Patient Step One -->
         <div v-if="step == 1" class="relative">
-          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
-            <div :slot="1" v-if="$root.$data.global.loadingPatients" class="pa2 pa3-m">
-              <LoadingSpinner class="mt3" />
-              <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
-            </div>
-          </Grid>
+            <SlideIn v-if="$root.$data.global.loadingPatients" class="pa2 pa3-m">
+                <LoadingSpinner class="mt3" />
+                <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
+            </SlideIn>
 
-          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
-            <div :slot="1" v-if="!$root.$data.global.loadingPatients" class="bb b--light-gray bg-white pa4 w-100">
+          <Grid v-if="!$root.$data.global.loadingPatients" :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+            <div :slot="1" class="bb b--light-gray bg-white pa4 w-100">
               <form>
                 <i class="font-lg pt1 fa fa-search absolute left-2"></i>
                 <input v-model="search" placeholder="Search name, email or birthday..." @keydown="updateInput($event)" type="text" class="b--none f5 f3-m font-m fw1 w-100 pl4" />
@@ -78,7 +76,7 @@
                       <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
                     </select>
                   </span>
-                  <button :slot="2" @click="newRecord" class="button dib fr w-40">New Record</button>
+                  <button :slot="2" @click="newRecord" class="button dib fr">New Record</button>
                   <button :slot="3" class="button flyout-toggle" @click="handleFlyoutOpen">
                     View Current Records
                   </button>
@@ -278,13 +276,13 @@
         </div>
       </div>
 
-  </div>
+  </PageContainer>
 </template>
 
 <script>
 import { LoadingSpinner } from 'feedback';
 import { Paragraph, Heading2, Heading3 } from 'typography';
-import { Card, CardContent, Grid, PageHeader, PageContainer, Spacer } from 'layout';
+import { Card, CardContent, Grid, PageHeader, PageContainer, SlideIn, Spacer } from 'layout';
 
 import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
@@ -323,6 +321,7 @@ export default {
         Treatment,
         NotificationPopup,
         Heading3,
+        SlideIn,
         Spacer
     },
     data() {
