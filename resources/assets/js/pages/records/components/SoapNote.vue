@@ -1,9 +1,10 @@
 <template>
-  <div id="SNScroller" class="" style="overflow: scroll;">
-    <PageHeader class="mb3" :heading="$parent.$parent.news ? 'New Soap Note' : 'Soap Note'" />
+  <div id="SNScroller" style="overflow: scroll;">
+    <Heading1>{{ $parent.news ? 'New Soap Note' : 'Soap Note' }}</Heading1>
+    <Spacer isBottom :size="3" />
     <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
-      <Card class="w-60" :slot="1" :heading="'SOAP Note'">
+      <Card :slot="1" :heading="'SOAP Note'">
         <CardContent>
 
           <div>
@@ -67,7 +68,7 @@
       </Card>
 
       <!-- Quick Notes -->
-      <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+      <Card :slot="2" :heading="'Quick Notes'">
         <CardContent>
 
           <!-- Editor -->
@@ -89,7 +90,7 @@
           <!-- Save -->
           <div class="inline-centered">
             <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
-            <button v-if="!$parent.$parent.news" @click="deleteModal" class="button bg-danger">Archive Note</button>
+            <button v-if="!$parent.news" @click="deleteModal" class="button bg-danger">Archive Note</button>
           </div>
         </CardContent>
       </Card>
@@ -124,7 +125,7 @@ import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading3 } from 'typography';
+import { Heading1, Heading3, Paragraph } from 'typography';
 export default {
     props: {
         patient: Object
@@ -136,6 +137,7 @@ export default {
         Grid,
         PageHeader,
         Paragraph,
+        Heading1,
         Heading3,
         Spacer
     },
@@ -187,17 +189,17 @@ export default {
             this.planTA = data;
         },
         deleteNote() {
-            axios.delete(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.$parent.propData.id}`)
+            axios.delete(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`)
                 .then(() => {
                     this.deleteModalActive = false;
-                    this.$parent.$parent.page = 0;
-                    delete this.$parent.$parent.soap_notes[this.$parent.$parent.propData.id];
-                    this.$parent.$parent.timeline.splice(this.$parent.$parent.index, 1);
-                    this.$parent.$parent.index = null;
-                    this.$parent.$parent.propData = null;
-                    this.$parent.$parent.notificationMessage = "Successfully deleted!";
-                    this.$parent.$parent.notificationActive = true;
-                    setTimeout(() => this.$parent.$parent.notificationActive = false, 3000);
+                    this.$parent.page = 0;
+                    delete this.$parent.soap_notes[this.$parent.propData.id];
+                    this.$parent.timeline.splice(this.$parent.index, 1);
+                    this.$parent.index = null;
+                    this.$parent.propData = null;
+                    this.$parent.notificationMessage = "Successfully deleted!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
                 });
         },
         createSoapNote() {
@@ -217,20 +219,25 @@ export default {
             .then(response => {
                 let object = {};
                 let returns = response.data.data;
-                this.$parent.$parent.soap_notes[returns.id] = returns;
+                this.$parent.soap_notes[returns.id] = returns;
                 object.data = returns;
                 object.id = returns.id;
                 object.date = moment.tz(returns.attributes.created_at.date, returns.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                 object.original_date = returns.attributes.created_at.date;
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
                 object.type = 'SOAP Note';
-                this.$parent.$parent.timeline = [object].concat(this.$parent.$parent.timeline);
-                this.$parent.$parent.news = false;
-                this.$parent.$parent.setIndex(0);
-                this.$parent.$parent.propData = returns;
-                this.$parent.$parent.notificationMessage = "Successfully added!";
-                this.$parent.$parent.notificationActive = true;
-                setTimeout(() => this.$parent.$parent.notificationActive = false, 3000);
+                this.$parent.timeline = [object].concat(this.$parent.timeline);
+                this.$parent.news = false;
+                this.$parent.setIndex(0);
+                this.$parent.propData = returns;
+                this.$parent.notificationMessage = "Successfully added!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error(error.response);
+                }
             });
         },
         editSoapNote() {
@@ -246,97 +253,102 @@ export default {
                     delete object[i];
                 }
             }
-            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.$parent.propData.id}`, object)
+            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`, object)
             .then(response => {
                 let data = response.data.data;
-                this.$parent.$parent.propData = data;
-                this.$parent.$parent.soap_notes[data.id] = data;
-                this.$parent.$parent.timeline = this.$parent.$parent.timeline.map(e => {
+                this.$parent.propData = data;
+                this.$parent.soap_notes[data.id] = data;
+                this.$parent.timeline = this.$parent.timeline.map(e => {
                     if (e.type === 'SOAP Note' && data.id == e.id) {
                         e.data = data;
                     }
                     return e;
                 });
-                this.$parent.$parent.notificationMessage = "Successfully updated!";
-                this.$parent.$parent.notificationActive = true;
-                setTimeout(() => this.$parent.$parent.notificationActive = false, 3000);
+                this.$parent.notificationMessage = "Successfully updated!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error(error.response);
+                }
             });
         },
         submit() {
-            return this.$parent.$parent.news ? this.createSoapNote() : this.editSoapNote();
+            return this.$parent.news ? this.createSoapNote() : this.editSoapNote();
         }
     },
     computed: {
         subjective() {
-            let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.subjective;
+            let data = this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
             this.setSubjectiveTA(data);
             return data;
         },
         objective() {
-            let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.objective;
+            let data = this.$parent.news ? '' : this.$parent.propData.attributes.objective;
             this.setObjectiveTA(data);
             return data;
         },
         assessment() {
-            let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.assessment;
+            let data = this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
             this.setAssessmentTA(data);
             return data;
         },
         plan() {
-            let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.plan;
+            let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
             this.setPlanTA(data);
             return data;
         },
         quickNotes() {
-             const prop = this.$parent.$parent.propData;
+             const prop = this.$parent.propData;
                 if (prop && prop.attributes && prop.attributes.notes) {
                     let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.$parent.news ? this.setNotes('') : this.setNotes(notes);
+                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
                 } else {
                     this.setNotes('');
                 }
-                return this.$parent.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     watch: {
         subjective(val) {
             if (!val) {
-                let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.subjective;
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
                 this.setSubjectiveTA(data);
                 return data;
             }
         },
         objective(val) {
             if (!val) {
-                let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.objective;
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.objective;
                 this.setObjectiveTA(data);
                 return data;
             }
         },
         assessment(val) {
             if (!val) {
-                let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.assessment;
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
                 this.setAssessmentTA(data);
                 return data;
             }
         },
         plan(val) {
             if (!val) {
-                let data = this.$parent.$parent.news ? '' : this.$parent.$parent.propData.attributes.plan;
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
                 this.setPlanTA(data);
                 return data;
             }
         },
         quickNotes(val) {
             if (!val) {
-                 const prop = this.$parent.$parent.propData;
+                 const prop = this.$parent.propData;
                 if (prop && prop.attributes && prop.attributes.notes) {
                     let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.$parent.news ? this.setNotes('') : this.setNotes(notes);
+                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
                 } else {
                     this.setNotes('');
                 }
-                return this.$parent.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
             }
         }
     }

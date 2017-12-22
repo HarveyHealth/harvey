@@ -1,5 +1,5 @@
 <template>
-  <PageContainer>
+  <div class="main-container">
 
       <!-- Non-Patient -->
       <div v-if="$root.$data.permissions !== 'patient'">
@@ -69,7 +69,7 @@
               </div>
 
               <!-- Actions -->
-              <div :slot="2" class="searchbar-actions pa4">
+              <div :slot="2" class="searchbar-actions pt3 ph3">
                 <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }, { l:'2of2' }]" :gutters="{ s:2, l:2 }">
                   <span :slot="1" class="custom-select">
                     <select class="f3 h-100 bg-white" @change="updateMenu($event)">
@@ -276,7 +276,7 @@
         </div>
       </div>
 
-  </PageContainer>
+  </div>
 </template>
 
 <script>
