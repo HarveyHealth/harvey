@@ -24,7 +24,7 @@
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
-        <style><?php include("css/application.css");?></style>
+        <style><?php include(mix("css/application.css"));?></style>
         @stack('stylesheets')
         <script>
           window.Laravel = {!! $vue_data !!};

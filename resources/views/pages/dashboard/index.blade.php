@@ -3,7 +3,7 @@
 @section('page_title', 'Dashboard')
 
 @push('stylesheets')
-    <style><?php include("css/application.css");?></style>
+    <style><?php include(mix("css/application.css"));?></style>
 @endpush
 
 @section('content')
