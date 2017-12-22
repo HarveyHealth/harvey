@@ -90,7 +90,7 @@
                     <div class="column" v-for="(condition, index) in conditions" v-if="index < 4">
                         <a :href="'/conditions/' + condition.slug">
                             <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
-                                <img alt="" class="icon full" :src="condition.image_url">
+                                <img class="icon full" :src="condition.image_url">
                             </figure>
                         </a>
                         <div class="is-padding-top">
@@ -104,7 +104,7 @@
                     <div class="column" v-for="(condition, index) in conditions" v-if="index > 3">
                         <a :href="'/conditions/' + condition.slug">
                             <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
-                                <img alt="" class="icon full" :src="condition.image_url">
+                                <img class="icon full" :src="condition.image_url">
                             </figure>
                         </a>
                         <div class="is-padding-top">
@@ -134,7 +134,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/micronutrient.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/micronutrient.jpg" alt="">
                     </figure>
                 </div>
             </div>
@@ -142,7 +142,7 @@
             <div class="columns is-narrow">
                 <div class="column">
                     <figure>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/allergy.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/allergy.jpg" alt="">
                     </figure>
                 </div>
                 <div class="column has-content-vertical-aligned">
@@ -164,7 +164,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/hormone.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/hormone.jpg" alt="">
                     </figure>
                 </div>
             </div>
@@ -175,7 +175,7 @@
         <div class="container">
             <div class="columns is-narrow">
                 <figure class="image">
-                    <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/package-door.jpg" alt="">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/package-door.jpg" alt="">
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
@@ -183,7 +183,7 @@
                         <p class="is-6">All our lab tests can be taken in the comfort of your home. We will mail you a lab kit and (if necessary) schedule you for a free in-home blood draw.</p>
                         <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">
-                                <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Explore Tests
+                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Explore Tests
                             </a>
                         </div>
                     </div>
@@ -214,7 +214,7 @@
                 </div>
                 <div class="column is-6 is-auto-tablet has-text-centered">
                     <figure>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/pricing.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/pricing.png" alt="">
                     </figure>
                 </div>
             </div>

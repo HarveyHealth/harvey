@@ -199,7 +199,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 
 			<?php foreach ( $extensions->get_all() as $id => $extension ) : ?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
-					<img alt="" alt="" width="280" height="147" src="<?php echo esc_attr( $extension->get_image() ); ?>" />
+					<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->get_image() ); ?>" />
 					<h3><?php echo esc_html( $extension->get_title() ); ?></h3>
 
 					<ul class="yoast-list--usp">

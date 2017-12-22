@@ -271,7 +271,7 @@ class WPSEO_OpenGraph_Image {
 	private function get_content_images( $post ) {
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
-		if ( preg_match_all( '`<img alt="" [^>]+>`', $content, $matches ) ) {
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 					$this->add_image( $match[2] );
