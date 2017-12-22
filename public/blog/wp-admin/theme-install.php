@@ -251,7 +251,7 @@ if ( $tab ) {
 <script id="tmpl-theme" type="text/template">
 	<# if ( data.screenshot_url ) { #>
 		<div class="theme-screenshot">
-			<img alt="" src="{{ data.screenshot_url }}" alt="" />
+			<img alt="" src="{{ data.screenshot_url }}"/>
 		</div>
 	<# } else { #>
 		<div class="theme-screenshot blank"></div>
@@ -316,7 +316,7 @@ if ( $tab ) {
 						?>
 					</span>
 
-					<img alt="" class="theme-screenshot" src="{{ data.screenshot_url }}" alt="" />
+					<img alt="" class="theme-screenshot" src="{{ data.screenshot_url }}"/>
 
 					<div class="theme-details">
 						<# if ( data.rating ) { #>

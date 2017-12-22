@@ -2137,7 +2137,7 @@ var addExtImage = {
 		document.getElementById('go_button').style.color = '#bbb';
 		if ( ! document.forms[0].src.value )
 			document.getElementById('status_img').innerHTML = '';
-		else document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>" alt="" />';
+		else document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>"/>';
 	},
 
 	updateImageData : function() {
@@ -2146,7 +2146,7 @@ var addExtImage = {
 		t.width = t.preloadImg.width;
 		t.height = t.preloadImg.height;
 		document.getElementById('go_button').style.color = '#333';
-		document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/yes.png' ) ); ?>" alt="" />';
+		document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/yes.png' ) ); ?>"/>';
 	},
 
 	getImageData : function() {
@@ -2741,7 +2741,7 @@ function edit_form_image_editor( $post ) {
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
 		<div<?php if ( $open ) echo ' style="display:none"'; ?> class="wp_attachment_image wp-clearfix" id="media-head-<?php echo $attachment_id; ?>">
-			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img alt="" class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" /></p>
+			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img alt="" class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%"/></p>
 			<p><?php echo $image_edit_button; ?></p>
 		</div>
 		<div<?php if ( ! $open ) echo ' style="display:none"'; ?> class="image-editor" id="image-editor-<?php echo $attachment_id; ?>">
@@ -2783,7 +2783,7 @@ function edit_form_image_editor( $post ) {
 		?>
 		<div class="wp_attachment_image wp-clearfix" id="media-head-<?php echo $attachment_id; ?>">
 			<p id="thumbnail-head-<?php echo $attachment_id; ?>">
-				<img alt="" class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" />
+				<img alt="" class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%"/>
 			</p>
 		</div>
 		<?php

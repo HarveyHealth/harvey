@@ -88,7 +88,7 @@ class The_Essence_Instagram_Widget extends WP_Widget {
 			<?php if ( $images ) : ?>
 				<?php foreach ( $images as $image ) : ?>
 					<div class="instagram-widget-image">
-						<a href="<?php echo esc_url( $image['url'] ); ?>" target="_blank"><img alt="" src="<?php echo esc_url( $image['image'] ); ?>" alt="" /></a>
+						<a href="<?php echo esc_url( $image['url'] ); ?>" target="_blank"><img alt="" src="<?php echo esc_url( $image['image'] ); ?>"/></a>
 					</div>
 				<?php endforeach; ?>
 			<?php endif; ?>

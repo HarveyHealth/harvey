@@ -814,7 +814,7 @@ class Su_Tools {
 	}
 
 	public static function icon( $src = 'file' ) {
-		return ( strpos( $src, '/' ) !== false ) ? '<img alt="" src="' . $src . '" alt="" />' : '<i class="fa fa-' . str_replace( 'icon: ', '', $src ) . '"></i>';
+		return ( strpos( $src, '/' ) !== false ) ? '<img alt="" src="' . $src . '"/>' : '<i class="fa fa-' . str_replace( 'icon: ', '', $src ) . '"></i>';
 	}
 
 	public static function get_icon( $args ) {

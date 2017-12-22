@@ -209,12 +209,12 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 			<span class="screenshot hide-if-customize">
 				<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
-					<img alt="" src="<?php echo esc_url( $screenshot ); ?>" alt="" />
+					<img alt="" src="<?php echo esc_url( $screenshot ); ?>"/>
 				<?php endif; ?>
 			</span>
 			<a href="<?php echo wp_customize_url( $stylesheet ); ?>" class="screenshot load-customize hide-if-no-customize">
 				<?php if ( $screenshot = $theme->get_screenshot() ) : ?>
-					<img alt="" src="<?php echo esc_url( $screenshot ); ?>" alt="" />
+					<img alt="" src="<?php echo esc_url( $screenshot ); ?>"/>
 				<?php endif; ?>
 			</a>
 

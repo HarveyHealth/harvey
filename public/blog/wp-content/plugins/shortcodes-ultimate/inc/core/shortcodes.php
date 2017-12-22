@@ -289,7 +289,7 @@ class Su_Shortcodes {
 			$atts['icon'] = '<i class="fa fa-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="color:' . $atts['icon_color'] . '"></i>';
 			su_query_asset( 'css', 'font-awesome' );
 		}
-		else $atts['icon'] = '<img alt="" src="' . $atts['icon'] . '" alt="" />';
+		else $atts['icon'] = '<img alt="" src="' . $atts['icon'] . '"/>';
 		su_query_asset( 'css', 'su-content-shortcodes' );
 		return '<div class="su-list su-list-style-' . $atts['style'] . su_ecssc( $atts ) . '">' . str_replace( '<li>', '<li>' . $atts['icon'] . ' ', su_do_shortcode( $content, 'l' ) ) . '</div>';
 	}

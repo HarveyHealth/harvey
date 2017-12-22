@@ -331,7 +331,7 @@ jQuery(document).ready(function($) {
 							var files = frame.state().get('selection').toJSON();
 							$images.find('em').remove();
 							$.each(files, function(i) {
-								$images.append('<span data-id="' + this.id + '" title="' + this.title + '"><img alt="" src="' + this.url + '" alt="" /><i class="fa fa-times"></i></span>');
+								$images.append('<span data-id="' + this.id + '" title="' + this.title + '"><img alt="" src="' + this.url + '"/><i class="fa fa-times"></i></span>');
 							});
 							update();
 						}).open();

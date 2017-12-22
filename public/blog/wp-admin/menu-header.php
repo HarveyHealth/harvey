@@ -115,7 +115,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		 * as special cases.
 		 */
 		if ( ! empty( $item[6] ) ) {
-			$img = '<img alt="" src="' . $item[6] . '" alt="" />';
+			$img = '<img alt="" src="' . $item[6] . '"/>';
 
 			if ( 'none' === $item[6] || 'div' === $item[6] ) {
 				$img = '<br />';

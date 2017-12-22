@@ -397,7 +397,7 @@ class CMB2_Display_File extends CMB2_Field_Display {
 				$image = wp_get_attachment_image( $id, $img_size, null, array( 'class' => 'cmb-image-display' ) );
 			} else {
 				$size = is_array( $img_size ) ? $img_size[0] : 200;
-				$image = '<img alt="" class="cmb-image-display" style="max-width: ' . absint( $size ) . 'px; width: 100%; height: auto;" src="' . $url_value . '" alt="" />';
+				$image = '<img alt="" class="cmb-image-display" style="max-width: ' . absint( $size ) . 'px; width: 100%; height: auto;" src="' . $url_value . '"/>';
 			}
 
 			echo $image;

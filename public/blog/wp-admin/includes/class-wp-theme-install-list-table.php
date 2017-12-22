@@ -305,7 +305,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		?>
 		<a class="screenshot install-theme-preview" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
-			<img alt="" src="<?php echo esc_url( $theme->screenshot_url ); ?>" width="150" alt="" />
+			<img alt="" src="<?php echo esc_url( $theme->screenshot_url ); ?>" width="150"/>
 		</a>
 
 		<h3><?php echo $name; ?></h3>
@@ -415,7 +415,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			<h3 class="theme-name"><?php echo $name; ?></h3>
 			<span class="theme-by"><?php printf( __( 'By %s' ), $author ); ?></span>
 			<?php if ( isset( $theme->screenshot_url ) ): ?>
-				<img alt="" class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" alt="" />
+				<img alt="" class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>"/>
 			<?php endif; ?>
 			<div class="theme-details">
 				<?php wp_star_rating( array( 'rating' => $theme->rating, 'type' => 'percent', 'number' => $theme->num_ratings ) ); ?>
