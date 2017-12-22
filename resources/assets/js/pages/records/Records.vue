@@ -58,7 +58,7 @@
 
               <div class="bb b--light-gray bg-white pa4 w-100 relative">
                 <!-- Search Bar -->
-                <Grid :flexAt="'l'" :columns="[{ l:'2of3' }, { l:'1of3' }]">
+                <Grid :flexAt="'xxl'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]">
                     <div :slot="1">
                       <form>
                         <i class="font-lg pt1 fa fa-search absolute left-2"></i>
