@@ -1,6 +1,10 @@
 <template>
   <div id="SNScroller" style="overflow: scroll;">
-    <Heading1>{{ $parent.news ? 'New Soap Note' : 'Soap Note' }}</Heading1>
+    <Card>
+        <CardContent>
+            <Heading2>{{ $parent.news ? 'New Soap Note' : 'Soap Note' }}</Heading2>
+        </CardContent>
+    </Card>
     <Spacer isBottom :size="3" />
     <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
@@ -125,7 +129,7 @@ import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Heading1, Heading3, Paragraph } from 'typography';
+import { Heading1, Heading2, Heading3, Paragraph } from 'typography';
 export default {
     props: {
         patient: Object
@@ -138,6 +142,7 @@ export default {
         PageHeader,
         Paragraph,
         Heading1,
+        Heading2,
         Heading3,
         Spacer
     },

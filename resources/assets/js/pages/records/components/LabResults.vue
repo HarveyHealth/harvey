@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Heading1>{{ $parent.news ? 'New Lab Result' : 'Lab Result' }}</Heading1>
+    <Card>
+        <CardContent>
+            <Heading2>{{ $parent.news ? 'New Lab Result' : 'Lab Result' }}</Heading2>
+        </CardContent>
+    </Card>
     <Spacer isBottom :size="3" />
     <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
 
@@ -132,7 +136,7 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading1, Heading3 } from 'typography';
+import { Paragraph, Heading1, Heading2, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -146,6 +150,7 @@ export default {
         PageHeader,
         Paragraph,
         Heading1,
+        Heading2,
         Heading3,
         Spacer
     },

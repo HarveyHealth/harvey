@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Heading1>{{ $parent.news ? 'New Prescription' : 'Prescription' }}</Heading1>
+        <Card>
+          <CardContent>
+            <Heading2>{{ $parent.news ? 'New Prescription' : 'Prescription' }}</Heading2>
+            </CardContent>
+        </Card>
     <Spacer isBottom :size="3" />
     <!-- New -->
     <div v-if="$parent.news" class="">
@@ -130,7 +134,7 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Heading1, Paragraph, Heading3 } from 'typography';
+import { Heading1, Heading2, Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -144,6 +148,7 @@ export default {
         PageHeader,
         Paragraph,
         Heading1,
+        Heading2,
         Heading3,
         Spacer
     },

@@ -1,6 +1,10 @@
 <template>
     <div id="intake">
-        <Heading1>Intake Information</Heading1>
+        <Card>
+            <CardContent>
+                <Heading2>Intake Information</Heading2>
+            </CardContent>
+        </Card>
         <Spacer isBottom :size="3" />
       <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
@@ -25,7 +29,7 @@
 
 <script>
 import _ from 'lodash';
-import { Heading1, Paragraph } from 'typography';
+import { Heading1, Heading2, Paragraph } from 'typography';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
 export default {
     props: {
@@ -34,6 +38,7 @@ export default {
     components: {
         Card,
         Heading1,
+        Heading2,
         Paragraph,
         CardContent,
         Grid,

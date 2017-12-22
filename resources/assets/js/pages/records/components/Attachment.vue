@@ -1,7 +1,11 @@
 <template>
   <div>
-      <Heading1>{{ $parent.news ? 'New Attachment' : 'Attachment' }}</Heading1>
-      <Spacer isBottom :size="3" />
+        <Card>
+            <CardContent>
+                <Heading2>{{ $parent.news ? 'New Attachment' : 'Attachment' }}</Heading2>
+            </CardContent>
+        </Card>
+        <Spacer isBottom :size="3" />
 
     <!-- New -->
     <div v-if="$parent.news" class="">
@@ -128,7 +132,7 @@ import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import axios from 'axios';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading1, Heading3 } from 'typography';
+import { Paragraph, Heading1, Heading2, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -142,6 +146,7 @@ export default {
         PageHeader,
         Paragraph,
         Heading1,
+        Heading2,
         Heading3,
         Spacer
     },
