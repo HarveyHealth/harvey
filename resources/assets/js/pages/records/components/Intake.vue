@@ -1,6 +1,7 @@
 <template>
     <div id="intake">
-      <PageHeader class="mb3" :heading="'Intake Information'" />
+        <Heading1>Intake Information</Heading1>
+        <Spacer isBottom :size="3" />
       <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
@@ -24,7 +25,7 @@
 
 <script>
 import _ from 'lodash';
-import { Paragraph } from 'typography';
+import { Heading1, Paragraph } from 'typography';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
 export default {
     props: {
@@ -32,6 +33,7 @@ export default {
     },
     components: {
         Card,
+        Heading1,
         Paragraph,
         CardContent,
         Grid,
@@ -46,6 +48,7 @@ export default {
     computed: {
         questionsList() {
             let quest = {};
+            // Have to go up two parents because of PageContainer
             let props = this.$parent.propData;
             props.attributes.questions.forEach(e => {
                 quest[e.id] = {};
@@ -61,7 +64,3 @@ export default {
     }
 };
 </script>
-
-<style lang="scss">
-
-</style>

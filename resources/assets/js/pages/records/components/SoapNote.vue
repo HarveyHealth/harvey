@@ -1,9 +1,10 @@
 <template>
-  <div id="SNScroller" class="" style="overflow: scroll;">
-    <PageHeader class="mb3" :heading="$parent.news ? 'New Soap Note' : 'Soap Note'" />
+  <div id="SNScroller" style="overflow: scroll;">
+    <Heading1>{{ $parent.news ? 'New Soap Note' : 'Soap Note' }}</Heading1>
+    <Spacer isBottom :size="3" />
     <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
-      <Card class="w-60" :slot="1" :heading="'SOAP Note'">
+      <Card :slot="1" :heading="'SOAP Note'">
         <CardContent>
 
           <div>
@@ -67,7 +68,7 @@
       </Card>
 
       <!-- Quick Notes -->
-      <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+      <Card :slot="2" :heading="'Quick Notes'">
         <CardContent>
 
           <!-- Editor -->
@@ -124,7 +125,7 @@ import Modal from '../../../commons/Modal.vue';
 import editorOption from '../util/quillEditorObject';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading3 } from 'typography';
+import { Heading1, Heading3, Paragraph } from 'typography';
 export default {
     props: {
         patient: Object
@@ -136,6 +137,7 @@ export default {
         Grid,
         PageHeader,
         Paragraph,
+        Heading1,
         Heading3,
         Spacer
     },
@@ -231,6 +233,11 @@ export default {
                 this.$parent.notificationMessage = "Successfully added!";
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error(error.response);
+                }
             });
         },
         editSoapNote() {
@@ -260,6 +267,11 @@ export default {
                 this.$parent.notificationMessage = "Successfully updated!";
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error(error.response);
+                }
             });
         },
         submit() {

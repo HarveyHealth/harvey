@@ -1,11 +1,11 @@
 <template>
   <div>
-    <PageHeader class="mb3" :heading="$parent.news ? 'New Prescription' : 'Prescription'" />
-
+    <Heading1>{{ $parent.news ? 'New Prescription' : 'Prescription' }}</Heading1>
+    <Spacer isBottom :size="3" />
     <!-- New -->
     <div v-if="$parent.news" class="">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
-        <Card class="w-60" :slot="1" :heading="'Prescription'">
+        <Card :slot="1" :heading="'Prescription'">
           <CardContent>
             <div class="">
               <Paragraph>
@@ -44,7 +44,7 @@
         </Card>
 
         <!-- Quick Notes -->
-        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+        <Card :slot="2" :heading="'Quick Notes'">
           <CardContent>
 
             <!-- Editor -->
@@ -67,7 +67,7 @@
     <div class="" v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
-        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
+        <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
           <CardContent>
             <iframe :style="'height:60vh'" class="w-100" :src="prescriptionUrl" />
           </CardContent>
@@ -75,7 +75,7 @@
 
         <!-- Quick Notes -->
 
-        <Card v-if="$root.$data.permissions !== 'patient'" class="w-30" :slot="2" :heading="'Quick Notes'">
+        <Card v-if="$root.$data.permissions !== 'patient'" :slot="2" :heading="'Quick Notes'">
           <CardContent>
             <div class="">
               <quill-editor
@@ -130,7 +130,7 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading3 } from 'typography';
+import { Heading1, Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -143,6 +143,7 @@ export default {
         Grid,
         PageHeader,
         Paragraph,
+        Heading1,
         Heading3,
         Spacer
     },
