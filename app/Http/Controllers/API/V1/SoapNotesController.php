@@ -11,10 +11,11 @@ use Exception, ResponseCode, Storage;
 class SoapNotesController extends BaseAPIController
 {
     protected $resource_name = 'soap_note';
-
+    protected $patient_transformer, $admin_or_practitioner_transformer;
     /**
      * SoapNotesController constructor.
-     * @param SoapNoteTransformer $transformer
+     * @param SoapNotePatientTransformer $patient_transformer
+     * @param SoapNoteAdminOrPractitionerTransformer $admin_or_practitioner_transformer
      */
     public function __construct(SoapNoteTransformer $transformer)
     {
@@ -44,10 +45,11 @@ class SoapNotesController extends BaseAPIController
         }
 
         StrictValidator::check($request->all(), [
-            'subjective' => 'string|max:2048',
-            'objective' => 'string|max:2048',
-            'assessment' => 'string|max:2048',
-            'plan' => 'string|max:2048',
+            'notes' => 'string|max:4096',
+            'subjective' => 'string|max:32768',
+            'objective' => 'string|max:32768',
+            'assessment' => 'string|max:32768',
+            'plan' => 'string|max:32768',
         ]);
 
         $soapNote = new SoapNote($request->all());
@@ -65,10 +67,11 @@ class SoapNotesController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'subjective' => 'filled|string|max:2048',
-            'objective' => 'filled|string|max:2048',
-            'assessment' => 'filled|string|max:2048',
-            'plan' => 'filled|string|max:2048',
+            'notes' => 'string|max:4096',
+            'subjective' => 'filled|string|max:32768',
+            'objective' => 'filled|string|max:32768',
+            'assessment' => 'filled|string|max:32768',
+            'plan' => 'filled|string|max:32768',
         ]);
 
         $soapNote->update($request->all());
@@ -88,5 +91,4 @@ class SoapNotesController extends BaseAPIController
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
-
 }

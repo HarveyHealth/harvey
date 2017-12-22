@@ -62,6 +62,9 @@ return [
                     'updated' => 1929883,
                     'reminder' => 2550321,
                 ],
+                'lab_test_result' => [
+                    'created' => 4099061,
+                ],
                 'attachment' => [
                     'created' => 3338765,
                 ],

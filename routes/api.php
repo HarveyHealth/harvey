@@ -33,6 +33,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
+        # Search
+        Route::get('search', 'SearchController@search')->name('search.search');
+
         # Validate Discount Codes
         Route::get('discount_codes/{code}', 'DiscountCodesController@getOne')->name('discount-codes.index');
 
@@ -57,11 +60,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
         Route::post('patients/{patient}/attachments', 'AttachmentsController@store')->name('attachment.store');
+        Route::patch('attachments/{attachment}', 'AttachmentsController@update')->name('attachment.update');
         Route::delete('attachments/{attachment}', 'AttachmentsController@delete')->name('attachment.delete');
 
         # Prescriptions
         Route::get('prescriptions/{prescription}', 'PrescriptionsController@getOne')->name('prescriptions.get-one');
         Route::post('patients/{patient}/prescriptions', 'PrescriptionsController@store')->name('prescriptions.store');
+        Route::patch('prescriptions/{prescription}', 'PrescriptionsController@update')->name('prescriptions.update');
         Route::delete('prescriptions/{prescription}', 'PrescriptionsController@delete')->name('prescriptions.delete');
 
         # SOAP Notes
@@ -109,6 +114,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Lab Test Results
         Route::get('lab/tests/results/{lab_test_result}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
         Route::post('lab/tests/{lab_test}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
+        Route::patch('lab/tests/results/{lab_test_result}', 'LabTestsController@updateResult')->name('lab-tests.update-result');
         Route::delete('lab/tests/results/{lab_test_result}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
 
         # Lab Orders
