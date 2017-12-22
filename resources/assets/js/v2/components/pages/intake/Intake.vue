@@ -57,18 +57,26 @@ export default {
         }
     },
     mounted() {
-        App.Http.users.getPatientIntake(App.Config.user.info.id, () => {
-            // add Typeform script if intake data does not exist
-            if (!this.State('users.intake.data.self')) {
-                /* eslint-disable */
-                var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/";
-                if(!gi.call(d,id)) { js=ce.call(d,"script");
-                js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q); }
-                /* eslint-enable */
-            } else {
-                this.isComplete = true;
-            }
-        });
+        // If a user has a zipValidation object in local storage then they are not
+        // done with the signup funnel and should not hit the intake form
+        const zipValidation = App.Logic.getstarted.getZipValidation();
+
+        if (zipValidation) {
+            window.location.href = '/get-started#/welcome';
+        } else {
+            App.Http.users.getPatientIntake(App.Config.user.info.id, () => {
+                // add Typeform script if intake data does not exist
+                if (!this.State('users.intake.data.self')) {
+                    /* eslint-disable */
+                    var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/";
+                    if(!gi.call(d,id)) { js=ce.call(d,"script");
+                    js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q); }
+                    /* eslint-enable */
+                } else {
+                    this.isComplete = true;
+                }
+            });
+        }
     }
 };
 </script>
