@@ -146,7 +146,7 @@ class Walker_Category extends Walker {
 			if ( empty( $args['feed_image'] ) ) {
 				$link .= $name;
 			} else {
-				$link .= "<img src='" . $args['feed_image'] . "'$alt" . ' />';
+				$link .= "<img alt="" src='" . $args['feed_image'] . "'$alt" . ' />';
 			}
 			$link .= '</a>';
 

@@ -36,7 +36,8 @@
         "cviebrock/eloquent-sluggable": "^4.2",
         "shippo/shippo-php": "1.*",
         "laravel/socialite": "^3.0",
-        "algolia/algoliasearch-client-php": "^1.23"
+        "algolia/algoliasearch-client-php": "^1.23",
+        "htmlmin/htmlmin": "^5.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

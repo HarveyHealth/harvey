@@ -289,7 +289,7 @@ class Su_Shortcodes {
 			$atts['icon'] = '<i class="fa fa-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="color:' . $atts['icon_color'] . '"></i>';
 			su_query_asset( 'css', 'font-awesome' );
 		}
-		else $atts['icon'] = '<img src="' . $atts['icon'] . '" alt="" />';
+		else $atts['icon'] = '<img alt="" src="' . $atts['icon'] . '" alt="" />';
 		su_query_asset( 'css', 'su-content-shortcodes' );
 		return '<div class="su-list su-list-style-' . $atts['style'] . su_ecssc( $atts ) . '">' . str_replace( '<li>', '<li>' . $atts['icon'] . ' ', su_do_shortcode( $content, 'l' ) ) . '</div>';
 	}
@@ -414,7 +414,7 @@ class Su_Shortcodes {
 				$icon = '<i class="fa fa-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="font-size:' . $styles['size'] . 'px;color:' . $atts['icon_color'] . '"></i>';
 				su_query_asset( 'css', 'font-awesome' );
 			}
-			else $icon = '<img src="' . $atts['icon'] . '" alt="' . esc_attr( $content ) . '" style="' . implode( $img_css, ';' ) . '" />';
+			else $icon = '<img alt="" src="' . $atts['icon'] . '" alt="' . esc_attr( $content ) . '" style="' . implode( $img_css, ';' ) . '" />';
 		}
 		else $icon = '';
 		// Prepare <small> with description
@@ -461,7 +461,7 @@ class Su_Shortcodes {
 		}
 		// Uploaded icon
 		else {
-			$atts['icon'] = '<img src="' . $atts['icon'] . '" width="' . $atts['size'] . '" height="' . $atts['size'] . '" alt="' . $atts['title'] . '" />';
+			$atts['icon'] = '<img alt="" src="' . $atts['icon'] . '" width="' . $atts['size'] . '" height="' . $atts['size'] . '" alt="' . $atts['title'] . '" />';
 		}
 		su_query_asset( 'css', 'su-box-shortcodes' );
 		return '<div class="su-service' . su_ecssc( $atts ) . '"><div class="su-service-title" style="padding-' . $rtl . ':' . round( $atts['size'] + 14 ) . 'px;min-height:' . $atts['size'] . 'px;line-height:' . $atts['size'] . 'px">' . $atts['icon'] . ' ' . su_scattr( $atts['title'] ) . '</div><div class="su-service-content su-clearfix" style="padding-' . $rtl . ':' . round( $atts['size'] + 14 ) . 'px">' . do_shortcode( $content ) . '</div></div>';
@@ -609,7 +609,7 @@ class Su_Shortcodes {
 		// Check Vimeo video
 		elseif ( strpos( $atts['url'], 'vimeo' ) !== false ) return Su_Shortcodes::vimeo( $atts );
 		// Image
-		else return '<img src="' . $atts['url'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" style="max-width:100%" />';
+		else return '<img alt="" src="' . $atts['url'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" style="max-width:100%" />';
 	}
 
 	public static function youtube( $atts = null, $content = null ) {
@@ -1024,9 +1024,9 @@ class Su_Shortcodes {
 				// Open slide
 				$return .= '<div class="su-slider-slide">';
 				// Slide content with link
-				if ( $slide['link'] ) $return .= '<a href="' . $slide['link'] . '" ' . $target . ' title="' . esc_attr( $slide['title'] ) . '"><img src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
+				if ( $slide['link'] ) $return .= '<a href="' . $slide['link'] . '" ' . $target . ' title="' . esc_attr( $slide['title'] ) . '"><img alt="" src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
 				// Slide content without link
-				else $return .= '<a><img src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
+				else $return .= '<a><img alt="" src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
 				// Close slide
 				$return .= '</div>';
 			}
@@ -1106,9 +1106,9 @@ class Su_Shortcodes {
 				// Open slide
 				$return .= '<div class="su-carousel-slide">';
 				// Slide content with link
-				if ( $slide['link'] ) $return .= '<a href="' . $slide['link'] . '"' . $target . ' title="' . esc_attr( $slide['title'] ) . '"><img src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
+				if ( $slide['link'] ) $return .= '<a href="' . $slide['link'] . '"' . $target . ' title="' . esc_attr( $slide['title'] ) . '"><img alt="" src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
 				// Slide content without link
-				else $return .= '<a><img src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
+				else $return .= '<a><img alt="" src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" />' . $title . '</a>';
 				// Close slide
 				$return .= '</div>';
 			}
@@ -1171,9 +1171,9 @@ class Su_Shortcodes {
 				// Open slide
 				$return .= '<div class="su-custom-gallery-slide">';
 				// Slide content with link
-				if ( $slide['link'] ) $return .= '<a href="' . $slide['link'] . '"' . $atts['target'] . ' title="' . esc_attr( $slide['title'] ) . '"><img src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" />' . $title . '</a>';
+				if ( $slide['link'] ) $return .= '<a href="' . $slide['link'] . '"' . $atts['target'] . ' title="' . esc_attr( $slide['title'] ) . '"><img alt="" src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" />' . $title . '</a>';
 				// Slide content without link
-				else $return .= '<a><img src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" />' . $title . '</a>';
+				else $return .= '<a><img alt="" src="' . $image['url'] . '" alt="' . esc_attr( $slide['title'] ) . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" />' . $title . '</a>';
 				// Close slide
 				$return .= '</div>';
 			}
@@ -1366,7 +1366,7 @@ class Su_Shortcodes {
 			), $atts, 'dummy_image' );
 		$url = 'http://lorempixel.com/' . $atts['width'] . '/' . $atts['height'] . '/';
 		if ( $atts['theme'] !== 'any' ) $url .= $atts['theme'] . '/' . rand( 0, 10 ) . '/';
-		return '<img src="' . $url . '" alt="' . __( 'Dummy image', 'shortcodes-ultimate' ) . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" class="su-dummy-image' . su_ecssc( $atts ) . '" />';
+		return '<img alt="" src="' . $url . '" alt="' . __( 'Dummy image', 'shortcodes-ultimate' ) . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" class="su-dummy-image' . su_ecssc( $atts ) . '" />';
 	}
 
 	public static function animate( $atts = null, $content = null ) {
@@ -1531,7 +1531,7 @@ class Su_Shortcodes {
 		// Query assets
 		su_query_asset( 'css', 'su-content-shortcodes' );
 		// Return result
-		return '<span class="su-qrcode su-qrcode-align-' . $atts['align'] . su_ecssc( $atts ) . '"><a' . $href . ' target="_' . $atts['target'] . '" title="' . $atts['title'] . '"><img src="https://api.qrserver.com/v1/create-qr-code/?data=' . urlencode( $atts['data'] ) . '&size=' . $atts['size'] . 'x' . $atts['size'] . '&format=png&margin=' . $atts['margin'] . '&color=' . su_hex2rgb( $atts['color'] ) . '&bgcolor=' . su_hex2rgb( $atts['background'] ) . '" alt="' . $atts['title'] . '" /></a></span>';
+		return '<span class="su-qrcode su-qrcode-align-' . $atts['align'] . su_ecssc( $atts ) . '"><a' . $href . ' target="_' . $atts['target'] . '" title="' . $atts['title'] . '"><img alt="" src="https://api.qrserver.com/v1/create-qr-code/?data=' . urlencode( $atts['data'] ) . '&size=' . $atts['size'] . 'x' . $atts['size'] . '&format=png&margin=' . $atts['margin'] . '&color=' . su_hex2rgb( $atts['color'] ) . '&bgcolor=' . su_hex2rgb( $atts['background'] ) . '" alt="' . $atts['title'] . '" /></a></span>';
 	}
 
 	public static function scheduler( $atts = null, $content = null ) {
