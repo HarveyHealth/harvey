@@ -41,7 +41,7 @@ class __TwigTemplate_7025034f8c121568a98efe5fe5095766d91f83e1f4390d35e85be133dd5
         // line 11
         echo "
   </p>
-  <div class=\"mailpoet-logo\"><img src=\"";
+  <div class=\"mailpoet-logo\"><img alt="" src=\"";
         // line 13
         echo $this->env->getExtension('MailPoet\Twig\Assets')->generateImageUrl("welcome_template/mailpoet-logo.png");
         echo "\" alt=\"";
@@ -84,7 +84,7 @@ class __TwigTemplate_7025034f8c121568a98efe5fe5095766d91f83e1f4390d35e85be133dd5
       <p>";
         // line 33
         echo $this->env->getExtension('MailPoet\Twig\I18n')->translate("To get in touch with us, simply click on the blue circle in the bottom right corner of your screen. This button is visible on all MailPoet pages on your WordPress dashboard.");
-        echo " <img width=\"30\" style=\"margin:0\" src=\"";
+        echo " <img alt="" width=\"30\" style=\"margin:0\" src=\"";
         echo $this->env->getExtension('MailPoet\Twig\Assets')->generateImageUrl("welcome_template/beacon.png");
         echo "\" alt=\"Beacon\" /></p>
     </div>
