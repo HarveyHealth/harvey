@@ -1,6 +1,6 @@
 <template>
-  <header class="bb b--light-gray bg-white pb4 pt5 ph3">
-    <Heading1>{{ heading }}</Heading1>
+  <header class="bb b--light-gray bg-white pa3 ph3">
+    <Heading2>{{ heading }}</Heading2>
   </header>
 </template>
 
@@ -11,11 +11,11 @@
 // padding and heading text currently. Eventually it should contain props
 // for adding filters and an action button.
 
-import { Heading1 } from 'typography';
+import { Heading2 } from 'typography';
 
 export default {
   name: 'PageHeader',
-  components: { Heading1 },
+  components: { Heading2 },
   props: {
     heading: String
   }

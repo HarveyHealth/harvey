@@ -5080,7 +5080,7 @@ ImageDetails = Select.extend({
 						controller.close();
 
 						// not sure if we want to use wp.media.string.image which will create a shortcode or
-						// perhaps wp.html.string to at least to build the <img />
+						// perhaps wp.html.string to at least to build the <img alt="" />
 						state.trigger( 'update', controller.image.toJSON() );
 
 						// Restore and reset the default state.
@@ -5128,7 +5128,7 @@ ImageDetails = Select.extend({
 						controller.image.changeAttachment( attachment, state.display( attachment ) );
 
 						// not sure if we want to use wp.media.string.image which will create a shortcode or
-						// perhaps wp.html.string to at least to build the <img />
+						// perhaps wp.html.string to at least to build the <img alt="" />
 						state.trigger( 'replace', controller.image.toJSON() );
 
 						// Restore and reset the default state.

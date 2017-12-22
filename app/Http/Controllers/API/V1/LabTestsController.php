@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
+use App\Lib\Clients\Shippo;
 use App\Models\{LabTest, LabTestInformation, LabTestResult};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Exception, ResponseCode, Storage;
+use Cache, Exception, ResponseCode, Storage;
 
 class LabTestsController extends BaseAPIController
 {
@@ -64,12 +65,17 @@ class LabTestsController extends BaseAPIController
 
         StrictValidator::check($request->all(), [
             'lab_order_id' => 'required|exists:lab_orders,id',
+            'carrier' => 'string|max:16',
             'sku_id' => 'required|exists:skus,id',
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabTest::create($request->all())->fresh(), request('include'))->respond();
+        if ($request->input('carrier') && Shippo::isUsingTestKey()) {
+            $request->merge(['carrier' => 'shippo']);
+        }
+
+        return $this->baseTransformItem(LabTest::create($request->all()), request('include'))->respond();
     }
 
     public function update(Request $request, LabTest $lab_test)
@@ -81,7 +87,12 @@ class LabTestsController extends BaseAPIController
         StrictValidator::checkUpdate($request->all(), [
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
             'shipment_code' => 'filled|string',
+            'carrier' => 'filled|string|max:16',
         ]);
+
+        if ($request->input('carrier') && Shippo::isUsingTestKey()) {
+            $request->merge(['carrier' => 'shippo']);
+        }
 
         $lab_test->update($request->all());
 
@@ -147,7 +158,7 @@ class LabTestsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:pdf',
-            'notes' => 'string|max:1024',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = "{$lab_test->patient->user->id}";
@@ -163,18 +174,34 @@ class LabTestsController extends BaseAPIController
                 ]
             );
 
-            $lab_test->results()->create([
+            $lab_test_result = $lab_test->results()->create([
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);
 
             $this->resource_name = 'lab_tests_results';
 
-            return $this->baseTransformItem($lab_test->fresh(), 'results')->respond();
+            return $this->baseTransformItem($lab_test_result, null, new LabTestResultTransformer)->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
     }
+
+    public function updateResult(Request $request, LabTestResult $lab_test_result)
+    {
+        if (currentUser()->cant('update', $lab_test_result)) {
+            return $this->respondNotAuthorized('You do not have access to update this LabTestResult.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:4096',
+        ]);
+
+        $lab_test_result->update($request->all());
+
+        return $this->baseTransformItem($lab_test_result, request('include'))->respond();
+    }
+
 
     public function deleteResult(Request $request, LabTestResult $lab_test_result)
     {
@@ -187,5 +214,26 @@ class LabTestsController extends BaseAPIController
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param LabTest $lab_test
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function track(Request $request, LabTest $lab_test)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized("You do not have access to track this LabTest");
+        }
+
+        if (empty($lab_test->shipment_code) || empty($lab_test->carrier)) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $output = Cache::remember("track_for_lab_test_id_{$lab_test->id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_test) {
+            return Shippo_Track::create(['carrier' => $lab_test->carrier, 'tracking_number' => $lab_test->shipment_code])->__toArray(true);
+        });
+
+        return response()->json($output, ResponseCode::HTTP_OK);
     }
 }

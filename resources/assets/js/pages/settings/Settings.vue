@@ -257,8 +257,12 @@ export default {
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
             axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
-                this.$root.$data.global.creditCards = response.data.data;
+                this.$root.$data.global.creditCards = response.data.data || [];
                 this.$root.$data.global.loadingCreditCards = false;
+            }).catch(error => {
+                if (error.response){
+                    console.error(error.response);
+                }
             });
         },
         getUser() {
@@ -331,6 +335,7 @@ export default {
             if (id && 'admin' === Laravel.user.user_type) {
                 this.setUserId(id);
                 this.getUser();
+                this.getCards();
             } else {
                 this.setUserId(null);
             }

@@ -2,15 +2,13 @@
 
 @section('page_title', 'Patient Intake')
 
-@push('stylesheets')
-    <link rel="stylesheet" href="{{ mix('css/application.css') }}">
-@endpush
+    <style><?php include("css/application.css");?></style>
 
 @section('content')
     @include('_includes.svgs')
 
     <script type="text/javascript">
-      window.Laravel = {!! $vue_data !!}
+      window.Laravel = {!! $vue_data !!};
       window.$$context = 'intake';
     </script>
 

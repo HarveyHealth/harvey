@@ -1,17 +1,24 @@
 // Vendor
-@import "../vendor/bourbon/bourbon";
-@import "../vendor/neat/neat";
-@import "../vendor/vue2-autocomplete";
+@import url('https://use.typekit.net/ukw4upn.css');
+@import '../css/vendors/fa.css';
+@import '../css/vendors/lity.css';
+@import '../css/vendors/juicer.css';
+@import '../vendor/bourbon/bourbon';
+@import '../vendor/neat/neat';
+@import '../vendor/vue2-autocomplete';
 
 //v2
 @import 'v2/-INDEX';
 
 //Custom styles
-@import "base/-index";
-@import "modules/-index";
+@import 'base/-index';
+@import 'modules/-index';
 
 // v2 + Tachyons
 @import '../vendor/tachyons/tachyons';
 @import '../styles/base';
 @import '../styles/global';
 @import '../styles/atomic';
+
+// Media Print Must be last
+@import './custom/_media-print';

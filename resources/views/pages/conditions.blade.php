@@ -29,17 +29,14 @@
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
-        <!-- Typography -->
-        <script src="https://use.typekit.net/ukw4upn.js"></script>
-        <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css" async>
         <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" async>
         <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
         <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
-        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+        <style><?php include("css/application.css");?></style>
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
+          window.Laravel = {!! $vue_data !!};
           window.$$context = 'conditions';
         </script>
     </head>
