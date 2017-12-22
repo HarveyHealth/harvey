@@ -29,6 +29,11 @@ class ShippoController extends BaseWebhookController
         return true;
     }
 
+    public function handleTransactionUpdated()
+    {
+        return true;
+    }
+
     public function handleTrackUpdated()
     {
         $payload = request()->all();

@@ -1,0 +1,16 @@
+{
+    "name": "Go Harvey",
+    "short_name": "Go Harvey",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#82bef2",
+    "icons": [
+        {
+            "src": "images/logos/main-logo.svg",
+            "type": "image/svg",
+            "sizes": "192x192"
+        }
+    ]
+}

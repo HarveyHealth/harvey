@@ -277,8 +277,8 @@ class Custom_Background {
 	?>
 	<div id="custom-background-image" style="<?php echo $background_styles; ?>"><?php // must be double quote, see above ?>
 		<?php if ( $background_image_thumb ) { ?>
-		<img class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" /><br />
-		<img class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" />
+		<img alt="" class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" /><br />
+		<img alt="" class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" />
 		<?php } ?>
 	</div>
 	<?php } ?>

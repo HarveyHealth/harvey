@@ -23,14 +23,11 @@
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
-        <!-- Typography -->
-        <script src="https://use.typekit.net/ukw4upn.js"></script>
-        <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
-        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+        <style><?php include("css/application.css");?></style>
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
+          window.Laravel = {!! $vue_data !!};
           window.$$context = 'financing';
         </script>
     </head>

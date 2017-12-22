@@ -6,10 +6,10 @@
 		</td>
 		<td align="right" width="20%">
 			<a href="https://travis-ci.org/humanmade/S3-Uploads">
-				<img src="https://travis-ci.org/humanmade/S3-Uploads.svg?branch=master" alt="Build status">
+				<img alt="" src="https://travis-ci.org/humanmade/S3-Uploads.svg?branch=master" alt="Build status">
 			</a>
 			<a href="http://codecov.io/github/humanmade/S3-Uploads?branch=master">
-				<img src="http://codecov.io/github/humanmade/S3-Uploads/coverage.svg?branch=master" alt="Coverage via codecov.io" />
+				<img alt="" src="http://codecov.io/github/humanmade/S3-Uploads/coverage.svg?branch=master" alt="Coverage via codecov.io" />
 			</a>
 		</td>
 	</tr>
@@ -18,7 +18,7 @@
 			A <strong><a href="https://hmn.md/">Human Made</a></strong> project. Maintained by @joehoyle.
 		</td>
 		<td align="center">
-			<img src="https://hmn.md/content/themes/hmnmd/assets/images/hm-logo.svg" width="100" />
+			<img alt="" src="https://hmn.md/content/themes/hmnmd/assets/images/hm-logo.svg" width="100" />
 		</td>
 	</tr>
 </table>

@@ -179,6 +179,7 @@ return [
         Spatie\Fractal\FractalServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        HTMLMin\HTMLMin\HTMLMinServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -228,6 +229,7 @@ return [
         'Fractal' => Spatie\Fractal\FractalFacade::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'HTMLMin' => HTMLMin\HTMLMin\Facades\HTMLMin::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,

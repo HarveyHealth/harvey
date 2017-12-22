@@ -379,7 +379,7 @@ function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 	 */
 	$class = apply_filters( 'get_image_tag_class', $class, $id, $align, $size );
 
-	$html = '<img src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" ' . $title . $hwstring . 'class="' . $class . '" />';
+	$html = '<img alt="" src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" ' . $title . $hwstring . 'class="' . $class . '" />';
 
 	/**
 	 * Filters the HTML content for the image tag.
@@ -918,7 +918,7 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		 */
 		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment, $size );
 		$attr = array_map( 'esc_attr', $attr );
-		$html = rtrim("<img $hwstring");
+		$html = rtrim("<img alt="" $hwstring");
 		foreach ( $attr as $name => $value ) {
 			$html .= " $name=" . '"' . $value . '"';
 		}
@@ -1313,7 +1313,7 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
  * @return string Converted content with 'srcset' and 'sizes' attributes added to images.
  */
 function wp_make_content_images_responsive( $content ) {
-	if ( ! preg_match_all( '/<img [^>]+>/', $content, $matches ) ) {
+	if ( ! preg_match_all( '/<img alt="" [^>]+>/', $content, $matches ) ) {
 		return $content;
 	}
 
@@ -1434,7 +1434,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 		}
 
 		// Add 'srcset' and 'sizes' attributes to the image markup.
-		$image = preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attr . ' />', $image );
+		$image = preg_replace( '/<img alt="" ([^>]+?)[\/ ]*>/', '<img alt="" $1' . $attr . ' />', $image );
 	}
 
 	return $image;
@@ -1514,7 +1514,7 @@ add_shortcode('caption', 'img_caption_shortcode');
 function img_caption_shortcode( $attr, $content = null ) {
 	// New-style shortcode with the caption inside the shortcode with the link and image tags.
 	if ( ! isset( $attr['caption'] ) ) {
-		if ( preg_match( '#((?:<a [^>]+>\s*)?<img [^>]+>(?:\s*</a>)?)(.*)#is', $content, $matches ) ) {
+		if ( preg_match( '#((?:<a [^>]+>\s*)?<img alt="" [^>]+>(?:\s*</a>)?)(.*)#is', $content, $matches ) ) {
 			$content = $matches[1];
 			$attr['caption'] = trim( $matches[2] );
 		}
@@ -1826,7 +1826,7 @@ function wp_underscore_playlist_templates() {
 ?>
 <script type="text/html" id="tmpl-wp-playlist-current-item">
 	<# if ( data.image ) { #>
-	<img src="{{ data.thumb.src }}" alt="" />
+	<img alt="" src="{{ data.thumb.src }}" alt="" />
 	<# } #>
 	<div class="wp-playlist-caption">
 		<span class="wp-playlist-item-meta wp-playlist-item-title"><?php
