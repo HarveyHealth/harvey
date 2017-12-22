@@ -63,7 +63,7 @@
     <div class="" v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
-        <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="'Prescription'">
+        <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="startCase($parent.propData.attributes.name) + ' Attachment'">
           <CardContent>
             <iframe :style="'height:60vh'" class="w-100" :src="attachmentUrl" />
           </CardContent>
