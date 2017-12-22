@@ -13,10 +13,10 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style><?php include("css/application.css");?></style>
+    <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
     <script type="text/javascript">
-      window.Laravel = {!! $vue_data !!};
+      window.Laravel = {!! $vue_data !!}
       window.$$context = 'intake';
 
       // if (!Laravel.user.signedIn) {

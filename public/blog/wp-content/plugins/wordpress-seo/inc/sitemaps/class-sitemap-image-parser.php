@@ -137,7 +137,7 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Parse `<img alt="" />` tags in content.
+	 * Parse `<img />` tags in content.
 	 *
 	 * @param string $content Content string to parse.
 	 *

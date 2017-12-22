@@ -213,7 +213,7 @@ class Mailmunch_Admin {
 		if ($show_notice) {
 			$review_url = 'https://wordpress.org/support/plugin/'. MAILMUNCH_PLUGIN_DIRECTORY. '/reviews/#new-post';
 			$dismiss_url = esc_url_raw( add_query_arg( MAILMUNCH_PREFIX. '_dismiss_review_notice', '1', admin_url() ) );
-			$review_message = '<div class="mailmunch-review-logo"><img alt="" src="'.plugins_url( 'admin/img/logo.png', dirname(__FILE__) ) .'" /></div>';
+			$review_message = '<div class="mailmunch-review-logo"><img src="'.plugins_url( 'admin/img/logo.png', dirname(__FILE__) ) .'" /></div>';
 			$review_message .= sprintf( __( "You have been using <strong>%s</strong> for a few weeks now. We hope you are enjoying the features. Please consider leaving us a nice review. Reviews help people find our plugin and lets you provide us with useful feedback which helps us improve." , MAILMUNCH_SLUG ), $this->plugin_name );
 			$review_message .= "<div class='mailmunch-buttons'>";
 			$review_message .= sprintf( "<a href='%s' target='_blank' class='button-secondary'><span class='dashicons dashicons-star-filled'></span>" . __( "Leave a Review" , MAILMUNCH_SLUG ) . "</a>", $review_url );

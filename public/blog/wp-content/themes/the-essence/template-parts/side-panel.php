@@ -16,7 +16,7 @@
 
 		<?php if ( $logo_img_src ) : ?>
 			<div id="panel-logo">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><img alt="" class="<?php echo esc_attr( $logo_img_class );?>" src="<?php echo esc_attr( $logo_img_src ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" /></a>
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><img class="<?php echo esc_attr( $logo_img_class );?>" src="<?php echo esc_attr( $logo_img_src ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" /></a>
 			</div><!-- #panel-logo -->
 		<?php endif; ?>
 

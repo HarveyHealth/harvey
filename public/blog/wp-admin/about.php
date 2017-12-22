@@ -98,7 +98,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 							https://s.w.org/images/core/4.8/widgets-with-all-four_w_1620.png 1620w"
 						sizes="( max-width: 782px ) calc( 100vw - 70px ), ( max-width: 960px ) calc( 100vw - 116px ), calc( 100vw - 240px )" />
 					<!-- Small image -->
-					<img alt="" src="https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_685.png"
+					<img src="https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_685.png"
 						srcset="
 							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_300.png 300w,
 							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_451.png 451w,
