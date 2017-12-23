@@ -188,6 +188,8 @@ class UserTest extends TestCase
 
     public function test_admin_can_search_users()
     {
+        $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
+        
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create(['first_name' => 'Toronja'])->id
         ]);
@@ -206,6 +208,8 @@ class UserTest extends TestCase
 
     public function test_admin_can_fuzzy_search_users_using_index()
     {
+        $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
+
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create(['first_name' => 'Toronja'])->id
         ]);

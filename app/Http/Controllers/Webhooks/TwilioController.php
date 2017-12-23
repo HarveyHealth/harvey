@@ -48,10 +48,8 @@ class TwilioController extends BaseWebhookController
 
             // stores feedback in the DB
             $appointment->doctor_rate = $response;
-            $appointment->save(Lang::get("sms.success.thanks_response"));
-
-
-            return $this->reply();
+            $appointment->save();
+            return $this->reply(Lang::get("sms.success.thanks_response"));
 
         } catch (Exception $e) {
             Bugsnag::notifyException($e); // log error
