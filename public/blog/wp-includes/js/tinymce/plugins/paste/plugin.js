@@ -708,7 +708,7 @@ define(
       editor.undoManager.extra(function () {
         pasteHtml(editor, url);
       }, function () {
-        editor.insertContent('<img alt="" src="' + url + '">');
+        editor.insertContent('<img src="' + url + '">');
       });
 
       return true;
@@ -1017,7 +1017,7 @@ define(
         var html = '', pasteBinClones, i, clone, cloneHtml;
 
         // Since WebKit/Chrome might clone the paste bin when pasting
-        // for example: <img alt="" style="float: right"> we need to check if any of them contains some useful html.
+        // for example: <img style="float: right"> we need to check if any of them contains some useful html.
         // TODO: Man o man is this ugly. WebKit is the new IE! Remove this if they ever fix it!
         pasteBinClones = editor.dom.select('div[id=mcepastebin]');
         for (i = 0; i < pasteBinClones.length; i++) {
@@ -1129,9 +1129,9 @@ define(
             blobInfo = existingBlobInfo;
           }
 
-          pasteHtml('<img alt="" src="' + blobInfo.blobUri() + '">', false);
+          pasteHtml('<img src="' + blobInfo.blobUri() + '">', false);
         } else {
-          pasteHtml('<img alt="" src="' + dataUri + '">', false);
+          pasteHtml('<img src="' + dataUri + '">', false);
         }
       }
 

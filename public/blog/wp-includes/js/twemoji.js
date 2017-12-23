@@ -159,13 +159,13 @@ var twemoji = (function (
        * @example
        *
        *  twemoji.parse("I \u2764\uFE0F emoji!");
-       *  // I <img alt="" class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"/> emoji!
+       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"/> emoji!
        *
        *
        *  twemoji.parse("I \u2764\uFE0F emoji!", function(iconId, options) {
        *    return '/assets/' + iconId + '.gif';
        *  });
-       *  // I <img alt="" class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"/> emoji!
+       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"/> emoji!
        *
        *
        * twemoji.parse("I \u2764\uFE0F emoji!", {
@@ -174,7 +174,7 @@ var twemoji = (function (
        *     return '/assets/' + options.size + '/' + iconId + options.ext;
        *   }
        * });
-       *  // I <img alt="" class="emoji" draggable="false" alt="❤️" src="/assets/72x72/2764.png"/> emoji!
+       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/72x72/2764.png"/> emoji!
        *
        */
       parse: parse,
@@ -424,7 +424,7 @@ var twemoji = (function (
    *            .ext        string    the image extension, by default twemoji.ext
    *            .size       string    the assets size, by default twemoji.size
    *
-   * @return  the string with <img alt="" tags> replacing all found and parsed emoji
+   * @return  the string with <img tags> replacing all found and parsed emoji
    */
   function parseString(str, options) {
     return replace(str, function (rawText) {
@@ -437,7 +437,7 @@ var twemoji = (function (
       if (src) {
         // recycle the match string replacing the emoji
         // with its image counter part
-        ret = '<img alt="" '.concat(
+        ret = '<img '.concat(
           'class="', options.className, '" ',
           'draggable="false" ',
           // needs to preserve user original intent

@@ -140,7 +140,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 
 			c = trim( c );
-			img = c.match( /((?:<a [^>]+>)?<img alt="" [^>]+>(?:<\/a>)?)([\s\S]*)/i );
+			img = c.match( /((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)([\s\S]*)/i );
 
 			if ( img && img[2] ) {
 				caption = trim( img[2] );
@@ -181,7 +181,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		return content.replace( /(?:<div [^>]+mceTemp[^>]+>)?\s*(<dl [^>]+wp-caption[^>]+>[\s\S]+?<\/dl>)\s*(?:<\/div>)?/g, function( all, dl ) {
 			var out = '';
 
-			if ( dl.indexOf('<img alt="" ') === -1 || dl.indexOf('</p>') !== -1 ) {
+			if ( dl.indexOf('<img ') === -1 || dl.indexOf('</p>') !== -1 ) {
 				// Broken caption. The user managed to drag the image out or type in the wrapper div?
 				// Remove the <dl>, <dd> and <dt> and return the remaining text.
 				return dl.replace( /<d[ldt]( [^>]+)?>/g, '' ).replace( /<\/d[ldt]>/g, '' );
@@ -227,7 +227,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			if ( out.indexOf('[caption') === -1 ) {
 				// the caption html seems broken, try to find the image that may be wrapped in a link
 				// and may be followed by <p> with the caption text.
-				out = dl.replace( /[\s\S]*?((?:<a [^>]+>)?<img alt="" [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
+				out = dl.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
 			}
 
 			return out;

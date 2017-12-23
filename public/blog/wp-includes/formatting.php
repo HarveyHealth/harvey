@@ -2801,7 +2801,7 @@ function translate_smiley( $matches ) {
 	 */
 	$src_url = apply_filters( 'smilies_src', includes_url( "images/smilies/$img" ), $img, site_url() );
 
-	return sprintf( '<img alt="" src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', esc_url( $src_url ), esc_attr( $smiley ) );
+	return sprintf( '<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', esc_url( $src_url ), esc_attr( $smiley ) );
 }
 
 /**
@@ -5183,7 +5183,7 @@ function wp_staticize_emoji( $text ) {
 						$chars = str_replace( array( '&#x', ';'), '', $flag );
 
 						list( $char1, $char2 ) = str_split( $chars, 5 );
-						$entity = sprintf( '<img alt="" src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $char1 . '-' . $char2 . $ext, html_entity_decode( $flag ) );
+						$entity = sprintf( '<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $char1 . '-' . $char2 . $ext, html_entity_decode( $flag ) );
 
 						$content = str_replace( $flag, $entity, $content );
 					}
@@ -5198,7 +5198,7 @@ function wp_staticize_emoji( $text ) {
 				if ( ! empty( $matches[1] ) ) {
 					foreach ( $matches[1] as $emoji ) {
 						$char = str_replace( array( '&#x', ';'), '', $emoji );
-						$entity = sprintf( '<img alt="" src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $char . $ext, html_entity_decode( $emoji ) );
+						$entity = sprintf( '<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $char . $ext, html_entity_decode( $emoji ) );
 
 						$content = str_replace( $emoji, $entity, $content );
 					}

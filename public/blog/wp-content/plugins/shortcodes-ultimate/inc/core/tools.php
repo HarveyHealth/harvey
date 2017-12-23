@@ -814,7 +814,7 @@ class Su_Tools {
 	}
 
 	public static function icon( $src = 'file' ) {
-		return ( strpos( $src, '/' ) !== false ) ? '<img alt="" src="' . $src . '" alt="" />' : '<i class="fa fa-' . str_replace( 'icon: ', '', $src ) . '"></i>';
+		return ( strpos( $src, '/' ) !== false ) ? '<img src="' . $src . '" alt="" />' : '<i class="fa fa-' . str_replace( 'icon: ', '', $src ) . '"></i>';
 	}
 
 	public static function get_icon( $args ) {
@@ -844,7 +844,7 @@ class Su_Tools {
 			// Add size
 			if ( $args['size'] ) $args['style'] .= 'width:' . $args['size'] . 'px;height:' . $args['size'] . 'px;';
 			// Return icon
-			return '<img alt="" src="' . $args['icon'] . '" alt="" style="' . $args['style'] . '" />';
+			return '<img src="' . $args['icon'] . '" alt="" style="' . $args['style'] . '" />';
 		}
 		// Icon is not detected
 		return false;

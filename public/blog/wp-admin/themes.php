@@ -249,7 +249,7 @@ foreach ( $themes as $theme ) :
 <div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>" tabindex="0" aria-describedby="<?php echo $aria_action . ' ' . $aria_name; ?>">
 	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
 		<div class="theme-screenshot">
-			<img alt="" src="<?php echo $theme['screenshot'][0]; ?>" alt="" />
+			<img src="<?php echo $theme['screenshot'][0]; ?>" alt="" />
 		</div>
 	<?php } else { ?>
 		<div class="theme-screenshot blank"></div>
@@ -380,7 +380,7 @@ $can_install = current_user_can( 'install_themes' );
 <script id="tmpl-theme" type="text/template">
 	<# if ( data.screenshot[0] ) { #>
 		<div class="theme-screenshot">
-			<img alt="" src="{{ data.screenshot[0] }}" alt="" />
+			<img src="{{ data.screenshot[0] }}" alt="" />
 		</div>
 	<# } else { #>
 		<div class="theme-screenshot blank"></div>
@@ -440,7 +440,7 @@ $can_install = current_user_can( 'install_themes' );
 		<div class="theme-about wp-clearfix">
 			<div class="theme-screenshots">
 			<# if ( data.screenshot[0] ) { #>
-				<div class="screenshot"><img alt="" src="{{ data.screenshot[0] }}" alt="" /></div>
+				<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>
 			<# } else { #>
 				<div class="screenshot blank"></div>
 			<# } #>

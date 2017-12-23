@@ -2,7 +2,7 @@
 
 <div id="signup-signin-box" style="display:none;">
   <a id="signup-signin-close" onclick="hideSignupBox();">
-    <img alt="" src="<?php echo plugins_url( 'img/close.png', dirname(__FILE__) ) ?>" />
+    <img src="<?php echo plugins_url( 'img/close.png', dirname(__FILE__) ) ?>" />
   </a>
 
   <div id="sign-up-form">

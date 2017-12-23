@@ -595,7 +595,7 @@ class Su_Data {
 					  'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
 					 )
 					),
-					'content' => '<img alt="" src="http://lorempixel.com/g/400/200/" />',
+					'content' => '<img src="http://lorempixel.com/g/400/200/" />',
 					'desc' => __( 'Styled image frame', 'shortcodes-ultimate' ),
 					'icon' => 'picture-o'
 				),

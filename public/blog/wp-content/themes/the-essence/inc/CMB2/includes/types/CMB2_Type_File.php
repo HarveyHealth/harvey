@@ -72,7 +72,7 @@ class CMB2_Type_File extends CMB2_Type_File_Base {
 					$image = wp_get_attachment_image( $_id_value, $img_size, null, array( 'class' => 'cmb-file-field-image' ) );
 				} else {
 					$size = is_array( $img_size ) ? $img_size[0] : 350;
-					$image = '<img alt="" style="max-width: ' . absint( $size ) . 'px; width: 100%; height: auto;" src="' . $meta_value . '" alt="" />';
+					$image = '<img style="max-width: ' . absint( $size ) . 'px; width: 100%; height: auto;" src="' . $meta_value . '" alt="" />';
 				}
 
 				$output .= $this->img_status_output( array(
