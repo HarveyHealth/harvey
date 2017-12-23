@@ -36,10 +36,10 @@
         <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" async>
         <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
         <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
-        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+        <style><?php include("css/application.css"); ?></style>
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
+          window.Laravel = {!! $vue_data !!};
           window.$$context = 'conditions';
         </script>
     </head>
