@@ -9,10 +9,14 @@ trait HasLogTable
 {
     protected static function bootHasLogTable()
     {
-        $table_name = static::getLogTableName();
         $class_name = (new ReflectionClass(self::getModel()))->getShortName() . 'LogEntry';
+        $models_namespace = 'App\Models';
+        if (class_exists("{$models_namespace}\\{$class_name}")) {
+            return;
+        }
+        $table_name = static::getLogTableName();
         eval("
-            namespace App\Models;
+            namespace {$models_namespace};
 
             use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
