@@ -31,6 +31,8 @@ class SitemapController extends Controller
 
         $self = $this;
 
+        // cache the map output so we're not searching every time
+        // cache is limited to 1 day
         $output = Cache::remember($key, TimeInterval::days(1)->toMinutes(), function () use ($map, $self) {
             // if it's a map, call the
             // method for the particular map
