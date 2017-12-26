@@ -24,11 +24,21 @@ class ShippoController extends BaseWebhookController
         return response('A-OK!', ResponseCode::HTTP_OK);
     }
 
+    public function handleTransactionCreated()
+    {
+        return true;
+    }
+
+    public function handleTransactionUpdated()
+    {
+        return true;
+    }
+
     public function handleTrackUpdated()
     {
         $payload = request()->all();
         $tracking_number = $payload['data']['tracking_number'];
-        $tracking_status = $payload['data']['tracking_status'];
+        $tracking_status = $payload['data']['tracking_status']['status'];
 
         if (!empty($lab_test = LabTest::findByShipmentCode($tracking_number))) {
             $this->setLabTestStatus($lab_test, $tracking_status);
