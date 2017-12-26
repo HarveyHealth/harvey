@@ -65,10 +65,6 @@ class SitemapController extends Controller
         $map->addPath('sitemap-lab-tests.xml');
         $map->addPath('sitemap-conditions.xml');
 
-        // now add the blog sitemap indexes
-        $map->addPath('blog/post-sitemap.xml');
-        $map->addPath('blog/category-sitemap.xml');
-
         return $map->sitemapIndex();
     }
 
@@ -76,6 +72,7 @@ class SitemapController extends Controller
     {
         $base_paths = [
             '',
+            'blog',
             'login',
             'about',
             'financing',
