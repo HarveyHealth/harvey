@@ -249,7 +249,9 @@
             </a>
 
             <span class="custom-select">
-              <select @change="updateTest($event, test)" :class="{disabled: status === 'Confirmed'}" :disabled="status === 'Confirmed'">
+              <select @change="updateTest($event, test)"
+                :class="{disabled: status === 'Confirmed' && $root.$data.permissions === 'practitioner'}"
+                :disabled="status === 'Confirmed' && $root.$data.permissions === 'practitioner'">
                 <option v-for="current in test.status">{{ current }}</option>
               </select>
             </span>
@@ -320,10 +322,11 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed' && status !== 'Canceled'" class="button" @click="updateLabOrder">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
+          <button v-show="displayEnterTrackingButton" class="button" @click="nextStep">Enter Tracking
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </button>
+
+          <button v-show="displayUpdateOrderButton" class="button" @click="updateLabOrder">Update Order</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -436,6 +439,7 @@ export default {
   },
   data() {
     return {
+      hasCanceledTests: false,
       selectedStatus: null,
       selectedDoctor: null,
       selectedShipment: {},
@@ -532,6 +536,7 @@ export default {
     },
     updateTest(e, object) {
       this.selectedShipment[object.test_id] = e.target.value;
+      this.hasCanceledTests = this._hasCanceledTests();
     },
     processDiscount(response) {
       if (response.data.data.attributes.valid) {
@@ -780,44 +785,55 @@ export default {
           });
       });
     },
+    _hasCanceledTests(){
+        // returns true if the user has canceled any test from the current order
+        for (var key in this.$props.rowData.test_list){
+            let test = this.$props.rowData.test_list[key];
+             if (this.selectedShipment[Number(test.test_id)] == "Canceled") {
+                return true;
+            }
+        }
+        return false;
+    },
     updateLabOrder() {
       let promises = [];
+      // check for what we are updating on each lab test
       this.$props.rowData.test_list.forEach((e) => {
+        let changes = false;
+
         if (this.selectedShipment[Number(e.test_id)] != undefined) {
-          promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-          }).then(resp => {
-            this.$root.$data.global.labTests.forEach((ele, idx) => {
-              if (Number(ele.id) === Number(e.test_id)) {
-                this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
-              }
-            });
-          }));
-        } else if (this.$props.rowData.completed_at === 'Confirmed') {
-          promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            carrier: this.shippingCodes[e.test_id] ? 'fedex' : undefined,
-            shipment_code: this.shippingCodes[e.test_id],
-            status: 'shipped'
-          }).then(resp => {
-            this.$root.$data.global.labTests.forEach((ele, idx) => {
-              if (Number(ele.id) === Number(e.test_id)) {
-                this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
-              }
-            });
-          }));
+            // if the status was changed
+            changes = {
+              status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+            };
+        } else if (this.$props.rowData.completed_at === 'Confirmed' && (this.shippingCodes[e.test_id] != undefined) ) {
+            // in case the shippment tracking code was set
+            changes = {
+              carrier: this.shippingCodes[e.test_id] ? 'fedex' : undefined,
+              shipment_code: this.shippingCodes[e.test_id],
+              status: 'shipped'
+            };
         } else if (this.$props.rowData.completed_at === 'Recommended' && this.$root.$data.permissions === 'patient') {
-          promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            status: 'confirmed'
-          }).then(resp => {
-            this.$root.$data.global.labTests.forEach((ele, idx) => {
-              if (Number(ele.id) === Number(e.test_id)) {
-                this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
-              }
-            });
-          }));
+            // in case the patient confirmed the test
+            changes = {
+                status: 'confirmed'
+            }
+        }
+
+        if (changes !== false){
+            promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, changes).then(resp => {
+              this.$root.$data.global.labTests.forEach((ele, idx) => {
+                if (Number(ele.id) === Number(e.test_id)) {
+                  this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
+                }
+              });
+            }));
         }
       });
+
       return Q.allSettled(promises).then(() => {
+          // once all test were updated, get the updated info from lab order
+
         axios.get(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}?include=user,patient,invoice`)
           .then(respond => {
             let user = respond.data.included.filter(e => e.type === 'users');
@@ -864,6 +880,18 @@ export default {
     }
   },
   computed: {
+    displayEnterTrackingButton(){
+        /* display enter tracking button if the status of the order is "confirmed"
+           but we hide it when the user is admin and wants to cancel a test
+           */
+       return (this.status === 'Confirmed' && !(this.$root.$data.permissions === 'admin' && this.hasCanceledTests));
+    },
+    displayUpdateOrderButton(){
+        /* hides the update button if we are assigning tracking codes
+           but if the user is admin will diplay it anyways if he is
+           canceling one lab test */
+        return (this.status !== 'Confirmed' || (this.$root.$data.permissions === 'admin' && this.hasCanceledTests)) && this.status !== 'Canceled';
+    },
     flyoutHeading() {
       return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : '';
     },
