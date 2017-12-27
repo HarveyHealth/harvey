@@ -15,7 +15,7 @@
 
 			<?php foreach( $addons as $addon ) : ?>
 				<a href="<?php echo esc_attr( $addon['permalink'] ); ?>" class="su-admin-addons-item" target="_blank">
-					<img alt="" src="<?php echo esc_attr( $addon['images']['medium'] ); ?>" srcset="<?php echo esc_attr( $addon['images']['medium'] ); ?> 1x, <?php echo esc_attr( $addon['images']['full'] ); ?> 2x" class="su-admin-addons-item-image">
+					<img src="<?php echo esc_attr( $addon['images']['medium'] ); ?>" srcset="<?php echo esc_attr( $addon['images']['medium'] ); ?> 1x, <?php echo esc_attr( $addon['images']['full'] ); ?> 2x" class="su-admin-addons-item-image">
 					<span class="su-admin-addons-item-info">
 						<span class="su-admin-addons-item-title"><?php echo esc_html( $addon['name'] ); ?></span>
 						<span class="su-admin-addons-item-description"><?php echo esc_html( $addon['description'] ); ?></span>

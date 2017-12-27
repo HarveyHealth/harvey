@@ -238,7 +238,7 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 				</div>
 			<# } else if ( data.is_hosted_embed && data.model.poster ) { #>
 				<a href="{{ data.model.src }}" target="_blank" class="media-widget-video-link">
-					<img alt="" src="{{ data.model.poster }}" />
+					<img src="{{ data.model.poster }}" />
 				</a>
 			<# } else if ( data.is_hosted_embed ) { #>
 				<a href="{{ data.model.src }}" target="_blank" class="media-widget-video-link no-poster">

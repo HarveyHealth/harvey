@@ -57,7 +57,7 @@
 
             <div class="video-trigger">
               <p>Watch our quick tour video:</p>
-              <img alt="" src="<?php echo plugins_url( 'img/video.jpg', dirname(__FILE__) ) ?>" onclick="showVideo()" />
+              <img src="<?php echo plugins_url( 'img/video.jpg', dirname(__FILE__) ) ?>" onclick="showVideo()" />
             </div>
           </div>
         </div>

@@ -65,7 +65,7 @@ class WP_Press_This {
 	public function side_load_images( $post_id, $content = '' ) {
 		$content = wp_unslash( $content );
 
-		if ( preg_match_all( '/<img alt="" [^>]+>/', $content, $matches ) && current_user_can( 'upload_files' ) ) {
+		if ( preg_match_all( '/<img [^>]+>/', $content, $matches ) && current_user_can( 'upload_files' ) ) {
 			foreach ( (array) $matches[0] as $image ) {
 				// This is inserted from our JS so HTML attributes should always be in double quotes.
 				if ( ! preg_match( '/src="([^"]+)"/', $image, $url_matches ) ) {
@@ -607,7 +607,7 @@ class WP_Press_This {
 			$data['_images'] = array();
 		}
 
-		if ( preg_match_all( '/<img alt="" [^>]+>/', $source_content, $matches ) ) {
+		if ( preg_match_all( '/<img [^>]+>/', $source_content, $matches ) ) {
 			$items = $this->_limit_array( $matches[0] );
 
 			foreach ( $items as $value ) {

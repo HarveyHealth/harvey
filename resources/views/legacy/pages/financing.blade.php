@@ -23,7 +23,7 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/lendup-harvey.png" class="is-margin-bottom">
+            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/lendup-harvey.png" class="is-margin-bottom">
             <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey has teamed up with <a href="https://www.lendup.com/short-term-loans" target="_blank">LendUp</a> to provide 0% financing options to help you pay for doctor consultations, lab tests, supplements, and other treatment expenses. Our aim is simple, we want to serve the millions of Americans who have immediate health concerns but limited financial resources.</p>
         </div>
     </section>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/book-doctor.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/book-doctor.png" alt="">
                     </figure>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             <div class="columns is-narrow">
                 <div class="column">
                     <figure class="is-padding-left">
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/get-loan.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/get-loan.png" alt="">
                     </figure>
                 </div>
                 <div class="column has-content-vertical-aligned">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/apply-discount.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/apply-discount.png" alt="">
                     </figure>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="columns is-narrow">
                 <div class="column">
                     <figure class="is-padding-left">
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/repayment.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/repayment.png" alt="">
                     </figure>
                 </div>
                 <div class="column has-content-vertical-aligned">
@@ -92,7 +92,7 @@
     <section class="section" id="get-started">
         <div class="container">
             <div class="has-text-centered">
-                <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/checkout-receipt.png">
+                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/financing/checkout-receipt.png">
                 <h2 class="title is-3 is-padding">Apply for your 0% health loan today.</h2>
                 <div class="button-wrapper">
                     <a href="https://www.lendup.com/short-term-loans" class="button is-primary is-medium has-arrow" target="_blank">Visit LendUp</a>

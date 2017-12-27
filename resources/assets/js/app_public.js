@@ -164,12 +164,11 @@ const app = new Vue({
             : { href: '/login', display: 'Log in' };
         },
         userAvatar() {
-          return `<img alt="" src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
+          return `<img src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
         }
     },
     methods: {
-        facebookLogin(e) {
-          e.preventDefault();
+        facebookLogin() {
           window.location.href = '/auth/facebook';
         },
         onEmailCaptureSubmit() {

@@ -96,7 +96,7 @@
 			// t(/\[\/u\]/gi, "</u>"),
 			// t(/\[url=([^\]]+)\](.*?)\[\/url\]/gi, '<a href="$1">$2</a>'),
 			// t(/\[url\](.*?)\[\/url\]/gi, '<a href="$1">$1</a>'),
-			// t(/\[img\](.*?)\[\/img\]/gi, '<img alt="" src="$1" />'),
+			// t(/\[img\](.*?)\[\/img\]/gi, '<img src="$1" />'),
 			// t(/\[color=(.*?)\](.*?)\[\/color\]/gi, '<font color="$1">$2</font>'),
 			// t(/\[code\](.*?)\[\/code\]/gi, '<span class="codeStyle">$1</span>&nbsp;'),
 			// t(/\[quote.*?\](.*?)\[\/quote\]/gi, '<span class="quoteStyle">$1</span>&nbsp;'),

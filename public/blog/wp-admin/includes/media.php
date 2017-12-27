@@ -804,7 +804,7 @@ function wp_media_upload_handler() {
 				$class = " class='align$align'";
 			}
 			if ( !empty($src) )
-				$html = "<img alt="" src='" . esc_url($src) . "' alt='$alt'$class />";
+				$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
 
 			/**
 			 * Filters the image URL sent to the editor.
@@ -902,7 +902,7 @@ function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' )
 		}
 
 		$alt = isset( $desc ) ? esc_attr( $desc ) : '';
-		$html = "<img alt="" src='$src' alt='$alt' />";
+		$html = "<img src='$src' alt='$alt' />";
 		return $html;
 	} else {
 		return new WP_Error( 'image_sideload_failed' );
@@ -1467,7 +1467,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		<thead class='media-item-info' id='media-head-$post->ID'>
 		<tr>
 			<td class='A1B1' id='thumbnail-head-$post->ID'>
-			<p><a href='$attachment_url' target='_blank'><img alt="" class='thumbnail' src='$thumb_url' alt='' /></a></p>
+			<p><a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' /></a></p>
 			<p>$image_edit_button</p>
 			</td>
 			<td>
@@ -2115,7 +2115,7 @@ var addExtImage = {
 
 		cls = caption ? '' : ' class="'+t.align+'"';
 
-		html = '<img alt="" alt="'+alt+'" src="'+f.src.value+'"'+cls+' width="'+t.width+'" height="'+t.height+'" />';
+		html = '<img alt="'+alt+'" src="'+f.src.value+'"'+cls+' width="'+t.width+'" height="'+t.height+'" />';
 
 		if ( f.url.value ) {
 			url = f.url.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -2137,7 +2137,7 @@ var addExtImage = {
 		document.getElementById('go_button').style.color = '#bbb';
 		if ( ! document.forms[0].src.value )
 			document.getElementById('status_img').innerHTML = '';
-		else document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>" alt="" />';
+		else document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>" alt="" />';
 	},
 
 	updateImageData : function() {
@@ -2146,7 +2146,7 @@ var addExtImage = {
 		t.width = t.preloadImg.width;
 		t.height = t.preloadImg.height;
 		document.getElementById('go_button').style.color = '#333';
-		document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/yes.png' ) ); ?>" alt="" />';
+		document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/yes.png' ) ); ?>" alt="" />';
 	},
 
 	getImageData : function() {
@@ -2160,7 +2160,7 @@ var addExtImage = {
 			return false;
 		}
 
-		document.getElementById('status_img').innerHTML = '<img alt="" src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" alt="" width="16" height="16" />';
+		document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" alt="" width="16" height="16" />';
 		t.preloadImg = new Image();
 		t.preloadImg.onload = t.updateImageData;
 		t.preloadImg.onerror = t.resetImageData;
@@ -2741,7 +2741,7 @@ function edit_form_image_editor( $post ) {
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
 		<div<?php if ( $open ) echo ' style="display:none"'; ?> class="wp_attachment_image wp-clearfix" id="media-head-<?php echo $attachment_id; ?>">
-			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img alt="" class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" /></p>
+			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" /></p>
 			<p><?php echo $image_edit_button; ?></p>
 		</div>
 		<div<?php if ( ! $open ) echo ' style="display:none"'; ?> class="image-editor" id="image-editor-<?php echo $attachment_id; ?>">
@@ -2783,7 +2783,7 @@ function edit_form_image_editor( $post ) {
 		?>
 		<div class="wp_attachment_image wp-clearfix" id="media-head-<?php echo $attachment_id; ?>">
 			<p id="thumbnail-head-<?php echo $attachment_id; ?>">
-				<img alt="" class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" />
+				<img class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" />
 			</p>
 		</div>
 		<?php

@@ -224,7 +224,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				$instance['height'] = '';
 			}
 
-			$image = sprintf( '<img alt="" class="%1$s" src="%2$s" alt="%3$s" width="%4$s" height="%5$s" />',
+			$image = sprintf( '<img class="%1$s" src="%2$s" alt="%3$s" width="%4$s" height="%5$s" />',
 				esc_attr( $classes ),
 				esc_url( $instance['url'] ),
 				esc_attr( $instance['alt'] ),
@@ -325,7 +325,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 					<p><?php _e( 'Unable to preview media due to an unknown error.' ); ?></p>
 				</div>
 			<# } else if ( data.url ) { #>
-				<img alt="" class="attachment-thumb" src="{{ data.url }}" draggable="false" alt="{{ data.alt }}" <# if ( ! data.alt && data.currentFilename ) { #> aria-describedby="{{ describedById }}" <# } #> />
+				<img class="attachment-thumb" src="{{ data.url }}" draggable="false" alt="{{ data.alt }}" <# if ( ! data.alt && data.currentFilename ) { #> aria-describedby="{{ describedById }}" <# } #> />
 				<# if ( ! data.alt && data.currentFilename ) { #>
 					<p class="hidden" id="{{ describedById }}"><?php
 						/* translators: placeholder is image filename */

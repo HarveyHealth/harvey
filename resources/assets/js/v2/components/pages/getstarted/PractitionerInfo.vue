@@ -1,7 +1,7 @@
 <template>
     <div v-if="practitioner">
         <div class="bg" :style="practitionerBackground"></div>
-        <img alt="" class="avatar" :src="practitionerAvatar" />
+        <img class="avatar" :src="practitionerAvatar" />
         <Spacer isBottom :size="3" />
         <div class="pa3">
             <Heading2 v-if="practitioner.attributes.name">{{ practitioner.attributes.name }}, ND</Heading2>

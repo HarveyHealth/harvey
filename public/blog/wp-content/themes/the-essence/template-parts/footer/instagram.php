@@ -12,7 +12,7 @@
 
 				<?php if ( $count <= 8 ) : ?>
 
-					<a href="<?php echo $image['url']; ?>" target="_blank"><img alt="" src="<?php echo $image['image']; ?>" alt="Instagram" /></a>
+					<a href="<?php echo $image['url']; ?>" target="_blank"><img src="<?php echo $image['image']; ?>" alt="Instagram" /></a>
 
 				<?php endif; ?>
 
