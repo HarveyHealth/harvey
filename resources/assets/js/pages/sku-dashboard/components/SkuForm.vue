@@ -33,12 +33,14 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="description">Description</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" maxlength="800" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
+                <span class="charcount" style="top: 0px">{{ countDescription }} / {{ descriptionMaxLength }}</span>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" :maxlength="descriptionMaxLength" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" maxlength="200" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <span class="charcount" style="top: 0px">{{ countQuote }} / {{ quoteMaxLength }}</span>
+                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" :maxlength="quoteMaxLength" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
 
             <div class="input__container input-wrap">
@@ -111,7 +113,9 @@
             notificationSymbol: '&#10003;',
             notificationActive: false,
             notificationDirection: 'top-right',
-            notificationError: false
+            notificationError: false,
+            descriptionMaxLength: 2048,
+            quoteMaxLength: 1024,
         };
     },
     components: {
@@ -196,6 +200,12 @@
         },
         notificationMessage() {
             return this.sku ? "Lab test updated" : "Lab Test Updated";
+        },
+        countQuote() {
+          return this.quoteMaxLength - (this.sku ? this.sku.attributes.lab_test_information.quote.length : 0);
+        },
+        countDescription() {
+          return this.descriptionMaxLength - (this.sku ? this.sku.attributes.lab_test_information.description.length : 0);
         }
     },
     props: {
