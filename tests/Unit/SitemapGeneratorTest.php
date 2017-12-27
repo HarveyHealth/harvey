@@ -4,12 +4,11 @@ namespace Tests\Unit;
 
 use App\Lib\SitemapGenerator;
 use Tests\TestCase;
+use SimpleXMLElement;
 
-
-class AppointmentScopeTest extends TestCase
+class SitemapGeneratorTest extends TestCase
 {
-
-    function testAddPath()
+    public function test_add_path()
     {
         $map = new SitemapGenerator(url(config('app.url')));
         $map->addPath('conditions');
@@ -17,10 +16,10 @@ class AppointmentScopeTest extends TestCase
         $urls = $map->urls();
 
         $this->assertCount(1, $urls);
-        $this->assertEquals(url(config('app.url')) + '/conditions',$urls[0]['url']);
+        $this->assertEquals(url(config('app.url')) . '/conditions', $urls[0]['url']);
     }
 
-    function testAddPaths()
+    public function test_add_paths()
     {
         $map = new SitemapGenerator(url(config('app.url')));
         $map->addPaths([
@@ -36,8 +35,7 @@ class AppointmentScopeTest extends TestCase
         $this->assertCount(4, $urls);
     }
 
-
-    function testSitemap()
+    public function test_sitemap()
     {
         $map = new SitemapGenerator(url(config('app.url')));
         $map->addPaths([
@@ -46,7 +44,7 @@ class AppointmentScopeTest extends TestCase
             'test3',
         ]);
 
-        $xml = new \SimpleXMLElement($map->sitemap());
+        $xml = new SimpleXMLElement($map->sitemap());
 
         $this->assertNotFalse($xml);
         $this->assertEquals(3, count($xml->url->children()));
