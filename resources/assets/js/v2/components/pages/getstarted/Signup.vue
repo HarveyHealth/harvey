@@ -185,8 +185,7 @@ export default {
     }
   },
   methods: {
-    facebookSignup(e) {
-      e.preventDefault();
+    facebookSignup() {
       if(!this.State('getstarted.userPost.terms')) {
         this.errors.add('terms', 'error', 'required');
         this.errors.first('terms:required');
