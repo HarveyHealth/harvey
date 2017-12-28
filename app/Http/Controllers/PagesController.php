@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
-use App\Models\{
-  Condition,
-  LabTestInformation
-};
+use App\Models\{Condition, LabTestInformation};
 
 /*
  * A light controller to display mostly static pages, like the homepage
  */
 class PagesController extends Controller
 {
+    protected function sendConditionsView($conditions, $lab_tests, $index, $get_zip)
+    {
+        return view('pages.conditions')->with(compact('conditions', 'lab_tests', 'index', 'get_zip'));
+    }
     /**
      * Show the home page.
      *
@@ -22,7 +23,7 @@ class PagesController extends Controller
      */
     public function getHomepage()
     {
-        return view('legacy.pages.homepage');
+        return view('legacy.pages.homepage')->with(['conditions' => Condition::getAllFromCache()]);
     }
 
     public function getAbout()
@@ -47,25 +48,23 @@ class PagesController extends Controller
 
     public function getConditions()
     {
-        $conditions = Condition::all();
-        $index = false;
-
-        return view('pages.conditions')->with(compact('conditions', 'index'));
+        // If no condition is specified, redirect to first condition
+        return redirect("/conditions/".Condition::first()->slug);
     }
 
     public function getCondition(string $conditionSlug = null)
     {
-        $conditions = Condition::all();
-
-        $index = $conditions->search(function ($item) use ($conditionSlug) {
-            return $item->slug == $conditionSlug;
-        });
-
-        if (!is_numeric($index)) {
-            return redirect()->route('conditions');
+        if($conditionSlug === 'get-zip') {
+            return $this->sendConditionsView(Condition::getAllFromCache(), null, null, true);
         }
 
-        return view('pages.conditions')->with(compact('conditions', 'index'));
+        $condition = Condition::where('slug', $conditionSlug)->first();
+
+        // If valid condition, render view with conditions and proper index
+        // Else redirect to first condition in db
+        return $condition
+            ? $this->sendConditionsView(Condition::getAllFromCache(), LabTestInformation::publicFromCache(), $condition->id - 1, false)
+            : redirect("/conditions/".Condition::first()->slug);
     }
 
     public function getFinancing()

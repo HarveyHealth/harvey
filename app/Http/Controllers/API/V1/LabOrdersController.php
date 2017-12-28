@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Lib\TimeInterval;
 use App\Lib\Validation\StrictValidator;
 use App\Models\{DiscountCode, LabOrder};
 use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use ResponseCode;
+use Cache, ResponseCode, Shippo_Track, Shippo_Transaction;
 
 class LabOrdersController extends BaseAPIController
 {
@@ -41,16 +42,16 @@ class LabOrdersController extends BaseAPIController
 
     /**
      * @param Request     $request
-     * @param LabOrder     $labOrder
+     * @param LabOrder     $lab_order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getOne(Request $request, LabOrder $labOrder)
+    public function getOne(Request $request, LabOrder $lab_order)
     {
-        if (currentUser()->cant('view', $labOrder)) {
+        if (currentUser()->cant('view', $lab_order)) {
             return $this->respondNotAuthorized("You do not have access to view this LabOrder.");
         }
 
-        return $this->baseTransformItem($labOrder, request('include'))->respond();
+        return $this->baseTransformItem($lab_order, request('include'))->respond();
     }
 
     /**
@@ -82,62 +83,89 @@ class LabOrdersController extends BaseAPIController
 
     /**
      * @param Request     $request
-     * @param LabOrder     $labOrder
+     * @param LabOrder     $lab_order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, LabOrder $labOrder)
+    public function update(Request $request, LabOrder $lab_order)
     {
-        if (currentUser()->cant('update', $labOrder) || $labOrder->isComplete()) {
+        if (currentUser()->cant('update', $lab_order) || $lab_order->isComplete()) {
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
         StrictValidator::checkUpdate($request->all(), [
             'shipment_code' => 'filled|string',
             'shippo_id' => 'string',
-            'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
-            'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
-            'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'address_1' => "sometimes|order_was_not_shipped:{$lab_order->id}",
+            'address_2' => "sometimes|order_was_not_shipped:{$lab_order->id}",
+            'city' => "sometimes|order_was_not_shipped:{$lab_order->id}",
             'discount_code' => 'sometimes|string|max:24',
             'shipment_code' => 'filled|string',
-            'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
-            'zip' => "sometimes|digits:5|order_was_not_shipped:{$labOrder->id}",
+            'state' => "sometimes|order_was_not_shipped:{$lab_order->id}",
+            'zip' => "sometimes|digits:5|order_was_not_shipped:{$lab_order->id}",
         ]);
 
-        $labOrder->update($request->all());
-        $labOrder->setDiscountCode(currentUser(), $request->input('discount_code'), 'lab-test');
+        $lab_order->setDiscountCode(currentUser(), $request->input('discount_code'), 'lab-test');
+        $lab_order->fill($request->all());
+        $lab_order->save();
 
-        return $this->baseTransformItem($labOrder, request('include'))->respond();
+        return $this->baseTransformItem($lab_order, request('include'))->respond();
     }
 
     /**
-     * @param LabOrder $labOrder
+     * @param LabOrder $lab_order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(LabOrder $labOrder)
+    public function delete(LabOrder $lab_order)
     {
-        if (currentUser()->cant('delete', $labOrder)) {
+        if (currentUser()->cant('delete', $lab_order)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabOrder");
         }
 
-        if (!$labOrder->delete()) {
-            return $this->baseTransformItem($labOrder)->respond(ResponseCode::HTTP_CONFLICT);
+        if (!$lab_order->delete()) {
+            return $this->baseTransformItem($lab_order)->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
     /**
-     * @param LabOrder $labOrder
+     * @param LabOrder $lab_order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function ship(LabOrder $labOrder)
+    public function track(Request $request, LabOrder $lab_order)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized("You do not have access to track this LabOrder");
+        }
+
+        if (empty($lab_order->shipment_code) || empty($lab_order->carrier)) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $output = Cache::remember("track_for_shippo_id_{$lab_order->shippo_id}", TimeInterval::hours(1)->toMinutes(), function () use ($lab_order) {
+            return Shippo_Track::create(['carrier' => $lab_order->carrier, 'tracking_number' => $lab_order->shipment_code])->__toArray(true);
+        });
+
+        return response()->json($output, ResponseCode::HTTP_OK);
+    }
+
+    /**
+     * @param LabOrder $lab_order
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ship(Request $request, LabOrder $lab_order)
     {
         if (currentUser()->isNotAdmin()) {
             return $this->respondNotAuthorized("You do not have access to ship this LabOrder");
         }
 
-        $labOrder->ship();
+        StrictValidator::check($request->all(), [
+            'carrier' => ['filled', Rule::in(LabOrder::ALLOWED_CARRIERS)],
+            'servicelevel_token' => ['filled', Rule::in(LabOrder::ALLOWED_SERVICELEVEL_TOKENS)],
+        ]);
 
-        return $this->baseTransformItem($labOrder->fresh(), request('include'))->respond();
+        $lab_order->ship($request->input('carrier'), $request->input('servicelevel_token'));
+
+        return $this->baseTransformItem($lab_order->fresh(), request('include'))->respond();
     }
 }

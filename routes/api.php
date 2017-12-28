@@ -33,6 +33,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
+        # Search
+        Route::get('search', 'SearchController@search')->name('search.search');
+
         # Validate Discount Codes
         Route::get('discount_codes/{code}', 'DiscountCodesController@getOne')->name('discount-codes.index');
 
@@ -57,11 +60,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
         Route::post('patients/{patient}/attachments', 'AttachmentsController@store')->name('attachment.store');
+        Route::patch('attachments/{attachment}', 'AttachmentsController@update')->name('attachment.update');
         Route::delete('attachments/{attachment}', 'AttachmentsController@delete')->name('attachment.delete');
 
         # Prescriptions
         Route::get('prescriptions/{prescription}', 'PrescriptionsController@getOne')->name('prescriptions.get-one');
         Route::post('patients/{patient}/prescriptions', 'PrescriptionsController@store')->name('prescriptions.store');
+        Route::patch('prescriptions/{prescription}', 'PrescriptionsController@update')->name('prescriptions.update');
         Route::delete('prescriptions/{prescription}', 'PrescriptionsController@delete')->name('prescriptions.delete');
 
         # SOAP Notes
@@ -104,20 +109,22 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{lab_test}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{lab_test}', 'LabTestsController@delete')->name('lab-tests.delete');
+        Route::get('lab/tests/{lab_test}/track', 'LabTestsController@track')->name('lab-tests.track');
 
         # Lab Test Results
         Route::get('lab/tests/results/{lab_test_result}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
         Route::post('lab/tests/{lab_test}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
+        Route::patch('lab/tests/results/{lab_test_result}', 'LabTestsController@updateResult')->name('lab-tests.update-result');
         Route::delete('lab/tests/results/{lab_test_result}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
 
         # Lab Orders
         Route::get('lab/orders', 'LabOrdersController@getAll')->name('lab-orders.get-all');
-        Route::get('lab/orders/{labOrder}', 'LabOrdersController@getOne')->name('lab-orders.get-one');
+        Route::get('lab/orders/{lab_order}', 'LabOrdersController@getOne')->name('lab-orders.get-one');
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
-        Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
-        Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
-
-        Route::put('lab/orders/{labOrder}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
+        Route::patch('lab/orders/{lab_order}', 'LabOrdersController@update')->name('lab-orders.update');
+        Route::delete('lab/orders/{lab_order}', 'LabOrdersController@delete')->name('lab-orders.delete');
+        Route::get('lab/orders/{lab_order}/track', 'LabOrdersController@track')->name('lab-orders.track');
+        Route::put('lab/orders/{lab_order}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
 
         # SKUs
         Route::get('skus', 'SkusController@index')->name('skus.index');

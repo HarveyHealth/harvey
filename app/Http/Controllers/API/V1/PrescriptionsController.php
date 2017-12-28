@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\Prescription;
+use App\Models\{Patient, Prescription};
 use App\Transformers\V1\PrescriptionTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;
@@ -39,7 +39,7 @@ class PrescriptionsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
-            'notes' => 'string|max:1024',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = (string) $patient->user->id;
@@ -65,6 +65,21 @@ class PrescriptionsController extends BaseAPIController
         }
 
         return $this->baseTransformItem($prescription->fresh())->respond();
+    }
+
+    public function update(Request $request, Prescription $prescription)
+    {
+        if (currentUser()->cant('update', $prescription)) {
+            return $this->respondNotAuthorized('You do not have access to update this Prescription.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:4096',
+        ]);
+
+        $prescription->update($request->all());
+
+        return $this->baseTransformItem($prescription, request('include'))->respond();
     }
 
     public function delete(Request $request, Prescription $prescription)

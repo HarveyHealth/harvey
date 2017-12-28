@@ -4,9 +4,15 @@ import router from './routes';
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
 import VueRouter from 'vue-router';
+import VueQuillEditor from 'vue-quill-editor';
+
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
 
 Vue.use(VeeValidate);
 Vue.use(VueRouter);
+Vue.use(VueQuillEditor);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
@@ -52,7 +58,12 @@ App.Router = router;
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
-Vue.filter('jsonParse', Filters.jsonParse);
+Vue.filter('fullDate', Filters.fullDate);
+Vue.filter('timeDisplay', Filters.timeDisplay);
+Vue.filter('weekDay', Filters.weekDay);
+Vue.filter('ucfirst', function (value) {
+  return value.substr(0,1).toUpperCase() + value.substr(1);
+});
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
@@ -74,9 +85,23 @@ Vue.prototype.State = (path, ifUndefined) => {
 //    App.setState('practitioners.data.all', 'practitioners');
 //    State.practitioners.data.all yields 'practitioners'
 App.setState = (state, value) => {
-  const path = state.split('.');
-  const prop = path.pop();
-  return App.Util.data.propDeep(path, State)[prop] = value;
+  const set = (s, v) => {
+    const path = s.split('.');
+    const prop = path.pop();
+    return App.Util.data.propDeep(path, State)[prop] = v;
+  };
+
+  switch(typeof state) {
+      case 'string':
+        set(state, value);
+        break;
+      case 'object':
+        for (var key in state) {
+          set(key, state[key]);
+        }
+        break;
+  }
+
 };
 
 Vue.prototype.setState = App.setState;
@@ -101,6 +126,9 @@ const app = new Vue({
     data: Store,
 
     computed: {
+      isMobileMenuOpen() {
+          return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
+      },
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
           this.signup.phoneConfirmed &&
@@ -187,7 +215,7 @@ const app = new Vue({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
+                        date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,
@@ -196,7 +224,9 @@ const app = new Vue({
                         search_name: `${includeData.first_name} ${includeData.last_name}`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
-                        zip: includeData.zip
+                        zip: includeData.zip,
+                        image: includeData.image_url,
+                        created_at: moment(includeData.created_at.date).format("MM/DD/YY")
                     });
                 });
 
@@ -279,7 +309,7 @@ const app = new Vue({
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        if (!invoices.length) {
+                        if (invoices.length) {
                             invoices.forEach(e => {
                                 obj[e.id] = e;
                             });
@@ -318,6 +348,9 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.id] = e;
+                        if (!this.labTypes[e.attributes.lab_name]) { 
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
+                        }
                         this.labTests[e.id]['checked'] = false;
                     });
                     this.global.loadingTestTypes = false;
@@ -343,25 +376,19 @@ const app = new Vue({
                 .then(response => {
                     let data = {};
                     let messageData = response.data.data;
-                    if (typeof (response.data.data) === 'object') {
-                        if (response.data.data.id) {
-                            messageData = [response.data.data];
-                        } else {
-                            messageData = Object.values(response.data.data);
-                        }
-                    }
                     messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                     });
                     if (data) {
-                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.id - b.id)));
                         this.global.detailMessages = data;
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
-                            .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
+                            .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+
                     }
                     this.global.loadingMessages = false;
                 });
@@ -431,7 +458,7 @@ const app = new Vue({
         // This is helpful to have for development because you can test internal methods
         // that require application state
         if (App.Config.misc.environment === 'dev') {
-          window.Root = window.Root || this;
+          window.state = this.State;
         }
 
         // For conditions, we could either create an endpoint that will need to be hit

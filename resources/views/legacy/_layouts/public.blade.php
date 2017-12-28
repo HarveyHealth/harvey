@@ -18,7 +18,7 @@
         </div>
     </noscript>
 
-    <div id="app">
+    <div id="app" :class="appClass">
         @include('legacy._layouts.includes.top_nav')
         <div class="page-content">
             @yield('main_content')
@@ -82,10 +82,15 @@
         }
     </script>
     <script type="text/javascript" src="https://unpkg.com/gh-zepto@1.0.0/index.js" async></script>
-    <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
     <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
     <script type="text/javascript" src="https://unpkg.com/gh-modernizr@1.0.0/index.js"></script>
     <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
+    <script type="text/javascript">
+        @isset($conditions)
+            App.Public.setConditions({!! $conditions !!});
+        @endisset
+    </script>
     @stack('scripts')
 
 @endsection

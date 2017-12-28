@@ -31,11 +31,11 @@
 }
 .dim:hover,
 .dim:focus {
-  opacity: .5;
+  opacity: .7;
   transition: opacity .15s ease-in;
 }
 .dim:active {
-  opacity: .8; transition: opacity .15s ease-out;
+  opacity: .9; transition: opacity .15s ease-out;
 }
 
 /*

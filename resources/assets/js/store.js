@@ -94,6 +94,7 @@ export default function(laravel, State) {
       initialAppointment: {},
       initialAppointmentComplete: false,
       labTests: {},
+      labTypes: {},
       timezone: moment.tz.guess(),
       timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
   };

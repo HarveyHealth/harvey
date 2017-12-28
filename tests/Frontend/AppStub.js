@@ -29,6 +29,9 @@ App.Logic = Logic;
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
 Vue.filter('jsonParse', Filters.jsonParse);
+Vue.filter('ucfirst', function (value) {
+  return value.substr(0,1).toUpperCase() + value.substr(1);
+});
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
@@ -37,6 +40,10 @@ Vue.prototype.Config = App.Config;
 Vue.prototype.Http = App.Http;
 Vue.prototype.Logic = App.Logic;
 Vue.prototype.Util = App.Util;
+
+// app_public.js attaches Laravel to the Vue prototype because it does
+// not share v2 architecture
+Vue.prototype.Laravel = laravel;
 
 // Turning State into a function allows you to query global state within
 // Vue templates, providing default values to fall back on if a particular
@@ -63,7 +70,7 @@ Vue.prototype.setState = App.setState;
 //  component = the component object being tested
 //  componentName = string of the component name for the render function
 //  setAppState = function that mutates the mock $root state prior to mount
-const AppStub = function(component, componentName, setAppState) {
+const AppStub = function(component, componentName, props, setAppState) {
 
   let stub = {};
 
@@ -86,7 +93,7 @@ const AppStub = function(component, componentName, setAppState) {
   // data.global.creditCards = false;
 
   // Mutate $root data
-  if (setAppState) setAppState(data);
+  if (setAppState) setAppState(data, window);
 
   // Stub a Vue router instance
   let router = new VueRouter({
@@ -106,7 +113,9 @@ const AppStub = function(component, componentName, setAppState) {
       shouldTrack() { return false; }
     },
     render(create) {
-      return create('div', [create(componentName)])
+      return create('div', [
+        create(componentName, { props: props || {} })
+      ])
     }
   }).$mount();
 

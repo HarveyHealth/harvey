@@ -14,17 +14,17 @@ class LabTestInformationTransformer extends TransformerAbstract
     public function transform(LabTestInformation $labTestInformation)
     {
         return [
-            'id' => (string) $labTestInformation->id,
+            'id' => cast_to_string($labTestInformation->id),
             'description' => $labTestInformation->description,
             'example' => $labTestInformation->example,
             'image' => $labTestInformation->image,
             'item_type' => $labTestInformation->sku->item_type,
             'lab_name' => $labTestInformation->lab_name,
             'name' => $labTestInformation->sku->name,
-            'price' => (string) $labTestInformation->sku->price,
+            'price' => cast_to_string($labTestInformation->sku->price),
             'quote' => $labTestInformation->quote,
             'sample' => $labTestInformation->sample,
-            'sku_id' => (string) $labTestInformation->sku->id,
+            'sku_id' => cast_to_string($labTestInformation->sku->id),
             'visibility' => $labTestInformation->visibility,
         ];
     }

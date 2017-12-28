@@ -99,7 +99,7 @@
         </div>
     </section>
 
-    <section class="section" id="stories">
+    <section class="section is-margin-bottom" id="stories">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Leadership</span></h2>
             <div class="columns is-narrow">
@@ -157,12 +157,13 @@
         </div>
     </section>
 
-    <section class="section is-margin-top" id="get-started">
+    <section class="section get-started">
         <div class="container">
-            <div class="has-text-centered">
-                <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
+            <div class="has-text-centered has-max-width-lg">
+                <h2 class="title is-3"><em>"Let food be thy medicine..."</em></h2>
+                <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Our integrative doctors are available for virtual consultations, lab testing and treatment for a wide variety of health conditions.</p>
                 <div class="button-wrapper">
-                    <a href="/#get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                    <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
                 </div>
             </div>
         </div>

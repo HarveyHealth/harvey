@@ -1,7 +1,7 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
+  <div class="nav-bar hide-print" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button" @click="handleMenu(null)">
+    <button class="menu-button hide-print" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
@@ -48,14 +48,12 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <!-- LEAVE THESE COMMENTS HERE -->
-
-       <!-- <router-link to="/records" title="Records"
+       <router-link to="/records" title="Records"
         :class="currentPageCheck('records')"
         @click.native="handleMenu(false, 'records')">
         <i class="fa fa-files-o icon icon-nav-bar"></i>
         <div class="text">Records</div>
-      </router-link>  -->
+      </router-link> 
 
       <router-link
         v-if="user === 'admin'"
@@ -113,25 +111,28 @@
     },
     methods: {
       // Updates class list with current page and unread information
-      currentPageCheck(page, unread) {
-        return {
-          'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
-          'unread': unread
-        };
-      },
+        currentPageCheck(page, unread) {
+            return {
+            'admin-nav-link': true,
+            'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
+            'unread': unread
+            };
+        },
+        makeThreadId(userOne, userTwo) {
+            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
+        },
       // ** Handles mobile menu state and currentPage **
       // When force = null the menu state will toggle
       // force can also be false which will close the menu after a defined delay
       // if an item is given, the currentPage will be set to that item
-      handleMenu(force, item) {
-        this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
-        if (item) App.setState('misc.currentPage', item);
-        // Added delay to allow time for new component to render in the router-view
-        if (force === null) {
-          this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
-        } else {
-          setTimeout(() => this.$root.$data.global.menuOpen = force, 200);
+        handleMenu(force, item) {
+            this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+            if (item) App.setState('misc.currentPage', item);
+            // Added delay to allow time for new component to render in the router-view
+            if (force === null) {
+            this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
+            } else {
+            setTimeout(() => this.$root.$data.global.menuOpen = force, 200);
         }
       }
     },
@@ -144,16 +145,19 @@
     },
     mounted() {
       let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
-      let userId = this.$root.$data.global.user.id;
+      let userId = window.Laravel.user.id;
       channel.bind('App\\Events\\MessageCreated', (data) => {
-        let subject = data.data.attributes.subject;
-          this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
-          this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
-          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
-          this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+        let ws = data.data;
+        let subject = `${this.makeThreadId(ws.attributes.sender_user_id, ws.attributes.recipient_user_id)}-${ws.attributes.subject}`;
+        if (this.$root.$data.global.detailMessages[subject]) {
+            this.$root.$data.global.detailMessages[subject].push(ws);
+        } else {
+            this.$root.$data.global.detailMessages[subject] = [ws];
+        }
+        this.$root.$data.global.unreadMessages = _.flattenDeep(Object.values(this.$root.$data.global.detailMessages)).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
+        this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
             .map(e => e[e.length - 1])
-            .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
+            .sort((a, b) => b.id - a.id);
       });
     }
   };

@@ -6,7 +6,7 @@
                     <h1 class="heading-1">
                         <span class="text">Lab Orders</span>
                         <button
-                            v-if="!loadingLabs && $root.$data.permissions !== 'patient'"
+                            v-if="loadingLabs && $root.$data.permissions !== 'patient'"
                             @click="addingFlyoutActive"
                             class="button main-action circle"
                             data-test="addLabOrder"
@@ -31,7 +31,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions !== 'patient'" :reset="setupLabData" :labTests="tests" />
+            <AddLabOrders v-if="loadingLabs && $root.$data.permissions !== 'patient'" :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
                 :active="addFlyoutActive"
@@ -39,11 +39,12 @@
             />
             <LabOrderTable
                 :handle-row-click="handleRowClick"
-                :loading="loadingLabs"
+                :loading="!loadingLabs"
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="currentData"
+                :filterSelected="activeFilter"
              />
         </div>
     </div>
@@ -187,7 +188,8 @@
                     global.labTests,
                     patient,
                     global.practitionerLookUp,
-                    this.$root.$data.labTests
+                    this.$root.$data.labTests,
+                    this.$root.$data.permissions
                 );
                 this.labData = data;
                 let choices = {
@@ -218,7 +220,7 @@
             getPatientCreditCard(userId) {
                 axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
                 .then(response => {
-                    this.patientCard = response.data.data.pop();
+                    this.patientCard = response.data.data.pop() || null;
                 })
                 .then(() => {
                     this.loading = false;
@@ -244,23 +246,23 @@
                 const global = this.$root.$data.global;
                 let permissions = this.$root.$data.permissions;
                 if (permissions === 'admin') {
-                    return global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingPatients ||
-                    global.loadingTestTypes ||
-                    global.loadingPractitioners;
+                    return !global.loadingLabTests &&
+                    !global.loadingLabOrders &&
+                    !global.loadingPatients &&
+                    !global.loadingTestTypes &&
+                    !global.loadingPractitioners;
                 } else if (permissions === 'practitioner') {
-                    return global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingTestTypes ||
-                    global.loadingPatients;
+                    return !global.loadingLabTests &&
+                    !global.loadingLabOrders &&
+                    !global.loadingTestTypes &&
+                    !global.loadingPatients;
                 } else if (permissions === 'patient') {
-                    return global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingTestTypes ||
-                    global.loadingPractitioners ||
-                    global.loadingUser ||
-                    global.loadingCreditCards;
+                    return !global.loadingLabTests &&
+                    !global.loadingLabOrders &&
+                    !global.loadingTestTypes &&
+                    !global.loadingPractitioners &&
+                    !global.loadingUser &&
+                    !global.loadingCreditCards;
                 }
                 return false;
             },
@@ -273,24 +275,27 @@
         },
         watch: {
             loadingLabs(val) {
-                if (!val) {
+                if (val) {
                     this.setupLabData();
                 }
             },
             labTests(val) {
-                if (!val) {
+                if (val) {
                     this.getLabTests();
                 }
             }
         },
         mounted() {
+            let global = this.$root.$data.global;
             this.$root.$data.global.currentPage = 'lab-orders';
-            if (!global.loadingLabTests ||
-                !global.loadingLabOrders ||
-                !global.loadingPractitioners ||
-                !global.loadingUser ||
-                !global.loadingTestTypes ||
-                !global.loadingCreditCards) {
+            let loadingForPatients = this.$root.$data.permissions === ' patient' ? global.loadingCreditCards : false;
+            let loadingForPractitioners = this.$root.$data.permissions !== ' practitioner' ? global.loadingPractitioners : false;
+            if (!global.loadingLabTests &&
+                !global.loadingLabOrders &&
+                !loadingForPractitioners &&
+                !global.loadingUser &&
+                !global.loadingTestTypes &&
+                !loadingForPatients) {
                 this.setupLabData();
             }
         },
@@ -314,7 +319,7 @@
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        if (invoices.length > 0) {
+                        if (invoices.length) {
                             invoices.forEach(e => {
                                 obj[e.id] = e;
                             });
