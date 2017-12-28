@@ -260,7 +260,8 @@ $factory->define(LabOrder::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
-        'shipment_code' => $faker->isbn13,
+        'shipment_code' => $faker->randomElement(['SHIPPO_UNKNOWN', 'SHIPPO_TRANSIT', 'SHIPPO_DELIVERED', 'SHIPPO_RETURNED', 'SHIPPO_FAILURE']),
+        'carrier' => 'shippo',
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,
         'state' => 'CA',
@@ -275,7 +276,8 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
         'sku_id' => function () {
             return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
         },
-        'shipment_code' => $faker->isbn13,
+        'shipment_code' => $faker->randomElement(['SHIPPO_UNKNOWN', 'SHIPPO_TRANSIT', 'SHIPPO_DELIVERED']),
+        'carrier' => 'shippo'
     ];
 });
 

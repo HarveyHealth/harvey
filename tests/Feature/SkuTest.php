@@ -32,7 +32,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
@@ -49,7 +49,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
@@ -69,7 +69,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
@@ -107,7 +107,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
@@ -123,12 +123,12 @@ class SkuTest extends TestCase
             'name' => 'Test',
             'price' => 200.00,
             'cost' => 200.00,
-            'description' => str_random(2049),
+            'description' => str_random(2048 + 1),
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
-            'visibility_id' => 0,
+            'visibility' => 'public',
         ]);
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);

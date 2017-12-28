@@ -16,6 +16,7 @@ export default {
     props: {
         step: String
     },
+
     data() {
         return {
             steps: {
@@ -27,6 +28,7 @@ export default {
             }
         };
     },
+
     computed: {
         // We can show the link to the next step only if that step has been completed
         canShowNext() {

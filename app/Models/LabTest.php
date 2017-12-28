@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Traits\HasStatusColumn;
+use App\Http\Traits\{HasLogTable, HasStatusColumn};
 use App\Models\{LabOrder, LabTestResult, SKU};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 
 class LabTest extends Model
 {
-    use SoftDeletes, HasStatusColumn;
+    use SoftDeletes, HasLogTable, HasStatusColumn;
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -30,6 +30,10 @@ class LabTest extends Model
         'created_at',
         'completed_at',
         'deleted_at',
+        'status_id',
+    ];
+
+    protected $log = [
         'status_id',
     ];
 
@@ -74,6 +78,11 @@ class LabTest extends Model
         return $this->labOrder->practitioner();
     }
 
+    public static function findByShipmentCode(string $shipment_code)
+    {
+        return self::where('shipment_code', $shipment_code)->first();
+    }
+
     public function scopePatientOrPractitioner(Builder $builder, User $user)
     {
         return $builder->whereHas('labOrder', function ($builder) use ($user) {
@@ -84,10 +93,5 @@ class LabTest extends Model
     public function scopeBySkuName(Builder $builder)
     {
       return $builder->leftJoin('skus', 'skus.id', '=', 'sku_id')->orderBy('skus.name');
-    }
-
-    public function scopeShipped(Builder $builder)
-    {
-        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
     }
 }

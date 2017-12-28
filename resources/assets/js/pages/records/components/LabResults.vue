@@ -1,10 +1,15 @@
 <template>
   <div>
-    <PageHeader class="mb3" :heading="$parent.news ? 'New Lab Result' : 'Lab Result'" />
+    <Card>
+        <CardContent>
+            <Heading2>{{ $parent.news ? 'New Lab Result' : 'Lab Result' }}</Heading2>
+        </CardContent>
+    </Card>
+    <Spacer isBottom :size="3" />
     <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
 
       <!-- News -->
-      <Card class="w-60" :slot="1" :heading="'Lab Results'">
+      <Card :slot="1" :heading="'Lab Results'">
         <CardContent>
           <div class="">
             <div class="">
@@ -51,7 +56,7 @@
         </CardContent>
       </Card>
 
-      <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+      <Card :slot="2" :heading="'Quick Notes'">
         <CardContent>
           <div class="">
             <quill-editor
@@ -69,15 +74,13 @@
     <div v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
-        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
+        <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>
-            <div class="" >
               <iframe class="w-100" :style="'height:60vh'" :src="resultUrl" />
-            </div>
           </CardContent>
         </Card>
 
-        <Card v-if="$root.$data.permissions !== 'patient'" class="w-30" :slot="2" :heading="'Quick Notes'">
+        <Card v-if="$root.$data.permissions !== 'patient'" :slot="2" :heading="'Quick Notes'">
           <CardContent>
             <div>
               <quill-editor
@@ -133,7 +136,7 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading3 } from 'typography';
+import { Paragraph, Heading1, Heading2, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -146,6 +149,8 @@ export default {
         Grid,
         PageHeader,
         Paragraph,
+        Heading1,
+        Heading2,
         Heading3,
         Spacer
     },

@@ -1,11 +1,16 @@
 <template>
   <div>
-    <PageHeader class="mb3" :heading="$parent.news ? 'New Attachment' : 'Attachment'" />
+        <Card>
+            <CardContent>
+                <Heading2>{{ $parent.news ? 'New Attachment' : 'Attachment' }}</Heading2>
+            </CardContent>
+        </Card>
+        <Spacer isBottom :size="3" />
 
     <!-- New -->
     <div v-if="$parent.news" class="">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
-        <Card class="w-60" :slot="1" :heading="'Attachment'">
+        <Card :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
               <Paragraph>
@@ -20,9 +25,9 @@
                   <div :slot="1">
                     <Heading3>File Upload</Heading3>
                     <Spacer isBottom :size="2" />
-                    <input class="input--text" v-model="fileName" placeholder="Enter file name">
+                    <input class="input--text" v-model="fileName" placeholder="Enter file name" />
                   </div>
-                  <div :slot="1">
+                  <div :slot="2">
                     <Heading3>Upload</Heading3>
                     <Spacer isBottom :size="2" />
                     <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}" class="button button--grey block">
@@ -30,8 +35,8 @@
                       <Paragraph class="ml1 mb0 dib">Attachment (PDF)</Paragraph>
                     </label>
                     <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                    <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
                   </div>
-                  <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
                 </Grid>
               </CardContent>
             </Card>
@@ -40,7 +45,7 @@
 
 
         <!-- Quick Notes -->
-        <Card class="w-30" :slot="2" :heading="'Quick Notes'">
+        <Card :slot="2" :heading="'Quick Notes'">
           <CardContent>
 
             <!-- Editor -->
@@ -62,21 +67,22 @@
     <div class="" v-if="!$parent.news">
       <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
-        <Card class="w-60" :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="startCase($parent.propData.attributes.name) +  ' Attachment'">
+        <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="startCase($parent.propData.attributes.name) + ' Attachment'">
           <CardContent>
-
             <iframe :style="'height:60vh'" class="w-100" :src="attachmentUrl" />
           </CardContent>
         </Card>
 
-        <Card v-if="$root.$data.permissions !== 'patient'" class="w-30" :slot="1" :heading="'Quick Notes'">
+        <!-- Quick Notes -->
+
+        <Card v-if="$root.$data.permissions !== 'patient'" :slot="2" :heading="'Quick Notes'">
           <CardContent>
             <div class="">
               <quill-editor
-              output="html"
-              :options="simpleEditor"
-              v-model="notes"
-              class="simple-editor"
+                  output="html"
+                  :options="simpleEditor"
+                  v-model="notes"
+                  class="simple-editor"
               />
             </div>
           </CardContent>
@@ -86,7 +92,6 @@
       <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
-
             <div class="inline-centered">
                 <button @click="updateQuickNotes" class="button margin15">Save Changes</button>
                 <button @click="deleteModal()" class="button bg-danger">Archive Attachment</button>
@@ -127,7 +132,7 @@ import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import axios from 'axios';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Paragraph, Heading3 } from 'typography';
+import { Paragraph, Heading1, Heading2, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -140,6 +145,8 @@ export default {
         Grid,
         PageHeader,
         Paragraph,
+        Heading1,
+        Heading2,
         Heading3,
         Spacer
     },

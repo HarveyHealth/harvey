@@ -1,5 +1,5 @@
 export default function(image, type) {
     return image
         ? image
-        : `https://s3.cloudfront.goharvey.com/assets/images/default_${type}_image.png`;
+        : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
 }

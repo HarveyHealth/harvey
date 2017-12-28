@@ -61,6 +61,9 @@ Vue.filter('fullName', App.Util.misc.fullName);
 Vue.filter('fullDate', Filters.fullDate);
 Vue.filter('timeDisplay', Filters.timeDisplay);
 Vue.filter('weekDay', Filters.weekDay);
+Vue.filter('ucfirst', function (value) {
+  return value.substr(0,1).toUpperCase() + value.substr(1);
+});
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
