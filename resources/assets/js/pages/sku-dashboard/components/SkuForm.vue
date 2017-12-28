@@ -114,8 +114,9 @@
             notificationActive: false,
             notificationDirection: 'top-right',
             notificationError: false,
+            notificationMessage: '',
             descriptionMaxLength: 2048,
-            quoteMaxLength: 1024,
+            quoteMaxLength: 1024
         };
     },
     components: {
@@ -140,6 +141,7 @@
             .then(() => {
                 this.submitting = false;
                 this.notificationActive = true;
+                this.notificationMessage = "Lab Test Updated";
                 setTimeout(() => this.notificationActive = false, 3000);
                 this.$emit('saved');
             })
@@ -166,6 +168,7 @@
                     this.submitting = false;
                     this.notificationActive = true;
                     this.$emit('append', response.data.data);
+                    this.notificationMessage = "Lab Test Created";
                     setTimeout(() => this.notificationActive = false, 3000);
                     this.resetSkuForm();
                     this.$emit('saved');
@@ -198,14 +201,15 @@
         formSku() {
             return this.sku || this.blankSku;
         },
-        notificationMessage() {
-            return this.sku ? "Lab test updated" : "Lab Test Updated";
-        },
         countQuote() {
-          return this.quoteMaxLength - (this.sku ? this.sku.attributes.lab_test_information.quote.length : 0);
+          let model = this.sku ? this.sku : this.blankSku;
+          let field = model.attributes.lab_test_information.quote;
+          return this.quoteMaxLength - (field ? field.length : 0);
         },
         countDescription() {
-          return this.descriptionMaxLength - (this.sku ? this.sku.attributes.lab_test_information.description.length : 0);
+          let model = this.sku ? this.sku : this.blankSku;
+          let field = model.attributes.lab_test_information.description;
+          return this.descriptionMaxLength - (field ? field.length : 0);
         }
     },
     props: {
