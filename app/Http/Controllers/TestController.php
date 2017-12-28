@@ -3,41 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Stripe\Stripe;
+use App\Models\User;
+use App\Lib\Geopoint;
+use App\Lib\ClosestLabForUser;
 
 class TestController extends Controller
 {
     public function index()
     {
-    	$customer_id = 'cus_A4qUQuiPXt1vWV';
+    	$user = User::find(52);
+        $user->latitude = 33.977942;
+        $user->longitude = -118.434399;
 
-    	$amount = 15000;
+        $closest_lab = new ClosestLabForUser($user);
 
-    	$data = [
-            		'customer' => $customer_id,
-            		'amount' => $amount,
-            		'currency' => 'usd',
-            		'description' => 'Because I wanted to, man'
-            	];
+        $patient = $user->patient;
+        $patient->available_lab_id = $closest_lab->closest_lab->id;
+        $patient->lab_distance = $closest_lab->distance;
 
-        try {
-
-        	$charge = \Stripe\Charge::create($data);
-        	print_r($charge);
-
-        	if ($charge->paid) {
-
-        		echo $charge->source->last4;
-
-        	} else {
-
-        	}
-        	
-        } catch (\Exception $e) {
-
-        	print_r($e->getMessage());
-        	exit;
-        }
-        
+        $lab = $patient->lab;
 	}
 }

@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         Commands\SetNginxConfigCommand::class,
         Commands\ImportDiscountCodesCommand::class,
         Commands\BillingReport::class,
+        Commands\ImportAvailableLabs::class,
     ];
 
     /**

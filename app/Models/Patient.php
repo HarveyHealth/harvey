@@ -69,6 +69,11 @@ class Patient extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public function lab()
+    {
+        return $this->hasOne(AvailableLab::class, 'id', 'available_lab_id');
+    }
+
     public function notes()
     {
         return $this->hasMany(PatientNote::class, 'patient_id', 'id');

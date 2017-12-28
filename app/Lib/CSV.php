@@ -50,7 +50,10 @@ class CSV implements \Iterator
     {
         $this->filepath = $filepath;
 
-        if (!file_exists($filepath)) {
+        $file_headers = @get_headers($filepath);
+        $url_exists = ($file_headers[0] == 'HTTP/1.1 200 OK');
+
+        if (!$url_exists && !file_exists($filepath)) {
             $this->lines = [];
             return false;
         }
