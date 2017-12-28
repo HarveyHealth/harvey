@@ -3,10 +3,14 @@
 namespace App\Transformers\V1;
 
 use App\Models\Invoice;
+use App\Transformers\V1\{InvoiceItemTransformer, PatientTransformer, DiscountCodeTransformer};
 use League\Fractal\TransformerAbstract;
 
 class InvoiceTransformer extends TransformerAbstract
 {
+
+    protected $availableIncludes = ['patient', 'invoice_items', 'discount_code'];
+
     /**
      * A Fractal transformer.
      *
@@ -25,5 +29,28 @@ class InvoiceTransformer extends TransformerAbstract
             'status' => $invoice->status,
             'subtotal' => cast_to_string($invoice->subtotal),
         ];
+    }
+
+    public function includePatient(Invoice $invoice)
+    {
+        $transformer = new PatientTransformer();
+
+        if (in_array('user', $this->getCurrentScope()->getManager()->getRequestedIncludes())) {
+            $transformer->setDefaultIncludes(['user']);
+        }
+
+        return $this->item($invoice->patient, $transformer, 'patients');
+    }
+
+    public function includeInvoiceItems(Invoice $invoice)
+    {
+        return $this->collection($invoice->items, new InvoiceItemTransformer(), 'invoice_items');
+    }
+
+    public function includeDiscountCode(Invoice $invoice)
+    {
+        if ($discount_code = $invoice->discountCode) {
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
+        }
     }
 }

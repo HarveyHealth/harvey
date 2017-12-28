@@ -77,4 +77,20 @@ class PatientsController extends BaseAPIController
 
         return $this->baseTransformItem($patient)->respond();
     }
+
+
+    public function getInvoices(Request $request, Patient $patient)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized("You do not have access to view the invoices for this patient.");
+        }
+
+        if (!$invoices = $invoice->items()) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "invoices";
+
+        return $this->baseTransformCollection($items, null, new InvoiceItemTransformer)->respond();
+    }
 }
