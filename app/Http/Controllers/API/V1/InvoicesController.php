@@ -27,11 +27,14 @@ class InvoicesController extends BaseAPIController
      */
     public function getAll()
     {
-        if (currentUser()->isNotAdmin()) {
-            return $this->respondNotAuthorized('You are not authorized to list invoices.');
+        if (currentUser()->isAdmin()) {
+            $builder = Invoice::make();
+        } elseif(currentUser()->isPatient()) {
+            $builder = Invoice::where('patient_id', currentUser()->patient->id );
+        else {
+            return $this->respondNotAuthorized('You are not authorized to access this endpoint.');
         }
 
-        $builder = Invoice::make();
         return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
@@ -51,7 +54,7 @@ class InvoicesController extends BaseAPIController
 
     public function getItems(Request $request, Invoice $invoice)
     {
-        if (currentUser()->isNotAdmin()) {
+        if (currentUser()->cant('view', $invoice)) {
             return $this->respondNotAuthorized("You do not have access to view the invoice with id {$invoice->id}.");
         }
 

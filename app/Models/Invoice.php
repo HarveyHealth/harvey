@@ -8,7 +8,7 @@ use App\Http\Traits\IsNot;
 
 class Invoice extends Model
 {
-    use IsNot;
+    use IsNot, BelongsToPatient;
 
     const PAID_STATUS = 'paid';
     const PENDING_STATUS = 'pending';
@@ -83,11 +83,6 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
-    }
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
     }
 
     public function calculateTotals($reset = false)
