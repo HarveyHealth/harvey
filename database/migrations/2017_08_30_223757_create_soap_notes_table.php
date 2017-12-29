@@ -19,11 +19,11 @@ class CreateSoapNotesTable extends Migration
             $table->integer('patient_id')->unsigned();
             $table->integer('created_by_user_id')->unsigned();
             $table->foreign('created_by_user_id')->references('id')->on('users');
-            $table->string('notes')->nullable();
-            $table->string('subjective')->nullable();
-            $table->string('objective')->nullable();
-            $table->string('assessment')->nullable();
-            $table->string('plan')->nullable();
+            $table->text('notes')->nullable();
+            $table->text('subjective')->nullable();
+            $table->text('objective')->nullable();
+            $table->text('assessment')->nullable();
+            $table->text('plan')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
