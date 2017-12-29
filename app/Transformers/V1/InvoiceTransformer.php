@@ -20,6 +20,7 @@ class InvoiceTransformer extends TransformerAbstract
     {
         return [
             'id' => cast_to_string($invoice->id),
+            'patient_id' => cast_to_string($invoice->patient_id),
             'amount' => cast_to_string($invoice->amount),
             'card_brand' => $invoice->card_brand,
             'card_last_four' => cast_to_string($invoice->card_last_four),

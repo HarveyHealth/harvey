@@ -31,6 +31,7 @@ class InvoicesController extends BaseAPIController
             $builder = Invoice::make();
         } elseif(currentUser()->isPatient()) {
             $builder = Invoice::where('patient_id', currentUser()->patient->id );
+        }
         else {
             return $this->respondNotAuthorized('You are not authorized to access this endpoint.');
         }
