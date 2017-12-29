@@ -1,19 +1,16 @@
 <?php
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Jobs\CreateFullscriptPatient;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\{User, Patient};
 use App\Events\UserRegistered;
+use App\Jobs\CreateFullscriptPatient;
 use App\Lib\Clients\Fullscript;
+use App\Models\{Patient, User};
+use Illuminate\Foundation\Testing\{DatabaseMigrations, DatabaseTransactions, WithoutMiddleware};
+use Illuminate\Support\Facades\Bus;
+use Tests\TestCase;
 use Mockery;
 
-
-class FullscriptJobTest extends TestCase
+class UpdateFullscriptPatientJobTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -49,7 +46,7 @@ class FullscriptJobTest extends TestCase
                     "first_name" => $user->first_name,
                     "last_name" => $user->last_name,
                     "email" => $previous_email,
-                    "date_of_birth" => date('Y-m-d',strtotime($patient->birthdate)),
+                    "date_of_birth" => date('Y-m-d', strtotime($patient->birthdate)),
                 ]
             ]);
 
@@ -59,7 +56,7 @@ class FullscriptJobTest extends TestCase
                 "first_name" => $user->first_name,
                 "last_name" => $user->last_name,
                 "email" => $user->email,
-                "date_of_birth"=> date('Y-m-d',strtotime($patient->birthdate))
+                "date_of_birth"=> date('Y-m-d', strtotime($patient->birthdate))
             ]);
         // register mock
         app()->instance(Fullscript::class, $fullscript);
@@ -67,5 +64,4 @@ class FullscriptJobTest extends TestCase
 
         $user->save();
     }
-
 }
