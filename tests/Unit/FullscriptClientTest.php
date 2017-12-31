@@ -5,23 +5,16 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Jobs\CreateFullscriptPatient;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\{DatabaseMigrations, DatabaseTransactions, WithoutMiddleware};
 use App\Models\{User, Patient};
-use App\Events\UserRegistered;
 use App\Lib\Clients\Fullscript;
-use Mockery;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-
+use Mockery;
 
 class FullscriptClientTest extends TestCase
 {
     use DatabaseMigrations;
-
-
-
 
     public function testListPatients()
     {
@@ -88,21 +81,19 @@ class FullscriptClientTest extends TestCase
         $fullscript = new Fullscript($client);
 
         $client->shouldReceive('post')
-            ->with($endpoint.'patients', [
-
-                'body' => json_encode([
-                    "first_name" => $user->first_name,
-                    "last_name" => $user->last_name,
-                    "email" => $user->email,
-                    "date_of_birth"=> date('Y-m-d',strtotime($patient->birthdate)),
-                    "external_ref" => $user->id,
-                ],JSON_FORCE_OBJECT),
-
+            ->with("{$endpoint}patients", [
+                'form_params' => [
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'date_of_birth' => $patient->birthdate->format('Y-m-d'),
+                    'external_ref' => $user->id,
+                ],
                 'headers' => [
                     'X-API-Key' => config('services.fullscript.api_key'),
                     'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
-                    'Content-Type' => 'application/json'
-                ]
+                    'Content-Type' => 'application/json',
+                ],
             ])
             ->andReturn(new Response(
                 $status = 200,

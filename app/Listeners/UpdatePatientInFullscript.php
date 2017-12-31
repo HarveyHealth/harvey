@@ -10,7 +10,7 @@ use App\Jobs\UpdateFullscriptPatient;
 class UpdatePatientInFullscript implements ShouldQueue
 {
     /**
-     * @param UserRegistered $event
+     * @param UserUpdated $event
      */
     public function handle(UserUpdated $event)
     {
