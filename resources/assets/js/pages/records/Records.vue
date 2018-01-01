@@ -549,7 +549,9 @@ export default {
                         e.type = e.type.replace(reg, this.$root.$data.labTests[this.lab_tests[e.data.attributes.lab_test_id].attributes.sku_id].attributes.name);
                         e.onClick = onClickFunctions['Lab Test Result'].bind(this, e.data, i);
                     } else if (aregex.test(e.type)) {
-                        e.type = startCase(this.attachments[e.id].attributes.name) + ' ' + e.type;
+                        if (e.type === 'Attachment') {
+                            e.type = startCase(this.attachments[e.id].attributes.name) + ' ' + e.type;
+                        }
                         e.onClick = onClickFunctions['Attachment'].bind(this, e.data, i);
                     } else {
                         e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
