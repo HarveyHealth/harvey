@@ -54,6 +54,9 @@
                 </div>
                 <span v-else>Save Changes</span>
             </button><br/>
+            <div v-if="modifyingSchedule" class="button-text">
+                <a href="#" @click.prevent="deleteSchedule">Delete Time Block</a>
+            </div>
         </div>
 
     </form>
@@ -71,7 +74,15 @@
         components: {ClipLoader},
         methods: {
             submitScheduleForm() {
-                this.scheduleBlock.id ? this.$emit('patchSchedule') : this.$emit('postSchedule');
+                this.modifyingSchedule ? this.$emit('patchSchedule') : this.$emit('postSchedule');
+            },
+            deleteSchedule() {
+                this.$emit('deleteSchedule');
+            }
+        },
+        computed: {
+            modifyingSchedule() {
+                return this.scheduleBlock.id > 0;
             }
         },
         props: {
@@ -90,3 +101,9 @@
         }
     };
 </script>
+
+<style lang="scss">
+    .button-text {
+        padding: 15px;
+    }
+</style>

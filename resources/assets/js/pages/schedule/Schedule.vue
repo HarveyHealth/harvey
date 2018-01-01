@@ -1,15 +1,42 @@
 <template>
     <div class="main-container">
         <UserNav />
+        <NotificationPopup
+            v-if="notificationError !== undefined && notificationActive !== undefined && notificationDirection !== undefined && notificationSymbol !== undefined && notificationMessage !== undefined"
+            :as-error="notificationError"
+            :active="notificationActive"
+            :comes-from="notificationDirection"
+            :symbol="notificationSymbol"
+            :text="notificationMessage"
+        />
+        <Modal
+            :active="modalActive"
+            :hideClose="false"
+            :isSimple="true"
+            :onClose="closeModal">
+            <div class="inline-centered" slot="content">
+                <h1 class="header-xlarge"><span class="text">Are you sure?</span></h1>
+                <p>This will remove your availability for the selected timeslot.</p>
+                <div class="button-wrapper">
+                    <button @click="deleteSchedule" class="button">Yes, Delete.</button>
+                </div>
+            </div>
+        </Modal>
+        <Flyout
+                :active="activeFlyout"
+                :heading="flyoutHeading"
+                :on-close="closeFlyout">
+                <ScheduleBlockForm
+                    :submitting="submitting"
+                    :timeBlocks="timeBlocks"
+                    :scheduleBlock="selectedBlock"
+                    :errorMessages="errorMessages"
+                    @postSchedule="postSchedule"
+                    @patchSchedule="patchSchedule"
+                    @deleteSchedule="confirmDelete"
+                    @inputChanged="formChanged"/>
+            </Flyout>
         <div class="main-content">
-            <NotificationPopup
-                v-if="notificationError !== undefined && notificationActive !== undefined && notificationDirection !== undefined && notificationSymbol !== undefined && notificationMessage !== undefined"
-                :as-error="notificationError"
-                :active="notificationActive"
-                :comes-from="notificationDirection"
-                :symbol="notificationSymbol"
-                :text="notificationMessage"
-            />
             <div class="main-header">
                 <div class="container container-backoffice container-flex">
                     <h1 class="heading-1">
@@ -21,23 +48,46 @@
                                 <option v-for="(option, index) in selectOptions" :value="option.value" :key="index">{{option.title}}</option>
                             </select>
                         </span>
-                        <button @click="newScheduleModalOpen" class="button is-primary heading-buttons__button">Create New</button>
+                        <button @click="newScheduleOpenFlyout" class="button is-primary heading-buttons__button">Create New</button>
                     </div>
                 </div>
             </div>
-            <Flyout
-                :active="activeModal"
-                :heading="flyoutHeading"
-                :on-close="modalClose">
-                <ScheduleBlockForm
-                    :submitting="submitting"
-                    :timeBlocks="timeBlocks"
-                    :scheduleBlock="selectedBlock"
-                    :errorMessages="errorMessages"
-                    @postSchedule="postSchedule"
-                    @patchSchedule="patchSchedule"
-                    @inputChanged="formChanged"/>
-            </Flyout>
+
+            <table class="sku-table tabledata appointments-table" v-if="loading">
+                <td class="font-italic font-sm copy-muted">Loading schedule...</td>
+            </table>
+            <table class="sku-table tabledata appointments-table" v-if="!loading">
+                <thead>
+                    <th class="sku-table__column sku-table__move-icon heading-2 sort">Sort</th>
+                    <th class="sku-table__column heading-2">Day of Week</th>
+                    <th class="sku-table__column heading-2">First Block</th>
+                    <th class="sku-table__column heading-2">Last Block</th>
+                    <th class="sku-table__column heading-2">Shifts</th>
+                    <th class="sku-table__column heading-2">Available Time</th>
+                    <th class="sku-table__column heading-2">Notes</th>
+                </thead>
+                <tbody class="copy-main font-sm">
+                    <ScheduleRow
+                        v-for="schedule in scheduleBlocks"
+                        :schedule="schedule"
+                        :key=schedule.id
+                        :selectedBlock="selectedBlock"
+                        :timeBlocks="timeBlocks"
+                        @click.native="setSelectedBlock(schedule)"
+                    ></ScheduleRow>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="main-content">
+            <div class="main-header">
+                <div class="container container-backoffice container-flex">
+                    <h1 class="heading-1">
+                        <span class="text">Overrides</span>
+                    </h1>
+                </div>
+            </div>
+
             <table class="sku-table tabledata appointments-table" v-if="loading">
                 <td class="font-italic font-sm copy-muted">Loading schedule...</td>
             </table>
@@ -74,6 +124,7 @@
     import ScheduleRow from './components/ScheduleRow.vue';
     import ScheduleBlockForm from './components/ScheduleBlockForm.vue';
     import _ from 'lodash';
+    import { Modal } from 'layout';
 
     const blankScheduleBlock = {
         id: '',
@@ -92,7 +143,8 @@
             Flyout,
             ScheduleRow,
             ScheduleBlockForm,
-            NotificationPopup
+            NotificationPopup,
+            Modal
         },
         data() {
             return {
@@ -108,7 +160,8 @@
                 errorMessages: null,
                 loading: true,
                 submitting: false,
-                activeModal: false,
+                activeFlyout: false,
+                modalActive: false,
                 practitionerId: '',
                 scheduleBlocks: [blankScheduleBlock],
                 selectedBlock: blankScheduleBlock,
@@ -186,32 +239,32 @@
                 this.notificationMessage = msg || this.errorMessage;
                 this.flashNotification();
             },
-            newScheduleModalOpen() {
+            newScheduleOpenFlyout() {
                 this.clearSelectedBlock();
-                this.modalOpen();
+                this.openFlyout();
             },
-            modalClose() {
-                this.activeModal = false;
+            closeFlyout() {
+                this.activeFlyout = false;
                 setTimeout(() => this.clearSelectedBlock(), 300);
             },
             clearSelectedBlock() {
                 this.selectedBlock = blankScheduleBlock;
             },
-            modalOpen() {
-                this.activeModal = false;
-                setTimeout(() => this.activeModal = true, 300);
+            openFlyout() {
+                this.activeFlyout = false;
+                setTimeout(() => this.activeFlyout = true, 300);
             },
             setSelectedBlock(block) {
                 this.selectedBlock = block;
-                this.activeModal = true;
+                this.activeFlyout = true;
             },
             postSchedule() {
                 this.submitting = true;
                 axios.post(`api/v1/practitioners/${this.practitionerId}/schedule`, this.selectedBlock.attributes)
                 .then(response => {
                     this.scheduleBlocks.push(response.data.data);
-                    this.selectedBlock = {};
-                    this.activeModal = false;
+                    this.clearSelectedBlock();
+                    this.activeFlyout = false;
                     this.submitting = false;
                     this.flashNotification();
                 })
@@ -224,8 +277,24 @@
                 this.submitting = true;
                 axios.patch(`api/v1/practitioners/${this.practitionerId}/schedule/${this.selectedBlock.id}`, this.selectedBlock.attributes)
                 .then(() => {
-                    this.selectedBlock = {};
-                    this.activeModal = false;
+                    this.clearSelectedBlock();
+                    this.activeFlyout = false;
+                    this.submitting = false;
+                    this.flashNotification();
+                })
+                .catch((e) => {
+                    this.errorMessages = e.response.data.errors;
+                    this.submitting = false;
+                });
+            },
+            deleteSchedule() {
+                this.submitting = true;
+                axios.delete(`api/v1/practitioners/${this.practitionerId}/schedule/${this.selectedBlock.id}`)
+                .then(() => {
+                   _.remove(this.scheduleBlocks, this.selectedBlock);
+                    this.clearSelectedBlock();
+                    this.activeFlyout = false;
+                    this.modalActive = false;
                     this.submitting = false;
                     this.flashNotification();
                 })
@@ -236,6 +305,12 @@
             },
             formChanged() {
                 this.errorMessages = null;
+            },
+            closeModal() {
+                this.modalActive = false;
+            },
+            confirmDelete() {
+                this.modalActive = true;
             }
         },
         computed: {
@@ -268,5 +343,9 @@
             margin-left: 10px;
             padding: 11px 30px;
          }
+    }
+
+    .main-header {
+        padding: 0;
     }
 </style>
