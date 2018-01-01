@@ -5,26 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Lib\SitemapGenerator;
 use App\Lib\TimeInterval;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Cache;
+use App\Models\SKU;
+use App\Models\Condition;
 
 class SitemapController extends Controller
 {
-    protected $users;
+    protected $skus;
+    protected $conditions;
 
-    public function __construct(UserRepository $users)
+    function __construct(SKU $skus, Condition $conditions)
     {
-        $this->users = $users;
+        $this->skus = $skus;
+        $this->conditions = $conditions;
     }
 
     public function index($map = null)
     {
+        // process the map key so that PHP doesn't
+        // choke on function names with hyphens
+        $map = str_replace('-', ' ', $map);
+        $map = camel_case($map);
+
         $key = 'sitemap-' . $map;
 
         $self = $this;
 
+        // cache the map output so we're not searching every time
+        // cache is limited to 1 day
         $output = Cache::remember($key, TimeInterval::days(1)->toMinutes(), function () use ($map, $self) {
-
             // if it's a map, call the
             // method for the particular map
             if ($map) {
@@ -53,8 +62,8 @@ class SitemapController extends Controller
         // in this case, sitemap-base.xml requires
         // a method called 'base' which is below
         $map->addPath('sitemap-base.xml');
-        $map->addPath('blog/post-sitemap.xml');
-        $map->addPath('blog/category-sitemap.xml');
+        $map->addPath('sitemap-lab-tests.xml');
+        $map->addPath('sitemap-conditions.xml');
 
         return $map->sitemapIndex();
     }
@@ -63,12 +72,14 @@ class SitemapController extends Controller
     {
         $base_paths = [
             '',
+            'blog',
             'login',
             'about',
-            'lab-tests',
             'financing',
+            'get-started',
         ];
 
+        // sort 'em if you got 'em
         asort($base_paths);
 
         $map = new SitemapGenerator(url(config('app.url')));
@@ -77,12 +88,31 @@ class SitemapController extends Controller
         return $map->sitemap();
     }
 
-    private function users()
+    private function labTests()
     {
+        $tests = $this->skus->labtests()->get();
+
         $map = new SitemapGenerator(url(config('app.url')));
 
-        foreach ($this->users as $user) {
-            $map->addPath('users/' . $user->id);
+        $map->addPath('lab-tests');
+
+        foreach ($tests as $test) {
+            $map->addPath('lab-tests/' . $test->slug);
+        }
+
+        return $map->sitemap();
+    }
+
+    private function conditions()
+    {
+        $conditions = $this->conditions->all();
+
+        $map = new SitemapGenerator(url(config('app.url')));
+
+        $map->addPath('conditions');
+
+        foreach ($conditions as $condition) {
+            $map->addPath('conditions/' . $condition->slug . '#/');
         }
 
         return $map->sitemap();

@@ -225,7 +225,7 @@ class PractitionerAvailability
         $date = clone $week;
         $date->tz = $practitioner_timezone;
 
-        $week_of_year = $date->weekOfYear;
+        $week_of_year = sprintf('%02d', $date->weekOfYear);
         $year = $date->year;
 
         $start_date = Carbon::createFromTimestamp(strtotime("{$year}W{$week_of_year}"));
