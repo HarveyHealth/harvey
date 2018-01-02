@@ -24,6 +24,8 @@ use App\Models\{
     SKU,
     SoapNote,
     Test,
+    Invoice,
+    InvoiceItem,
     User
 };
 
@@ -394,5 +396,26 @@ $factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
         'lab_name' => "{$faker->lastName} Labs Inc.",
         'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
         'quote' => $faker->sentence(10),
+    ];
+});
+
+$factory->define(Invoice::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => factory(Patient::class),
+        'description' => $faker->sentence(100),
+        'status' => array_random(array_keys(Appointment::STATUSES)),
+        'subtotal' => $faker->numberBetween(10, 90),
+        'amount' => $faker->numberBetween(90,100),
+    ];
+});
+
+$factory->define(InvoiceItem::class, function (Faker\Generator $faker) {
+    return [
+        'invoice_id' => factory(Invoice::class),
+        'item_id' =>  $faker->numberBetween(10, 90),
+        'item_class' => $faker->randomElement(['Appointment', 'LabTest']),
+        'amount' => $faker->numberBetween(10, 90),
+        'description' => $faker->sentence(100),
+        'sku_id' => factory(SKU::class),
     ];
 });

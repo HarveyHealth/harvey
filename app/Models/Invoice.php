@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{DiscountCode, InvoiceItem, Patient};
-use App\Http\Traits\IsNot;
-use App\Http\Traits\BelongsToPatient;
+use App\Http\Traits\{IsNot, BelongsToPatient};
+
+
 
 class Invoice extends Model
 {

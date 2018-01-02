@@ -81,11 +81,7 @@ class PatientsController extends BaseAPIController
 
     public function getInvoices(Request $request, Patient $patient)
     {
-        if (currentUser()->isAdmin()) {
-            $builder = Invoice::make();
-        } elseif(currentUser()->patient_id  == $patient->id) {
-            $builder = Invoice::where('patient_id', currentUser()->patient->id );
-        } else {
+        if (!(currentUser()->isAdmin() or currentUser()->is($patient->user))) {
             return $this->respondNotAuthorized('You are not authorized to access this endpoint.');
         }
 
