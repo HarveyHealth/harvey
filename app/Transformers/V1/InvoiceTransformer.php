@@ -40,18 +40,18 @@ class InvoiceTransformer extends TransformerAbstract
             $transformer->setDefaultIncludes(['user']);
         }
 
-        return $this->item($invoice->patient, $transformer, 'patients');
+        return $this->item($invoice->patient, $transformer, 'patient');
     }
 
     public function includeInvoiceItems(Invoice $invoice)
     {
-        return $this->collection($invoice->items, new InvoiceItemTransformer(), 'invoice_items');
+        return $this->collection($invoice->items, new InvoiceItemTransformer(), 'invoice_item');
     }
 
     public function includeDiscountCode(Invoice $invoice)
     {
         if ($discount_code = $invoice->discountCode) {
-            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_code');
         }
     }
 }

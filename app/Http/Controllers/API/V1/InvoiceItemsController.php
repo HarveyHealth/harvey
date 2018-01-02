@@ -30,7 +30,7 @@ class InvoiceItemsController extends BaseAPIController
     {
         if (currentUser()->cant('view', $invoice_item)) {
             return $this->respondNotAuthorized("You do not have access to view the Invoice Item with id {$invoice_item->id}.");
-        }       
+        }
 
         return $this->baseTransformItem($invoice_item, request('include'))->respond();
     }

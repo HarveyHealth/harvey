@@ -10,7 +10,7 @@ use Storage;
 
 class InvoicesController extends BaseAPIController
 {
-    protected $resource_name = 'invoice';
+    protected $resource_name = 'invoices';
 
     /**
      * InvoicesController constructor.
@@ -59,12 +59,12 @@ class InvoicesController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to view the invoice with id {$invoice->id}.");
         }
 
-        if (!$items = $invoice->items()) {
+        if (!$invoice->items) {
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 
         $this->resource_name = "invoice_items";
 
-        return $this->baseTransformCollection($items, null, new InvoiceItemTransformer)->respond();
+        return $this->baseTransformCollection($invoice->items, null, new InvoiceItemTransformer)->respond();
     }
 }

@@ -52,7 +52,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Invoices
         Route::get('invoices', 'InvoicesController@getAll')->name('invoices.get-all');
         Route::get('invoices/{invoice}', 'InvoicesController@getOne')->name('invoices.get-one');
-        Route::get('invoices/{invoice}/items', 'InvoicesController@getItems')->name('invoices.get-items');
+        Route::get('invoices/{invoice}/invoice_items', 'InvoicesController@getItems')->name('invoices.get-items');
 
         # Invoice Items
         Route::get('invoice_items/{invoice_item}', 'InvoiceItemsController@getOne')->name('invoices.get-one');

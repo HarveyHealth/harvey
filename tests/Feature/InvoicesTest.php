@@ -77,12 +77,17 @@ class InvoiceTest extends TestCase
     {
         // Given a practitioner with a scheduled invoice
         $invoice = factory(Invoice::class)->create();
-        $admin = factory(Admin::class)->create();
 
+        // creates some invoice items
+        factory(InvoiceItem::class)->create([
+            'invoice_id' => $invoice->id,
+        ]);
+
+        $admin = factory(Admin::class)->create();
         // When they attempt to view the information for a specific invoice
         // and include patient and user info
         Passport::actingAs($admin->user);
-        $response = $this->json('GET', "api/v1/invoices/{$invoice->id}?include=invoice_item");
+        $response = $this->json('GET', "api/v1/invoices/{$invoice->id}?include=invoice_items");
 
         // Then it is successful
         $response->assertStatus(ResponseCode::HTTP_OK);
@@ -97,7 +102,12 @@ class InvoiceTest extends TestCase
                 'relationships'
             ],
             'included' => [
-                'invoice_items'
+                '*' => [
+                    'type',
+                    'id',
+                    'attributes',
+                    'links',
+                ],
             ]
         ]);
     }
