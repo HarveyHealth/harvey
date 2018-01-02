@@ -62,7 +62,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('patients', 'PatientsController@getAll')->name('patients.get-all');
         Route::get('patients/{patient}', 'PatientsController@getOne')->name('patients.get-one');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
-        Route::patch('patients/{patient}/invoices', 'PatientsController@getInvoices')->name('patients.get-invoices');
+        Route::get('patients/{patient}/invoices', 'PatientsController@getInvoices')->name('patients.get-invoices');
 
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
