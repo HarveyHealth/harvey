@@ -171,8 +171,9 @@ export default {
                     let data = response.data.data;
                     this.$parent.propData = data;
                     this.$parent.lab_test_results[data.id] = data;
+                    let regex = new RegExp('Result', 'ig');
                     this.$parent.timeline.map(e => {
-                        if (e.type === 'Lab Test Result' && data.id == e.data.id) {
+                        if (regex.test(e.type) && data.id == e.id) {
                             e.data = data;
                         }
                         return e;

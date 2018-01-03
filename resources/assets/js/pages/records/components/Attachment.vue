@@ -172,8 +172,9 @@ export default {
                     let data = response.data.data;
                     this.$parent.propData = data;
                     this.$parent.attachments[data.id] = data;
+                    let regex = new RegExp('Attachment', 'ig');
                     this.$parent.timeline.map(e => {
-                        if (e.type === 'Attachment' && data.id == e.data.id) {
+                        if (regex.test(e.type) && e.id == data.id) {
                             e.data = data;
                         }
                         return e;

@@ -52,10 +52,20 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('users/{user}/cards/{cardId}', 'UsersController@updateCard')->name('users.update-card');
         Route::post('users/{user}/cards', 'UsersController@addCard')->name('users.add-card');
 
+        # Invoices
+        Route::get('invoices', 'InvoicesController@getAll')->name('invoices.get-all');
+        Route::get('invoices/{invoice}', 'InvoicesController@getOne')->name('invoices.get-one');
+        Route::get('invoices/{invoice}/invoice_items', 'InvoicesController@getItems')->name('invoices.get-items');
+
+        # Invoice Items
+        Route::get('invoice_items/{invoice_item}', 'InvoiceItemsController@getOne')->name('invoices.get-one');
+
+
         # Patients
         Route::get('patients', 'PatientsController@getAll')->name('patients.get-all');
         Route::get('patients/{patient}', 'PatientsController@getOne')->name('patients.get-one');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
+        Route::get('patients/{patient}/invoices', 'PatientsController@getInvoices')->name('patients.get-invoices');
 
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
