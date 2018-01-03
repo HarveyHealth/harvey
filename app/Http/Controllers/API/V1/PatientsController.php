@@ -85,7 +85,7 @@ class PatientsController extends BaseAPIController
             return $this->respondNotAuthorized('You are not authorized to access this endpoint.');
         }
 
-        if (!$invoices = $patient->invoices()) {
+        if (!$invoices = $patient->invoices) {
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 
