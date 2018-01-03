@@ -104,7 +104,7 @@ export default {
         getData(value){
             return new Promise((resolve) => {
                 if (value != ""){
-                    this.$root.requestPatients(value,(patients)=>{
+                    this.$root.requestConfirmedUsers(value,(patients)=>{
                         resolve(patients);
                     });
                 }
@@ -112,7 +112,7 @@ export default {
                     resolve([]);
                 }
             });
-        },
+        }
     },
     computed: {
         userList() {
