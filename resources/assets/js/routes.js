@@ -92,10 +92,6 @@ let routes = [
         component: require('./pages/lab_orders/LabOrders.vue')
     },
     {
-        path: '/clients',
-        component: require('./pages/clients/Clients.vue')
-    },
-    {
         path: '/records',
         component: require('./pages/records/Records.vue')
     },
