@@ -10,12 +10,23 @@
         <div v-else>
             <div class="input__container">
                 <label class="input__label" for="patient_name">Recipient</label>
-                <span class="custom-select" v-if="!loading && userList && userList.length">
+                <span class="custom-select" v-if="!loading && userList && userList.length && $root.$data.permissions === 'patient'">
                     <select @change="updateUser($event)">
                         <option  v-for="user in [''].concat(userList)" :data-id="user.user_id">{{ user.name }}</option>
                     </select>
                 </span>
-                <div v-else class="font-italic font-sm copy-muted">
+                <autocomplete
+                    v-if="$root.$data.permissions !== 'patient'"
+                    anchor="search_name"
+                    label=false
+                    url=true
+                    placeholder="Search name, email or birthday..."
+                    :debounce="500"
+                    :onShouldGetData="getData"
+                    :on-select="handlePatientSelect"
+                >
+                </autocomplete>
+                <div v-if="loading" class="font-italic font-sm copy-muted">
                     Loading users...
                 </div>
             </div>
@@ -39,10 +50,13 @@
 <script>
 import axios from 'axios';
 import Flyout from '../../../commons/Flyout.vue';
+import Autocomplete from '../../../commons/Autocomplete.vue';
+
 export default {
     name: 'Preview',
     components: {
-        Flyout
+        Flyout,
+        Autocomplete
     },
     data() {
         return {
@@ -79,7 +93,26 @@ export default {
                 console.log(`ERROR`, error);
             });
             this.$parent.close();
-        }
+        },
+        handlePatientSelect(obj) {
+            //console.log(obj);
+            this.resetting = false;
+            this.selectedClient = obj.id;
+            this.selectedClientName = this.formatName(obj.search_name);
+            //console.log(this.selectedClient);
+        },
+        getData(value){
+            return new Promise((resolve) => {
+                if (value != ""){
+                    this.$root.requestPatients(value,(patients)=>{
+                        resolve(patients);
+                    });
+                }
+                else{
+                    resolve([]);
+                }
+            });
+        },
     },
     computed: {
         userList() {
