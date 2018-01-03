@@ -335,14 +335,17 @@ class MessageTest extends TestCase
         // creates some old Messages
         factory(Message::class)->create([
             'recipient_user_id' => $patient->user->id,
-            'created_at' => \Carbon::parse('-20 days')
+            'read_at'=> \Carbon::parse('-21 days'),
+            'created_at' => \Carbon::parse('-21 days')
         ]);
         factory(Message::class)->create([
             'recipient_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-15 days'),
             'created_at' => \Carbon::parse('-15 days')
         ]);
         factory(Message::class)->create([
             'sender_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-10 days'),
             'created_at' => \Carbon::parse('-10 days')
         ]);
 
