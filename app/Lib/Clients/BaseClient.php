@@ -32,16 +32,15 @@ class BaseClient
         return $this->client->get($this->baseEndpoint($call), $data);
     }
 
-    public function post($call, $body = '', $headers = [])
+    public function post(string $call, array $params = [], array $headers = [])
     {
-        $data = [];
-        $data['body'] = $body;
+        $data['form_params'] = array_merge($params, $this->params);;
         $data['headers'] = array_merge($this->headers, $headers);
 
         return $this->client->post($this->baseEndpoint($call), $data);
     }
 
-    public function put($call, $body = '', $headers = [])
+    public function put(string $call, string $body = '', array $headers = [])
     {
         $data = [];
         $data['body'] = $body;

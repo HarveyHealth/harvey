@@ -18,7 +18,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="">
         <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
-        <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" />
+        <meta name="google-site-verification" content="6UgpVyc1D8nu-29CNMYM4WacQe4_lepLVOAuuDqbadc" />
         <meta property="fb:app_id" content="383090978468158">
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
@@ -40,6 +40,11 @@
           var loggedIn = Laravel.user.signedIn;
 
           window.$$context = 'get-started';
+          window.Blade = {};
+
+          @if (session('facebook_redirect_alert'))
+          window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
+          @endif
 
           // Now we redirect the user based on their logged in status and zip code
           if (!loggedIn && isServiceable) window.location.hash = '/signup';

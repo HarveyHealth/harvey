@@ -30,8 +30,8 @@ export default {
     };
   },
   methods: {
-    handleClick(e) {
-      this.onClick(e);
+    handleClick() {
+      this.onClick();
     }
   }
 };

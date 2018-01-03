@@ -1,9 +1,10 @@
 <template>
     <TheMask
-        class="code-input"
+        :class="classes"
         :disabled="isDisabled"
         :mask="mask"
         :placeholder="mask.split('').map(a => '●').join('')"
+        :ref="'code_input_ref'"
         :style="{ width: width }"
         :type="type"
         :value="value || ''"
@@ -16,10 +17,20 @@ import { TheMask } from 'vue-the-mask';
 
 export default {
     props: {
+        isAutoFocused: Boolean,
         isDisabled: Boolean,
         mask: {
             type: String,
             required: true
+        },
+        theme: {
+            type: String,
+            default: 'primary',
+            validator(theme) {
+                const validThemes = ['primary', 'inverse-dark'];
+
+                return validThemes.indexOf(theme) > -1;
+            }
         },
         type: {
             type: String,
@@ -35,12 +46,29 @@ export default {
             default: '160px'
         }
     },
+
     components: {
         TheMask
     },
+
+    computed: {
+        classes() {
+            return {
+                'code-input': true,
+                [`${this.theme}`]: true
+            };
+        }
+    },
+
     methods: {
         handleInput(v) {
             this.onInput(v);
+        }
+    },
+
+    mounted() {
+        if (this.isAutoFocused) {
+            this.$refs.code_input_ref.$el.focus();
         }
     }
 };
@@ -52,12 +80,21 @@ export default {
     .code-input {
         @extend %input--text-reset;
 
-        background: $color-gray-5;
         border-radius: 6px;
         font-size: 28px;
         font-weight: 600;
         letter-spacing: 6px;
         padding: 6px 10px;
         text-align: center;
+
+        // Input modes
+        &.primary {
+            background: $color-gray-5;
+        }
+
+        &.inverse-dark {
+            background: transparent;
+            border: 3px solid $color-copy;
+        }
     }
 </style>
