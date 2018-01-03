@@ -16,7 +16,16 @@ class AuthController extends Controller
         $this->zip_code_validator = $zip_code_validator;
     }
 
-    private function determineView($user) {
+    // If a user does not have a zip, it means they are trying to login with
+    // facebook from the login page and should be returned there.
+    private function determineRoute()
+    {
+        return session('no_zip') ? '/login' : '/get-started';
+    }
+
+    // If a user has an appointment, login should take them to dashboard
+    private function determineView($user)
+    {
         return $user->appointments()->first() ? '/dashboard' : '/get-started';
     }
 
@@ -25,6 +34,7 @@ class AuthController extends Controller
     {
         if (is_numeric($request->zip)) {
             session(['zip' => $request->zip]);
+            session(['no_zip' => false]);
         } else {
             session(['no_zip' => true]);
         }
@@ -37,19 +47,23 @@ class AuthController extends Controller
     // If the user exists, log them in. Otherwise, create a new user then log them in.
     public function handleFacebookProviderCallback(Request $request)
     {
+
         // Check if user accepted Facebook's requests
         if (!$request->has('code') || $request->has('denied')) {
             $facebook_redirect_alert = 'Facebook authorization rejected by user.';
-            return redirect('/get-started')->with(compact('facebook_redirect_alert'));
+            return redirect($this->determineRoute())->with(compact('facebook_redirect_alert'));
         }
 
         // Grab facebook user information
         $user = Socialite::driver('facebook')->user();
 
-        // Check if user rejected email
-        if (!$request->has('email')) {
+        // Check if user rejected email or has email associated with facebook. Since email
+        // is integral to Harvey user account, we must send them back to the relevant page
+        // and give an alert indicating that they need to remove Harvey from their
+        // Facebook trusted apps and then sign up again with a valid email.
+        if (!$user->email) {
             $facebook_redirect_alert = 'A valid email address is required for a Harvey account. Remove Harvey from your Facebook Apps settings and try again.';
-            return redirect('/get-started')->with(compact('facebook_redirect_alert'));
+            return redirect($this->determineRoute())->with(compact('facebook_redirect_alert'));
         }
 
         // Determine if user currently exists from previous facebook signin
@@ -59,6 +73,14 @@ class AuthController extends Controller
             return redirect($this->determineView($existing_user));
 
         } else {
+
+            // If a user uses the login button to create an account and does not have a zip
+            // stored in session, send error for no zip code. The zip code is integral to
+            // a Harvey account because of practitioner licensing compliance.
+            if (session('no_zip')) {
+                $facebook_redirect_alert = 'A <a href="/conditions/get-zip">valid US zip code</a> is required for a Harvey account. Remove Harvey from your Facebook Apps settings and try again.';
+                return redirect('/login')->with(compact('facebook_redirect_alert'));
+            }
 
             // Determine if the email is already used in the db. If so, update facebook_provider_id and login
             if ($current_legacy_user = User::where('email', $user->email)->first()) {
