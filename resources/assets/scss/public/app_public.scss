@@ -252,3 +252,10 @@ body {
         overflow: hidden;
     }
 }
+
+// Alert bar for facebook redirect errors
+.alert-bar {
+    background-color: $color-error;
+    color: $color-white;
+    padding: 1.2rem;
+}
