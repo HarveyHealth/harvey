@@ -48,11 +48,9 @@ class AppointmentTransformer extends TransformerAbstract
      */
     public function includeInvoice(Appointment $appointment)
     {
-        $invoice = $appointment->invoice;
-        return $this->item(
-            $invoice,
-            new InvoiceTransformer()
-        )->setResourceKey('invoice');
+        if ($invoice = $appointment->invoice){
+            return $this->item($invoice, new InvoiceTransformer())->setResourceKey('invoice');
+        }
     }
 
     /**
