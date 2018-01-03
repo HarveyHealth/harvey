@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class AppointmentTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['patient', 'practitioner', 'discount_code'];
+    protected $availableIncludes = ['patient', 'practitioner', 'discount_code', 'invoice'];
 
     /**
      * @param Appointment $appointment
@@ -40,6 +40,19 @@ class AppointmentTransformer extends TransformerAbstract
             $patient,
             new PatientTransformer()
         )->setResourceKey('patient');
+    }
+
+    /**
+     * @param Appointment $appointment
+     * @return mixed
+     */
+    public function includeInvoice(Appointment $appointment)
+    {
+        $invoice = $appointment->invoice;
+        return $this->item(
+            $invoice,
+            new InvoiceTransformer()
+        )->setResourceKey('invoice');
     }
 
     /**
