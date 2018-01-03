@@ -25,6 +25,8 @@
             </form>
         </SlideIn>
         <SlideIn :to="'left'" v-if="phoneIsSaved">
+            <span class="fw3">{{ State('getstarted.signup.phone', '') | formatPhone }}</span>
+            <Spacer isBottom :size="2" />
             <form @submit.prevent>
                 <CodeInput
                     :isDisabled="phoneCodeHasSent || phoneCodeIsConfirmed"
@@ -39,7 +41,7 @@
                     Text Me Again
                 </span>
                 <span class="button-link db f6 fw3" @click="handlePhoneReset">
-                    Re-Enter Phone Number
+                    Different Phone Number
                 </span>
                 <Spacer isBottom :size="4" />
                 <div class="mb2 red" v-show="isInvalidCode" v-html="phoneCodeInvalidError"></div>
@@ -90,7 +92,7 @@ export default {
             return this.State('getstarted.signup.phone');
         },
         phoneCodeIsConfirmed() {
-            return this.State('getstarted.signup.phoneCode').length > 0;
+            return this.State('getstarted.signup.phoneVerifiedDate');
         },
         phoneStepIsComplete() {
             return this.State('getstarted.signup.stepsCompleted.phone');

@@ -52,6 +52,9 @@ export default {
         isComplete() {
             return this.State('getstarted.signup.stepsCompleted.phone');
         },
+        phoneIsVerified() {
+            return this.State('getstarted.signup.phoneVerifiedDate');
+        },
         preface() {
             if (this.State('getstarted.signup.stepsCompleted.phone')) {
                 return {
@@ -73,10 +76,12 @@ export default {
     },
     beforeMount() {
         App.Logic.getstarted.refuseStepSkip.call(this, 'phone');
-        if (this.Config.user.info.phone && !this.isComplete) {
+        App.setState({
+            'getstarted.signup.phone': this.Config.user.info.phone,
+            'getstarted.signup.phoneVerifiedDate': this.Config.user.info.phone_verified_at
+        });
+        if (this.State('getstarted.signup.phoneVerifiedDate') && !this.isComplete) {
             App.setState({
-                'getstarted.signup.phone': this.Config.user.info.phone,
-                'getstarted.signup.phoneCode': '12345',
                 'getstarted.signup.stepsCompleted.phone': true
             });
             App.Logic.getstarted.nextStep.call(this, 'phone');

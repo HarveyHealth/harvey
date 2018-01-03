@@ -26,6 +26,7 @@ export default {
         hasCompletedSignup: false,
         phone: '',
         phoneCode: '',
+        phoneVerifiedDate: null,
         practitioner: null,
         practitionerName: '',
         practitionerState: '',
