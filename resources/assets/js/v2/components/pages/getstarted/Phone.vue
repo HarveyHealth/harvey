@@ -78,6 +78,7 @@ export default {
         App.Logic.getstarted.refuseStepSkip.call(this, 'phone');
         App.setState({
             'getstarted.signup.phone': this.Config.user.info.phone,
+            'getstarted.signup.phoneCache': this.Config.user.info.phone,
             'getstarted.signup.phoneVerifiedDate': this.Config.user.info.phone_verified_at
         });
         if (this.State('getstarted.signup.phoneVerifiedDate') && !this.isComplete) {

@@ -12,6 +12,11 @@
                     :disabled="phoneNumberHasSent"
                     :ref="'phone_input'"
                 />
+                <Spacer isBottom :size="2" />
+                <span class="button-link db f6 fw3" @click="setPhoneNumberFromCache" v-if="State('getstarted.signup.phoneCache')">
+                    Back to Confirmation
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </span>
                 <Spacer isBottom :size="4" />
                 <div v-show="isUserPatchError" class="mb2 red" v-html="phoneProcessError"></div>
                 <div v-show="phoneDuplicateError" class="mb2 red" v-html="phoneDuplicateError"></div>
@@ -25,7 +30,7 @@
             </form>
         </SlideIn>
         <SlideIn :to="'left'" v-if="phoneIsSaved">
-            <span class="fw3">{{ State('getstarted.signup.phone', '') | formatPhone }}</span>
+            <span class="fw3">{{ State('getstarted.signup.phoneCache', '') | formatPhone }}</span>
             <Spacer isBottom :size="2" />
             <form @submit.prevent>
                 <CodeInput
@@ -92,7 +97,7 @@ export default {
             return this.State('getstarted.signup.phone');
         },
         phoneCodeIsConfirmed() {
-            return this.State('getstarted.signup.phoneVerifiedDate');
+            return this.State('getstarted.signup.phoneVerifiedDate') !== null;
         },
         phoneStepIsComplete() {
             return this.State('getstarted.signup.stepsCompleted.phone');
@@ -104,7 +109,8 @@ export default {
             this.phoneCode = '';
             App.setState({
                 'getstarted.signup.stepsCompleted.phone': false,
-                'getstarted.signup.phoneCode': ''
+                'getstarted.signup.phoneCode': '',
+                'getstarted.signup.phoneVerifiedDate': null
             });
             axios.post(`api/v1/users/${Laravel.user.id}/phone/send_verification_code`);
             Vue.nextTick(() => this.$refs.code_input.$el.focus());
@@ -115,7 +121,12 @@ export default {
             axios.get(`${this.Config.misc.api}users/${this.Config.user.info.id}/phone/verify?code=${this.phoneCode}`).then(response => {
                 this.phoneCodeHasSent = false;
                 if (response.data.verified) {
-                    App.setState('getstarted.signup.phoneCode', this.phoneCode);
+                    App.setState({
+                        'getstarted.signup.phoneCode': this.phoneCode,
+                        'getstarted.signup.phoneVerifiedDate': true
+                    });
+                    // In case the user re-mounts the component
+                    this.Config.user.info.phone_verified_at = true;
                     setTimeout(() => {
                         App.Logic.getstarted.nextStep.call(this, 'phone');
                     }, 500);
@@ -136,7 +147,12 @@ export default {
             this.resetErrors();
             axios.patch(`/api/v1/users/${this.Config.user.info.id}`, { phone: this.phoneNumber }).then(() => {
                 this.phoneNumberHasSent = false;
-                App.setState('getstarted.signup.phone', this.phoneNumber);
+                App.setState({
+                    'getstarted.signup.phone': this.phoneNumber,
+                    'getstarted.signup.phoneCache': this.phoneNumber,
+                    'getstarted.signup.phoneVerifiedDate': null,
+                    'getstarted.signup.stepsCompleted.phone': false
+                });
                 Vue.nextTick(() => this.$refs.code_input.$el.focus());
 
                 // Segment Identify update
@@ -171,6 +187,11 @@ export default {
             this.phoneDuplicateError = '';
             this.isInvalidCode = false;
             this.isCodeProcessError = false;
+        },
+        setPhoneNumberFromCache() {
+            App.setState({
+                'getstarted.signup.phone': this.State('getstarted.signup.phoneCache')
+            });
         }
     }
 };
