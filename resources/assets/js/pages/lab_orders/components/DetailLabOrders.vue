@@ -817,7 +817,7 @@ export default {
             // in case the patient confirmed the test
             changes = {
                 status: 'confirmed'
-            }
+            };
         }
 
         if (changes !== false){
