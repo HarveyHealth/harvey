@@ -97,8 +97,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
         Route::post('practitioners/{practitioner}/profile-image', 'PractitionersController@profileImageUpload')->name('practitioners.profile-image-upload');
         Route::post('practitioners/{practitioner}/bg-image', 'PractitionersController@backgroundImageUpload')->name('practitioners.bg-image-upload');
-        Route::get('practitioners/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
-        Route::patch('practitioners/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
+
+        # Practitioners Schedules
+        Route::get('practitioners/{practitioner}/schedule', 'PractitionerScheduleController@index')->name('practitioner-schedule.index');
+        Route::get('practitioners/{practitioner}/schedule/{practitionerSchedule}', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
+        Route::post('practitioners/{practitioner}/schedule', 'PractitionerScheduleController@store')->name('practitioner-schedule.store');
+        Route::patch('practitioners/{practitioner}/schedule/{practitionerSchedule}', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
+        Route::delete('practitioners/{practitioner}/schedule/{practitionerSchedule}', 'PractitionerScheduleController@destroy')->name('practitioner-schedule.delete');
 
         # Messages
         Route::get('messages', 'MessagesController@getAll')->name('messages.get-all');
