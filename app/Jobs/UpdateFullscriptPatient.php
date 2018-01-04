@@ -2,13 +2,12 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Clients\Fullscript;
-use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\{InteractsWithQueue, SerializesModels};
 
 class UpdateFullscriptPatient implements ShouldQueue
 {
@@ -33,23 +32,18 @@ class UpdateFullscriptPatient implements ShouldQueue
      */
     public function handle()
     {
-        $fullscript = \App::make(Fullscript::class);
+        $fullscript = app()->make(Fullscript::class);
 
         // find patient by external ref
-        $patients = $fullscript->getPatients($this->user->id);
-
-        if (!empty($patients)){
-            $patient = $patients[0];
-            // update
-            $patient = $fullscript->updatePatient($patient['id'], [
-                "first_name" => $this->user->first_name,
-                "last_name" => $this->user->last_name,
-                "email" => $this->user->email,
-                "date_of_birth"=> date('Y-m-d',strtotime($this->user->patient->birthdate))
+        if (!empty($patients = $fullscript->getPatients($this->user->id))) {
+            return $fullscript->updatePatient($patients[0]->id, [
+                'first_name' => $this->user->first_name,
+                'last_name' => $this->user->last_name,
+                'email' => $this->user->email,
+                'date_of_birth'=> $this->user->isPatient() ? $this->user->patient->birthdate->format('Y-m-d') : null,
             ]);
         }
 
-
-        return $patient;
+        return false;
     }
 }

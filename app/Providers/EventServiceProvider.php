@@ -21,7 +21,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserUpdated' => [
             'App\Listeners\UpdatePatientInFullscript',
         ],
-                
+
         'App\Events\AppointmentScheduled' => [
             'App\Listeners\SendPatientAppointmentEmail',
             'App\Listeners\SendPractitionerAppointmentEmail',

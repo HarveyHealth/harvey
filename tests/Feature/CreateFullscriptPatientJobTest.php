@@ -39,18 +39,18 @@ class CreateFullscriptPatientJobTest extends TestCase
             ->andReturn([]);
 
         $fullscript->shouldReceive('getPatients')
-            ->with("", $user->email)
+            ->with('', $user->email)
             ->andReturn([]);
 
         $fullscript->shouldNotReceive('updatePatient');
 
         $fullscript->shouldReceive('createPatient')
             ->with([
-                "first_name" => $user->first_name,
-                "last_name" => $user->last_name,
-                "email" => $user->email,
-                "date_of_birth"=> date('Y-m-d', strtotime($patient->birthdate)),
-                "external_ref" => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'date_of_birth'=> $patient->birthdate->format('Y-m-d'),
+                'external_ref' => $user->id,
             ]);
         // register mock
         app()->instance(Fullscript::class, $fullscript);
@@ -73,20 +73,20 @@ class CreateFullscriptPatientJobTest extends TestCase
             ->andReturn([]);
 
         $fullscript->shouldReceive('getPatients')
-            ->with("", $user->email)
-            ->andReturn([
+            ->with('', $user->email)
+            ->andReturn([ (object)
                 [
-                    "id" => "d290f1ee-6c54-4b01-90e6-d701748f0851",
-                    "first_name" => $user->first_name,
-                    "last_name" => $user->last_name,
-                    "email" => $user->email,
-                    "date_of_birth" => date('Y-m-d', strtotime($patient->birthdate)),
+                    'id' => 'd290f1ee-6c54-4b01-90e6-d701748f0851',
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'date_of_birth' => $patient->birthdate->format('Y-m-d'),
                 ]
             ]);
 
         $fullscript->shouldReceive('updatePatient')
-            ->with("d290f1ee-6c54-4b01-90e6-d701748f0851", [
-                "external_ref" => $user->id,
+            ->with('d290f1ee-6c54-4b01-90e6-d701748f0851', [
+                'external_ref' => $user->id,
             ]);
 
 
@@ -113,12 +113,12 @@ class CreateFullscriptPatientJobTest extends TestCase
             ->with($user->id)
             ->andReturn([
                 [
-                    "id" => "d290f1ee-6c54-4b01-90e6-d701748f0851",
-                    "first_name" => $user->first_name,
-                    "last_name" => $user->last_name,
-                    "email" => $user->email,
-                    "date_of_birth" => date('Y-m-d', strtotime($patient->birthdate)),
-                    "external_ref" => $user->id,
+                    'id' => 'd290f1ee-6c54-4b01-90e6-d701748f0851',
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'date_of_birth' => $patient->birthdate->format('Y-m-d'),
+                    'external_ref' => $user->id,
                 ]
             ]);
 
