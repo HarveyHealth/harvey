@@ -95,6 +95,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('practitioners/{practitioner}/schedule/{practitionerSchedule}', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
         Route::delete('practitioners/{practitioner}/schedule/{practitionerSchedule}', 'PractitionerScheduleController@destroy')->name('practitioner-schedule.delete');
 
+        # Practitioners Schedule Overrides
+        Route::get('practitioners/{practitioner}/schedule-overrides', 'PractitionerScheduleOverridesController@index')->name('practitioner-schedule-overrides.index');
+        Route::get('practitioners/{practitioner}/schedule-overrides/{practitionerScheduleOverride}', 'PractitionerScheduleOverridesController@show')->name('practitioner-schedule-overrides.show');
+        Route::post('practitioners/{practitioner}/schedule-overrides', 'PractitionerScheduleOverridesController@store')->name('practitioner-schedule-overrides.store');
+        Route::patch('practitioners/{practitioner}/schedule-overrides/{practitionerScheduleOverride}', 'PractitionerScheduleOverridesController@update')->name('practitioner-schedule-overrides.update');
+        Route::delete('practitioners/{practitioner}/schedule-overrides/{practitionerScheduleOverride}', 'PractitionerScheduleOverridesController@destroy')->name('practitioner-schedule-overrides.delete');
+
         # Messages
         Route::get('messages', 'MessagesController@getAll')->name('messages.get-all');
         Route::get('messages/{message}', 'MessagesController@getOne')->name('messages.get-one');

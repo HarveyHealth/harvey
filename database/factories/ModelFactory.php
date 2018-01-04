@@ -19,6 +19,7 @@ use App\Models\{
     PatientNote,
     Practitioner,
     PractitionerSchedule,
+    PractitionerScheduleOverride,
     PractitionerType,
     Prescription,
     SKU,
@@ -130,6 +131,22 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
     return [
         'practitioner_id' => factory(Practitioner::class),
         'day_of_week' => $workableDays->random(),
+        'start_time' => $start_time,
+        'stop_time' => $stop_time,
+    ];
+});
+
+$factory->define(PractitionerScheduleOverride::class, function (Faker\Generator $faker) {
+    $start_hour = rand(0, 22);
+    $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
+
+    $stop_hour = rand($start_hour + 2, 24);
+    $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);
+    $stop_time = "{$stop_hour}:{$stop_minutes}:00";
+
+    return [
+        'practitioner_id' => factory(Practitioner::class),
+        'date' => Carbon::tomorrow()->toDateString(),
         'start_time' => $start_time,
         'stop_time' => $stop_time,
     ];

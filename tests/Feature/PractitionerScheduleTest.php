@@ -120,7 +120,7 @@ class PractitionerScheduleTest extends TestCase
         $newParameters = [
             'day_of_week' => 'Monday',
             'start_time' => "12:00:00",
-            'stop_time' => "01:30:00",
+            'stop_time' => "13:30:00",
         ];
 
         Passport::actingAs($practitioner->user);

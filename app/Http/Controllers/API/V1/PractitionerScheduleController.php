@@ -31,7 +31,7 @@ class PractitionerScheduleController extends BaseAPIController
 
     public function show(Practitioner $practitioner, PractitionerSchedule $practitionerSchedule, Request $request)
     {
-        if (currentUser()->can('view', $practitionerSchedule)) {
+        if (currentUser()->cant('view', $practitionerSchedule)) {
             return $this->respondNotAuthorized('You do not have access to view this practitioner schedule.');
         }
 
@@ -57,7 +57,7 @@ class PractitionerScheduleController extends BaseAPIController
 
     public function update(Practitioner $practitioner, PractitionerSchedule $practitionerSchedule, StorePractitionerSchedule $request)
     {
-        if (currentUser()->can('edit', $practitionerSchedule)) {
+        if (currentUser()->cant('edit', $practitionerSchedule)) {
             return $this->respondNotAuthorized('You do not have access to modify this practitioner schedule.');
         }
 
@@ -67,7 +67,7 @@ class PractitionerScheduleController extends BaseAPIController
 
     public function destroy(Practitioner $practitioner, PractitionerSchedule $practitionerSchedule)
     {
-        if (currentUser()->can('delete', $practitionerSchedule)) {
+        if (currentUser()->cant('delete', $practitionerSchedule)) {
             return $this->respondNotAuthorized('You do not have access to delete this practitioner schedule.');
         }
 

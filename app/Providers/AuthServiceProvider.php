@@ -10,6 +10,8 @@ use App\Models\{
     Message,
     Patient,
     Practitioner,
+    PractitionerSchedule,
+    PractitionerScheduleOverride,
     Prescription,
     SKU,
     SoapNote,
@@ -24,6 +26,8 @@ use App\Policies\{
     MessagePolicy,
     PatientPolicy,
     PractitionerPolicy,
+    PractitionerScheduleOverridePolicy,
+    PractitionerSchedulePolicy,
     PrescriptionPolicy,
     SkuPolicy,
     SoapNotePolicy,
@@ -49,11 +53,13 @@ class AuthServiceProvider extends ServiceProvider
         Message::class => MessagePolicy::class,
         Patient::class => PatientPolicy::class,
         Practitioner::class => PractitionerPolicy::class,
+        PractitionerSchedule::class => PractitionerSchedulePolicy::class,
+        PractitionerScheduleOverride::class => PractitionerScheduleOverridePolicy::class,
         Prescription::class => PrescriptionPolicy::class,
+        SKU::class => SkuPolicy::class,
         SoapNote::class => SoapNotePolicy::class,
         Test::class => TestPolicy::class,
         User::class => UserPolicy::class,
-        SKU::class => SkuPolicy::class,
     ];
 
     /**
