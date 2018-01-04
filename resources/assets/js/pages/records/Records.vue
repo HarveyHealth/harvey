@@ -181,7 +181,7 @@
             </div>
           </Grid>
 
-          <div v-if="selectedUserPatient">
+          <div v-if="once && selectedUserPatient">
             {{ getTimelineData() }}
           </div>
 
@@ -336,6 +336,7 @@ export default {
             page: 0,
             index: null,
             timeline: [],
+            once: true,
             loading: true,
             news: true,
             patientLoading: Laravel.user.user_type === 'patient' && !this.selectedUserPatient,
@@ -416,6 +417,7 @@ export default {
         nextStep() {
             this.step = 2;
             this.search = '';
+            this.once = true;
             this.getTimelineData();
         },
         modalClose() {
@@ -473,6 +475,7 @@ export default {
                         this.timeline = this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
                     }
                     this.loading = false;
+                    this.once = false;
                 });
         },
         setProps(data) {
