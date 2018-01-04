@@ -104,8 +104,8 @@ export default {
         getData(value){
             return new Promise((resolve) => {
                 if (value != ""){
-                    this.$root.requestConfirmedUsers(value,(patients)=>{
-                        resolve(patients);
+                    this.$root.requestConfirmedUsers(value, (users) => {
+                        resolve(users);
                     });
                 }
                 else{

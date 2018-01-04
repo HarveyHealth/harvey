@@ -406,6 +406,18 @@ const app = new Vue({
             this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id').filter(e => e !== undefined);
             this.global.loadingConfirmedUsers = false;
         },
+        requestConfirmedUsers(term='', cb=null) {
+            this.getConfirmedUsers();
+            if (cb) {
+                if (this.permissions === 'admin') {
+                    cb(this.global.confirmedDoctors.concat(this.global.confirmedPatients));
+                } else if (this.permissions === 'practitioner') {
+                    cb(this.global.confirmedPatients);
+                } else {
+                    cb(this.global.confirmedDoctors);
+                }
+            }
+        },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
             this.global.selfPractitionerInfo = {
