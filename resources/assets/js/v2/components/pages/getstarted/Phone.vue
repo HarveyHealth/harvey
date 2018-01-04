@@ -75,11 +75,15 @@ export default {
         }
     },
     beforeMount() {
+        const inputPhone = this.State('getstarted.signup.phone');
+        const inputPhoneCache = this.State('getstarted.signup.phoneCache');
+        const inputPhoneVerified = this.State('getstarted.signup.phoneVerifiedDate');
+
         App.Logic.getstarted.refuseStepSkip.call(this, 'phone');
         App.setState({
-            'getstarted.signup.phone': this.Config.user.info.phone,
-            'getstarted.signup.phoneCache': this.Config.user.info.phone,
-            'getstarted.signup.phoneVerifiedDate': this.Config.user.info.phone_verified_at
+            'getstarted.signup.phone': inputPhone || this.Config.user.info.phone,
+            'getstarted.signup.phoneCache': inputPhoneCache || this.Config.user.info.phone,
+            'getstarted.signup.phoneVerifiedDate': inputPhoneVerified || this.Config.user.info.phone_verified_at
         });
         if (this.State('getstarted.signup.phoneVerifiedDate') && !this.isComplete) {
             App.setState({
