@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Transformers\V1\MessageTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
+use Carbon\Carbon;
 
 class MessagesController extends BaseAPIController
 {
@@ -56,6 +57,19 @@ class MessagesController extends BaseAPIController
             $builder = $builder->to(User::find($recipientId));
         } else {
             $builder = $builder->senderOrRecipient(currentUser());
+        }
+
+        // filter by most recent messages
+
+        // get the date if the first unread message
+        $date_from = (clone $builder)->orderBy('created_at')->unread()->value('created_at');
+        if(empty($date_from)){
+            // get the date of the latest message            
+            $date_from = (clone $builder)->orderBy('created_at', 'desc')->value('created_at');
+        }
+
+        if (!empty($date_from)){
+            $builder->createdAfter($date_from->subDays(10));
         }
 
         return $this->baseTransformBuilder($builder->with('sender')->with('recipient'), request('include'), new MessageTransformer, request('per_page'))->respond();
