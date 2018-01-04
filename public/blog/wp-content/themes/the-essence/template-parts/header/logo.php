@@ -27,7 +27,7 @@ if ( $logo_type == 'image' ) {
 		<?php if ( is_singular( array( 'post', 'page' ) ) ) : ?><h2><?php else : ?><h1><?php endif ?>
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 				<span class="visuallyhidden"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
-				<img alt="" class="<?php echo esc_attr( $logo_img_class );?>" src="<?php echo esc_attr( $logo_img_src ); ?>" data-retina-ver="<?php echo esc_attr( $logo_img_retina_src ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
+				<img class="<?php echo esc_attr( $logo_img_class );?>" src="<?php echo esc_attr( $logo_img_src ); ?>" data-retina-ver="<?php echo esc_attr( $logo_img_retina_src ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 			</a>
 		<?php if ( is_singular( array( 'post', 'page' ) ) ) : ?></h2><?php else : ?></h1><?php endif ?>
 	<?php elseif ( $logo_type == 'text' ) : ?>

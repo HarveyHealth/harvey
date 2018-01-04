@@ -9,7 +9,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 
 	function html( cls, data ) {
 		data = window.encodeURIComponent( data );
-		return '<img alt="" src="' + tinymce.Env.transparentSrc + '" class="wp-media mceItem ' + cls + '" ' +
+		return '<img src="' + tinymce.Env.transparentSrc + '" class="wp-media mceItem ' + cls + '" ' +
 			'data-wp-media="' + data + '" data-mce-resize="false" data-mce-placeholder="1" alt="" />';
 	}
 
@@ -19,7 +19,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			return name ? window.decodeURIComponent( name[1] ) : '';
 		}
 
-		return content.replace( /(?:<p(?: [^>]+)?>)*(<img alt="" [^>]+>)(?:<\/p>)*/g, function( match, image ) {
+		return content.replace( /(?:<p(?: [^>]+)?>)*(<img [^>]+>)(?:<\/p>)*/g, function( match, image ) {
 			var data = getAttr( image, 'data-wp-media' );
 
 			if ( data ) {

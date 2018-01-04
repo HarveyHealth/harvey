@@ -24,6 +24,8 @@ use App\Models\{
     SKU,
     SoapNote,
     Test,
+    Invoice,
+    InvoiceItem,
     User
 };
 
@@ -182,13 +184,14 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     };
 
     return [
+        'appointment_at' => $start_time->toDateTimeString(),
+        'discount_code_id' => $discount_code_id,
         'duration_in_minutes' => $durationInMinutes,
-        'status_id' => $statusId,
+        'notes' => maybe($faker->sentence),
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
-        'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
-        'discount_code_id' => $discount_code_id,
+        'status_id' => $statusId,
     ];
 });
 
@@ -246,15 +249,15 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
     $output['message'] = $faker->text;
     $output['subject'] = $faker->sentence;
     $output['is_admin'] = Admin::class == $senderClassName;
-    $output['read_at'] = maybe() ? null : Carbon::parse('+ 10 seconds');
+    $output['read_at'] = maybe(Carbon::parse('+ 10 seconds'));
 
     return $output;
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
-    $discount_code_id = maybe() ? null : function () {
+    $discount_code_id = maybe(function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
-    };
+    });
 
     return [
         'patient_id' => factory(Patient::class),
@@ -394,5 +397,26 @@ $factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
         'lab_name' => "{$faker->lastName} Labs Inc.",
         'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
         'quote' => $faker->sentence(10),
+    ];
+});
+
+$factory->define(Invoice::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => factory(Patient::class),
+        'description' => $faker->sentence(100),
+        'status' => array_random(array_keys(Appointment::STATUSES)),
+        'subtotal' => $faker->numberBetween(10, 90),
+        'amount' => $faker->numberBetween(90,100),
+    ];
+});
+
+$factory->define(InvoiceItem::class, function (Faker\Generator $faker) {
+    return [
+        'invoice_id' => factory(Invoice::class),
+        'item_id' =>  $faker->numberBetween(10, 90),
+        'item_class' => $faker->randomElement(['Appointment', 'LabTest']),
+        'amount' => $faker->numberBetween(10, 90),
+        'description' => $faker->sentence(100),
+        'sku_id' => factory(SKU::class),
     ];
 });

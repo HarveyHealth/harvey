@@ -112,8 +112,6 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
-Vue.config.devtools = env !== 'production';
-
 const app = new Vue({
     router,
     components: {
@@ -126,14 +124,53 @@ const app = new Vue({
     data: Store,
 
     computed: {
-      isMobileMenuOpen() {
-          return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
-      },
-      isSignupBookingAllowed() {
-        return this.signup.billingConfirmed &&
-          this.signup.phoneConfirmed &&
-          this.signup.data.appointment_at &&
-          this.signup.data.practitioner_id;
+        userIsPatient() {
+            return 'patient' === Laravel.user.user_type;
+        },
+        userIsNotPatient() {
+            return !this.userIsPatient;
+        },
+        userIsPractitioner() {
+            return 'practitioner' === Laravel.user.user_type;
+        },
+        userIsNotPractitioner() {
+            return !this.userIsPractitioner;
+        },
+        userIsAdmin() {
+            return 'admin' === Laravel.user.user_type;
+        },
+        userIsNotAdmin() {
+            return !this.userIsAdmin;
+        },
+        userIsAdminOrPractitioner() {
+            return this.userIsAdmin || this.userIsPractitioner;
+        },
+        userIsNotAdminOrPractitioner() {
+            return !this.userIsAdminOrPractitioner;
+        },
+        userHasACard() {
+            return Laravel.user.has_a_card;
+        },
+        userHasNotACard() {
+            return !this.userHasACard;
+        },
+        userCardBrand() {
+            return Laravel.user.card_brand;
+        },
+        userCardLast4() {
+            return Laravel.user.card_last4;
+        },
+        userType() {
+            return Laravel.user.userType;
+        },
+        isMobileMenuOpen() {
+            return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
+        },
+        isSignupBookingAllowed() {
+            return this.signup.billingConfirmed &&
+            this.signup.phoneConfirmed &&
+            this.signup.data.appointment_at &&
+            this.signup.data.practitioner_id;
       }
     },
     methods: {
@@ -221,7 +258,7 @@ const app = new Vue({
                         id: obj.id,
                         name: `${includeData.last_name}, ${includeData.first_name}`,
                         phone: includeData.phone,
-                        search_name: `${includeData.first_name} ${includeData.last_name}`,
+                        search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.id})`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip,

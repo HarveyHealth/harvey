@@ -23,12 +23,20 @@
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
+        <!-- Typography -->
+        <script src="https://use.typekit.net/ukw4upn.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
-        <style><?php include("css/application.css");?></style>
+        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
         <script>
           window.Laravel = {!! $vue_data !!};
+          window.Blade = {};
           window.$$context = 'get-started';
+
+          @if (session('facebook_redirect_alert'))
+          window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
+          @endif
 
           var zipValidation  = localStorage.getItem('harvey_zip_validation');
           var isServiceable = zipValidation ? JSON.parse(zipValidation).is_serviceable : false;

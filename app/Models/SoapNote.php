@@ -58,21 +58,4 @@ class SoapNote extends Model
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
     }
-
-    /*
-     * Scopes
-     */
-
-    public function scopeFilterForPatient(Builder $builder)
-    {
-        return $builder->select([
-            'id',
-            'created_at',
-            'created_by_user_id',
-            'deleted_at',
-            'patient_id',
-            'plan',
-            'updated_at',
-        ]);
-    }
 }

@@ -52,10 +52,20 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('users/{user}/cards/{cardId}', 'UsersController@updateCard')->name('users.update-card');
         Route::post('users/{user}/cards', 'UsersController@addCard')->name('users.add-card');
 
+        # Invoices
+        Route::get('invoices', 'InvoicesController@getAll')->name('invoices.get-all');
+        Route::get('invoices/{invoice}', 'InvoicesController@getOne')->name('invoices.get-one');
+        Route::get('invoices/{invoice}/invoice_items', 'InvoicesController@getItems')->name('invoices.get-items');
+
+        # Invoice Items
+        Route::get('invoice_items/{invoice_item}', 'InvoiceItemsController@getOne')->name('invoices.get-one');
+
+
         # Patients
         Route::get('patients', 'PatientsController@getAll')->name('patients.get-all');
         Route::get('patients/{patient}', 'PatientsController@getOne')->name('patients.get-one');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
+        Route::get('patients/{patient}/invoices', 'PatientsController@getInvoices')->name('patients.get-invoices');
 
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
@@ -70,10 +80,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::delete('prescriptions/{prescription}', 'PrescriptionsController@delete')->name('prescriptions.delete');
 
         # SOAP Notes
-        Route::get('soap_notes/{soapNote}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
-        Route::patch('soap_notes/{soapNote}', 'SoapNotesController@update')->name('soap_notes.update');
+        Route::get('soap_notes/{soap_note}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
+        Route::patch('soap_notes/{soap_note}', 'SoapNotesController@update')->name('soap_notes.update');
         Route::post('patients/{patient}/soap_notes', 'SoapNotesController@store')->name('soap_notes.store');
-        Route::delete('soap_notes/{soapNote}', 'SoapNotesController@delete')->name('soap_notes.delete');
+        Route::delete('soap_notes/{soap_note}', 'SoapNotesController@delete')->name('soap_notes.delete');
 
         # Intakes
         Route::get('intakes', 'IntakesController@getAll')->name('intakes.get-all');

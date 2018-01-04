@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white pa4 bn" v-if="testId">
-        <img alt=""  :src="testInfo.image" class="max-width-xxs pa2" />
+        <img :src="testInfo.image" class="max-width-xxs pa2" />
         <div class="mw9 center">
             <div class="cf ph2">
                 <div class="fl w-75">

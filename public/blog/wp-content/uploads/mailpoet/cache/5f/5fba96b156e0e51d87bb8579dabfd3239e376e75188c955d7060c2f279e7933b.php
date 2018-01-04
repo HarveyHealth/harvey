@@ -52,12 +52,12 @@ class __TwigTemplate_649c4d6b64e0e89817ae029cd3c3b79a3188a69bc9b7e61282463b43672
         echo "</h3>
   <p>";
         // line 11
-        echo sprintf($this->env->getExtension('MailPoet\Twig\I18n')->translate("All the data from your previous MailPoet will be preserved and left intact, rest assured. Get in touch with us if you have issues with the upgrade process by using the form %s at the bottom right of all your MailPoet pages."), (("<img alt="" width=\"30\" style=\"margin:0\" src=\"" . $this->env->getExtension('MailPoet\Twig\Assets')->generateImageUrl("welcome_template/beacon.png")) . "\" alt=\"Beacon\" />"));
+        echo sprintf($this->env->getExtension('MailPoet\Twig\I18n')->translate("All the data from your previous MailPoet will be preserved and left intact, rest assured. Get in touch with us if you have issues with the upgrade process by using the form %s at the bottom right of all your MailPoet pages."), (("<img width=\"30\" style=\"margin:0\" src=\"" . $this->env->getExtension('MailPoet\Twig\Assets')->generateImageUrl("welcome_template/beacon.png")) . "\" alt=\"Beacon\" />"));
         echo "</p>
   <ul>
-    <li><strong>Subscribers and lists <img alt="" draggable=\"false\" class=\"emoji\" alt=\"✔\" src=\"https://s.w.org/images/core/emoji/2.2.1/svg/2714.svg\"></strong></li>
-    <li><strong>Forms <img alt="" draggable=\"false\" class=\"emoji\" alt=\"✔\" src=\"https://s.w.org/images/core/emoji/2.2.1/svg/2714.svg\"></strong></li>
-    <li><strong>Settings <img alt="" draggable=\"false\" class=\"emoji\" alt=\"✔\" src=\"https://s.w.org/images/core/emoji/2.2.1/svg/2714.svg\"></strong></li>
+    <li><strong>Subscribers and lists <img draggable=\"false\" class=\"emoji\" alt=\"✔\" src=\"https://s.w.org/images/core/emoji/2.2.1/svg/2714.svg\"></strong></li>
+    <li><strong>Forms <img draggable=\"false\" class=\"emoji\" alt=\"✔\" src=\"https://s.w.org/images/core/emoji/2.2.1/svg/2714.svg\"></strong></li>
+    <li><strong>Settings <img draggable=\"false\" class=\"emoji\" alt=\"✔\" src=\"https://s.w.org/images/core/emoji/2.2.1/svg/2714.svg\"></strong></li>
     <li>Archive of sent newsletters (will not be migrated)</li>
     <li>Statistics (will not be migrated)</li>
   </ul>

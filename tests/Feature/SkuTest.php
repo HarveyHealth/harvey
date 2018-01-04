@@ -123,7 +123,7 @@ class SkuTest extends TestCase
             'name' => 'Test',
             'price' => 200.00,
             'cost' => 200.00,
-            'description' => str_random(2049),
+            'description' => str_random(2048 + 1),
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',

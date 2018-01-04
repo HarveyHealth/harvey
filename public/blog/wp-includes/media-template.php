@@ -294,11 +294,11 @@ function wp_print_media_templates() {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( data.sizes && data.sizes.large ) { #>
-					<img alt="" class="details-image" src="{{ data.sizes.large.url }}" draggable="false" alt="" />
+					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" alt="" />
 				<# } else if ( data.sizes && data.sizes.full ) { #>
-					<img alt="" class="details-image" src="{{ data.sizes.full.url }}" draggable="false" alt="" />
+					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" alt="" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img alt="" class="details-image icon" src="{{ data.icon }}" draggable="false" alt="" />
+					<img class="details-image icon" src="{{ data.icon }}" draggable="false" alt="" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>
@@ -453,16 +453,16 @@ function wp_print_media_templates() {
 					<div class="media-progress-bar"><div style="width: {{ data.percent }}%"></div></div>
 				<# } else if ( 'image' === data.type && data.sizes ) { #>
 					<div class="centered">
-						<img alt="" src="{{ data.size.url }}" draggable="false" alt="" />
+						<img src="{{ data.size.url }}" draggable="false" alt="" />
 					</div>
 				<# } else { #>
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
-							<img alt="" src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
+							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
 						<# } else if ( data.sizes && data.sizes.medium ) { #>
-							<img alt="" src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
+							<img src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
 						<# } else { #>
-							<img alt="" src="{{ data.icon }}" class="icon" draggable="false" alt="" />
+							<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 						<# } #>
 					</div>
 					<div class="filename">
@@ -509,9 +509,9 @@ function wp_print_media_templates() {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type && data.sizes ) { #>
-					<img alt="" src="{{ data.size.url }}" draggable="false" alt="" />
+					<img src="{{ data.size.url }}" draggable="false" alt="" />
 				<# } else { #>
-					<img alt="" src="{{ data.icon }}" class="icon" draggable="false" alt="" />
+					<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 				<# } #>
 			</div>
 			<div class="details">
@@ -827,7 +827,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-embed-image-settings">
 		<div class="thumbnail">
-			<img alt="" src="{{ data.model.url }}" draggable="false" alt="" />
+			<img src="{{ data.model.url }}" draggable="false" alt="" />
 		</div>
 
 		<?php
@@ -884,7 +884,7 @@ function wp_print_media_templates() {
 			<div class="embed-media-settings">
 				<div class="column-image">
 					<div class="image">
-						<img alt="" src="{{ data.model.url }}" draggable="false" alt="" />
+						<img src="{{ data.model.url }}" draggable="false" alt="" />
 
 						<# if ( data.attachment && window.imageEdit ) { #>
 							<div class="actions">
@@ -1215,9 +1215,9 @@ function wp_print_media_templates() {
 					<dl class="gallery-item">
 						<dt class="gallery-icon">
 							<# if ( attachment.thumbnail ) { #>
-								<img alt="" src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" alt="" />
+								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" alt="" />
 							<# } else { #>
-								<img alt="" src="{{ attachment.url }}" alt="" />
+								<img src="{{ attachment.url }}" alt="" />
 							<# } #>
 						</dt>
 						<# if ( attachment.caption ) { #>
@@ -1239,7 +1239,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-crop-content">
-		<img alt="" class="crop-image" src="{{ data.url }}" alt="<?php esc_attr_e( 'Image crop area preview. Requires mouse interaction.' ); ?>">
+		<img class="crop-image" src="{{ data.url }}" alt="<?php esc_attr_e( 'Image crop area preview. Requires mouse interaction.' ); ?>">
 		<div class="upload-errors"></div>
 	</script>
 
@@ -1247,17 +1247,17 @@ function wp_print_media_templates() {
 		<h2><?php _e( 'Preview' ); ?></h2>
 		<strong aria-hidden="true"><?php _e( 'As a browser icon' ); ?></strong>
 		<div class="favicon-preview">
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" height="" alt="" />
+			<img src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" height="" alt="" />
 
 			<div class="favicon">
-				<img alt="" id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
 			</div>
 			<span class="browser-title" aria-hidden="true"><?php bloginfo( 'name' ); ?></span>
 		</div>
 
 		<strong aria-hidden="true"><?php _e( 'As an app icon' ); ?></strong>
 		<div class="app-icon-preview">
-			<img alt="" id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
+			<img id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
 		</div>
 	</script>
 

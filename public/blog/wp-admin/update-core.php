@@ -373,7 +373,7 @@ function list_theme_updates() {
 				?></label>
 			</td>
 			<td class="plugin-title"><p>
-				<img alt="" src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
+				<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
 				<strong><?php echo $theme->display( 'Name' ); ?></strong>
 				<?php
 					/* translators: 1: theme version, 2: new version */

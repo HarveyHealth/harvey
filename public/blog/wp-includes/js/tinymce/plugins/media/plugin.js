@@ -1119,7 +1119,7 @@ define(
             '" type="application/x-shockwave-flash">';
 
           if (data.poster) {
-            html += '<img alt="" src="' + data.poster + '" width="' + data.width + '" height="' + data.height + '" />';
+            html += '<img src="' + data.poster + '" width="' + data.width + '" height="' + data.height + '" />';
           }
 
           html += '</object>';

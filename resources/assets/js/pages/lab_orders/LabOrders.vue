@@ -188,7 +188,8 @@
                     global.labTests,
                     patient,
                     global.practitionerLookUp,
-                    this.$root.$data.labTests
+                    this.$root.$data.labTests,
+                    this.$root.$data.permissions
                 );
                 this.labData = data;
                 let choices = {

@@ -8,7 +8,7 @@
                 <use :xlink:href="'#' + icon" />
             </svg>
         </template>
-        <img  v-else :src="icons[icon].src" :alt="icons[icon].alt" />
+        <img v-else :src="icons[icon].src" :alt="icons[icon].alt" />
     </span>
 </template>
 

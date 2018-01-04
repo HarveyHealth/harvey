@@ -1,18 +1,14 @@
-@import url('https://use.typekit.net/ukw4upn.css');
-@import '../../css/vendors/fa.css';
-@import '../../css/vendors/lity.css';
-@import '../../css/vendors/juicer.css';
-@import 'mixins';
-@import 'sprite';
-@import 'all.scss';
-@import '../v2/settings/-INDEX';
-@import '../v2/atomic/-INDEX';
-@import '../v2/modules/-INDEX';
-@import '../../styles/base';
-@import 'pages/home.scss';
-@import 'pages/signup.scss';
-@import 'pages/lab_tests.scss';
-@import 'pages/about.scss';
+@import "mixins";
+@import "sprite";
+@import "all.scss";
+@import "../v2/settings/-INDEX";
+@import "../v2/atomic/-INDEX";
+@import "../v2/modules/-INDEX";
+@import "../../styles/base";
+@import "pages/home.scss";
+@import "pages/signup.scss";
+@import "pages/lab_tests.scss";
+@import "pages/about.scss";
 //
  @include sprites($spritesheet-sprites);
  @include retina-sprites($retina-groups);
@@ -255,4 +251,11 @@ body {
         height: 100vh;
         overflow: hidden;
     }
+}
+
+// Alert bar for facebook redirect errors
+.alert-bar {
+    background-color: $color-error;
+    color: $color-white;
+    padding: 1.2rem;
 }

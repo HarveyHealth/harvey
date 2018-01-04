@@ -86,7 +86,7 @@
         <div class="container">
             <div class="columns is-narrow is-multiline">
                 <figure class="image">
-                    <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/diabetes.gif" alt="">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/diabetes.gif" alt="">
                 </figure>
                 <div class="column is-5-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
@@ -105,7 +105,7 @@
             <div class="columns is-narrow">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ZyTK8qn_GAI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/kyle.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/kyle.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Kyle Hill</p>
                     <em>Founder & CEO</em>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=DBjYDaecNgM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/mike.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/mike.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Mike Townsend</p>
                     <em>Founder & COO</em>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ch1GOHj5VOQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/rachel.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/rachel.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Rachel West, D.O.</p>
                     <em>Chief Medical Officer</em>
@@ -131,7 +131,7 @@
             <div class="columns is-narrow">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Amanda Frick, N.D., LAc</p>
                     <em>Lead Naturopathic Doctor</em>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/layne.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/layne.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Layne Thrasher</strong></p>
                     <em>VP of Finance/Operations</em>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=wAUQgwbUUYA&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/sandra.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/sandra.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Sandra Walker</p>
                     <em>Senior Operations Manager</em>

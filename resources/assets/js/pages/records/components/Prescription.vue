@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Heading1>{{ $parent.news ? 'New Prescription' : 'Prescription' }}</Heading1>
+        <Card>
+          <CardContent>
+            <Heading2>{{ $parent.news ? 'New Prescription' : 'Prescription' }}</Heading2>
+            </CardContent>
+        </Card>
     <Spacer isBottom :size="3" />
     <!-- New -->
     <div v-if="$parent.news" class="">
@@ -130,7 +134,7 @@ import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import simpleEditor from '../util/quillSimple';
 import { Card, CardContent, Grid, PageHeader, Spacer } from 'layout';
-import { Heading1, Paragraph, Heading3 } from 'typography';
+import { Heading1, Heading2, Paragraph, Heading3 } from 'typography';
 export default {
     props: {
         patient: Object
@@ -144,6 +148,7 @@ export default {
         PageHeader,
         Paragraph,
         Heading1,
+        Heading2,
         Heading3,
         Spacer
     },
@@ -163,8 +168,9 @@ export default {
                     let data = response.data.data;
                     this.$parent.propData = data;
                     this.$parent.prescriptions[data.id] = data;
+                    let regex = new RegExp('Prescription', 'ig');
                     this.$parent.timeline.map(e => {
-                        if (e.type === 'Prescription' && data.id == e.data.id) {
+                        if (regex.test(e.type) && data.id == e.id) {
                             e.data = data;
                         }
                         return e;

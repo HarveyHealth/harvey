@@ -75,7 +75,7 @@
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">
-                                            <img alt=""  :src="user.attributes.image_url" />
+                                            <img :src="user.attributes.image_url" />
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>

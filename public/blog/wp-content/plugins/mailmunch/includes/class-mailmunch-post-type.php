@@ -94,7 +94,7 @@ class Mailmunch_Post_Type {
     foreach ($landing_pages as $key => $landing_page) {
       $html .= '<div class="mailmunch-landing-page'. ($selected_landing_page_id == $landing_page->id ? ' active' : '') .'" data-landing-page-id="'. $landing_page->id .'">';
       $html .= '<div class="page-image">';
-      $html .= '<img alt="" src="'. $landing_page->preview_url .'" />';
+      $html .= '<img src="'. $landing_page->preview_url .'" />';
       $html .= '<div class="page-hover">';
       $html .= '<a href="'. MAILMUNCH_URL. "/sso?token=". get_option(MAILMUNCH_PREFIX."_user_token"). "&next_url=". urlencode(MAILMUNCH_LANDING_PAGE_URL. "/sites/". get_option(MAILMUNCH_PREFIX."_site_id")."/landing_pages/". $landing_page->id ."/edit") .'" target="_blank" class="mailmunch-edit-page button button-primary button-large">Edit Page</a>';
       $html .= '</div>';

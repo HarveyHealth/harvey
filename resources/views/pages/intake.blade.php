@@ -8,7 +8,7 @@
     @include('_includes.svgs')
 
     <script type="text/javascript">
-      window.Laravel = {!! $vue_data !!};
+      window.Laravel = {!! $vue_data !!}
       window.$$context = 'intake';
     </script>
 
