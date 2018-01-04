@@ -1,25 +1,15 @@
 <template>
-    <form v-on:submit.prevent="submitScheduleForm" id="skuForm">
+    <form v-on:submit.prevent="submitScheduleOverrideForm">
 
         <div class="input__container">
-            <label class="input__label" for="day_of_week">Day Of Week</label>
-            <span class="custom-select">
-                <select name="day_of_week" id="day_of_week" v-model="scheduleBlock.attributes.day_of_week" @change="$emit('inputChanged')">
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
-                </select>
-            </span>
+            <label class="input__label" for="date">Date</label>
+                <input type="date" name="date" id="date" v-model="scheduleOverrideBlock.attributes.date" @change="$emit('inputChanged')" />
         </div>
 
         <div class="input__container">
             <label class="input__label" for="start_time">First Block</label>
             <span class="custom-select">
-                <select name="start_time" id="start_time" v-model="scheduleBlock.attributes.start_time" @change="$emit('inputChanged')">
+                <select name="start_time" id="start_time" v-model="scheduleOverrideBlock.attributes.start_time" @change="$emit('inputChanged')">
                     <option v-for="timeBlock in timeBlocks" :value="timeBlock.start_value">
                         {{timeBlock.title}} ({{timeBlock.subtitle}})
                     </option>
@@ -30,7 +20,7 @@
         <div class="input__container">
             <label class="input__label" for="stop_time">Last Block</label>
             <span class="custom-select">
-                <select name="stop_time" id="stop_time" v-model="scheduleBlock.attributes.stop_time" @change="$emit('inputChanged')">
+                <select name="stop_time" id="stop_time" v-model="scheduleOverrideBlock.attributes.stop_time" @change="$emit('inputChanged')">
                     <option v-for="timeBlock in timeBlocks" :value="timeBlock.stop_value">
                         {{timeBlock.title}} ({{timeBlock.subtitle}})
                     </option>
@@ -40,7 +30,7 @@
 
         <div class="input__container input-wrap">
             <label class="input__label" for="notes">Notes</label>
-            <input class="form-input form-input_text input-styles" type="text" name="notes" maxlength="191" v-model="scheduleBlock.attributes.notes"  @change="$emit('inputChanged')"/>
+            <input class="form-input form-input_text input-styles" type="text" name="notes" maxlength="191" v-model="scheduleOverrideBlock.attributes.notes"  @change="$emit('inputChanged')"/>
         </div>
 
         <div class="error-text">
@@ -55,7 +45,7 @@
                 <span v-else>Save Changes</span>
             </button><br/>
             <div v-if="modifyingSchedule" class="button-text">
-                <a href="#" @click.prevent="deleteSchedule">Delete Time Block</a>
+                <a href="#" @click.prevent="deleteSchedule">Delete Override Block</a>
             </div>
         </div>
 
@@ -71,22 +61,22 @@ export default {
   },
   components: { ClipLoader },
   methods: {
-    submitScheduleForm() {
+    submitScheduleOverrideForm() {
       this.modifyingSchedule
-        ? this.$emit("patchSchedule")
-        : this.$emit("postSchedule");
+        ? this.$emit("patchOverride")
+        : this.$emit("postOverride");
     },
     deleteSchedule() {
-      this.$emit("deleteSchedule");
+      this.$emit("deleteOverride");
     }
   },
   computed: {
     modifyingSchedule() {
-      return this.scheduleBlock.id > 0;
+      return this.scheduleOverrideBlock.id > 0;
     }
   },
   props: {
-    scheduleBlock: {
+    scheduleOverrideBlock: {
       type: Object
     },
     submitting: {
