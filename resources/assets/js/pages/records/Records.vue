@@ -462,10 +462,7 @@ export default {
                             }
                             object.type = e.type.split('_').map(ele => capitalize(ele)).join(' ');
                             if (e.type === 'soap_note') {
-                                object.type = 'SOAP Note';
-                                if (this.$root.$data.permissions === 'patient') {
-                                    object.type = 'Treatment Plan';
-                                }
+                                object.type = this.$root.$data.permissions === 'patient' ? 'Treatment Plan' : 'SOAP Note';
                             }
                             object.id = e.id;
                             object.data = e;
