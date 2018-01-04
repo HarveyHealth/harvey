@@ -61,7 +61,7 @@ class Fullscript extends BaseClient
     * @param array $data
     * @return array the updated patient
     */
-    public function updatePatient(int $id, array $data)
+    public function updatePatient($id, array $data)
     {
         try {
             $response = $this->put("patients/{$id}", ['body_data' => $data]);
