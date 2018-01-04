@@ -327,4 +327,62 @@ class MessageTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
+
+    public function test_it_returns_10_days_before_last_message()
+    {
+        $patient = factory(Patient::class)->create();
+
+        // creates some old Messages
+        factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-21 days'),
+            'created_at' => \Carbon::parse('-21 days')
+        ]);
+        factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-15 days'),
+            'created_at' => \Carbon::parse('-15 days')
+        ]);
+        factory(Message::class)->create([
+            'sender_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-10 days'),
+            'created_at' => \Carbon::parse('-10 days')
+        ]);
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('GET', 'api/v1/messages');
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $this->assertCount(2, $response->original['data']);
+    }
+
+    public function test_it_returns_10_days_before_unread()
+    {
+        $patient = factory(Patient::class)->create();
+
+        // creates some old Messages
+        factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+            'read_at'=> \Carbon::parse('-20 days'),
+            'created_at' => \Carbon::parse('-20 days')
+        ]);
+
+        factory(Message::class)->create([
+            'recipient_user_id' => $patient->user->id,
+            'read_at' =>  null,
+            'created_at' => \Carbon::parse('-15 days')
+        ]);
+
+
+        factory(Message::class, 3)->create([
+            'sender_user_id' => $patient->user->id,
+            'read_at' => null,
+        ]);
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('GET', 'api/v1/messages');
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $this->assertCount(5, $response->original['data']);
+    }
 }
