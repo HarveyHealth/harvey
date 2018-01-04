@@ -81,14 +81,14 @@ class FullscriptClientTest extends TestCase
         $fullscript = new Fullscript($client);
 
         $client->shouldReceive('post')
-            ->with("{$endpoint}patients", [
-                'form_params' => [
+            ->with($endpoint.'patients', [
+                'body' => json_encode([
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'email' => $user->email,
                     'date_of_birth' => $patient->birthdate->format('Y-m-d'),
                     'external_ref' => $user->id,
-                ],
+                ], JSON_FORCE_OBJECT),
                 'headers' => [
                     'X-API-Key' => config('services.fullscript.api_key'),
                     'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
