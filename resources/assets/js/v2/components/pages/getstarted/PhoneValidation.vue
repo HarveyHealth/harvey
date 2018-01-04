@@ -13,10 +13,10 @@
                     :ref="'phone_input'"
                 />
                 <Spacer isBottom :size="2" />
-                <span class="button-link db f6 fw3" @click="setPhoneNumberFromCache" v-if="State('getstarted.signup.phoneCache')">
+                <a href="" class="button-link db f6 fw3" @click.prevent="setPhoneNumberFromCache" v-if="State('getstarted.signup.phoneCache')">
                     Back to Confirmation
                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                </span>
+                </a>
                 <Spacer isBottom :size="4" />
                 <div v-show="isUserPatchError" class="mb2 red" v-html="phoneProcessError"></div>
                 <div v-show="phoneDuplicateError" class="mb2 red" v-html="phoneDuplicateError"></div>
@@ -41,13 +41,14 @@
                     :type="'phone'"
                 />
                 <Spacer isBottom :size="2" />
-                <span class="button-link db f6 fw3" @click="handleCodeResend" v-if="!phoneStepIsComplete">
+                <a href="" class="button-link db f6 fw3" @click.prevent="handleCodeResend" v-if="!phoneStepIsComplete">
                     <i class="fa fa-repeat" aria-hidden="true"></i>
-                    Text Me Again
-                </span>
-                <span class="button-link db f6 fw3" @click="handlePhoneReset">
-                    Different Phone Number
-                </span>
+                    Text me again
+                </a>
+                <Spacer isBottom :size="2" />
+                <a href="" class="button-link db f6 fw3" @click.prevent="handlePhoneReset">
+                    Enter a different phone number
+                </a>
                 <Spacer isBottom :size="4" />
                 <div class="mb2 red" v-show="isInvalidCode" v-html="phoneCodeInvalidError"></div>
                 <div class="mb2 red" v-show="isCodeProcessError" v-html="phoneCodeProcessError"></div>
@@ -107,6 +108,7 @@ export default {
         handleCodeResend() {
             this.resetErrors();
             this.phoneCode = '';
+            this.$refs.code_input.$el.value = '';
             App.setState({
                 'getstarted.signup.stepsCompleted.phone': false,
                 'getstarted.signup.phoneCode': '',
@@ -201,9 +203,7 @@ export default {
     @import '~sass';
 
     .button-link {
-        color: $color-accent-dark;
-        cursor: pointer;
-        margin: 6px auto;
+        display: inline-block;
         padding: 4px;
     }
 
