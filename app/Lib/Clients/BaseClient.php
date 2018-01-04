@@ -3,6 +3,7 @@
 namespace App\Lib\Clients;
 
 use GuzzleHttp\Client;
+use TypeError;
 
 class BaseClient
 {
@@ -32,24 +33,42 @@ class BaseClient
         return $this->client->get($this->baseEndpoint($call), $data);
     }
 
-    public function post(string $call, array $params = [], array $headers = [])
+    public function post(string $call, array $opts = [])
     {
-        $data['form_params'] = array_merge($params, $this->params);;
-        $data['headers'] = array_merge($this->headers, $headers);
-
-        return $this->client->post($this->baseEndpoint($call), $data);
+        return $this->client->post($this->baseEndpoint($call), $this->arrangeData($opts));
     }
 
-    public function put(string $call, string $body = '', array $headers = [])
+    public function put(string $call, array $opts = [])
     {
-        $data['body'] = $body;
-        $data['headers'] = array_merge($this->headers, $headers);
-
-        return $this->client->put($this->baseEndpoint($call), $data);
+        return $this->client->put($this->baseEndpoint($call), $this->arrangeData($opts));
     }
 
     protected function baseEndpoint(string $call)
     {
         return trim($this->base_endpoint, '/') . "/{$call}";
     }
+
+    protected function arrangeData(array $opts = [])
+    {
+        foreach ($opts as $key => $value) {
+            if (!is_array($value)) {
+                throw new TypeError("BaseClient@arrangeData: '{$key}' value should be an Array.");
+            }
+        }
+
+        if (!empty($opts['body_data'])) {
+            $data['body'] = json_encode($opts['body_data'], JSON_FORCE_OBJECT);
+        }
+
+        if (!empty($form_params = array_merge($opts['form_params'] ?? [], $this->params))) {
+            $data['form_params'] = $form_params;
+        }
+
+        if (!empty($headers = array_merge($opts['headers'] ?? [], $this->headers))) {
+            $data['headers'] = $headers;
+        }
+
+        return $data ?? [];
+    }
+
 }

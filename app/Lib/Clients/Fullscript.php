@@ -53,7 +53,6 @@ class Fullscript extends BaseClient
             }
         }
 
-
         return json_decode($response->getBody());
     }
 
@@ -62,12 +61,10 @@ class Fullscript extends BaseClient
     * @param array $data
     * @return array the updated patient
     */
-    public function updatePatient($id, $data)
+    public function updatePatient(int $id, array $data)
     {
-        //perform call to API
-
         try {
-            $response = $this->put("patients/{$id}", json_encode($data, JSON_FORCE_OBJECT));
+            $response = $this->put("patients/{$id}", ['body_data' => $data]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
             switch ($response->getStatusCode()) {
@@ -101,14 +98,12 @@ class Fullscript extends BaseClient
         *  "last_name": "Wise",
         *  "email": "chris@fullscript.com",
         *  "date_of_birth": "1971-03-15",
-        *  "external_ref": "9991-2233-1222"
+        *  "external_ref": "<user_id>"
      */
-    public function createPatient($data)
+    public function createPatient(array $data)
     {
-        //perform call to API
-
         try {
-            $response = $this->post('patients', $data);
+            $response = $this->post('patients', ['body_data' => $data]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
             switch ($response->getStatusCode()) {
