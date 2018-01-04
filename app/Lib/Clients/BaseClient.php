@@ -11,9 +11,9 @@ class BaseClient
     protected $headers = [];
     protected $params = [];
 
-    public function __construct($client = null)
+    public function __construct(Client $client = null)
     {
-        $this->client = $client ?? $client = new Client(['defaults' => $this->defaults()]);;
+        $this->client = $client ?? new Client(['defaults' => $this->defaults()]);
     }
 
     protected function defaults()
@@ -42,16 +42,13 @@ class BaseClient
 
     public function put(string $call, string $body = '', array $headers = [])
     {
-        $data = [];
         $data['body'] = $body;
         $data['headers'] = array_merge($this->headers, $headers);
 
-        $response = $this->client->put($this->baseEndpoint($call), $data);
-
-        return $response;
+        return $this->client->put($this->baseEndpoint($call), $data);
     }
 
-    protected function baseEndpoint($call)
+    protected function baseEndpoint(string $call)
     {
         return trim($this->base_endpoint, '/') . "/{$call}";
     }
