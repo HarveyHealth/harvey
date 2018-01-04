@@ -9,7 +9,7 @@
         <td class="sku-table__column">{{ `${sku.attributes.lab_test_information.quote.substr(0,15)}...` }}</td>
         <td class="sku-table__column">${{ sku.attributes.price }}</td>
         <td class="sku-table__column">${{ sku.attributes.cost }}</td>
-        <td class="sku-table__column">{{ sku.attributes.lab_test_information.visibility | ucfirst }}</td>
+        <td class="sku-table__column">{{ visibilityFriendlyName }}</td>
     </tr>
 </template>
 
@@ -28,6 +28,17 @@ export default {
                 return this.sku.id === this.selectedSku.id ? 'is-selected' : '';
             }
             return '';
+        },
+        visibilityFriendlyName() {
+            let visibility = this.sku.attributes.lab_test_information.visibility;
+            let translation = {
+                public: 'All',
+                patients: 'Patient, Practitioners and Admins',
+                practitioners: 'Practitioners and Admins',
+                admins: 'Only Admins'
+            };
+
+            return translation[visibility] || 'Unknown';
         }
     },
     props: {

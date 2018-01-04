@@ -25,6 +25,8 @@ use App\Models\{
     SKU,
     SoapNote,
     Test,
+    Invoice,
+    InvoiceItem,
     User
 };
 
@@ -276,7 +278,8 @@ $factory->define(LabOrder::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
-        'shipment_code' => $faker->isbn13,
+        'shipment_code' => $faker->randomElement(['SHIPPO_UNKNOWN', 'SHIPPO_TRANSIT', 'SHIPPO_DELIVERED', 'SHIPPO_RETURNED', 'SHIPPO_FAILURE']),
+        'carrier' => 'shippo',
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,
         'state' => 'CA',
@@ -291,7 +294,8 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
         'sku_id' => function () {
             return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
         },
-        'shipment_code' => $faker->isbn13,
+        'shipment_code' => $faker->randomElement(['SHIPPO_UNKNOWN', 'SHIPPO_TRANSIT', 'SHIPPO_DELIVERED']),
+        'carrier' => 'shippo'
     ];
 });
 
@@ -409,5 +413,26 @@ $factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
         'lab_name' => "{$faker->lastName} Labs Inc.",
         'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
         'quote' => $faker->sentence(10),
+    ];
+});
+
+$factory->define(Invoice::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => factory(Patient::class),
+        'description' => $faker->sentence(100),
+        'status' => array_random(array_keys(Appointment::STATUSES)),
+        'subtotal' => $faker->numberBetween(10, 90),
+        'amount' => $faker->numberBetween(90,100),
+    ];
+});
+
+$factory->define(InvoiceItem::class, function (Faker\Generator $faker) {
+    return [
+        'invoice_id' => factory(Invoice::class),
+        'item_id' =>  $faker->numberBetween(10, 90),
+        'item_class' => $faker->randomElement(['Appointment', 'LabTest']),
+        'amount' => $faker->numberBetween(10, 90),
+        'description' => $faker->sentence(100),
+        'sku_id' => factory(SKU::class),
     ];
 });

@@ -33,12 +33,14 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="description">Description</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" maxlength="800" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
+                <span class="charcount" style="top: 0px">{{ countDescription }} / {{ descriptionMaxLength }}</span>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" :maxlength="descriptionMaxLength" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" maxlength="200" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <span class="charcount" style="top: 0px">{{ countQuote }} / {{ quoteMaxLength }}</span>
+                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" :maxlength="quoteMaxLength" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
 
             <div class="input__container input-wrap">
@@ -62,13 +64,13 @@
             </div>
 
             <div class="input__container">
-                <label class="input__label" for="visibility">Public</label>
+                <label class="input__label" for="visibility">Visible to</label>
                 <span class="custom-select">
                     <select name="visibility" id="visibility" v-model="formSku.attributes.lab_test_information.visibility">
-                        <option value="public">Public</option>
-                        <option value="patients">Patients</option>
-                        <option value="practitioners">Practitioners</option>
-                        <option value="admins">Admins</option>
+                        <option value="public">All</option>
+                        <option value="patients">Patient, Practitioners and Admins</option>
+                        <option value="practitioners">Practitioners and Admins</option>
+                        <option value="admins">Only Admins</option>
                     </select>
                 </span>
             </div>
@@ -111,7 +113,10 @@
             notificationSymbol: '&#10003;',
             notificationActive: false,
             notificationDirection: 'top-right',
-            notificationError: false
+            notificationError: false,
+            notificationMessage: '',
+            descriptionMaxLength: 2048,
+            quoteMaxLength: 1024
         };
     },
     components: {
@@ -136,6 +141,7 @@
             .then(() => {
                 this.submitting = false;
                 this.notificationActive = true;
+                this.notificationMessage = "Lab Test Updated";
                 setTimeout(() => this.notificationActive = false, 3000);
                 this.$emit('saved');
             })
@@ -162,6 +168,7 @@
                     this.submitting = false;
                     this.notificationActive = true;
                     this.$emit('append', response.data.data);
+                    this.notificationMessage = "Lab Test Created";
                     setTimeout(() => this.notificationActive = false, 3000);
                     this.resetSkuForm();
                     this.$emit('saved');
@@ -194,8 +201,15 @@
         formSku() {
             return this.sku || this.blankSku;
         },
-        notificationMessage() {
-            return this.sku ? "Lab test updated" : "Lab Test Updated";
+        countQuote() {
+          let model = this.sku ? this.sku : this.blankSku;
+          let field = model.attributes.lab_test_information.quote;
+          return this.quoteMaxLength - (field ? field.length : 0);
+        },
+        countDescription() {
+          let model = this.sku ? this.sku : this.blankSku;
+          let field = model.attributes.lab_test_information.description;
+          return this.descriptionMaxLength - (field ? field.length : 0);
         }
     },
     props: {

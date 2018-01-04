@@ -49,10 +49,20 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('users/{user}/cards/{cardId}', 'UsersController@updateCard')->name('users.update-card');
         Route::post('users/{user}/cards', 'UsersController@addCard')->name('users.add-card');
 
+        # Invoices
+        Route::get('invoices', 'InvoicesController@getAll')->name('invoices.get-all');
+        Route::get('invoices/{invoice}', 'InvoicesController@getOne')->name('invoices.get-one');
+        Route::get('invoices/{invoice}/invoice_items', 'InvoicesController@getItems')->name('invoices.get-items');
+
+        # Invoice Items
+        Route::get('invoice_items/{invoice_item}', 'InvoiceItemsController@getOne')->name('invoices.get-one');
+
+
         # Patients
         Route::get('patients', 'PatientsController@getAll')->name('patients.get-all');
         Route::get('patients/{patient}', 'PatientsController@getOne')->name('patients.get-one');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
+        Route::get('patients/{patient}/invoices', 'PatientsController@getInvoices')->name('patients.get-invoices');
 
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
@@ -116,6 +126,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{lab_test}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{lab_test}', 'LabTestsController@delete')->name('lab-tests.delete');
+        Route::get('lab/tests/{lab_test}/track', 'LabTestsController@track')->name('lab-tests.track');
 
         # Lab Test Results
         Route::get('lab/tests/results/{lab_test_result}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
@@ -124,12 +135,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
         # Lab Orders
         Route::get('lab/orders', 'LabOrdersController@getAll')->name('lab-orders.get-all');
-        Route::get('lab/orders/{labOrder}', 'LabOrdersController@getOne')->name('lab-orders.get-one');
+        Route::get('lab/orders/{lab_order}', 'LabOrdersController@getOne')->name('lab-orders.get-one');
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
-        Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
-        Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
-
-        Route::put('lab/orders/{labOrder}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
+        Route::patch('lab/orders/{lab_order}', 'LabOrdersController@update')->name('lab-orders.update');
+        Route::delete('lab/orders/{lab_order}', 'LabOrdersController@delete')->name('lab-orders.delete');
+        Route::get('lab/orders/{lab_order}/track', 'LabOrdersController@track')->name('lab-orders.track');
+        Route::put('lab/orders/{lab_order}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
 
         # SKUs
         Route::get('skus', 'SkusController@index')->name('skus.index');

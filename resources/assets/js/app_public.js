@@ -168,8 +168,7 @@ const app = new Vue({
         }
     },
     methods: {
-        facebookLogin(e) {
-          e.preventDefault();
+        facebookLogin() {
           window.location.href = '/auth/facebook';
         },
         onEmailCaptureSubmit() {

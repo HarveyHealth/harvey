@@ -33,7 +33,7 @@
                     <th class="sku-table__column heading-2">Quote</th>
                     <th class="sku-table__column heading-2">Price</th>
                     <th class="sku-table__column heading-2">Cost</th>
-                    <th class="sku-table__column heading-2">Visibility</th>
+                    <th class="sku-table__column heading-2">Visible to</th>
                 </thead>
                 <tbody class="copy-main">
                     <draggable v-model="skuList" @end="onDragComplete">
