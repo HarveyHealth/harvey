@@ -17,7 +17,6 @@ export default {
   data() {
     return {
       styles: {
-        'bg-white': true,
         'pa3': true,
         'bb b--light-gray': this.withBorder
       }

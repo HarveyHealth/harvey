@@ -31,10 +31,10 @@ switch(context) {
     rootRoute.name = 'conditions';
     rootRoute.component = require('./v2/components/pages/conditions/Conditions.vue');
     break;
-  // case 'intake':
-  //   rootRoute.name = 'intake';
-  //   rootRoute.component = require('./pages/intake/Intake');
-  //   break;
+  case 'intake':
+    rootRoute.name = 'intake';
+    rootRoute.component = require('./v2/components/pages/intake/Intake.vue');
+    break;
 }
 
 if (context === 'get-started' && loggedIn) {
@@ -63,11 +63,13 @@ if (context === 'get-started' && loggedIn) {
   ];
 }
 
-rootRoute.children.push({
-  path: 'signup',
-  name: 'sign-up',
-  component: require('./v2/components/pages/getstarted/Signup.vue')
-});
+if (context === 'get-started') {
+    rootRoute.children.push({
+      path: 'signup',
+      name: 'sign-up',
+      component: require('./v2/components/pages/getstarted/Signup.vue')
+    });
+}
 
 let routes = [
     rootRoute,

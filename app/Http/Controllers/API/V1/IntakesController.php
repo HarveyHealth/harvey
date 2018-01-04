@@ -46,12 +46,12 @@ class IntakesController extends BaseAPIController
 
     public function getOne(Request $request, string $token)
     {
-        if (currentUser()->isNotAdminOrPractitioner()) {
-            return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
+        if (empty($patient = Patient::getByIntakeToken($token))) {
+            return $this->respondNotFound("Can't find a Patient with that Intake token assigned.");
         }
 
-        if (empty($patient = Patient::where('intake_token', $token)->first())) {
-            return $this->respondNotFound("Can't find a Patient with that Intake token assigned.");
+        if (currentUser()->isNotAdminOrPractitioner() && currentUser()->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
         }
 
         return $this->baseTransformItem($patient->getIntakeData())->respond();
