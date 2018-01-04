@@ -51,13 +51,16 @@ class BaseClient
     protected function arrangeData(array $opts = [])
     {
         foreach ($opts as $key => $value) {
-            if (!is_array($value)) {
-                throw new TypeError("BaseClient@arrangeData: '{$key}' value should be an Array.");
+            if (in_array($key, ['headers', 'form_params']) &&!is_array($value)) {
+                throw new TypeError("BaseClient@arrangeData: '{$key}' value should be an array.");
+            }
+            if (in_array($key, ['body']) && !is_string($value)) {
+                throw new TypeError("BaseClient@arrangeData: '{$key}' value should be an string.");
             }
         }
 
-        if (!empty($opts['body_data'])) {
-            $data['body'] = json_encode($opts['body_data'], JSON_FORCE_OBJECT);
+        if (!empty($opts['body'])) {
+            $data['body'] = $opts['body'];
         }
 
         if (!empty($form_params = array_merge($opts['form_params'] ?? [], $this->params))) {

@@ -64,7 +64,7 @@ class Fullscript extends BaseClient
     public function updatePatient($id, array $data)
     {
         try {
-            $response = $this->put("patients/{$id}", ['body_data' => $data]);
+            $response = $this->put("patients/{$id}", ['body' => json_encode($data, JSON_FORCE_OBJECT)]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
             switch ($response->getStatusCode()) {
@@ -103,7 +103,7 @@ class Fullscript extends BaseClient
     public function createPatient(array $data)
     {
         try {
-            $response = $this->post('patients', ['body_data' => $data]);
+            $response = $this->post('patients', ['body' => json_encode($data, JSON_FORCE_OBJECT)]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
             switch ($response->getStatusCode()) {
