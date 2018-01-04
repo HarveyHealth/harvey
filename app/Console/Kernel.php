@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use App\Console\Commands\BillingReport;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -15,19 +14,20 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\AdminCreateCommand::class,
+        Commands\BillingReport::class,
         Commands\GetAPICalendarCredentialsCommand::class,
         Commands\GetPassportKeysCommand::class,
+        Commands\ImportDiscountCodesCommand::class,
+        Commands\ImportUsersToFullscript::class,
         Commands\LogTailCommand::class,
         Commands\MakeComponentCommand::class,
         Commands\MakeRepositoryCommand::class,
         Commands\MakeViewCommand::class,
         Commands\PractitionerCreateCommand::class,
+        Commands\ReportsMonthlyCommand::class,
         Commands\SendAppointmentsRemindersCommand::class,
         Commands\SendUnreadMessageEmailNotificationsCommand::class,
         Commands\SetNginxConfigCommand::class,
-        Commands\ImportDiscountCodesCommand::class,
-        Commands\BillingReport::class,
-        Commands\ReportsMonthlyCommand::class,
     ];
 
     /**
