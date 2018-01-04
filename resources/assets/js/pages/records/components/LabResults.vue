@@ -280,7 +280,7 @@ export default {
         },
         labTestList(val) {
             if (!val) {
-                let labTests = Object.values(this.$parent.lab_tests).map(e => Object.assign({}, e, this.$root.$data.labTests[e.attributes.sku_id]));;
+                let labTests = Object.values(this.$parent.lab_tests).map(e => Object.assign({}, e, this.$root.$data.labTests[e.attributes.sku_id]));
                 return labTests.length ? [{attributes: {name: ''}, id: 0}].concat(labTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
             }
         },
