@@ -173,7 +173,7 @@ class ReportsMonthlyCommand extends Command
 
         $metadata = [
             'visibility' => 'public',
-            'Expires' => 'Expires, ' . $now->timezone('GMT')->addSeconds(30)->format('D, m M Y H:i:s T'),
+            'Expires' => 'Expires, ' . $now->timezone('GMT')->addDays(7)->format('D, m M Y H:i:s T'),
             'ContentType' => 'text/csv',
         ];
 
