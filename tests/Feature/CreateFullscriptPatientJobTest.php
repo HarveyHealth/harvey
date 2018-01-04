@@ -49,7 +49,7 @@ class CreateFullscriptPatientJobTest extends TestCase
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
-                'date_of_birth'=> date('Y-m-d', strtotime($patient->birthdate)),
+                'date_of_birth'=> $patient->birthdate->format('Y-m-d'),
                 'external_ref' => $user->id,
             ]);
         // register mock
@@ -80,7 +80,7 @@ class CreateFullscriptPatientJobTest extends TestCase
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'email' => $user->email,
-                    'date_of_birth' => date('Y-m-d', strtotime($patient->birthdate)),
+                    'date_of_birth' => $patient->birthdate->format('Y-m-d'),
                 ]
             ]);
 
@@ -117,7 +117,7 @@ class CreateFullscriptPatientJobTest extends TestCase
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'email' => $user->email,
-                    'date_of_birth' => date('Y-m-d', strtotime($patient->birthdate)),
+                    'date_of_birth' => $patient->birthdate->format('Y-m-d'),
                     'external_ref' => $user->id,
                 ]
             ]);
