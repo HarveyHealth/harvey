@@ -413,8 +413,7 @@ const app = new Vue({
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
                 .map(e => doctors.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
-            this.global.confirmedPatients = this.global.appointments
-                .map(e => patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+            this.global.confirmedPatients = this.global.patients;
             this.global.practitioners = _.uniqBy(doctors, 'id').filter(e => e !== undefined);
             this.global.patients = _.uniqBy(patients, 'id').filter(e => e !== undefined);
             this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id').filter(e => e !== undefined);
