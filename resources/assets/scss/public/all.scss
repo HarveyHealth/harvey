@@ -754,6 +754,10 @@ body[class*="404"]{
   @include margin(-20px null 20px null);
 }
 
+.no-margin {
+  @include margin(0px 0px 0px 0px);
+}
+
 .fourButton {
   right: 30%;
   @include margin(20px null null null);

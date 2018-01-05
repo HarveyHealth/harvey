@@ -15,6 +15,11 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\UserRegistered' => [
             'App\Listeners\SendWelcomeEmail',
+            'App\Listeners\CreatePatientInFullscript',
+        ],
+
+        'App\Events\UserUpdated' => [
+            'App\Listeners\UpdatePatientInFullscript',
         ],
 
         'App\Events\AppointmentScheduled' => [

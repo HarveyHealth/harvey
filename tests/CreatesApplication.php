@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Jobs\SendTransactionalEmail;
 use App\Lib\SMS;
-use App\Observers\AppointmentObserver;
+use App\Observers\{AppointmentObserver, UserObserver};
 use Illuminate\Contracts\Console\Kernel;
 use Mockery;
 
@@ -31,7 +31,12 @@ trait CreatesApplication
         $appointment_observer_mock->shouldReceive('creating')->andReturn(true);
         app()->instance(AppointmentObserver::class, $appointment_observer_mock);
 
-        //Mock SMS class to avoid log entries and check if texts were sent.
+        //Mock UserObserver class to avoid update of Fullscript users when testing.
+        $user_observer_mock = Mockery::mock(UserObserver::class)->makePartial();
+        $user_observer_mock->shouldReceive('updated')->andReturn(true);
+        app()->instance(UserObserver::class, $user_observer_mock);
+
+        //Mock SMS class to avoid log entries and to check if texts were sent.
         $this->sms_mock = Mockery::mock(SMS::class)->makePartial();
         $this->sms_mock->shouldReceive('sendMessageToNumber')->withAnyArgs()->andReturn(true);
         app()->instance(SMS::class, $this->sms_mock);

@@ -2,6 +2,12 @@
     <PageContainer>
         <PageHeader :heading="pageHeading" />
         <div class="mw8 pa2 pa3-m">
+            <NotificationPopup
+                :active='isNotificationActive'
+                comes-from='top-right'
+                symbol='&#10003;'
+                :text='notificationText'
+            />
             <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
             <SlideIn v-else>
                 <SlideIn :to="'right'" v-if="shouldShowIntakeAlert">
@@ -75,6 +81,7 @@ import { Paragraph } from 'typography';
 import AppointmentCardInfo from './AppointmentCardInfo.vue';
 import AvatarCardHeading from './AvatarCardHeading.vue';
 import LabeledTextBlock from './LabeledTextBlock.vue';
+import NotificationPopup from '../../../../commons/NotificationPopup.vue';
 
 export default {
     name: 'dashboard',
@@ -87,11 +94,18 @@ export default {
         InputButton,
         LabeledTextBlock,
         LoadingSpinner,
-        PageHeader,
+        NotificationPopup,
         PageContainer,
+        PageHeader,
         Paragraph,
         SlideIn,
         Spacer
+    },
+    data() {
+        return {
+            isNotificationActive: false,
+            notificationText: ''
+        };
     },
     computed: {
         isDoneLoading() {
@@ -130,7 +144,14 @@ export default {
         if (!this.State('practitioners.wasRequested')) {
             App.Http.practitioners.get(App.Http.practitioners.getResponse);
         }
-    }
+
+        if (undefined !== Laravel.app.message) {
+            this.notificationText = Laravel.app.message;
+            this.isNotificationActive = true;
+            setTimeout(() => this.isNotificationActive = false, 8000);
+            Laravel.app.message = undefined;
+        }
+  }
 };
 </script>
 

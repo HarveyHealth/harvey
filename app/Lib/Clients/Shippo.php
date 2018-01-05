@@ -12,7 +12,7 @@ class Shippo extends BaseClient
     {
         $headers = ['Authorization' => 'ShippoToken '. config('services.shippo.key')];
 
-        return $this->post('tracks/', compact('carrier', 'tracking_number'), $headers);
+        return $this->post('tracks/', ['form_params' => compact('carrier', 'tracking_number'), 'headers' => $headers]);
     }
 
     public static function isUsingTestKey() {
