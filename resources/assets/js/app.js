@@ -422,13 +422,48 @@ const app = new Vue({
         },
         requestConfirmedUsers(term='', cb=null) {
             this.getConfirmedUsers();
+            let regex = new RegExp(term, 'ig');
             if (cb) {
                 if (this.permissions === 'admin') {
-                    cb(this.global.confirmedDoctors.concat(this.global.confirmedPatients), Object.assign({}, this.global.patientLookUp, this.global.practitionerLookUp));
+                    let all = this.global.confirmedDoctors.concat(this.global.confirmedPatients).filter(e => {
+                        for (let i in e) {
+                            if (regex.test(e[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    cb(all, all
+                    .reduce((acc, item)  => {
+                        acc[item.id] = item;
+                        return acc; 
+                    }, {}));
                 } else if (this.permissions === 'practitioner') {
-                    cb(this.global.confirmedPatients, Object.assign({}, this.global.patientLookUp));
+                    let patients = this.global.confirmedPatients.filter(e => {
+                        for (let i in e) {
+                            if (regex.test(e[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    cb(patients, patients.reduce((acc, item)  => {
+                        acc[item.id] = item;
+                        return acc; 
+                    }, {}));
                 } else {
-                    cb(this.global.confirmedDoctors, Object.assign({}, this.global.practitionerLookUp));
+                    let doctors = this.global.confirmedDoctors.filter(e => {
+                        for (let i in e) {
+                            if (regex.test(e[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    cb(doctors, doctors.reduce((acc, item)  => {
+                        acc[item.id] = item;
+                        return acc; 
+                    }, {}));
                 }
             }
         },
