@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\UserUpdated;
 use App\Events\PhoneNumberChanged;
 use App\Models\User;
 
@@ -25,6 +26,11 @@ class UserObserver
             });
          }
      }
+
+    public function updated(User $user)
+    {
+        event(new UserUpdated($user));
+    }
 
     public function saved(User $user)
     {
