@@ -63,7 +63,8 @@ export default {
             close: this.$parent.close,
             selected: '',
             subject: '',
-            message: ''
+            message: '',
+            selectedClient: null,
         };
     },
     mounted() {
@@ -95,11 +96,8 @@ export default {
             this.$parent.close();
         },
         handlePatientSelect(obj) {
-            //console.log(obj);
             this.resetting = false;
             this.selectedClient = obj.id;
-            this.selectedClientName = this.formatName(obj.search_name);
-            //console.log(this.selectedClient);
         },
         getData(value){
             return new Promise((resolve) => {
