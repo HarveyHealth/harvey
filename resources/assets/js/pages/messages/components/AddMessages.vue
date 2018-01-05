@@ -10,13 +10,7 @@
         <div v-else>
             <div class="input__container">
                 <label class="input__label" for="patient_name">Recipient</label>
-                <span class="custom-select" v-if="!loading && userList && userList.length && $root.$data.permissions === 'patient'">
-                    <select @change="updateUser($event)">
-                        <option  v-for="user in [''].concat(userList)" :data-id="user.user_id">{{ user.name }}</option>
-                    </select>
-                </span>
                 <autocomplete
-                    v-if="$root.$data.permissions !== 'patient'"
                     anchor="search_name"
                     label=false
                     url=true
