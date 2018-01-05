@@ -40,7 +40,7 @@ class UpdateFullscriptPatient implements ShouldQueue
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
                 'email' => $this->user->email,
-                'date_of_birth'=> $this->user->isPatient() ? $this->user->patient->birthdate->format('Y-m-d') : null,
+                'date_of_birth'=> empty($this->user->patient->birthdate) ? null : $this->user->patient->birthdate->format('Y-m-d'),
             ]);
         }
 
