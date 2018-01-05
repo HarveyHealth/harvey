@@ -15,7 +15,7 @@
 
 <script>
     import TableData from '../../../commons/TableData.vue';
-    import { tableCoulmns } from '../utils/tableColumns';
+    import tableCoulmns from '../utils/tableColumns';
     export default {
         name: 'TransactionsTable',
         components: {
