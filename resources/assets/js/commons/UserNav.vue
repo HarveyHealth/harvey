@@ -55,6 +55,14 @@
         <div class="text">Profile</div>
       </router-link>
 
+        <router-link
+            to="/transactions" title="Transactions"
+            :class="currentPageCheck('transactions')"
+            @click.native="handleMenu(false, 'transactions')">
+            <i class="fa fa-usd icon icon-nav-bar"></i>
+            <div class="text">Transactions</div>
+        </router-link>
+
        <router-link
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"

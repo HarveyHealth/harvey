@@ -104,6 +104,10 @@ let routes = [
         component: require('./pages/settings/Settings.vue')
     },
     {
+        path: '/transactions',
+        component: require('./pages/transactions/Transactions.vue')
+    },
+    {
         path: '/profile',
         component: require('./pages/profile/Profile.vue')
     },
