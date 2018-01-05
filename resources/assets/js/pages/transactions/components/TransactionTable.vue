@@ -19,17 +19,17 @@
     export default {
         name: 'TransactionsTable',
         components: {
-            TableData,
+            TableData
         },
         data() {
             return {
-                tableCoulmns,
+                tableCoulmns
             };
         },
         computed: {
             tableData() {
                 return this.tableRowData;
-            },
+            }
         },
         watch: {
 

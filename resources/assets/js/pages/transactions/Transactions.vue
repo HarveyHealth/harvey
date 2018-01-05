@@ -26,7 +26,7 @@
     export default {
         name: 'transactions',
         components: {
-            TransactionTable,
+            TransactionTable
         },
         data() {
             return {
