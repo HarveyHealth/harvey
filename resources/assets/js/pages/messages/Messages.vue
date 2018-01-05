@@ -117,11 +117,11 @@
           loadingAddMessage() {
               const global = this.$root.$data.global;
               if (Laravel.user.user_type === 'admin') {
-                  return !global.loadingAppointments && !global.loadingPractitioners && !global.loadingPatients;
+                  return !global.loadingPractitioners && !global.loadingPatients;
               } else if (Laravel.user.user_type === 'practitioner') {
-                  return !global.loadingAppointments && !global.loadingPatients;
+                  return !global.loadingPatients;
               } else if (Laravel.user.user_type === 'patient') {
-                  return !global.loadingAppointments && !global.loadingPractitioners;
+                  return !global.loadingPractitioners;
               }
           }
         },
