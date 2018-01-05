@@ -64,7 +64,6 @@ export default {
             selected: '',
             subject: '',
             message: '',
-            selectedClient: null,
         };
     },
     mounted() {
@@ -97,7 +96,7 @@ export default {
         },
         handlePatientSelect(obj) {
             this.resetting = false;
-            this.selectedClient = obj.id;
+            this.selected = obj.id;
         },
         getData(value){
             return new Promise((resolve) => {

@@ -260,6 +260,7 @@ const app = new Vue({
                     this.global.practitioners = response.data.data;
                   }
                   this.global.practitioners = this.global.practitioners.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] })).map(dr => {
+                    console.log(`DOCTOR`, dr);
                     return {
                       id: dr.id,
                       info: dr.attributes,
@@ -284,6 +285,7 @@ const app = new Vue({
                     this.global.practitioners = response.data.data.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] })).filter(dr => {
                         return dr.id === `${Laravel.user.practitionerId}`;
                     }).map(obj => {
+                        console.log(`OBJECT`, obj);
                         return {
                           info: obj.attributes,
                           name: `Dr. ${obj.attributes.name}`,
