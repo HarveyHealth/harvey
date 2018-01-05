@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       isNotificationActive: false,
-      notificationText: '',
+      notificationText: ''
     };
   },
   computed: {
