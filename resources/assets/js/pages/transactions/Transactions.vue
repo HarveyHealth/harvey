@@ -11,7 +11,7 @@
         data() {
             return {
 
-            }
+            };
         },
         computed: {
 
@@ -22,5 +22,5 @@
         mounted() {
             
         }
-    }
+    };
 </script>
