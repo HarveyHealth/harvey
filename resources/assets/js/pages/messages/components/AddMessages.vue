@@ -5,7 +5,7 @@
         </button>
         <h2 class="heading-3-expand">New Message</h2>
         <div class="no-message-banner" v-if="!loading && userList && userList.length === 0">
-            You are not currently assigned to any doctors. Please <router-link to="/appointments">book a consultation</router-link > before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
+            You are not currently assigned to any doctors. Please <router-link to="/appointments">book a consultation</router-link > before sending any new message. You may respond back to messages sent to you in the meantime.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
         <div v-else>
             <div class="input__container">
