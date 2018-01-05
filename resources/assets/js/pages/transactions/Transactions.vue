@@ -8,15 +8,26 @@
                     </h1>
                 </div>
             </div>
-
+            <TransactionTable 
+                :handle-row-click="handleRowClick"
+                :loading="!loading"
+                :selected-row="selectedRowData"
+                :updating-row="selectedRowUpdating"
+                :updated-row="selectedRowHasUpdated"
+                :tableRowData="currentData"
+                :filterSelected="activeFilter"
+            />
         </div>
     </div>
 </template>
 
 <script>
+    import TransactionTable from './components/TransactionTable.vue';
     export default {
         name: 'transactions',
-        components: {},
+        components: {
+            TransactionTable,
+        },
         data() {
             return {
 
