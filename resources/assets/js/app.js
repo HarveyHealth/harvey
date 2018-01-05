@@ -251,21 +251,23 @@ const app = new Vue({
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                 let cache = {};
-                response.data.included.forEach(e => {
-                    cache[e.id] = e;
-                });
+                if (response.data.included) {
+                    response.data.included.forEach(e => {
+                        cache[e.id] = e;
+                    });
+                }
                   if (Laravel.user.user_type === 'patient') {
                     this.global.practitioners = this.filterPractitioners(response.data.data, Laravel.user.state);
                   } else {
-                    this.global.practitioners = response.data.data;
+                    this.global.practitioners = response.data.data.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] || null }));
                   }
-                  this.global.practitioners = this.global.practitioners.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] })).map(dr => {
+                  this.global.practitioners = this.global.practitioners.map(dr => {
                     return {
                       id: dr.id,
                       info: dr.attributes,
                       name: `Dr. ${dr.attributes.name}`,
                       search_name: `Dr. ${dr.attributes.name}`,
-                      email: dr.included.attributes.email,
+                      email: dr.included && dr.included.attributes ? dr.included.attributes.email : null,
                       user_id: dr.attributes.user_id
                     };
                   });
@@ -278,10 +280,12 @@ const app = new Vue({
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     let cache = {};
-                    response.data.included.forEach(e => {
-                        cache[e.id] = e;
-                    });
-                    this.global.practitioners = response.data.data.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] })).filter(dr => {
+                    if (response.data.included) {
+                        response.data.included.forEach(e => {
+                            cache[e.id] = e;
+                        });
+                    }
+                    this.global.practitioners = response.data.data.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] || null })).filter(dr => {
                         return dr.id === `${Laravel.user.practitionerId}`;
                     }).map(obj => {
                         return {
@@ -289,7 +293,7 @@ const app = new Vue({
                           name: `Dr. ${obj.attributes.name}`,
                           search_name: `Dr. ${obj.attributes.name}`,
                           id: obj.id,
-                          email: obj.included.attributes.email,
+                          email: obj.included && obj.included.attributes ? obj.included.attributes.email : null,
                           user_id: obj.attributes.user_id };
                     });
                     response.data.data.forEach(e => {
