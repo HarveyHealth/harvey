@@ -7,11 +7,11 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\{InteractsWithQueue, SerializesModels};
+use Illuminate\Queue\{InteractsWithQueue};
 
 class UpdateFullscriptPatient implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     protected $user;
 
@@ -32,16 +32,24 @@ class UpdateFullscriptPatient implements ShouldQueue
      */
     public function handle()
     {
+
+        if (!$this->user->isPatient()) return false;
+
         $fullscript = app()->make(Fullscript::class);
 
-        // find patient by external ref
-        if (!empty($patients = $fullscript->getPatients($this->user->id))) {
-            return $fullscript->updatePatient($patients[0]->id, [
-                'first_name' => $this->user->first_name,
-                'last_name' => $this->user->last_name,
-                'email' => $this->user->email,
-                'date_of_birth'=> $this->user->isPatient() ? $this->user->patient->birthdate->format('Y-m-d') : null,
-            ]);
+        $update = [];
+
+        foreach (['first_name', 'last_name', 'email', 'date_of_birth' ] as $field){
+            if ($field == 'date_of_birth' and $this->user->patient->isDirty('birthdate'))
+            {
+                $update[$field] = $this->user->patient->birthdate->format('Y-m-d');
+            } elseif ($this->user->isDirty($field)) {
+                $update[$field] = $this->user->$field;
+            }
+        }
+
+        if (!empty($update) AND  !empty($patients = $fullscript->getPatients($this->user->id))) {
+            return $fullscript->updatePatient($patients[0]->id, $update);
         }
 
         return false;

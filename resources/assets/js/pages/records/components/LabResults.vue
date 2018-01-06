@@ -35,7 +35,7 @@
                     <Spacer isBottom :size="2" />
                     <span class="custom-select">
                       <select @change="updateLab($event)">
-                        <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
+                        <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.attributes.name }}</option>
                       </select>
                     </span>
                   </div>
@@ -247,8 +247,8 @@ export default {
             return [''].concat(labNames);
         },
         labTestList() {
-            let labTests = Object.values(this.$parent.lab_tests);
-            return labTests.length ? [{included: {attributes: {name: ''}}, id: 0}].concat(labTests) : [{included: {attributes: {name: 'No Lab Tests'}}, id: 0}];
+            let labTests = Object.values(this.$parent.lab_tests).map(e => Object.assign({}, e, this.$root.$data.labTests[e.attributes.sku_id]));
+            return labTests.length ? [{attributes: {name: ''}, id: 0}].concat(labTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
         },
         resultUrl() {
             const prop = this.$parent.propData;
@@ -280,8 +280,8 @@ export default {
         },
         labTestList(val) {
             if (!val) {
-                let labTests = Object.values(this.$parent.lab_tests);
-                return labTests.length ? [{included: {attributes: {name: ''}}, id: 0}].concat(labTests) : [{included: {attributes: {name: 'No Lab Tests'}}, id: 0}];
+                let labTests = Object.values(this.$parent.lab_tests).map(e => Object.assign({}, e, this.$root.$data.labTests[e.attributes.sku_id]));
+                return labTests.length ? [{attributes: {name: ''}, id: 0}].concat(labTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
             }
         },
         quickNotes(val) {

@@ -32,6 +32,9 @@ class CreateFullscriptPatient implements ShouldQueue
      */
     public function handle()
     {
+
+        if (!$this->user->isPatient()) return false;
+
         $fullscript = app()->make(Fullscript::class);
 
         // find patient by external ref

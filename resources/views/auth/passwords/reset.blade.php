@@ -29,7 +29,7 @@
                         <label :class="{typed: reset.form.password_confirmation}" class="hoverInput">Confirm Password</label>
                         <input class="login-input input{{ $errors->has('password') ? ' is-danger' : '' }}" type="password" placeholder="Confirm Password" name="password_confirmation"  required{{ $errors->has('password') ? ' autofocus' : '' }}>
                         @if ($errors->has('password'))
-                            <span class="help is-danger">{{ $errors->first('password') }}</span>
+                            <span class="help is-danger no-margin">{{ $errors->first('password') }}</span>
                         @endif
                     </div>
                 </div>

@@ -181,7 +181,7 @@
             </div>
           </Grid>
 
-          <div v-if="selectedUserPatient">
+          <div v-if="once && selectedUserPatient">
             {{ getTimelineData() }}
           </div>
 
@@ -336,6 +336,7 @@ export default {
             page: 0,
             index: null,
             timeline: [],
+            once: true,
             loading: true,
             news: true,
             patientLoading: Laravel.user.user_type === 'patient' && !this.selectedUserPatient,
@@ -416,6 +417,7 @@ export default {
         nextStep() {
             this.step = 2;
             this.search = '';
+            this.once = true;
             this.getTimelineData();
         },
         modalClose() {
@@ -446,7 +448,7 @@ export default {
                                 this.intakes[e.id] = e :
                             e.type === 'lab_test_result' ?
                                 this.lab_test_results[e.id] = e :
-                            e.type === 'lab_tests' ?
+                            e.type === 'lab_test' ?
                                 this.lab_tests[e.id] = e :
                             e.type === 'lab_order' ?
                                 this.lab_orders[e.id] = e :
@@ -460,19 +462,17 @@ export default {
                             }
                             object.type = e.type.split('_').map(ele => capitalize(ele)).join(' ');
                             if (e.type === 'soap_note') {
-                                object.type = 'SOAP Note';
-                                if (this.$root.$data.permissions === 'patient') {
-                                    object.type = 'Treatment Plan';
-                                }
+                                object.type = this.$root.$data.permissions === 'patient' ? 'Treatment Plan' : 'SOAP Note';
                             }
                             object.id = e.id;
                             object.data = e;
                             this.timeline.push(object);
                         });
-                        this.timeline = this.timeline.filter(e => e.type !== 'Lab Order').filter(e => e.type !== 'Lab Tests');
+                        this.timeline = this.timeline.filter(e => e.type !== 'Lab Order').filter(e => e.type !== 'Lab Test');
                         this.timeline = this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
                     }
                     this.loading = false;
+                    this.once = false;
                 });
         },
         setProps(data) {
@@ -546,7 +546,9 @@ export default {
                     let regex = new RegExp('Result', 'ig');
                     let aregex = new RegExp('Attachment', 'ig');
                     if (regex.test(e.type)) {
-                        e.type = e.type.replace(reg, this.$root.$data.labTests[this.lab_tests[e.data.attributes.lab_test_id].attributes.sku_id].attributes.name);
+                        if (reg.test(e.type)) {
+                            e.type = e.type.replace(reg, this.$root.$data.labTests[this.lab_tests[e.data.attributes.lab_test_id].attributes.sku_id].attributes.name);
+                        }
                         e.onClick = onClickFunctions['Lab Test Result'].bind(this, e.data, i);
                     } else if (aregex.test(e.type)) {
                         if (e.type === 'Attachment') {
@@ -562,7 +564,7 @@ export default {
             },
             selectedUserPatient() {
                 if (this.$root.$data.permissions !== 'patient') {
-                    return {};
+                    return null;
                 } else {
                     if (this.$root.$data.global.user && this.$root.$data.global.user.attributes) {
                         let patientData = this.$root.$data.global.user.included.attributes;
@@ -610,7 +612,7 @@ export default {
             }
         },
         selectedUserPatient(val) {
-            if (!val && this.$root.$data.permissions !== 'patient') {
+            if (val === false && this.$root.$data.permissions !== 'patient') {
                 let patientData = this.$root.$data.global.user.included.attributes;
                 let patientUserData = this.$root.$data.global.user.attributes;
                 let patientUserId = this.$root.$data.global.user.id;
@@ -635,7 +637,7 @@ export default {
                 this.patientLoading = false;
                 return object;
             } else {
-                return {};
+                return null;
             }
         }
     },

@@ -35,11 +35,13 @@ export default {
         }
     },
     beforeMount() {
-        // If zipValidation does not exist in local storage the user should not be on the signup form
-        // so we redirect them to /conditions. If they are, we set state accordingly.
+        // The blade template has determined that this user is logged in or that they have a zip validation object
+        // If the user is logged in but does NOT have a zip validation object, it means they may have used a different
+        // device to log in but have not finished the signup funnel. In this case, we set a temp zip validation
+        // object so the user cannot go to the intake page.
         const zipValidation = App.Logic.getstarted.getZipValidation();
         if (!zipValidation) {
-            window.location.href = '/conditions';
+            App.Util.data.toStorage('zip_validation', 'temp');
         } else {
             App.setState({
                 'getstarted.zipValidation': zipValidation,
