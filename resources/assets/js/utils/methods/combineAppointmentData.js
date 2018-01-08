@@ -3,8 +3,6 @@
 // this function combines the relavant patient data with the appointment details
 export default function(appointmentData) {
 
-    console.log(`APPOINTMENT`, appointmentData);
-
   const combineAppointmentData = (details) => {
       return details.data.map(appt => {
         appt.patientData = getIncludedPatient(details.included, appt);
@@ -39,6 +37,19 @@ export default function(appointmentData) {
               patientData.state = item.attributes.state;
               patientData.phone = item.attributes.phone;
               patientData.zip = item.attributes.zip;
+          }
+      });
+
+      _included.map((item) => {
+          // needed since the data types are different
+          if (item.type === 'invoice' && item.patient_id === patientData.id.toString()) {
+              patientData.amount = item.attributes.amount;
+              patientData.card_brand = item.attributes.card_brand;
+              patientData.card_last_four = item.attributes.card_last_four;
+              patientData.status = item.attributes.status;
+              patientData.description = item.attributes.description;
+              patientData.subtotal = item.attributes.subtotal;
+              patientData.discount = item.attributes.discount;
           }
       });
 
