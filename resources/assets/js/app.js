@@ -157,7 +157,7 @@ const app = new Vue({
 
         getAppointments(cb) {
             App.setState('appointments.isLoading.upcoming', true);
-            axios.get(`${this.apiUrl}/appointments?include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?include=patient.user.invoice`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
                     this.global.loadingAppointments = true;

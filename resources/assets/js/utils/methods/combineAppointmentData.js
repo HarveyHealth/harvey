@@ -3,6 +3,8 @@
 // this function combines the relavant patient data with the appointment details
 export default function(appointmentData) {
 
+    console.log(`APPOINTMENT`, appointmentData);
+
   const combineAppointmentData = (details) => {
       return details.data.map(appt => {
         appt.patientData = getIncludedPatient(details.included, appt);
