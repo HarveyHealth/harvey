@@ -58,7 +58,6 @@ class CreateFullscriptPatient implements ShouldQueue
             'first_name' => $this->user->first_name,
             'last_name' => $this->user->last_name,
             'email' => $this->user->email,
-            'date_of_birth' => $this->user->isPatient() ? $this->user->patient->birthdate->format('Y-m-d') : null,
             'external_ref' => $this->user->id,
         ]);
     }
