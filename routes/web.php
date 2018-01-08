@@ -15,7 +15,9 @@ use Illuminate\Routing\Controller;
 
 // stupid blog re-routing
 Route::domain('blog.goharvey.com')->group(function () {
-    Route::redirect('/', '/blog', 301);
+    Route::get('/', function() {
+        return redirect('/blog', 301);
+    });
 });
 
 // AUTHENTICATION
