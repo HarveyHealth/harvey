@@ -14,6 +14,8 @@ use App\Models\{
     SKU,
     SoapNote,
     Test,
+    Invoice,
+    InvoiceItem,
     User
 };
 use App\Policies\{
@@ -28,6 +30,8 @@ use App\Policies\{
     SkuPolicy,
     SoapNotePolicy,
     TestPolicy,
+    InvoicePolicy,
+    InvoiceItemPolicy,
     UserPolicy
 };
 use Illuminate\Support\Facades\Gate;
@@ -54,6 +58,8 @@ class AuthServiceProvider extends ServiceProvider
         Test::class => TestPolicy::class,
         User::class => UserPolicy::class,
         SKU::class => SkuPolicy::class,
+        Invoice::class => InvoicePolicy::class,
+        InvoiceItem::class => InvoiceItemPolicy::class,
     ];
 
     /**

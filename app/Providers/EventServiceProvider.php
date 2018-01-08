@@ -15,6 +15,11 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\UserRegistered' => [
             'App\Listeners\SendWelcomeEmail',
+            'App\Listeners\CreatePatientInFullscript',
+        ],
+
+        'App\Events\UserUpdated' => [
+            'App\Listeners\UpdatePatientInFullscript',
         ],
 
         'App\Events\AppointmentScheduled' => [
@@ -48,6 +53,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\LabOrderShipped' => [
             'App\Listeners\SendPatientLabOrderShippedEmail',
+            'App\Listeners\StartTrackingOfLabTests',
         ],
 
         'App\Events\LabOrderRecommended' => [
@@ -81,6 +87,10 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\AttachmentCreated' => [
             'App\Listeners\SendPractitionerAttachmentCreatedEmail',
+        ],
+
+        'App\Events\LabTestResultCreated' => [
+            'App\Listeners\SendPractitionerLabResultCreatedEmail',
         ],
     ];
 

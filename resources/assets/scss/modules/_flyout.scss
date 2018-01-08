@@ -60,4 +60,8 @@
     @include margin(15px null);
   }
 
+  h2.no-border {
+    border: none;
+  }
+
 }

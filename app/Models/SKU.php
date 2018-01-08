@@ -11,14 +11,19 @@ class SKU extends Model
     use Sluggable, SluggableScopeHelpers;
 
     protected $table = 'skus';
-    
-    protected $fillable = ['name', 'price', 'cost'];
+
+    protected $fillable = [
+        'cost',
+        'item_type',
+        'name',
+        'price',
+    ];
 
     public function scopeItemType($query, $type)
     {
         return $query->where('item_type', $type);
     }
-    
+
     public function scopelabtests($query)
     {
         return $query->where('item_type', '=', 'lab-test');

@@ -1,10 +1,10 @@
 <template>
-  <div class="ba b--light-gray bg-white">
-    <div class="bb b--light-gray bg-gray-0 pa3" v-if="heading">
-      <Heading3>{{ heading }}</Heading3>
+    <div :class="classes">
+        <div class="heading-container bb b--light-gray pa3" v-if="heading">
+            <Heading3 :color="'muted'">{{ heading }}</Heading3>
+        </div>
+        <slot></slot>
     </div>
-    <slot></slot>
-  </div>
 </template>
 
 <script>
@@ -18,9 +18,28 @@
 import { Heading3 } from 'typography';
 
 export default {
-  components: { Heading3 },
-  props: {
-    heading: String
-  }
+    components: { Heading3 },
+    props: {
+        heading: String,
+        isAlert: Boolean
+    },
+    computed: {
+        classes() {
+            return {
+                'ba': true,
+                'b--light-gray': !this.isAlert,
+                'bg-white': !this.isAlert,
+                'bg-alert': this.isAlert
+            };
+        }
+    }
 };
 </script>
+
+<style lang="scss" scoped>
+    @import '~sass';
+
+    .heading-container {
+        background-color: $color-gray-0;
+    }
+</style>

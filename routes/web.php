@@ -39,10 +39,6 @@ Route::post('invite', 'InviteController@postInvite');
 Route::get('terms', 'LegalController@terms');
 Route::get('privacy', 'LegalController@privacy');
 
-// SITEMAP
-Route::get('sitemap.xml', 'SitemapController@index');
-Route::get('sitemap-{map?}.xml', 'SitemapController@index');
-
 // PUBLIC BLADE PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
@@ -55,7 +51,7 @@ Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('co
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE
-// Route::get('/intake', 'IntakeController@index')->name('intake');
+Route::get('/intake', 'IntakeController@index')->name('intake');
 
 if (isLocal()) {
 	Route::get('test', 'TestController@index');

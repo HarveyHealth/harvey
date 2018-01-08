@@ -1,8 +1,8 @@
 <template>
   <CardContent :withBorder="hasBorder">
-    <Paragraph v-if="!Config.user.isPractitioner">Dr. {{ doctor }}, ND</Paragraph>
-    <Paragraph v-if="!Config.user.isPatient">{{ Util.misc.fullName(user) }}</Paragraph>
-    <Paragraph><router-link :to="route">{{ date }} ({{ Config.time.zoneAbbr}})</router-link></Paragraph>
+    <Paragraph :weight="'thin'" v-if="!Config.user.isPractitioner">Dr. {{ doctor }}, ND</Paragraph>
+    <Paragraph :weight="'thin'" v-if="!Config.user.isPatient">{{ Util.misc.fullName(user) }}</Paragraph>
+    <Paragraph :weight="'thin'"><router-link :to="route">{{ date }} ({{ Config.time.zoneAbbr}})</router-link></Paragraph>
   </CardContent>
 </template>
 

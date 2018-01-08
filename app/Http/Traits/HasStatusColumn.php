@@ -64,6 +64,11 @@ trait HasStatusColumn
         return !$this->wasShipped();
     }
 
+    public function scopeShipped(Builder $builder)
+    {
+        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
+    }
+
     public function scopePending(Builder $builder)
     {
         return $builder->where('status_id', self::PENDING_STATUS_ID);
@@ -97,6 +102,14 @@ trait HasStatusColumn
     public function scopeGeneralConflict(Builder $builder)
     {
         return $builder->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
+    }
+
+    public function scopeRecommendedOrConfirmed(Builder $builder)
+    {
+        return $builder->where(function (Builder $builder)
+        {
+            $builder->where('status_id', self::RECOMMENDED_STATUS_ID)->orWhere('status_id', self::CONFIRMED_STATUS_ID);
+        });
     }
 
     public function __call($method, $args)

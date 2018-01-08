@@ -9,6 +9,7 @@ export default {
     },
     "duration_in_minutes": null,
     "google_meet_link": "https://meet.google.com/xmj-ndgd-riz",
+    "notes": null,
     "patient_id": "41",
     "practitioner_id": "1",
     "practitioner_name": "Milan Kshlerin",

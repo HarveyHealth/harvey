@@ -10,13 +10,15 @@ use ResponseCode;
 
 class SitemapTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function test_sitemap_xml_returns_ok()
     {
         $response = $this->get('/sitemap.xml');
         $response->assertStatus(ResponseCode::HTTP_OK);
         $parsedResponse = (array) simplexml_load_string($response->original);
 
-        $this->assertCount(2, $parsedResponse['sitemap']);
+        $this->assertCount(3, $parsedResponse['sitemap']);
     }
 
     public function test_sitemap_base_xml_returns_ok()
@@ -28,13 +30,22 @@ class SitemapTest extends TestCase
         $this->assertCount(6, $parsedResponse['url']);
     }
 
-    public function test_sitemap_users_xml_returns_ok()
+    public function test_sitemap_conditions_xml_returns_ok()
     {
-        $response = $this->get('/sitemap-users.xml');
+        $response = $this->get('/sitemap-conditions.xml');
         $response->assertStatus(ResponseCode::HTTP_OK);
         $parsedResponse = (array) simplexml_load_string($response->original);
 
-        $this->assertInstanceOf('SimpleXMLElement', $parsedResponse['url']);
+        $this->assertCount(9, $parsedResponse['url']);
+    }
+
+    public function test_sitemap_lab_tests_xml_returns_ok()
+    {
+        $response = $this->get('/sitemap-lab-tests.xml');
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $parsedResponse = (array) simplexml_load_string($response->original);
+
+        $this->assertCount(12, $parsedResponse['url']);
     }
 
     public function test_invalid_sitemap_returns_404()

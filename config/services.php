@@ -45,6 +45,12 @@ return [
         'api_key' => env('INTAKEQ_API_KEY')
     ],
 
+    'fullscript' => [
+        'clinic_key' => env('FULLSCRIPT_CLINIC_KEY'),
+        'api_key' => env('FULLSCRIPT_API_KEY'),
+        'api_host' => env('FULLSCRIPT_API_HOST'),
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN', 'POSTMARK_API_TEST'),
         'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com'),
@@ -61,6 +67,9 @@ return [
                     'new' => 1529541,
                     'updated' => 1929883,
                     'reminder' => 2550321,
+                ],
+                'lab_test_result' => [
+                    'created' => 4099061,
                 ],
                 'attachment' => [
                     'created' => 3338765,
@@ -112,20 +121,24 @@ return [
 
     'shippo' => [
         'key' => env('SHIPPO_API_KEY'),
-        'carrier' => env('SHIPPO_CARRIER', 'fedex'),
-        'carrier_service_level' => env('SHIPPO_CARRIER_SERVICE_LEVEL', 'fedex_2_day'),
+        'default_carrier' => env('SHIPPO_DEFAULT_CARRIER', 'fedex'),
+        'default_carrier_service_level' => env('SHIPPO_DEFAULT_CARRIER_SERVICE_LEVEL', 'fedex_2_day'),
         'from' => [
             'name' => env('SHIPPO_FROM_NAME', 'Harvey, Inc'),
             'company' => env('SHIPPO_FROM_COMPANY', 'Harvey, Inc'),
-            'street1' => env('SHIPPO_FROM_STREET1', '12655 W Jefferson Blvd'),
+            'street1' => env('SHIPPO_FROM_STREET1', '12655 West Jefferson Boulevard'),
             'street2' => env('SHIPPO_FROM_STREET2', 'Suite #3-180'),
             'city' => env('SHIPPO_FROM_CITY', 'Los Angeles'),
             'state' => env('SHIPPO_FROM_STATE', 'CA'),
-            'zip' => env('SHIPPO_FROM_ZIP', '90066'),
+            'zip' => env('SHIPPO_FROM_ZIP', '90066-7008'),
             'country' => env('SHIPPO_FROM_COUNTRY', 'US'),
             'phone' => env('SHIPPO_FROM_PHONE', '+18006909989'),
             'email' => env('SHIPPO_FROM_EMAIL', 'support@goharvey.com'),
         ],
+        'lab_order_box_height_in' => env('SHIPPO_LAB_ORDER_BOX_HEIGHT_IN', 10),
+        'lab_order_box_length_in' => env('SHIPPO_LAB_ORDER_BOX_LENGTH_IN', 12),
+        'lab_order_box_width_in' => env('SHIPPO_LAB_ORDER_BOX_WIDTH_IN', 4),
+        'lab_order_box_weight_lb' => env('SHIPPO_LAB_ORDER_BOX_WEIGHT_LB', 2),
     ],
 
     'typeform' => [

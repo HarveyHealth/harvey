@@ -47,7 +47,7 @@ $font-family: "proxima-nova";
 // Footer
 
 .footer-logo {
-  max-width: 170px;
+  max-width: 160px;
   padding-bottom: 10px;
 }
 
@@ -82,6 +82,12 @@ $font-family: "proxima-nova";
   }
 
   i.fa {
+    font-size: 28px;
+    @include padding(7px);
+    color: #FFF;
+  }
+
+  i.fa.fa-heart {
     font-size: 14px;
     @include padding(2px);
     color: #E3BAB3;
@@ -188,6 +194,11 @@ $font-family: "proxima-nova";
   }
   .has-max-width-lg {
     max-width: 820px;
+    @include margin(null null null auto);
+    @include margin(null auto null null);
+  }
+  .has-max-width-xl {
+    max-width: 970px;
     @include margin(null null null auto);
     @include margin(null auto null null);
   }
@@ -741,6 +752,10 @@ body[class*="404"]{
 
 .help {
   @include margin(-20px null 20px null);
+}
+
+.no-margin {
+  @include margin(0px 0px 0px 0px);
 }
 
 .fourButton {

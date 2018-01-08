@@ -2,7 +2,6 @@
 
 use App\Lib\{TimeslotManager, ZipCodeValidator};
 use App\Models\{Appointment, Practitioner, LabOrder};
-use App\Models\DiscountCode;
 
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
@@ -24,11 +23,15 @@ Validator::extendImplicit('required_if_is_patient', function ($attribute, $value
     return !(currentUser()->isPatient() && empty($value));
 });
 
+Validator::extend('admin_or_practitioner', function ($attribute, $value, $parameters, $validator) {
+    return currentUser() && currentUser()->isAdminOrPractitioner();
+});
+
 Validator::extend('practitioner_is_available', function ($attribute, $value, $parameters, $validator) {
     if (!empty($parameters)) {
         $appointmentEditing = Appointment::find($parameters[0]);
         $practitioner = Practitioner::find($appointmentEditing->practitioner->id);
-    } elseif (currentUser()->isPractitioner()) {
+    } elseif (currentUser() && currentUser()->isPractitioner()) {
         $practitioner =  currentUser()->practitioner;
     } elseif ($practitionerId = array_get($validator->attributes(), 'practitioner_id', false)) {
         $practitioner = Practitioner::find($practitionerId);
@@ -38,7 +41,6 @@ Validator::extend('practitioner_is_available', function ($attribute, $value, $pa
 
     return $practitioner->availability()->canScheduleAt(Carbon::parse($value, 'UTC'), $appointmentEditing ?? null);
 });
-
 
 Validator::extend('order_was_not_shipped', function ($attribute, $value, $parameters, $validator) {
     if (empty($parameters)) {
@@ -50,22 +52,14 @@ Validator::extend('order_was_not_shipped', function ($attribute, $value, $parame
     return $labOrder->wasNotShipped();
 });
 
-Validator::extend('appointments_less_than',function($attribute, $value, $parameters, $validator){
-    if (! app()->environment('testing', 'production')){
-        return true;
-    }
-
+Validator::extend('appointments_less_than',function($attribute, $value, $parameters, $validator) {
     if (empty($parameters)) {
         return false;
     }
 
-    // only allow search by patient or practitioner
-    if (!in_array($attribute,['patient_id','practitioner_id'])){
-        throw new InvalidArgumentException("Invalid value for Attribute argument");
+    if (!in_array($attribute, ['patient_id', 'practitioner_id'])) {
+        throw new InvalidArgumentException("Can't search for an Appointment looking by: {$attribute}");
     }
 
-    // count pending appointments
-    $count = Appointment::pending()->where($attribute,$value)->count();
-
-    return $count < $parameters[0];
+    return Appointment::pending()->where($attribute, $value)->limit($parameters[0])->count() != $parameters[0];
 });

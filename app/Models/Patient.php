@@ -94,9 +94,19 @@ class Patient extends Model
         return $this->hasMany(Prescription::class, 'patient_id', 'id');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'patient_id', 'id');
+    }
+
     public function labOrders()
     {
         return $this->hasMany(LabOrder::class);
+    }
+
+    public function getByIntakeToken(string $token)
+    {
+        return self::where('intake_token', $token)->first();
     }
 
     public function getIntakeData()

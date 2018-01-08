@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscountCode extends Model
 {
+    const ALLOWED_APPLIES_TO = ['lab-test', 'consultation', 'all'];
+
     protected $dates = [
         'created_at',
         'expires_at',

@@ -31,7 +31,7 @@ class AuthenticateWebhook
                 abort(ResponseCode::HTTP_BAD_REQUEST, $e->getMessage());
             }
         } elseif ((empty(request('key')) || request('key') != config('webhook.key')) && !in_array($request->getPathInfo(), $this->except)) {
-            abort(ResponseCode::HTTP_UNAUTHORIZED, 'Unathorized.');
+            abort(ResponseCode::HTTP_UNAUTHORIZED, 'Unauthorized.');
         }
 
         return $next($request);

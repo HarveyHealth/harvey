@@ -29,6 +29,9 @@ App.Logic = Logic;
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
 Vue.filter('jsonParse', Filters.jsonParse);
+Vue.filter('ucfirst', function (value) {
+  return value.substr(0,1).toUpperCase() + value.substr(1);
+});
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
@@ -108,6 +111,32 @@ const AppStub = function(component, componentName, props, setAppState) {
       getAppointments() { return false; },
       getLabData() { return false; },
       shouldTrack() { return false; }
+    },
+    computed: {
+          userIsPatient() {
+              return 'patient' === laravel.user.user_type;
+          },
+          userIsNotPatient() {
+              return !this.userIsPatient;
+          },
+          userIsPractitioner() {
+              return 'practitioner' === laravel.user.user_type;
+          },
+          userIsNotPractitioner() {
+              return !this.userIsPractitioner;
+          },
+          userIsAdmin() {
+              return 'admin' === laravel.user.user_type;
+          },
+          userIsNotAdmin() {
+              return !this.userIsAdmin;
+          },
+          userIsAdminOrPractitioner() {
+              return this.userIsAdmin || this.userIsPractitioner;
+          },
+          userIsNotAdminOrPractitioner() {
+              return !this.userIsAdminOrPractitioner;
+          },
     },
     render(create) {
       return create('div', [

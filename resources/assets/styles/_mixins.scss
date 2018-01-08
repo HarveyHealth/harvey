@@ -32,3 +32,19 @@
         @content;
     }
 }
+
+@mixin vertical-center-absolute {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+@mixin vertical-center-relative {
+    left: 50%;
+    position: relative;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}

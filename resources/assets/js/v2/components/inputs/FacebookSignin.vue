@@ -1,5 +1,10 @@
 <template>
-  <InputButton class="Button--facebook" :text="config[type]" :on-click="handleClick" :width="'240px'" />
+    <InputButton
+        class="Button--facebook"
+        :text="config[type]"
+        :onClick="handleClick"
+        :width="'240px'"
+    />
 </template>
 
 <script>
@@ -25,8 +30,8 @@ export default {
     };
   },
   methods: {
-    handleClick(e) {
-      this.onClick(e);
+    handleClick() {
+      this.onClick();
     }
   }
 };

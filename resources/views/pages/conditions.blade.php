@@ -4,6 +4,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0">
+        @isset($index)
+        <title>{{ $conditions[$index]->name }} | Harvey Health</title>
+        @endisset
+        @empty($index)
+        <title>{{ $conditions[0]->name }} | Harvey Health</title>
+        @endempty
         <title>Health Conditions | Harvey</title>
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
@@ -18,7 +24,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="">
         <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
-        <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" />
+        <meta name="google-site-verification" content="6UgpVyc1D8nu-29CNMYM4WacQe4_lepLVOAuuDqbadc" />
         <meta property="fb:app_id" content="383090978468158">
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
@@ -28,6 +34,7 @@
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css" async>
         <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" async>
+        <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
         <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
@@ -49,8 +56,15 @@
         <script type="text/javascript" src="https://js.stripe.com/v3"></script>
         <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
+        <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
         <script>
             App.setState('conditions.all', {!! $conditions !!});
+            App.setState('conditions.labTests', {!! $lab_tests !!});
+            @isset($lab_tests)
+                @foreach ($lab_tests as $test)
+                    App.setState('conditions.labTests.{!! $loop->index !!}.sku', {!! $test->sku !!});
+                @endforeach
+            @endisset
             @if ($get_zip) {
                 App.setState('conditions.condition', {questions: []});
                 App.setState('conditions.questionIndex', 999);
