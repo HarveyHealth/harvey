@@ -42,7 +42,11 @@ export default function(appointmentData) {
 
       _included.map((item) => {
           // needed since the data types are different
-          if (item.type === 'invoice' && item.patient_id === patientData.id.toString()) {
+          if (item.type === 'invoice' 
+          && _appointment.relationships
+          && _appointment.relationships.invoice
+          && _appointment.relationships.invoice.data
+          && _appointment.relationships.invoice.data.id === item.id) {
               patientData.amount = item.attributes.amount;
               patientData.card_brand = item.attributes.card_brand;
               patientData.card_last_four = item.attributes.card_last_four;
