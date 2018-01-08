@@ -69,6 +69,11 @@ function currentUser()
     return auth()->user();
 }
 
+function isTargetOrAdmin(App\Models\User $targetUser){
+    $user = currentUser();
+    return $user->is($targetUser) or $user->isAdmin();
+}
+
 function isLocal()
 {
     return app()->environment('local');
