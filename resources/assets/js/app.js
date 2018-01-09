@@ -438,7 +438,7 @@ const app = new Vue({
             this.getPractitioners();
             this.getMessages();
             this.getLabData();
-            this.getTransactions();
+            if (Laravel.user.user_type !== 'practitioner') this.getTransactions();
             if (Laravel.user.user_type !== 'admin') this.getCreditCards();
             if (Laravel.user.user_type !== 'patient') this.getPatients();
             if (Laravel.user.user_type === 'patient') {
