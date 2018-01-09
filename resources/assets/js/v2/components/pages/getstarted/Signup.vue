@@ -199,8 +199,8 @@ export default {
                 this.errors.first('terms:required');
             } else {
                 // This will be checked on Welcome component and if true will fire appropriate analytics
-                if (!this.State('getstarted.zipValidation.account_created')) {
-                    App.Util.data.updateStorage('zip_validation', {
+                if (!this.State('getstarted.signupMode.account_created')) {
+                    App.Util.data.toStorage('signup_mode', {
                         account_created: false,
                         facebook_connect: true
                     });
@@ -298,7 +298,7 @@ export default {
                     // In case a user initially decides to sign in with Facebook but does not follow
                     // through and instead signs up via the form. We don't want the Welcome component
                     // to fire 'Account Created' again.
-                    App.Util.data.updateStorage('zip_validation', {
+                    App.Util.data.updateStorage('signup_mode', {
                         account_created: true,
                         facebook_connect: false
                     });

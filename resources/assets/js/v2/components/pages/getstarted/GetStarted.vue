@@ -34,19 +34,6 @@ export default {
             return App.Router.history.current.name === 'sign-up';
         }
     },
-    beforeMount() {
-        // If zipValidation does not exist in local storage the user should not be on the signup form
-        // so we redirect them to /conditions. If they are, we set state accordingly.
-        const zipValidation = App.Logic.getstarted.getZipValidation();
-        if (!zipValidation) {
-            window.location.href = '/conditions';
-        } else {
-            App.setState({
-                'getstarted.zipValidation': zipValidation,
-                'getstarted.userPost.zip': zipValidation.zip
-            });
-      }
-    },
     mounted() {
         // If the user is logged in it means they'll be taken to the funnel proper. We want
         // to make sure we warn them their information will be reset if they leave the page.
