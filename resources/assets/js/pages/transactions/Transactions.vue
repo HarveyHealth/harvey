@@ -23,6 +23,8 @@
 
 <script>
     import TransactionTable from './components/TransactionTable.vue';
+    import { formatTableData } from './utils/formatData';
+    import { isEmpty } from 'lodash';
     export default {
         name: 'transactions',
         components: {
@@ -40,13 +42,29 @@
         methods: {
             handleRowClick() {
 
+            },
+            setData(data) {
+                this.currentData = data;
             }
         },
         computed: {
-
+            currentDataState() {
+                if (isEmpty(this.$root.$data.global.transactions)) {
+                    return false;
+                } else {
+                    this.setData(formatTableData(this.$root.$data.global.transactions));
+                    return true;
+                }
+            }
         },
         watch: {
-
+            currentDataState(val) {
+                if (val === false) {
+                    this.setData(formatTableData(this.$root.$data.global.transactions));
+                    return true;
+                }
+                return false;
+            }
         },
         mounted() {
             this.$root.$data.global.currentPage = 'transactions';
