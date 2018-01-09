@@ -24,7 +24,7 @@
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="/#conditions" class="dim" @click="handleMenuClick(isHomepage)">Get Started</a>
+                        <a v-else href="/get-started" class="dim" @click="handleMenuClick(isHomepage)">Get Started</a>
                     </div>
                 </div>
             </div>
