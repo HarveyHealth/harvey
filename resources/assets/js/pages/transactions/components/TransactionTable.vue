@@ -15,7 +15,7 @@
 
 <script>
     import TableData from '../../../commons/TableData.vue';
-    import tableCoulmns from '../utils/tableColumns';
+    import tableColumns from '../utils/tableColumns';
     export default {
         name: 'TransactionsTable',
         components: {
@@ -23,7 +23,7 @@
         },
         data() {
             return {
-                tableCoulmns: tableCoulmns,
+                tableColumns
             };
         },
         computed: {
@@ -31,8 +31,10 @@
                 return this.tableRowData;
             }
         },
-        watch: {
-
+        methods: {
+            handleSort(colObj) {
+                this.tableData.sort(colObj.sort);
+            }
         },
          props: {
             // Passed from Appointments so we can modify the appointment data and trigger

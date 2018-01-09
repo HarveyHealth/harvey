@@ -5,7 +5,7 @@ export default [
     key: 'date',
     name: 'Date',
     width: '15%',
-    sort: tableSort.byDate('_date')
+    sort: tableSort.byDate('date')
   },
   {
     key: 'service',

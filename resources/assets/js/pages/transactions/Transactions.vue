@@ -34,7 +34,7 @@
                 selectedRowUpdating: null,
                 selectedRowHasUpdated: null,
                 currentData: [],
-                activeFilter: 0,
+                activeFilter: 0
             };
         },
         methods: {
