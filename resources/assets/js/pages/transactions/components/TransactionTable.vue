@@ -23,7 +23,7 @@
         },
         data() {
             return {
-                tableCoulmns
+                tableCoulmns: tableCoulmns,
             };
         },
         computed: {

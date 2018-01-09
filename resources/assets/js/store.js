@@ -21,6 +21,7 @@ export default function(laravel, State) {
           currentPage: '',
           creditCards: [],
           transactions: {},
+          loadingTransactions: true,
           detailMessages: {},
           loadingAppointments: true,
           loadingCreditCards: true,

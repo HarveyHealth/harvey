@@ -389,12 +389,8 @@ const app = new Vue({
                         acc[item.id] = item;
                         return acc;
                     }, {}); 
+                    this.global.loadingTransactions = false;
                 });
-
-            // axios.get(`${this.apiUrl}/invoice_items`)
-            //     .then((response) => {
-            //         console.log(`INVOICE ITEMS`, response);
-            //     });
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)

@@ -10,7 +10,7 @@
             </div>
             <TransactionTable 
                 :handle-row-click="handleRowClick"
-                :loading="!loading"
+                :loading="!$root.$data.global.loadingTransactions"
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
@@ -30,8 +30,17 @@
         },
         data() {
             return {
-
+                selectedRowData: null,
+                selectedRowUpdating: null,
+                selectedRowHasUpdated: null,
+                currentData: [],
+                activeFilter: 0,
             };
+        },
+        methods: {
+            handleRowClick() {
+
+            }
         },
         computed: {
 
