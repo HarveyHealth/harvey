@@ -10,7 +10,7 @@
             </div>
             <TransactionTable 
                 :handle-row-click="handleRowClick"
-                :loading="!$root.$data.global.loadingTransactions"
+                :loading="$root.$data.global.loadingTransactions"
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
