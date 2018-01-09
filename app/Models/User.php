@@ -66,6 +66,10 @@ class User extends Authenticatable implements Mailable
 
     protected $hidden = ['password', 'remember_token'];
 
+    protected $casts = [
+        'settings' => 'array'
+    ];
+
     protected static function boot()
     {
         parent::boot();

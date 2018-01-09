@@ -13,6 +13,13 @@ use Illuminate\Routing\Controller;
 |
 */
 
+// stupid blog re-routing
+Route::domain('blog.goharvey.com')->group(function () {
+    Route::get('/', function() {
+        return redirect('/blog', 301);
+    });
+});
+
 // AUTHENTICATION
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');

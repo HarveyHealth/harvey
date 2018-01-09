@@ -7,6 +7,22 @@ Validator::extend('serviceable', function ($attribute, $value, $parameters, $val
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
 });
 
+Validator::extend('user_setting', function ($attribute, $value, $parameters, $validator) {
+    return  (preg_match('/reminder_(email|text)_\d+_hour[s]{0,1}/', $attribute) and is_bool($value));
+});
+
+Validator::extendImplicit('required_if_is_admin', function ($attribute, $value, $parameters, $validator) {
+    return !(currentUser()->isAdmin() && empty($value));
+});
+
+Validator::extendImplicit('required_if_is_practitioner', function ($attribute, $value, $parameters, $validator) {
+    return !(currentUser()->isPractitioner() && empty($value));
+});
+
+Validator::extendImplicit('required_if_is_patient', function ($attribute, $value, $parameters, $validator) {
+    return !(currentUser()->isPatient() && empty($value));
+});
+
 Validator::extend('admin_or_practitioner', function ($attribute, $value, $parameters, $validator) {
     return currentUser() && currentUser()->isAdminOrPractitioner();
 });
