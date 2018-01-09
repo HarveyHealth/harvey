@@ -35,19 +35,22 @@ export default {
         }
     },
     beforeMount() {
-        if (App.Config.user.isLoggedIn) {
-            App.Router.push('welcome');
-        } else {
-            App.Router.push('sign-up');
-        }
         // If zipValidation does not exist in local storage the user should not be on the signup form
         // so we redirect them to /conditions. If they are, we set state accordingly.
-        const zipValidation = App.Logic.getstarted.getZipValidation();
-        if (zipValidation) {
+        const zipValidation = App.Logic.getstarted.getZipValidation() || {};
+        if (zipValidation.is_serviceable) {
             App.setState({
                 'getstarted.zipValidation': zipValidation,
                 'getstarted.userPost.zip': zipValidation.zip
             });
+        } else {
+            App.Util.data.killStorage('zip_validation');
+        }
+
+        if (App.Config.user.isLoggedIn) {
+            App.Router.push('welcome');
+        } else {
+            App.Router.push('sign-up');
         }
     },
     mounted() {

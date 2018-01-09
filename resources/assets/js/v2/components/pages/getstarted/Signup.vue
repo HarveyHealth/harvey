@@ -1,12 +1,14 @@
 <template>
     <div>
-        <SlideIn class="bg-error pa3 white" v-if="facebookRedirectAlert">
-            {{ facebookRedirectAlert }}
-        </SlideIn>
-        <SlideIn v-if="!State('getstarted.zipValidation')" :slot="2" class="margin-0a mw6 ph2 ph3-l top-space">
+        <div v-if="facebookRedirectAlert">
+            <SlideIn class="bg-error pa3 white">{{ facebookRedirectAlert }}</SlideIn>
+        </div>
+
+        <SlideIn v-if="!hasZipValidation || !isServiceable" class="margin-0a mw6 ph2 ph3-l top-space">
             <ZipValidation />
         </SlideIn>
-        <div v-if="State('getstarted.zipValidation')" class="top-space ph2 ph3-l max-width-xxl min-width-100 margin-0a">
+
+        <div v-if="hasZipValidation && isServiceable" class="top-space ph2 ph3-l max-width-xxl min-width-100 margin-0a">
             <SlideIn :delay="400" >
                 <Grid :flexAt="'xl'" :columns="[{ xl:'1of2', xxl:'4of7' }, { xl:'1of2', xxl:'3of7' }]">
                     <aside :slot="1" class="dn db-xl relative">
@@ -25,7 +27,7 @@
                                         <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
                                     </a>
                                 </div>
-                                <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition. Please sign up to continue.</p>
+                                <p class="font-xl color-white is-padding font-centered">{{ quotes[0].quote }}</p>
                             </div>
                             <div class="signup-aside-icon-row">
                                 <span><svg><use xlink:href="#heart" /></svg></span>
@@ -102,7 +104,11 @@
                                     <div class="Divider-text is-white" data-text="OR"></div>
                                     <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
                                     <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
-                                    <p class="font-md"><a href="/conditions/get-zip"><i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code</a></p>
+                                    <p class="font-md">
+                                        <a href="#" @click.prevent="Logic.getstarted.resetZip">
+                                            <i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code
+                                        </a>
+                                    </p>
                                 </div>
                             </form>
                         </CardContent>
@@ -118,6 +124,7 @@ import { SvgIcon } from 'icons';
 import { InputButton, FacebookSignin } from 'inputs';
 import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1 } from 'typography';
+
 import ZipValidation from './ZipValidation.vue';
 
 export default {
@@ -155,6 +162,14 @@ export default {
     // These are necessary because VeeValidate's custom messages are just not working
     // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
     computed: {
+        hasZipValidation() {
+            return this.State('getstarted.zipValidation') !== null;
+        },
+
+        isServiceable() {
+            return this.State('getstarted.zipValidation.is_serviceable');
+        },
+
         firstNameError() {
             if (this.errors.has('first_name')) {
                 return this.errors.firstByRule('first_name', 'required')

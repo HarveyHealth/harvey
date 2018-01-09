@@ -17,7 +17,7 @@
                         <h1 class="title is-1">Choose better health.</h1>
                         <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey Health provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                            <a href="/get-started#/sign-up" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                 <h2 class="title is-3">Start your health journey.</h2>
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Our integrative doctors are available for virtual consultations, lab testing and treatment for a wide variety of health conditions.</p>
                 <div class="button-wrapper">
-                    <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                    <a href="/get-started#/sign-up" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>
