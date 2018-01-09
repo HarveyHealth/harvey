@@ -297,15 +297,16 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     if (response.data.included) {
-                        let user = response.data.included.filter(e => e.type === 'users');
-                        let patient = response.data.included.filter(e => e.type === 'patients');
-                        let invoices = response.data.included.filter(e => e.type === 'invoices');
+                        let user = response.data.included.filter(e => e.type === 'user');
+                        let patient = response.data.included.filter(e => e.type === 'patient');
+                        let invoices = response.data.included.filter(e => e.type === 'invoice');
                         let obj = {};
                         if (invoices.length) {
                             invoices.forEach(e => {
                                 obj[e.id] = e;
                             });
                         }
+                        console.log(`INVOICES`, invoices);
                         this.global.labOrders = response.data.data.map((e, i) => {
                             e.user = user[i];
                             e.patient = patient[i];
