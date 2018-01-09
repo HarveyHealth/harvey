@@ -52,7 +52,7 @@
                 if (isEmpty(this.$root.$data.global.transactions)) {
                     return false;
                 } else {
-                    this.setData(formatTableData(this.$root.$data.global.transactions));
+                    this.setData(formatTableData(this.$root.$data.global.transactions, this.$root.$data.timezone));
                     return true;
                 }
             }
@@ -60,7 +60,7 @@
         watch: {
             currentDataState(val) {
                 if (val === false) {
-                    this.setData(formatTableData(this.$root.$data.global.transactions));
+                    this.setData(formatTableData(this.$root.$data.global.transactions, this.$root.$data.timezone));
                     return true;
                 }
                 return false;
