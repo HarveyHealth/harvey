@@ -5,6 +5,7 @@ import _ from 'lodash';
 export default function (orders, tests, patientLookUp, practitionerLookup, testList, permissions) {
     if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return [];
     return orders.map(obj => {
+        console.log(`OBJECT`, obj);
         let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,
@@ -31,6 +32,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             number_of_tests: 0,
             paid: obj.invoice && obj.invoice.attributes && obj.invoice.attributes.status === 'paid',
             invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
+            invoice_status: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : 'Invoice unpaid.',
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
                 last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
