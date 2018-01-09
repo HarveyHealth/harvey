@@ -21,13 +21,6 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/dashboard';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -35,5 +28,10 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function sendResetResponse()
+    {
+        return redirect()->route('dashboard')->with('message', 'Your password was successfully updated.');
     }
 }
