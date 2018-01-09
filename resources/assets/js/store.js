@@ -20,6 +20,7 @@ export default function(laravel, State) {
           appointments: [],
           currentPage: '',
           creditCards: [],
+          transactions: {},
           detailMessages: {},
           loadingAppointments: true,
           loadingCreditCards: true,

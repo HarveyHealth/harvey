@@ -385,13 +385,16 @@ const app = new Vue({
         getTransactions() {
             axios.get(`${this.apiUrl}/invoices`)
                 .then((response) => {
-                    console.log(`INVOICE`, response);
+                    this.global.transactions = response.data.data.reduce((acc, item) => {
+                        acc[item.id] = item;
+                        return acc;
+                    }, {}); 
                 });
 
-            axios.get(`${this.apiUrl}/invoice_items`)
-                .then((response) => {
-                    console.log(`INVOICE ITEMS`, response);
-                });
+            // axios.get(`${this.apiUrl}/invoice_items`)
+            //     .then((response) => {
+            //         console.log(`INVOICE ITEMS`, response);
+            //     });
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
