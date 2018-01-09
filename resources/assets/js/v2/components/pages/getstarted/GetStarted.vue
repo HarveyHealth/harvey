@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PublicNav v-if="!isSignupForm" disableMobile giveSpace hasLogo hasPhone />
+        <PublicNav v-if="Config.user.info.signedIn" disableMobile giveSpace hasLogo hasPhone />
         <div class="bg-blue-fade"></div>
         <ProgressBar
             v-show="State('getstarted.signup.showProgress')"
@@ -47,7 +47,7 @@ export default {
             App.Util.data.killStorage('zip_validation');
         }
 
-        if (App.Config.user.isLoggedIn) {
+        if (App.Config.user.isLoggedIn || App.Config.user.info.signedIn) {
             App.Router.push('welcome');
         } else {
             App.Router.push('sign-up');

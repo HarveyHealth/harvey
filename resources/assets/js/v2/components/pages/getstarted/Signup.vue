@@ -286,54 +286,63 @@ export default {
                 email: this.State('getstarted.userPost.email'),
                 password: this.State('getstarted.userPost.password')
             })
-                .then(() => {
-                    // TODO: check zip code to determine if out of range
-                    // If so, use localStorage to set a flag for out-of-range page
-                    localStorage.setItem('new_registration', 'true');
+            .then(() => {
+                // TODO: check zip code to determine if out of range
+                // If so, use localStorage to set a flag for out-of-range page
+                localStorage.setItem('new_registration', 'true');
 
-                    this.isComplete = true;
-                    this.zipInRange = true;
+                this.isComplete = true;
+                this.zipInRange = true;
 
-                    analytics.alias(userId); // Only call this once
-                    analytics.track('Account Created');
+                analytics.alias(userId); // Only call this once
+                analytics.track('Account Created');
 
-                    // Segment Identify
-                    analytics.identify(userId, {
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        city: city,
-                        state: state,
-                        zip: zip
-                    }, {
-                        integrations: {
-                            Intercom : {
-                                user_hash: intercomHash
-                            }
+                // Segment Identify
+                analytics.identify(userId, {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    city: city,
+                    state: state,
+                    zip: zip
+                }, {
+                    integrations: {
+                        Intercom : {
+                            user_hash: intercomHash
                         }
-                    });
+                    }
+                });
 
-                    // remove local storage items on sign up
-                    // needed if you decide to sign up multiple acounts on one browser
-                    App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
+                // remove local storage items on sign up
+                // needed if you decide to sign up multiple acounts on one browser
+                App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
 
-                    // In case a user initially decides to sign in with Facebook but does not follow
-                    // through and instead signs up via the form. We don't want the Welcome component
-                    // to fire 'Account Created' again.
+                // In case a user initially decides to sign in with Facebook but does not follow
+                // through and instead signs up via the form. We don't want the Welcome component
+                // to fire 'Account Created' again.
+                if (App.Util.data.fromStorage('signup_mode')) {
                     App.Util.data.updateStorage('signup_mode', {
                         account_created: true,
                         facebook_connect: false
                     });
+                }
 
-                    window.location.href = '/get-started';
-                })
-                .catch(() => {
-                    // TODO: catch error
-                });
+                App.Config.user.info = response.data.data.attributes;
+                App.Config.user.info.id = response.data.data.id;
+                App.Config.user.info.signedIn = true;
+
+                App.Router.push('welcome');
+                // window.location.href = '/get-started';
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.warn(error.response);
+                }
+            });
         }
     },
     beforeMount() {
-        if (App.Config.user.isLoggedIn) {
+        if (App.Config.user.isLoggedIn || App.Config.user.info.signedIn) {
             App.Router.push('welcome');
         }
     },

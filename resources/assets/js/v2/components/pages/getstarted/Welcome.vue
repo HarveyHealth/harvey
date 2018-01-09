@@ -65,6 +65,11 @@ export default {
             }
         }
     },
+
+    beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'welcome');
+    },
+
     mounted () {
         if (!this.State('practitioners.wasRequested')) {
           App.Http.practitioners.get(App.Http.practitioners.getResponse);

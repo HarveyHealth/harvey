@@ -33,8 +33,11 @@ switch(context) {
   //   break;
 }
 
-if (context === 'get-started' && loggedIn) {
+if (context === 'get-started') {
   rootRoute.children = [
+    { path: 'signup',
+      name: 'sign-up',
+      component: require('./v2/components/pages/getstarted/Signup.vue') },
     { path: 'welcome',
       name: 'welcome',
       component: require('./v2/components/pages/getstarted/Welcome.vue') },
@@ -58,12 +61,6 @@ if (context === 'get-started' && loggedIn) {
       component: require('./v2/components/pages/getstarted/Success.vue') }
   ];
 }
-
-rootRoute.children.push({
-  path: 'signup',
-  name: 'sign-up',
-  component: require('./v2/components/pages/getstarted/Signup.vue')
-});
 
 let routes = [
     rootRoute,
