@@ -3,8 +3,11 @@
         <SlideIn class="bg-error pa3 white" v-if="facebookRedirectAlert">
             {{ facebookRedirectAlert }}
         </SlideIn>
-        <SlideIn :delay="400">
-            <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="form ph2 ph3-l max-width-xxl min-width-100 margin-0a">
+        <SlideIn v-if="!State('getstarted.zipValidation')" :slot="2" class="margin-0a mw6 ph2 ph3-l top-space">
+            <ZipValidation />
+        </SlideIn>
+        <div v-if="State('getstarted.zipValidation')" class="top-space ph2 ph3-l max-width-xxl min-width-100 margin-0a">
+            <SlideIn :delay="400" >
                 <Grid :flexAt="'xl'" :columns="[{ xl:'1of2', xxl:'4of7' }, { xl:'1of2', xxl:'3of7' }]">
                     <aside :slot="1" class="dn db-xl relative">
                         <div class="pr2 pr3-l quote-container">
@@ -40,71 +43,73 @@
                             <Heading1 doesExpand class="tc" v-html="title"></Heading1>
                             <Spacer isTop :size="2" />
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('first_name', State('getstarted.userPost.first_name'))"
-                                    name="first_name" type="text" placeholder="First Name"
-                                    v-model="State('getstarted.userPost').first_name"
-                                    v-validate="'required|alpha_spaces'" data-vv-as="First name" />
-                                <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
-                            </div>
+                            <form @submit.prevent="onSubmit">
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('first_name', State('getstarted.userPost.first_name'))"
+                                        name="first_name" type="text" placeholder="First Name"
+                                        v-model="State('getstarted.userPost').first_name"
+                                        v-validate="'required|alpha_spaces'" data-vv-as="First name" />
+                                    <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
+                                </div>
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('last_name', State('getstarted.userPost.last_name'))"
-                                    name="last_name" type="text" placeholder="Last Name"
-                                    v-model="State('getstarted.userPost').last_name"
-                                    v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
-                                <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
-                            </div>
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('last_name', State('getstarted.userPost.last_name'))"
+                                        name="last_name" type="text" placeholder="Last Name"
+                                        v-model="State('getstarted.userPost').last_name"
+                                        v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
+                                    <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
+                                </div>
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('email', State('getstarted.userPost.email'))"
-                                    name="email" type="email" placeholder="Personal Email"
-                                    v-model="State('getstarted.userPost').email"
-                                    v-validate="'required|email'" data-vv-validate-on="blur" />
-                                <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
-                            </div>
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('email', State('getstarted.userPost.email'))"
+                                        name="email" type="email" placeholder="Personal Email"
+                                        v-model="State('getstarted.userPost').email"
+                                        v-validate="'required|email'" data-vv-validate-on="blur" />
+                                    <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
+                                </div>
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('password', State('getstarted.userPost.password'))"
-                                    name="password" type="password" placeholder="Create Password"
-                                    v-model="State('getstarted.userPost').password"
-                                    v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
-                                <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
-                            </div>
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('password', State('getstarted.userPost.password'))"
+                                        name="password" type="password" placeholder="Create Password"
+                                        v-model="State('getstarted.userPost').password"
+                                        v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+                                    <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
+                                </div>
 
-                            <div class="input-wrap last">
-                                <label class="form-label form-label_checkbox font-sm" for="checkbox">
-                                    <input class="form-input form-input_checkbox"
-                                        name="terms" type="checkbox" id="checkbox"
-                                        v-model="State('getstarted.userPost').terms"
-                                        v-validate="'required'"
-                                        checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="http://help.goharvey.com/legal/terms">terms</a> and <a href="http://help.goharvey.com/legal/privacy">policies</a>.
-                                </label>
-                                <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
-                            </div>
-                            <div class="font-centered">
-                                <InputButton
-                                    :isDisabled="isProcessing"
-                                    :isDone="isComplete"
-                                    :isProcessing="isProcessing"
-                                    :onClick="() => false"
-                                    :text="'Sign Up'"
-                                    :width="'160px'"
-                                />
-                                <div class="Divider-text is-white" data-text="OR"></div>
-                                <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
-                                <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
-                                <p class="font-md"><a href="/conditions/get-zip"><i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code</a></p>
-                            </div>
+                                <div class="input-wrap last">
+                                    <label class="form-label form-label_checkbox font-sm" for="checkbox">
+                                        <input class="form-input form-input_checkbox"
+                                            name="terms" type="checkbox" id="checkbox"
+                                            v-model="State('getstarted.userPost').terms"
+                                            v-validate="'required'"
+                                            checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="http://help.goharvey.com/legal/terms">terms</a> and <a href="http://help.goharvey.com/legal/privacy">policies</a>.
+                                    </label>
+                                    <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
+                                </div>
+                                <div class="font-centered">
+                                    <InputButton
+                                        :isDisabled="isProcessing"
+                                        :isDone="isComplete"
+                                        :isProcessing="isProcessing"
+                                        :onClick="() => false"
+                                        :text="'Sign Up'"
+                                        :width="'160px'"
+                                    />
+                                    <div class="Divider-text is-white" data-text="OR"></div>
+                                    <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
+                                    <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
+                                    <p class="font-md"><a href="/conditions/get-zip"><i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code</a></p>
+                                </div>
+                            </form>
                         </CardContent>
                     </Card>
                 </Grid>
-            </form>
-        </SlideIn>
+            </SlideIn>
+        </div>
     </div>
 </template>
 
@@ -113,6 +118,7 @@ import { SvgIcon } from 'icons';
 import { InputButton, FacebookSignin } from 'inputs';
 import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1 } from 'typography';
+import ZipValidation from './ZipValidation.vue';
 
 export default {
     name: 'sign-up',
@@ -125,7 +131,8 @@ export default {
         FacebookSignin,
         SlideIn,
         Spacer,
-        SvgIcon
+        SvgIcon,
+        ZipValidation
     },
 
     data() {
@@ -325,7 +332,7 @@ export default {
 <style lang="scss" scoped>
     @import '~sass';
 
-    .form {
+    .top-space {
         margin-top: 5%;
     }
 
