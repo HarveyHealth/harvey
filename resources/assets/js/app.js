@@ -306,7 +306,6 @@ const app = new Vue({
                                 obj[e.id] = e;
                             });
                         }
-                        console.log(`INVOICES`, invoices);
                         this.global.labOrders = response.data.data.map((e, i) => {
                             e.user = user[i];
                             e.patient = patient[i];

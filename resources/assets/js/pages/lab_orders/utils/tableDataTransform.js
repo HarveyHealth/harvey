@@ -5,7 +5,6 @@ import _ from 'lodash';
 export default function (orders, tests, patientLookUp, practitionerLookup, testList, permissions) {
     if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return [];
     return orders.map(obj => {
-        console.log(`OBJECT`, obj);
         let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,
