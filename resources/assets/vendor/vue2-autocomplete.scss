@@ -24,6 +24,11 @@
     font-weight: inherit;
     margin: 0.25em 0 0;
 }
+
+.autocomplete-input:hover {
+  cursor: text;
+}
+
 .autocomplete ul{
   font-family: sans-serif;
   position: absolute;
