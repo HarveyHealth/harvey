@@ -382,6 +382,17 @@ const app = new Vue({
                     this.global.loadingMessages = false;
                 });
         },
+        getTransactions() {
+            axios.get(`${this.apiUrl}/invoices`)
+                .then((response) => {
+                    console.log(`INVOICE`, response);
+                });
+
+            axios.get(`${this.apiUrl}/invoice_items`)
+                .then((response) => {
+                    console.log(`INVOICE ITEMS`, response);
+                });
+        },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
