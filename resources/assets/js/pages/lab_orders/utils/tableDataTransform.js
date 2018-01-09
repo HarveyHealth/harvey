@@ -31,6 +31,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             number_of_tests: 0,
             paid: obj.invoice && obj.invoice.attributes && obj.invoice.attributes.status === 'paid',
             invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
+            invoice_status: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : 'Invoice unpaid.',
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
                 last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null

@@ -157,7 +157,7 @@ const app = new Vue({
 
         getAppointments(cb) {
             App.setState('appointments.isLoading.upcoming', true);
-            axios.get(`${this.apiUrl}/appointments?include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?include=patient.user,invoice`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
                     this.global.loadingAppointments = true;
@@ -170,7 +170,7 @@ const app = new Vue({
                   if (error.response) console.warn(error.response);
                 });
 
-            axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user,invoice`)
                 .then((response) => {
                   this.global.upcoming_appointments = response.data;
                   // to update v2 Dashboard
@@ -180,7 +180,7 @@ const app = new Vue({
                   if (error.response) console.warn(error.response);
                 });
 
-            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user,invoice`)
                 .then((response) => this.global.recent_appointments = response.data)
                 .catch(error => {
                   if (error.response) console.warn(error.response);
@@ -313,9 +313,9 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     if (response.data.included) {
-                        let user = response.data.included.filter(e => e.type === 'users');
-                        let patient = response.data.included.filter(e => e.type === 'patients');
-                        let invoices = response.data.included.filter(e => e.type === 'invoices');
+                        let user = response.data.included.filter(e => e.type === 'user');
+                        let patient = response.data.included.filter(e => e.type === 'patient');
+                        let invoices = response.data.included.filter(e => e.type === 'invoice');
                         let obj = {};
                         if (invoices.length) {
                             invoices.forEach(e => {
