@@ -41,7 +41,7 @@
                             :placeholder="'Card Number'"
                             :value="cardNumber"
                         />
-                        <Grid :flexAt="'ns'" :columns="[{ns:'1of2'},{ns:'1of2'}]" :gutters="{ns:2}">
+                        <Grid :columns="[{ns:6},{ns:6}]" :gutters="{ns:2}">
                             <div :slot="1">
                                 <InputText
                                     :error="formErrors.cardExpiration"
@@ -111,7 +111,7 @@
                     <Spacer isBottom :size="3" />
                 </form>
 
-                <Grid :columns="[{s:'1of2'},{s:'1of2'}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
+                <Grid :columns="[{s:6},{s:6}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
                     <div :slot="1" class="relative image-container">
                         <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
                     </div>
