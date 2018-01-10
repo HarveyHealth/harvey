@@ -395,7 +395,6 @@ const app = new Vue({
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
-
                     }
                     this.global.loadingMessages = false;
                 });
