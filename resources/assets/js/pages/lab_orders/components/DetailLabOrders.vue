@@ -505,6 +505,7 @@ export default {
       this.subtotalAmount = subtotal;
 
       this.disabled = _.isEmpty(this.labPatients) ? true : false;
+      this.$forceUpdate();
     },
     keyDownDiscountCode(e) {
       if (e.target.value === '') {
