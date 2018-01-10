@@ -113,7 +113,7 @@ export default {
                 avatar: Laravel.user.signedIn,
                 href: Laravel.user.has_an_appointment ? '/dashboard' : '/get-started#/sign-up',
                 text: Laravel.user.has_an_appointment ? 'Dashboard' : 'Get Started'
-            }
+            };
         },
         wrapClasses() {
             return {
