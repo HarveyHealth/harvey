@@ -35,6 +35,9 @@ export default {
         }
     },
     beforeMount() {
+        // Grab signup_mode from localStorage and apply to global state
+        App.setState('getstarted.signupMode', JSON.parse(App.Util.data.fromStorage('signup_mode')));
+
         // If zipValidation does not exist in local storage the user should not be on the signup form
         // so we redirect them to /conditions. If they are, we set state accordingly.
         const zipValidation = App.Logic.getstarted.getZipValidation() || {};

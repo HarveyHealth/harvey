@@ -144,11 +144,9 @@ export default {
 
     data() {
         return {
-            env: this.$root.$data.environment,
             facebookRedirectAlert: window.Blade.facebook_redirect_alert || null,
             isComplete: false,
             isProcessing: false,
-            newsletter: false,
             quotes: [
                 { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
                 source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
@@ -215,17 +213,25 @@ export default {
     },
 
     methods: {
+        generateTrackingData(mode) {
+            switch(mode) {
+                case 'facebook': return JSON.stringify({ account_created: false, facebook_connect: true });
+                case 'form': return JSON.stringify({ account_created: false, facebook_connect: false });
+                default: return null;
+            }
+        },
+
         facebookSignup() {
             if(!this.State('getstarted.userPost.terms')) {
                 this.errors.add('terms', 'error', 'required');
                 this.errors.first('terms:required');
             } else {
-                // This will be checked on Welcome component and if true will fire appropriate analytics
+                // If a user signs up with Facebook successfully but does not finish the signup funnel
+                // and then logs out, their account has been created but the signup_mode data still
+                // exists. If they click the Facebook Signup again, it will log them in and send them
+                // to the welcome step but we do not want to fire 'Account Created' again.
                 if (!this.State('getstarted.signupMode.account_created')) {
-                    App.Util.data.toStorage('signup_mode', {
-                        account_created: false,
-                        facebook_connect: true
-                    });
+                    App.Util.data.toStorage('signup_mode', this.generateTrackingData('facebook'));
                 }
                 window.location.href = `/auth/facebook?zip=${this.State('getstarted.userPost.zip')}`;
             }
@@ -272,46 +278,17 @@ export default {
 
         // Logs the user in, triggers analytics, refreshes the page for Laravel object
         login(response) {
-            const userData = response.data.data.attributes;
-            const userId = response.data.data.id || '';
-            const firstName = userData.first_name || '';
-            const lastName = userData.last_name || '';
-            const email = userData.email || '';
-            const zip = userData.zip || '';
-            const city = userData.city || '';
-            const state = userData.state || '';
-            const intercomHash = userData.intercom_hash || '';
-
             axios.post('login', {
                 email: this.State('getstarted.userPost.email'),
                 password: this.State('getstarted.userPost.password')
             })
             .then(() => {
-                // TODO: check zip code to determine if out of range
-                // If so, use localStorage to set a flag for out-of-range page
-                localStorage.setItem('new_registration', 'true');
-
                 this.isComplete = true;
                 this.zipInRange = true;
 
-                analytics.alias(userId); // Only call this once
-                analytics.track('Account Created');
-
-                // Segment Identify
-                analytics.identify(userId, {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    city: city,
-                    state: state,
-                    zip: zip
-                }, {
-                    integrations: {
-                        Intercom : {
-                            user_hash: intercomHash
-                        }
-                    }
-                });
+                App.Config.user.info = response.data.data.attributes;
+                App.Config.user.info.id = response.data.data.id;
+                App.Config.user.info.signedIn = true;
 
                 // remove local storage items on sign up
                 // needed if you decide to sign up multiple acounts on one browser
@@ -320,19 +297,9 @@ export default {
                 // In case a user initially decides to sign in with Facebook but does not follow
                 // through and instead signs up via the form. We don't want the Welcome component
                 // to fire 'Account Created' again.
-                if (App.Util.data.fromStorage('signup_mode')) {
-                    App.Util.data.updateStorage('signup_mode', {
-                        account_created: true,
-                        facebook_connect: false
-                    });
-                }
-
-                App.Config.user.info = response.data.data.attributes;
-                App.Config.user.info.id = response.data.data.id;
-                App.Config.user.info.signedIn = true;
+                App.Util.data.toStorage('signup_mode', this.generateTrackingData('form'));
 
                 App.Router.push('welcome');
-                // window.location.href = '/get-started';
             })
             .catch(error => {
                 if (error.response) {
@@ -347,7 +314,6 @@ export default {
         }
     },
     mounted () {
-        this.$root.toDashboard();
         analytics.page("Signup");
     }
 };
