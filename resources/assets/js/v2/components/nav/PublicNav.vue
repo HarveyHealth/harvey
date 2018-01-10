@@ -13,18 +13,17 @@
                     <a href="/about">About</a>
                     <a href="/lab-tests">Labs</a>
                     <a href="/#conditions" @click="handleMenuClick(isHomepage)">Conditions</a>
-                    <a v-if="!showDashboard" href="/login">Log In</a>
+                    <a :href="login.href">{{ login.text }}</a>
                 </div>
                 <div class="nav-right">
                     <div class="nav-phone dim" v-if="hasPhone">
                         <a href="tel:800-690-9989">(800) 690-9989</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
-                        <a v-if="showDashboard" class="dim" href="/dashboard">
-                            <img class="top-nav-avatar" :src="Laravel.user.image_url" />
-                            <span>Dashboard</span>
+                        <a class="dim" :href="start.href">
+                            <img v-if="start.avatar" class="top-nav-avatar" :src="Laravel.user.image_url" />
+                            <span>{{ start.text }}</span>
                         </a>
-                        <a v-else href="/get-started#/sign-up" class="dim" @click="handleMenuClick(isHomepage)">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -94,6 +93,11 @@ export default {
         isHomepage() {
             return window.location.pathname === '/' ? 'conditions' : '';
         },
+        login() {
+            return Laravel.user.signedIn
+                ? { href: '/logout', text: 'Log Out' }
+                : { href: '/login', text: 'Log In' };
+        },
         showDashboard() {
             const isSignedIn = Laravel.user.signedIn;
             const appointment = Laravel.user.has_an_appointment;
@@ -103,6 +107,13 @@ export default {
         },
         spaceClasses() {
             return { 'nav-top-space': true, 'is-active': this.giveSpace };
+        },
+        start() {
+            return {
+                avatar: Laravel.user.signedIn,
+                href: Laravel.user.has_an_appointment ? '/dashboard' : '/get-started#/sign-up',
+                text: Laravel.user.has_an_appointment ? 'Dashboard' : 'Get Started'
+            }
         },
         wrapClasses() {
             return {
