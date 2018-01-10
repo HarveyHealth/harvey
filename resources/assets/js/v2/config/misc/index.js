@@ -21,6 +21,7 @@ export default function (laravel) {
     guest: false,
     intakeLink: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${laravel.user.id}`,
     regulatedStates,
-    socialMedia
+    socialMedia,
+    spacing: [0, 0.25, 0.7, 1.3, 2, 4, 8, 16]
   }
 }

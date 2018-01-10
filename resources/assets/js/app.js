@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
+import { GridStyles } from 'layout';
 import Usernav from './commons/UserNav.vue';
 
 // METHODS
@@ -112,6 +113,7 @@ const app = new Vue({
     router,
     components: {
         Dashboard,
+        GridStyles,
         Usernav
     },
     // Adding State to the root data object makes it globally reactive.
