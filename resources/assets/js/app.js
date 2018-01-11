@@ -203,11 +203,12 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
+                let patientCache = {};
                 const include = response.data.included;
 
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
-                    patients.push({
+                    let object = {
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
@@ -221,7 +222,9 @@ const app = new Vue({
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip
-                    });
+                    };
+                    patients.push(object);
+                    patientCache[obj.id] = object;
                 });
 
                 patients = sortByLastName(patients);
@@ -233,7 +236,7 @@ const app = new Vue({
 
                 // build an array with patient data to look up by ID
                 response.data.data.forEach(e => {
-                    patientLookUp[e.id] = e;
+                    patientLookUp[e.id] = Object.assign({}, e, patientCache[e.id]);
                 });
                 this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
@@ -247,6 +250,10 @@ const app = new Vue({
             this.requestPatients('',(patients, patientLookUp)=>{
                 this.global.patients = patients;
                 this.global.patientLookUp = patientLookUp;
+                this.global.patientDictionary = patientLookUp.reduce((acc, item) => {
+                    acc[item.id] = item;
+                    return acc;
+                }, {});
             });
         },
         getPractitioners() {
@@ -400,14 +407,17 @@ const app = new Vue({
                 });
         },
         getTransactions() {
-            axios.get(`${this.apiUrl}/invoices`)
-                .then((response) => {
-                    this.global.transactions = response.data.data.reduce((acc, item) => {
-                        acc[item.id] = item;
-                        return acc;
-                    }, {}); 
-                    this.global.loadingTransactions = false;
-                });
+            this.requestPatients('', (patient, patientLookUp) => {
+                axios.get(`${this.apiUrl}/invoices`)
+                    .then((response) => {
+                        this.global.transactions = response.data.data.reduce((acc, item) => {
+                            item.patient = patientLookUp[item.attributes.patient_id];
+                            acc[item.id] = item;
+                            return acc;
+                        }, {}); 
+                        this.global.loadingTransactions = false;
+                    });
+            });
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
@@ -498,13 +508,13 @@ const app = new Vue({
             this.getPractitioners();
             this.getMessages();
             this.getLabData();
-            if (Laravel.user.user_type !== 'practitioner') this.getTransactions();
             if (Laravel.user.user_type !== 'admin') this.getCreditCards();
             if (Laravel.user.user_type !== 'patient') this.getPatients();
             if (Laravel.user.user_type === 'patient') {
                 this.global.loadingPatients = false;
             }
             if (Laravel.user.user_type === 'admin') this.getClientList();
+            if (Laravel.user.user_type !== 'practitioner') this.getTransactions();
         },
         toDashboard() {
           if (this.signup.completedSignup) {

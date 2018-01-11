@@ -5,7 +5,13 @@ export default [
         key: 'id',
         name: 'ID',
         width: '10%',
-        sort: tableSort.byDate('date')
+        sort: tableSort.byDate('id')
+    },
+    {
+        key: 'patient',
+        name: 'Patient',
+        width: '10%',
+        sort: tableSort.byDate('patient')
     },
     {
         key: 'date',

@@ -20,6 +20,7 @@ export default function(laravel, State) {
           appointments: [],
           currentPage: '',
           creditCards: [],
+          patientDictionary: {},
           transactions: {},
           loadingTransactions: true,
           detailMessages: {},
