@@ -205,9 +205,9 @@ export default {
                 data: {
                     formId: 'harvey_validate_number_form',
                     formFields: {
-                        phone_number: number,
-                    },
-                },
+                        phone_number: number
+                    }
+                }
             });
         }
     }
