@@ -127,6 +127,7 @@ export default {
                         'getstarted.signup.phoneCode': this.phoneCode,
                         'getstarted.signup.phoneVerifiedDate': true
                     });
+                    this.trackPhoneNumber(this.phoneNumber);
                     // In case the user re-mounts the component
                     this.Config.user.info.phone_verified_at = true;
                     setTimeout(() => {
@@ -193,6 +194,20 @@ export default {
         setPhoneNumberFromCache() {
             App.setState({
                 'getstarted.signup.phone': this.State('getstarted.signup.phoneCache')
+            });
+        },
+        // Social Capital - phone tracking
+        trackPhoneNumber(number) {
+            if (App.Config.isDevEnv) return null;
+
+            window.datacoral('trackUnstructEvent', {
+                name: 'harvey_phone_number',
+                data: {
+                    formId: 'harvey_validate_number_form',
+                    formFields: {
+                        phone_number: number,
+                    },
+                },
             });
         }
     }
