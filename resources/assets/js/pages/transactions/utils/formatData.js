@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { capitalize } from 'lodash';
 
 export function formatTableData(dictionary, time) {
     return Object.values(dictionary).map(e => {
@@ -12,7 +13,7 @@ export function formatTableData(dictionary, time) {
         data.patientId = e.attributes.patient_id;
         data.details = e.attributes.description;
         data.service = e.attributes.description;
-        data.status = e.attributes.status;
+        data.status = capitalize(e.attributes.status);
         data.id = '#' + e.id;
         data.patient_name = e.patient.search_name;
 
