@@ -4,6 +4,8 @@ export function formatTableData(dictionary, time) {
     return Object.values(dictionary).map(e => {
         let data = {};
 
+        console.log(`DICTIONARY`, dictionary);
+
         data.date = moment.tz(e.attributes.paid_on.date, e.attributes.paid_on.timezone).tz(time).format('MMM Do YYYY, h:mma z');
         data.discount = e.attributes.discount;
         data.card = `${e.attributes.card_brand} **** ${e.attributes.card_last_four}`;
@@ -13,17 +15,20 @@ export function formatTableData(dictionary, time) {
         data.details = e.attributes.description;
         data.service = e.attributes.description;
         data.status = e.attributes.status;
+        data.id = '#' + e.id;
 
         return {
             data,
             values: [
+                data.id,
                 data.date,
                 data.service,
                 data.details,
                 data.price,
                 data.discount,
                 data.total,
-                data.card
+                data.card,
+                data.status
             ]
         };
     });
