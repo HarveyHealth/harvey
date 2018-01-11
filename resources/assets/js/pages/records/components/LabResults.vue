@@ -239,67 +239,66 @@ export default {
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
-        }
-    },
-    computed: {
-        labNameList() {
+        },
+        findLabList() {
             let labNames = Object.keys(this.$root.$data.labTypes);
             return [''].concat(labNames);
         },
-        userLabTestList() {
+        findUserLabList() {
             let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
                 e.attributes.sku_name = Object.values(this.$root.$data.labTests).filter(e1 => e1.id == e.attributes.sku_id).pop().attributes.name;
                 return e;
             });
             return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
         },
-        resultUrl() {
+        findUrl() {
             const prop = this.$parent.propData;
             return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
         },
+        findQuickNotes() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+        }
+    },
+    computed: {
+        labNameList() {
+            return this.findLabList();
+        },
+        userLabTestList() {
+            return this.findUserLabList();
+        },
+        resultUrl() {
+            return this.findUrl();
+        },
         quickNotes() {
-             const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+             return this.findQuickNotes();
         }
     },
     watch: {
         resultUrl(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+                return this.findUrl();
             }
         },
         labNameList(val) {
             if (!val) {
-                let labNames = Object.keys(this.$root.$data.labTypes);
-                return [''].concat(labNames);
+                return this.findLabList();
             }
         },
         userLabTestList(val) {
             if (!val) {
-                let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
-                    e.attributes.sku_name = Object.values(this.$root.$data.labTests).filter(e1 => e1.id == e.attributes.sku_id).pop().attributes.name;
-                    return e;
-                });
-                return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
+                return this.findUserLabList();
             }
         },
         quickNotes(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.findQuickNotes();
             }
         }
     }
