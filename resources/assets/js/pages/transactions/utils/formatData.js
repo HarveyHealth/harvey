@@ -6,7 +6,7 @@ export function formatTableData(dictionary, time) {
         let data = {};
 
         data.date = moment.tz(e.attributes.paid_on.date, e.attributes.paid_on.timezone).tz(time).format('MMM Do YYYY, h:mma z');
-        data.discount = e.attributes.discount;
+        data.discount = '$' + e.attributes.discount;
         data.card = `${e.attributes.card_brand} **** ${e.attributes.card_last_four}`;
         data.price = '$' + e.attributes.subtotal;
         data.total = '$' + e.attributes.amount;
