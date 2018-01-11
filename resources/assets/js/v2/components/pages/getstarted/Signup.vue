@@ -5,7 +5,7 @@
         </SlideIn>
         <SlideIn :delay="400">
             <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="form ph2 ph3-l max-width-xxl min-width-100 margin-0a">
-                <Grid :flexAt="'xl'" :columns="[{ xl:'1of2', xxl:'4of7' }, { xl:'1of2', xxl:'3of7' }]">
+                <Grid :flexAt="'xl'" :columns="[{ xl:6, xxl:7 }, { xl:6, xxl:5 }]">
                     <aside :slot="1" class="dn db-xl relative">
                         <div class="pr2 pr3-l quote-container">
                             <div class="signup-aside-icon-row">

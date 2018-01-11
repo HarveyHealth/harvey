@@ -126,10 +126,10 @@
 .main-header {
   background: $white;
   border-bottom: 1px solid $color--grey;
-  @include padding(40px 10px 20px);
+  @include padding(10px 10px 20px);
   .container{
     max-width: 1090px;
-    @include padding(20px 10px 0 15px);
+    @include padding(10px 10px 0);
     @include margin(0);
     .title {
       min-height: 48px;
