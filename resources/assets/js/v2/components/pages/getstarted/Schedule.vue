@@ -15,7 +15,7 @@
 
         <Card class="mha mw7">
             <CardContent class="pa0">
-                <Grid :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
+                <Grid :columns="[{m:6},{m:6}]" :gutters="{s:3}">
                     <div :slot="1" class="bg-gray-0 pa2 pa3-m">
                         <Heading3 :color="'muted'" class="tc uppercase">Choose Date</Heading3>
                         <Spacer isBottom :size="3" />
@@ -171,7 +171,7 @@ export default {
 
     .doctor-container {
         @include query(md) {
-            @include vertical-center-relative;
+            @include vertical-center-absolute;
             transform: translate(-50%, -65%);
         }
     }

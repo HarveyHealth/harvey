@@ -15,7 +15,7 @@
                     Forward<i class="fa fa-chevron-right ml2"></i>
                 </button>
             </div>
-            <Grid :flexAt="'l'" :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">
+            <Grid :columns="obj.answers.map(a => answerColumn)" :gutters="{ s: 3 }">
                 <div :slot="aIndex + 1" v-for="(answer, aIndex) in obj.answers">
                     <div :class="{'Button Button--answer font-lg':true, 'is-selected': answerIndex === aIndex}"
                         @click="next(obj.question, answer, aIndex)">
@@ -42,7 +42,7 @@ export default {
     },
     data() {
         return {
-            answerColumn: { m: '1of2' },
+            answerColumn: { m: 6 },
             hasAnswered: 0
         };
     },

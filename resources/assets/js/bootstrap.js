@@ -5,6 +5,7 @@
  */
 require('es6-promise').polyfill();
 
+import 'babel-polyfill';
 import Vue from 'vue';
 import Axios from 'axios';
 

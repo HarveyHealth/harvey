@@ -40,6 +40,11 @@
           var loggedIn = Laravel.user.signedIn;
 
           window.$$context = 'get-started';
+          window.Blade = {};
+
+          @if (session('facebook_redirect_alert'))
+          window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
+          @endif
 
           // Now we redirect the user based on their logged in status and zip code
           if (!loggedIn && isServiceable) window.location.hash = '/signup';
@@ -54,6 +59,7 @@
 
       <main>
         <div id="app">
+          <grid-styles></grid-styles>
           <router-view />
         </div>
       </main>

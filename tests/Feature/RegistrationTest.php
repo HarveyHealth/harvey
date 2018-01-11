@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Events\UserRegistered;
 use App\Models\{License, User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
