@@ -312,58 +312,8 @@
             this.currentData = [];
             this.$root.$data.global.loadingLabTests = true;
             this.$root.$data.global.loadingLabOrders = true;
-            axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user,invoice`)
-                .then(response => {
-                    if (response.data.included) {
-                        let user = response.data.included.filter(e => e.type === 'users');
-                        let patient = response.data.included.filter(e => e.type === 'patients');
-                        let invoices = response.data.included.filter(e => e.type === 'invoices');
-                        let obj = {};
-                        if (invoices.length) {
-                            invoices.forEach(e => {
-                                obj[e.id] = e;
-                            });
-                        }
-                        this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-                            e.user = user[i];
-                            e.patient = patient[i];
-                            if (e.relationships.invoice) {
-                                e.invoice = obj[e.relationships.invoice.data.id];
-                            }
-                            return e;
-                        });
-                    }
-                    this.$root.$data.global.loadingLabOrders = false;
-                });
-
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
-                .then(response => {
-                     let sku_ids = {};
-                     if (!response.data.included) {
-                         this.$root.$data.global.labTests = response.data.data;
-                         this.$root.$data.global.loadingLabTests = false;
-                         return;
-                    }
-                    response.data.included.forEach(e => {
-                        sku_ids[e.id] = e;
-                    });
-                    this.$root.$data.global.labTests = response.data.data.map((e) => {
-                        e.included = sku_ids[e.relationships.sku.data.id];
-                        return e;
-                    });
-                    this.$root.$data.global.loadingLabTests = false;
-                });
-
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests/information`)
-                .then(response => {
-                    response.data.data.forEach(e => {
-                        this.$root.$data.labTests[e.id] = e;
-                        this.$root.$data.labTests[e.id]['checked'] = false;
-                    });
-                })
-                .then(() => {
-                    this.$root.$data.global.loadingTestTypes = false;
-                });
+            this.$root.getLabData();
+            this.$root.$data.global.loadingTestTypes = false;
         }
     };
 </script>
