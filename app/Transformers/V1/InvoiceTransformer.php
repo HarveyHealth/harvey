@@ -21,8 +21,8 @@ class InvoiceTransformer extends TransformerAbstract
         return [
             'id' => cast_to_string($invoice->id),
             'patient_id' => cast_to_string($invoice->patient_id),
-            'appointment_id' => cast_to_string($invoice->appointment()->exists()?$invoice->appointment->id:null),
-            'lab_order_id' => cast_to_string($invoice->labOrder()->exists()?$invoice->labOrder->id:null),
+            'appointment_id' => cast_to_string($invoice->appointment->id ?? null),
+            'lab_order_id' => cast_to_string($invoice->labOrder->id ?? null),
             'amount' => cast_to_string($invoice->amount),
             'card_brand' => $invoice->card_brand,
             'card_last_four' => cast_to_string($invoice->card_last_four),
