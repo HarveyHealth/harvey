@@ -32,15 +32,20 @@ export default {
       PageHeader,
       Heading2
     },
+    methods: {
+        setPlans() {
+            return this.$parent.propData.attributes.plan;
+        }
+    },
     computed: {
         plan() {
-            return this.$parent.propData.attributes.plan;
+            return this.setPlans();
         }
     },
     watch: {
         plan(val) {
             if (!val) {
-                return this.$parent.propData.attributes.plan;
+                return this.setPlans();
             }
         }
     }

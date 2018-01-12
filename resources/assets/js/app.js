@@ -384,11 +384,11 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/tests/information`)
                 .then(response => {
                     response.data.data.forEach(e => {
-                        this.labTests[e.id] = e;
+                        this.labTests[e.attributes.sku_id] = e;
                         if (!this.labTypes[e.attributes.lab_name]) { 
                             this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
                         }
-                        this.labTests[e.id]['checked'] = false;
+                        this.labTests[e.attributes.sku_id]['checked'] = false;
                     });
                     this.global.loadingTestTypes = false;
                 });

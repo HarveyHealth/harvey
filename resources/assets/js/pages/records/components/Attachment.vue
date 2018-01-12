@@ -235,44 +235,39 @@ export default {
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
+        },
+        attachmentUrlFinder() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotesFinder() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     computed: {
         attachmentUrl() {
-            const prop = this.$parent.propData;
-            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            return this.attachmentUrlFinder();
         },
         quickNotes() {
-             const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+            return this.quickNotesFinder();
         }
     },
     watch: {
         attachmentUrl(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    this.setNotes(prop.attributes.notes);
-                }
-                return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+                return this.attachmentUrlFinder();
             }
         },
         quickNotes(val) {
             if (!val) {
-               const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+               return this.quickNotesFinder();
             }
         }
     }
