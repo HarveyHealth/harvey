@@ -5,7 +5,9 @@ import user from './user';
 export default function(laravel) {
     const env = require('get-env')();
     return {
+        isDevEnv: env === 'development' || env === 'dev',
         isProduction: env === 'production' || env === 'prod',
+        isStageEnv: env === 'staging' || env === 'stage',
         misc: misc(laravel),
         support: {
             email: 'support@goharvey.com',

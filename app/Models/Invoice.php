@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{DiscountCode, InvoiceItem, Patient};
+use App\Models\{DiscountCode, InvoiceItem, Patient, LabOrder, Appointment};
 use App\Http\Traits\{IsNot, BelongsToPatient};
 
 
@@ -80,6 +80,16 @@ class Invoice extends Model
     public function discountCode()
     {
         return $this->belongsTo(DiscountCode::class);
+    }
+
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class);
+    }
+
+    public function labOrder()
+    {
+        return $this->hasOne(LabOrder::class);
     }
 
     public function items()

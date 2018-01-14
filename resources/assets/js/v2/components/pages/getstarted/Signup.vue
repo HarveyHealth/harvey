@@ -308,6 +308,7 @@ export default {
             });
         }
     },
+
     beforeMount() {
         if (App.Config.user.isLoggedIn || App.Config.user.info.signedIn) {
             App.Router.push('welcome');

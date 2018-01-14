@@ -49,6 +49,9 @@ export default {
 
         App.Logic.getstarted.trackAccountCreation(this.State('getstarted.signupMode'));
 
+        const user = App.Config.user.info;
+        App.Logic.getstarted.trackSignupEvent(user.email, user.first_name, user.last_name);
+
         analytics.page('Welcome');
         analytics.identify();
     }
