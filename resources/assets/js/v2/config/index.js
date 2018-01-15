@@ -30,7 +30,9 @@ export default function(laravel) {
             },
             subText: {},
         },
+        isDevEnv: env === 'development' || env === 'dev',
         isProduction: env === 'production' || env === 'prod',
+        isStageEnv: env === 'staging' || env === 'stage',
         misc: misc(laravel),
         support: {
             email: 'support@goharvey.com',

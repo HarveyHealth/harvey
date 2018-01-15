@@ -303,6 +303,8 @@ export default {
                         facebook_connect: false
                     });
 
+                    App.Logic.getstarted.trackSignupEvent(email, firstName, lastName);
+
                     window.location.href = '/get-started';
                 })
                 .catch(() => {
@@ -310,6 +312,7 @@ export default {
                 });
         }
     },
+
     beforeMount() {
         if (App.Config.user.isLoggedIn) {
             App.Router.push('welcome');
