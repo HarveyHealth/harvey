@@ -24,8 +24,8 @@
             </table>
             <table class="sku-header sku-table tabledata appointments-table" v-if="!loading">
                 <thead>
-                    <th class="sku-table__column sku-table__move-icon heading-2 sort">Sort</th>
-                    <th class="sku-table__column sku-table__move-icon heading-2 sort">SKU</th>
+                    <th class="sku-table__column sku-table__move-icon heading-2">Sort</th>
+                    <th class="sku-table__column sku-table__move-icon heading-2">SKU</th>
                     <th class="sku-table__column heading-2">Partner</th>
                     <th class="sku-table__column sku-table__sku-name heading-2">Lab Test</th>
                     <th class="sku-table__column heading-2">Sample</th>
