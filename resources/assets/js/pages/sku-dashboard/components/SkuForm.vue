@@ -33,12 +33,14 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="description">Description</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" maxlength="800" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
+                <span class="charcount" style="top: 0px">{{ countDescription }} / {{ descriptionMaxLength }}</span>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" :maxlength="descriptionMaxLength" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" maxlength="200" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <span class="charcount" style="top: 0px">{{ countQuote }} / {{ quoteMaxLength }}</span>
+                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" :maxlength="quoteMaxLength" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
 
             <div class="input__container input-wrap">
@@ -62,11 +64,13 @@
             </div>
 
             <div class="input__container">
-                <label class="input__label" for="visibility_id">Public</label>
+                <label class="input__label" for="visibility">Visible to</label>
                 <span class="custom-select">
-                    <select name="visibility_id" id="visibility_id" v-model="formSku.attributes.lab_test_information.visibility_id">
-                        <option value="0">Yes</option>
-                        <option value="3">No</option>
+                    <select name="visibility" id="visibility" v-model="formSku.attributes.lab_test_information.visibility">
+                        <option value="public">All</option>
+                        <option value="patients">Patient, Practitioners and Admins</option>
+                        <option value="practitioners">Practitioners and Admins</option>
+                        <option value="admins">Only Admins</option>
                     </select>
                 </span>
             </div>
@@ -87,22 +91,6 @@
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import NotificationPopup from '../../../commons/NotificationPopup.vue';
 
-    // const defaultBlankSku = {
-    //         attributes: {
-    //         name: null,
-    //         price: 0,
-    //         cost: 0,
-    //         lab_test_information: {
-    //             lab_name: null,
-    //             sample: null,
-    //             description: null,
-    //             quote: null,
-    //             image: null,
-    //             visibility_id: 3
-    //         }
-    //     }
-    // };
-
     export default {
     data() {
         return {
@@ -117,7 +105,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility: 'patients'
                     }
                 }
             },
@@ -125,7 +113,10 @@
             notificationSymbol: '&#10003;',
             notificationActive: false,
             notificationDirection: 'top-right',
-            notificationError: false
+            notificationError: false,
+            notificationMessage: '',
+            descriptionMaxLength: 2048,
+            quoteMaxLength: 1024
         };
     },
     components: {
@@ -145,11 +136,12 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id
+                visibility: sku.attributes.lab_test_information.visibility
             })
             .then(() => {
                 this.submitting = false;
                 this.notificationActive = true;
+                this.notificationMessage = "Lab Test Updated";
                 setTimeout(() => this.notificationActive = false, 3000);
                 this.$emit('saved');
             })
@@ -170,12 +162,13 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id
+                visibility: sku.attributes.lab_test_information.visibility
             })
                 .then(response => {
                     this.submitting = false;
                     this.notificationActive = true;
                     this.$emit('append', response.data.data);
+                    this.notificationMessage = "Lab Test Created";
                     setTimeout(() => this.notificationActive = false, 3000);
                     this.resetSkuForm();
                     this.$emit('saved');
@@ -198,7 +191,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3
+                        visibility: 'patients'
                     }
                 }
             };
@@ -208,8 +201,15 @@
         formSku() {
             return this.sku || this.blankSku;
         },
-        notificationMessage() {
-            return this.sku ? "Lab test updated" : "Lab Test Updated";
+        countQuote() {
+          let model = this.sku ? this.sku : this.blankSku;
+          let field = model.attributes.lab_test_information.quote;
+          return this.quoteMaxLength - (field ? field.length : 0);
+        },
+        countDescription() {
+          let model = this.sku ? this.sku : this.blankSku;
+          let field = model.attributes.lab_test_information.description;
+          return this.descriptionMaxLength - (field ? field.length : 0);
         }
     },
     props: {
@@ -223,5 +223,4 @@
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

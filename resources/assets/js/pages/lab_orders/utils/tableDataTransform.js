@@ -2,7 +2,7 @@ import { capitalize } from '../../../utils/filters/textformat';
 import moment from 'moment';
 import _ from 'lodash';
 
-export default function (orders, tests, patientLookUp, practitionerLookup, testList) {
+export default function (orders, tests, patientLookUp, practitionerLookup, testList, permissions) {
     if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return [];
     return orders.map(obj => {
         let data = {
@@ -31,6 +31,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             number_of_tests: 0,
             paid: obj.invoice && obj.invoice.attributes && obj.invoice.attributes.status === 'paid',
             invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
+            invoice_status: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : 'Invoice unpaid.',
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
                 last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
@@ -41,7 +42,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
                 data.total_price += eval(test.included.attributes.price);
-                data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample;
+                if (test.included.attributes.lab_test_information) {
+                    data.samples[test.included.attributes.lab_test_information.sample] = data.samples[test.included.attributes.lab_test_information.sample] ? data.samples[test.included.attributes.lab_test_information.sample] : test.included.attributes.lab_test_information.sample;
+                }
                 data.number_of_tests++;
                 data.sku_ids[test.attributes.sku_id] = test.included;
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status;
@@ -56,7 +59,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     status: obj.attributes.status === 'recommended' ?
                         [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Canceled'], capitalize(test.attributes.status))) :
                         obj.attributes.status === 'confirmed' ?
-                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed'], capitalize(test.attributes.status))) :
+                            permissions === 'admin' ?
+                                [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Canceled'], capitalize(test.attributes.status))) :
+                                [capitalize(test.attributes.status)].concat(_.pull(['Confirmed'], capitalize(test.attributes.status))) :
                             [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     current_status: capitalize(test.attributes.status),

@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
+import { GridStyles } from 'layout';
 import Usernav from './commons/UserNav.vue';
 
 // METHODS
@@ -55,6 +56,9 @@ Vue.filter('fullName', App.Util.misc.fullName);
 Vue.filter('fullDate', Filters.fullDate);
 Vue.filter('timeDisplay', Filters.timeDisplay);
 Vue.filter('weekDay', Filters.weekDay);
+Vue.filter('ucfirst', function (value) {
+  return value.substr(0,1).toUpperCase() + value.substr(1);
+});
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
@@ -109,6 +113,7 @@ const app = new Vue({
     router,
     components: {
         Dashboard,
+        GridStyles,
         Usernav
     },
     // Adding State to the root data object makes it globally reactive.
@@ -154,7 +159,7 @@ const app = new Vue({
 
         getAppointments(cb) {
             App.setState('appointments.isLoading.upcoming', true);
-            axios.get(`${this.apiUrl}/appointments?include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?include=patient.user,invoice`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
                     this.global.loadingAppointments = true;
@@ -167,7 +172,7 @@ const app = new Vue({
                   if (error.response) console.warn(error.response);
                 });
 
-            axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user,invoice`)
                 .then((response) => {
                   this.global.upcoming_appointments = response.data;
                   // to update v2 Dashboard
@@ -177,7 +182,7 @@ const app = new Vue({
                   if (error.response) console.warn(error.response);
                 });
 
-            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
+            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user,invoice`)
                 .then((response) => this.global.recent_appointments = response.data)
                 .catch(error => {
                   if (error.response) console.warn(error.response);
@@ -212,7 +217,7 @@ const app = new Vue({
                         id: obj.id,
                         name: `${includeData.last_name}, ${includeData.first_name}`,
                         phone: includeData.phone,
-                        search_name: `${includeData.first_name} ${includeData.last_name}`,
+                        search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.id})`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip
@@ -247,16 +252,24 @@ const app = new Vue({
         getPractitioners() {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
+                let cache = {};
+                if (response.data.included) {
+                    response.data.included.forEach(e => {
+                        cache[e.id] = e;
+                    });
+                }
                   if (Laravel.user.user_type === 'patient') {
                     this.global.practitioners = this.filterPractitioners(response.data.data, Laravel.user.state);
                   } else {
-                    this.global.practitioners = response.data.data;
+                    this.global.practitioners = response.data.data.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] || null }));
                   }
                   this.global.practitioners = this.global.practitioners.map(dr => {
                     return {
                       id: dr.id,
                       info: dr.attributes,
                       name: `Dr. ${dr.attributes.name}`,
+                      search_name: `Dr. ${dr.attributes.name}`,
+                      email: dr.included && dr.included.attributes ? dr.included.attributes.email : null,
                       user_id: dr.attributes.user_id
                     };
                   });
@@ -268,13 +281,21 @@ const app = new Vue({
                 });
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data.filter(dr => {
+                    let cache = {};
+                    if (response.data.included) {
+                        response.data.included.forEach(e => {
+                            cache[e.id] = e;
+                        });
+                    }
+                    this.global.practitioners = response.data.data.map((e) => Object.assign({}, e, { included: cache[e.attributes.user_id] || null })).filter(dr => {
                         return dr.id === `${Laravel.user.practitionerId}`;
                     }).map(obj => {
                         return {
                           info: obj.attributes,
                           name: `Dr. ${obj.attributes.name}`,
+                          search_name: `Dr. ${obj.attributes.name}`,
                           id: obj.id,
+                          email: obj.included && obj.included.attributes ? obj.included.attributes.email : null,
                           user_id: obj.attributes.user_id };
                     });
                     response.data.data.forEach(e => {
@@ -294,9 +315,9 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     if (response.data.included) {
-                        let user = response.data.included.filter(e => e.type === 'users');
-                        let patient = response.data.included.filter(e => e.type === 'patients');
-                        let invoices = response.data.included.filter(e => e.type === 'invoices');
+                        let user = response.data.included.filter(e => e.type === 'user');
+                        let patient = response.data.included.filter(e => e.type === 'patient');
+                        let invoices = response.data.included.filter(e => e.type === 'invoice');
                         let obj = {};
                         if (invoices.length) {
                             invoices.forEach(e => {
@@ -374,7 +395,6 @@ const app = new Vue({
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.id - a.id);
                         this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
-
                     }
                     this.global.loadingMessages = false;
                 });
@@ -391,17 +411,60 @@ const app = new Vue({
         getConfirmedUsers() {
             let doctors = this.global.practitioners;
             let patients = this.global.patients;
-            this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
-                .map(e => doctors.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
-            this.global.confirmedPatients = this.global.appointments
-                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+            this.global.confirmedDoctors = doctors;
+            this.global.confirmedPatients = patients;
             this.global.practitioners = _.uniqBy(doctors, 'id').filter(e => e !== undefined);
             this.global.patients = _.uniqBy(patients, 'id').filter(e => e !== undefined);
             this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id').filter(e => e !== undefined);
             this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id').filter(e => e !== undefined);
             this.global.loadingConfirmedUsers = false;
+        },
+        requestConfirmedUsers(term='', cb=null) {
+            this.getConfirmedUsers();
+            let regex = new RegExp(term, 'ig');
+            if (cb) {
+                if (this.permissions === 'admin') {
+                    let all = this.global.confirmedDoctors.concat(this.global.confirmedPatients).filter(e => {
+                        for (let i in e) {
+                            if (regex.test(e[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    cb(all, all
+                    .reduce((acc, item)  => {
+                        acc[item.id] = item;
+                        return acc; 
+                    }, {}));
+                } else if (this.permissions === 'practitioner') {
+                    let patients = this.global.confirmedPatients.filter(e => {
+                        for (let i in e) {
+                            if (regex.test(e[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    cb(patients, patients.reduce((acc, item)  => {
+                        acc[item.id] = item;
+                        return acc; 
+                    }, {}));
+                } else {
+                    let doctors = this.global.confirmedDoctors.filter(e => {
+                        for (let i in e) {
+                            if (regex.test(e[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    cb(doctors, doctors.reduce((acc, item)  => {
+                        acc[item.id] = item;
+                        return acc; 
+                    }, {}));
+                }
+            }
         },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];

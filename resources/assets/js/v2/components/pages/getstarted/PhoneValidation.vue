@@ -12,6 +12,11 @@
                     :disabled="phoneNumberHasSent"
                     :ref="'phone_input'"
                 />
+                <Spacer isBottom :size="2" />
+                <a href="" class="button-link db f6 fw3" @click.prevent="setPhoneNumberFromCache" v-if="State('getstarted.signup.phoneCache')">
+                    Back to Confirmation
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </a>
                 <Spacer isBottom :size="4" />
                 <div v-show="isUserPatchError" class="mb2 red" v-html="phoneProcessError"></div>
                 <div v-show="phoneDuplicateError" class="mb2 red" v-html="phoneDuplicateError"></div>
@@ -25,6 +30,8 @@
             </form>
         </SlideIn>
         <SlideIn :to="'left'" v-if="phoneIsSaved">
+            <span class="fw3">{{ State('getstarted.signup.phoneCache', '') | formatPhone }}</span>
+            <Spacer isBottom :size="2" />
             <form @submit.prevent>
                 <CodeInput
                     :isDisabled="phoneCodeHasSent || phoneCodeIsConfirmed"
@@ -34,13 +41,14 @@
                     :type="'phone'"
                 />
                 <Spacer isBottom :size="2" />
-                <span class="button-link db f6 fw3" @click="handleCodeResend" v-if="!phoneStepIsComplete">
+                <a href="" class="button-link db f6 fw3" @click.prevent="handleCodeResend" v-if="!phoneStepIsComplete">
                     <i class="fa fa-repeat" aria-hidden="true"></i>
-                    Text Me Again
-                </span>
-                <span class="button-link db f6 fw3" @click="handlePhoneReset">
-                    Re-Enter Phone Number
-                </span>
+                    Text me again
+                </a>
+                <Spacer isBottom :size="2" />
+                <a href="" class="button-link db f6 fw3" @click.prevent="handlePhoneReset">
+                    Enter a different phone number
+                </a>
                 <Spacer isBottom :size="4" />
                 <div class="mb2 red" v-show="isInvalidCode" v-html="phoneCodeInvalidError"></div>
                 <div class="mb2 red" v-show="isCodeProcessError" v-html="phoneCodeProcessError"></div>
@@ -90,7 +98,7 @@ export default {
             return this.State('getstarted.signup.phone');
         },
         phoneCodeIsConfirmed() {
-            return this.State('getstarted.signup.phoneCode').length > 0;
+            return this.State('getstarted.signup.phoneVerifiedDate') !== null;
         },
         phoneStepIsComplete() {
             return this.State('getstarted.signup.stepsCompleted.phone');
@@ -100,9 +108,11 @@ export default {
         handleCodeResend() {
             this.resetErrors();
             this.phoneCode = '';
+            this.$refs.code_input.$el.value = '';
             App.setState({
                 'getstarted.signup.stepsCompleted.phone': false,
-                'getstarted.signup.phoneCode': ''
+                'getstarted.signup.phoneCode': '',
+                'getstarted.signup.phoneVerifiedDate': null
             });
             axios.post(`api/v1/users/${Laravel.user.id}/phone/send_verification_code`);
             Vue.nextTick(() => this.$refs.code_input.$el.focus());
@@ -113,7 +123,13 @@ export default {
             axios.get(`${this.Config.misc.api}users/${this.Config.user.info.id}/phone/verify?code=${this.phoneCode}`).then(response => {
                 this.phoneCodeHasSent = false;
                 if (response.data.verified) {
-                    App.setState('getstarted.signup.phoneCode', this.phoneCode);
+                    App.setState({
+                        'getstarted.signup.phoneCode': this.phoneCode,
+                        'getstarted.signup.phoneVerifiedDate': true
+                    });
+                    this.trackPhoneNumber(this.phoneNumber);
+                    // In case the user re-mounts the component
+                    this.Config.user.info.phone_verified_at = true;
                     setTimeout(() => {
                         App.Logic.getstarted.nextStep.call(this, 'phone');
                     }, 500);
@@ -134,7 +150,12 @@ export default {
             this.resetErrors();
             axios.patch(`/api/v1/users/${this.Config.user.info.id}`, { phone: this.phoneNumber }).then(() => {
                 this.phoneNumberHasSent = false;
-                App.setState('getstarted.signup.phone', this.phoneNumber);
+                App.setState({
+                    'getstarted.signup.phone': this.phoneNumber,
+                    'getstarted.signup.phoneCache': this.phoneNumber,
+                    'getstarted.signup.phoneVerifiedDate': null,
+                    'getstarted.signup.stepsCompleted.phone': false
+                });
                 Vue.nextTick(() => this.$refs.code_input.$el.focus());
 
                 // Segment Identify update
@@ -169,6 +190,25 @@ export default {
             this.phoneDuplicateError = '';
             this.isInvalidCode = false;
             this.isCodeProcessError = false;
+        },
+        setPhoneNumberFromCache() {
+            App.setState({
+                'getstarted.signup.phone': this.State('getstarted.signup.phoneCache')
+            });
+        },
+        // Social Capital - phone tracking
+        trackPhoneNumber(number) {
+            if (App.Config.isDevEnv) return null;
+
+            window.datacoral('trackUnstructEvent', {
+                name: 'harvey_phone_number',
+                data: {
+                    formId: 'harvey_validate_number_form',
+                    formFields: {
+                        phone_number: number
+                    }
+                }
+            });
         }
     }
 };
@@ -178,9 +218,7 @@ export default {
     @import '~sass';
 
     .button-link {
-        color: $color-accent-dark;
-        cursor: pointer;
-        margin: 6px auto;
+        display: inline-block;
         padding: 4px;
     }
 

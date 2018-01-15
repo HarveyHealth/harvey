@@ -19,6 +19,11 @@
         </div>
     </noscript>
 
+    @if (session('facebook_redirect_alert'))
+    <div class="alert-bar">
+        {!! session('facebook_redirect_alert') !!}
+    </div>
+    @endif
     <div id="app" :class="appClass">
         @include('legacy._layouts.includes.top_nav')
         <div class="page-content">

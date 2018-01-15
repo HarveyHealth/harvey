@@ -34,12 +34,17 @@
                 width: 100%;
             }
         }
+
     }
 
     .message-post-body {
         @media screen and (min-width: 960px) {
             width: 65%; clear: none; float: none;
           @include margin(0 0 .5em 35%);
+        }
+
+        .message-post-message {
+            @include margin(0 1rem);
         }
 
         // Minimized
@@ -80,7 +85,7 @@
 }
 
 .highlight {
-    color: $color-copy-alt;
+    color: $color-accent-dark;
 }
 
 .word-wrap {
