@@ -6,17 +6,18 @@
             @click="onSort ? onSort(col) : null"
             :width="col.width"
             class="heading-2"
+            :style="{margin: '0 !important'}"
         >{{ col.name }}</th>
       </tr>
     </thead>
     <tbody class="copy-main">
       <tr v-show="loading">
-        <td :colspan="columns.length" class="font-italic font-sm copy-muted">
+        <td :colspan="columns.length" class="w-100 font-italic font-sm copy-muted">
           {{ loadingMsg }}
         </td>
       </tr>
       <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" class="font-italic font-sm copy-muted">
+        <td :colspan="columns.length" class="w-100 font-italic font-sm copy-muted">
           {{ emptyMsg }}
         </td>
       </tr>

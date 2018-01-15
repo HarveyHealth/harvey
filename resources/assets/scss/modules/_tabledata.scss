@@ -5,6 +5,10 @@
     position: relative;
   }
 
+  .w-100 {
+      width: 100%;
+  }
+
   .loading {
     width: 20px;
     fill: $color-copy;
@@ -23,6 +27,8 @@
     display: block;
     transition: color 200ms;
     position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     @include query(lg) {
       position: static;
     }
@@ -59,7 +65,7 @@
 
   th, td {
     transition: background 100ms ease-in-out;
-    // @include padding(15px);
+    @include padding(1rem);
     display: flex;
     justify-content: center;
     align-items: center;
