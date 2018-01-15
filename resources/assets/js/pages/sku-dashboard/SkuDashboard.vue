@@ -22,7 +22,7 @@
             <table class="sku-table tabledata appointments-table" v-if="loading">
                 <td class="font-italic font-sm copy-muted">Loading lab tests inventory...</td>
             </table>
-            <table class="sku-table tabledata appointments-table" v-if="!loading">
+            <table class="sku-header sku-table tabledata appointments-table" v-if="!loading">
                 <thead>
                     <th class="sku-table__column sku-table__move-icon heading-2 sort">Sort</th>
                     <th class="sku-table__column sku-table__move-icon heading-2 sort">SKU</th>

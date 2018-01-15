@@ -29,6 +29,7 @@
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
     @include query(lg) {
       position: static;
     }
@@ -141,6 +142,19 @@
     }
   }
 
+}
+
+.sku-header {
+    thead {
+        display: flex !important;
+    }
+    th {
+        display: flex !important;
+        flex-direction: row !important;
+        margin: 1rem !important;
+        padding: 0 !important;
+    }
+    text-align: center;
 }
 
 @mixin normalTableStyles {
