@@ -9,11 +9,6 @@ class AttachmentPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user, $ability)
-    {
-        return $user->isAdmin() ?: null;
-    }
-
     public function get(User $user, Attachment $attachment)
     {
         return $user->isPractitioner() || $user->is($attachment->creator) || $user->is($attachment->patient->user);

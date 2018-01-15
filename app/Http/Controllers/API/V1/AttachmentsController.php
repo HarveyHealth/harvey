@@ -86,7 +86,6 @@ class AttachmentsController extends BaseAPIController
     public function delete(Request $request, Attachment $attachment)
     {
         if (currentUser()->cant('delete', $attachment)) {
-
             return $this->respondNotAuthorized('You do not have access to delete this Attachment.');
         }
 

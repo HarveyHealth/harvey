@@ -2,14 +2,12 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Message;
-use League\Fractal\TransformerAbstract;
 
-class MessageTransformer extends TransformerAbstract
+class MessageTransformer extends HarveyTransformer
 {
-    protected $availableIncludes = [
-        'sender', 'recipient'
-    ];
+    protected $availableIncludes = ['sender', 'recipient'];
 
     /**
      * A Fractal transformer.

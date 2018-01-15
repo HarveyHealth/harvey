@@ -2,11 +2,11 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Invoice;
 use App\Transformers\V1\{InvoiceItemTransformer, PatientTransformer, DiscountCodeTransformer};
-use League\Fractal\TransformerAbstract;
 
-class InvoiceTransformer extends TransformerAbstract
+class InvoiceTransformer extends HarveyTransformer
 {
 
     protected $availableIncludes = ['patient', 'invoice_items', 'discount_code'];

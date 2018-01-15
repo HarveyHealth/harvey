@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Prescription;
-use League\Fractal\TransformerAbstract;
 
-class PrescriptionTransformer extends TransformerAbstract
+class PrescriptionTransformer extends HarveyTransformer
 {
     /**
      * @return array
