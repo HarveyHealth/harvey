@@ -11,20 +11,19 @@
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
-                    <a href="/lab-tests">Labs</a>
-                    <a href="/supplements">Pharmacy</a>
-                    <!-- <a href="/#conditions" @click="handleMenuClick(isHomepage)">Conditions</a> -->
+                    <a href="/stories">Stories</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
                     <div class="nav-phone dim" v-if="hasPhone">
-                        <a href="tel:800-690-9989">(800) 690-9989</a>
+                        <a href="">Chat with a doctor</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
                         <a v-if="showDashboard" class="dim" href="/dashboard">
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
+                        <a v-else href="https://store.goharvey.com" class="dim">Enter Store</a>
                     </div>
                 </div>
             </div>
