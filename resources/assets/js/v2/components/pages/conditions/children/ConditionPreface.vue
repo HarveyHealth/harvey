@@ -100,9 +100,11 @@ export default {
     };
   },
   methods: {
-      getTest(name) {
+      // filters lab tests by name and returns Object
+      // if no object returned, return false for LabTestCard
+      getTest(labTestName) {
           return this.State('conditions.labTests').filter(test => {
-              return test.lab_name === name;
+              return test.lab_name === labTestName;
           })[0] || false;
       },
       handleQuizStart() {
@@ -117,7 +119,7 @@ export default {
       tests() {
           if (this.hasCondition) {
               const names = this.Config.conditions.labTests[this.State('conditions.condition.slug')];
-              return names.map(this.getTest)
+              return names.map(this.getTest);
           } else {
               return null;
           }

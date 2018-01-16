@@ -24,6 +24,7 @@ import { Paragraph } from 'typography';
 
 export default {
     props: {
+        // test object from State.conditions.labTests
         test: {
             type: [Object, Boolean],
             required: true
