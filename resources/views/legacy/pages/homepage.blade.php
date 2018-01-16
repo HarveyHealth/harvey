@@ -189,9 +189,9 @@
 
     <section id="get-started" class="bg-near-white">
         <div class="container">
-            <div class="tc pv5 ph7">
+            <div class="tc pv5 ph6-ns">
                 <p class="f2">Start your health journey.</p>
-                <p class="f4 pa3">If you're new to integrative medicine, we recommend chatting with one of our doctors before buying lab tests or supplements. If you already know what you want, you can start shopping now.</p>
+                <p class="f4 pa3">If you're new to integrative medicine, we recommend chatting with one of our doctors before buying lab tests or supplements. If you know what you want, you can start shopping now.</p>
                 <div class="tc">
                     <a href="https://store.goharvey.com" class="button is-primary is-medium has-arrow">Start Shopping</a>
                     <p class="db cf ma3">Questions? <a href="/doctors" class="underline dim">Chat with a doctor</a></p>

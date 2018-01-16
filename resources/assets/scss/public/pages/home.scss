@@ -1,7 +1,6 @@
 // Eventually combine into a single Vue template
 body.home,
 body.about,
-body.financing,
 body[class*="lab-tests"] {
 
     // General
@@ -78,6 +77,7 @@ body[class*="lab-tests"] {
               position: absolute;
               height: 100%; width: 100%;
               top: 0; left: 0; right: 0; bottom: 0;
+              opacity: .6;
             }
 
             #hero-video {
@@ -99,7 +99,7 @@ body[class*="lab-tests"] {
             #overlay {
               position: absolute;
               top: 0; right: 0; left: 0; bottom: 0;
-              background: rgba(95,114,120,.6);
+              background: rgba(227, 186, 179, .6)
             }
         }
 
