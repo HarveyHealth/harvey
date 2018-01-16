@@ -27,9 +27,9 @@
         <div class="container tc pv5">
             <div class="columns">
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                    <div class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_2"></span>
-                    </figure>
+                    </div>
                     <div class="pt2">
                         <p class="font-xl"><strong>Home Lab Tests</strong></p>
                         <p class="font-md pt2">Order one of our specialized lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergy</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/hormones-lab-test">Hormones</a>, <a href="https://store.goharvey.com/products/toxic-metals-lab-test">Toxic Metals</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
@@ -37,9 +37,9 @@
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                    <div class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_4"></span>
-                    </figure>
+                    </div>
                     <div class="pt2">
                         <p class="font-xl"><strong>Vitamins & Supplements</strong></p>
                         <p class="font-md pt2">Shop the largest online dispensory of professional-grade vitamins and supplements at guaranteed wholesale prices.</p>
@@ -47,9 +47,9 @@
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
+                    <div class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_1"></span>
-                    </figure>
+                    </div>
                     <div class="pt2">
                         <p class="font-xl"><strong>Functional Doctors</strong></p>
                         <p class="font-md pt2">Chat for free with our licensed Naturopathic Doctors about your health goals, or schedule a full consultation to build a detailed treatment plan.</p>
@@ -61,69 +61,80 @@
     </section>
 
     <section id="testimonials" class="o-90">
-        <div class="container pt4 flex-l">
+        <div class="container flex-l pv4">
             <div class="w-50-l pv4 tc">
                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" class="w-100 w-70-ns br2">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" class="w-100 w-60-ns br2">
                 </a>
             </div>
             <div class="w-50-l pt4">
-                <div class="w-100 white center">
-                    <p class="f2">Start your health journey.</p>
-                    <p class="f4">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just a set of symptoms.</p>
-                    <a href="" class="f4 ba ph3 pv2 mb2 dib br2 mt3 white dim"><i class="fa fa-youtube pt1 pr1" aria-hidden="true"></i> Patient Stories</a>
+                <div class="w-100 white center v-mid">
+                    <p class="f2 pt3">#1 Integrative Medicine Platform</p>
+                    <p class="f4 pt2">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just a set of symptoms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" style="background-image: url(http://harvey-production.s3.amazonaws.com/assets/images/home/symbols.png)">
+        <div class="container flex-l">
+            <div class="tc pt5 ph6">
+                <p class="f2">Private & Personalized Treatment</p>
+                <p class="f4 pv3 ph4">Your health shouldn't be a guessing game on Google. Our doctors have successfully treated hundreds of patients fighting skin issues, food allergies, stress and anxiety, digestive issues, fatigue, weight gain/loss, hormonal changes, and many other health conditions.</p>
+                <div class="db cf ma2 f4">
+                    <a href="/patients"><i class="fa fa-play-circle pt1" aria-hidden="true"></i> Watch Patient Stories</a>
                 </div>
             </div>
         </div>
         <div class="container flex-l">
-            <div class="flex-ns flex-wrap-ns pb4">
-              <div class="w-100 w-50-ns tc">
-                <div class="ph5 mb4">
-                  <i class="fa fa-pagelines f2 white" aria-hidden="true"></i>
-                  <p class="f3 fw3 mv2 white">Naturopathic Doctors</p>
-                  <p class="f4 white">All of our doctors graduated from four-year residential medical school, passed a national board exam and have a state medical license.</p>
+            <div class="flex-ns flex-wrap-ns pt4 pb5">
+                <div class="w-100 w-50-ns tc">
+                    <div class="ph5 mb4">
+                      <i class="fa fa-pagelines f2 ma1" aria-hidden="true"></i>
+                      <p class="f3 fw3 mv2">Naturopathic Doctors</p>
+                      <p class="f4">All of our doctors graduated from four-year residential medical school, passed a national board exam and have a state medical license.</p>
+                    </div>
                 </div>
-              </div>
-              <div class="w-100 w-50-ns tc">
-                <div class="ph5 mb4">
-                  <i class="fa fa-balance-scale f2 white" aria-hidden="true"></i>
-                  <p class="f3 fw3 mv2 white">Integrative Approach</p>
-                  <p class="f4 white">Harvey doctors take whole-body, root-cause approach to medicine. We view the body as one integrated system, not a collection of organs.</p>
+                <div class="w-100 w-50-ns tc">
+                    <div class="ph5 mb4">
+                      <i class="fa fa-balance-scale f2 ma1" aria-hidden="true"></i>
+                      <p class="f3 fw3 mv2">Alternative Approach</p>
+                      <p class="f4">Harvey doctors take whole-body, root-cause approach to medicine. We view the body as one integrated system, not a collection of organs.</p>
+                    </div>
                 </div>
-              </div>
-
-              <div class="w-100 w-50-ns tc">
-                <div class="ph5 mb4">
-                  <i class="fa fa-flask f2 white" aria-hidden="true"></i>
-                  <p class="f3 fw3 mv2 white">Advanced Lab Testing</p>
-                  <p class="f4 white">We offer specialized home lab tests you can't get at your primary doctor. Most lab tests you can take from the comfort of your home.</p>
+                <div class="w-100 w-50-ns tc">
+                    <div class="ph5 mb4">
+                      <i class="fa fa-flask f2 ma1" aria-hidden="true"></i>
+                      <p class="f3 fw3 mv2">Advanced Lab Testing</p>
+                      <p class="f4">We offer specialized home lab tests you can't get at your primary doctor. Most lab tests you can take from the comfort of your home.</p>
+                    </div>
                 </div>
-              </div>
-              <div class="w-100 w-50-ns tc">
-                <div class="ph5 mb4">
-                  <i class="fa fa-cutlery f2 white" aria-hidden="true"></i>
-                  <p class="f3 fw3 mv2 white">Nutritional Guidance</p>
-                  <p class="f4 white">Our natural treatment plans may include vitamins, supplements, or diet and lifestyle changes. We will never prescribe pharmaceuticals.</p>
+                <div class="w-100 w-50-ns tc">
+                    <div class="ph5 mb4">
+                      <i class="fa fa-cutlery f2 ma1" aria-hidden="true"></i>
+                      <p class="f3 fw3 mv2">Nutritional Guidance</p>
+                      <p class="f4">Our natural treatment plans may include vitamins, supplements, or diet and lifestyle changes. We will never prescribe pharmaceuticals.</p>
+                    </div>
                 </div>
-              </div>
+                <div class="w-100 w-50-ns tc">
+                    <div class="ph5 mb4">
+                      <i class="fa fa-desktop f2 ma1" aria-hidden="true"></i>
+                      <p class="f3 fw3 mv2">Accessable Records</p>
+                      <p class="f4">Manage all your appointments, lab results, supplement prescriptions and treatment plans from one central dashboard.</p>
+                    </div>
+                </div>
+                <div class="w-100 w-50-ns tc">
+                    <div class="ph5 mb4">
+                      <i class="fa fa-comments-o f2 ma1" aria-hidden="true"></i>
+                      <p class="f3 fw3 mv2">Free Messaging</p>
+                      <p class="f4">We offer unlimited free chat with your doctor through a private Telegram channel. Full video consultations start at $75.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="records" class="bg-white">
-        <div class="container">
-            <div class="tc pt5 pb4 ph6">
-                <p class="f1">Everything in one place.</p>
-                <p class="f3 pa3">Access lab results, supplement prescriptions and treatment plans all in one place, with unlimited <a href="/doctors" class="dim">free messaging</a> with your doctor.</p>
-            </div>
-        </div>
-        <div style="
-            background-image: url(http://harvey-production.s3.amazonaws.com/assets/images/home/lab-records.png);
-            background-attachment: fixed; background-position: 100% 80%;"
-            class="cover h4 w-100 vh-25 o-50">
-    </section>
-
-    <section id="press">
+    <section id="press" class="bt b--near-white">
         <div class="container">
             <div class="tc pt4 ph7">
                 <p class="f4 moon-gray">Don't take our word for it.</p>
@@ -170,6 +181,9 @@
                     </a>
                 </div>
             </div>
+            <div class="container">
+                <div class="bb b--near-white"></div>
+            </div>
         </div>
     </section>
 
@@ -177,7 +191,7 @@
         <div class="container">
             <div class="tc pv5 ph7">
                 <p class="f2">Start your health journey.</p>
-                <p class="f4 pa3">Harvey offers preventative lab tests and clinical-grade vitamins and supplements—under the guidance of integrative doctors.</p>
+                <p class="f4 pa3">If you're new to integrative medicine, we recommend chatting with one of our doctors before buying lab tests or supplements. If you already know what you want, you can start shopping now.</p>
                 <div class="tc">
                     <a href="https://store.goharvey.com" class="button is-primary is-medium has-arrow">Start Shopping</a>
                     <p class="db cf ma3">Questions? <a href="/doctors" class="underline dim">Chat with a doctor</a></p>

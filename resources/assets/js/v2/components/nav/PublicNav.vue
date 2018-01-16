@@ -11,7 +11,7 @@
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
-                    <a href="/doctors">Doctors</a>
+                    <a href="/patients">Patients</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
@@ -23,7 +23,7 @@
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="https://store.goharvey.com" class="dim">Enter Store</a>
+                        <a v-else href="https://store.goharvey.com" class="dim">Shop Store</a>
                     </div>
                 </div>
             </div>
