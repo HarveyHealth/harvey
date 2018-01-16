@@ -56,7 +56,7 @@
               <quill-editor
               output="html"
               :options="simpleEditor"
-              v-model="quickNotes"
+              :value.sync="quickNotes"
               class="simple-editor"
               />
             </div>
@@ -234,6 +234,20 @@ export default {
         },
         updateName(e) {
             this.selected = e.target.children[e.target.selectedIndex].dataset.id;
+        },
+        findUrl() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        findQuickNotes() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     computed: {
@@ -241,37 +255,21 @@ export default {
             return [{name: ''}].concat([{name: 'Fullscript'}]);
         },
         prescriptionUrl() {
-            const prop = this.$parent.propData;
-            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            return this.findUrl();
         },
         quickNotes() {
-             const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+            return this.findQuickNotes();
         }
     },
     watch : {
         prescriptionUrl(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+                return this.findUrl();
             }
         },
         quickNotes(val) {
             if (!val) {
-                 const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.findQuickNotes();
             }
         }
     }

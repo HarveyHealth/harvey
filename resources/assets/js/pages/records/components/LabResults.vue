@@ -35,7 +35,7 @@
                     <Spacer isBottom :size="2" />
                     <span class="custom-select">
                       <select @change="updateLab($event)">
-                        <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.attributes.name }}</option>
+                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.sku_name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
                       </select>
                     </span>
                   </div>
@@ -62,7 +62,7 @@
             <quill-editor
             output="html"
             :options="simpleEditor"
-            v-model="notes"
+            :value.sync="notes"
             class="simple-editor"
             />
           </div>
@@ -239,61 +239,66 @@ export default {
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
+        },
+        findLabList() {
+            let labNames = Object.keys(this.$root.$data.labTypes);
+            return [''].concat(labNames);
+        },
+        findUserLabList() {
+            let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
+                e.attributes.sku_name = Object.values(this.$root.$data.labTests).filter(e1 => e1.id == e.attributes.sku_id).pop().attributes.name;
+                return e;
+            });
+            return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
+        },
+        findUrl() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        findQuickNotes() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     computed: {
         labNameList() {
-            let labNames = Object.keys(this.$root.$data.labTypes);
-            return [''].concat(labNames);
+            return this.findLabList();
         },
-        labTestList() {
-            let labTests = Object.values(this.$parent.lab_tests).map(e => Object.assign({}, e, this.$root.$data.labTests[e.attributes.sku_id]));
-            return labTests.length ? [{attributes: {name: ''}, id: 0}].concat(labTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
+        userLabTestList() {
+            return this.findUserLabList();
         },
         resultUrl() {
-            const prop = this.$parent.propData;
-            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            return this.findUrl();
         },
         quickNotes() {
-             const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+             return this.findQuickNotes();
         }
     },
     watch: {
         resultUrl(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+                return this.findUrl();
             }
         },
         labNameList(val) {
             if (!val) {
-                let labNames = Object.keys(this.$root.$data.labTypes);
-                return [''].concat(labNames);
+                return this.findLabList();
             }
         },
-        labTestList(val) {
+        userLabTestList(val) {
             if (!val) {
-                let labTests = Object.values(this.$parent.lab_tests).map(e => Object.assign({}, e, this.$root.$data.labTests[e.attributes.sku_id]));
-                return labTests.length ? [{attributes: {name: ''}, id: 0}].concat(labTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
+                return this.findUserLabList();
             }
         },
         quickNotes(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.findQuickNotes();
             }
         }
     }

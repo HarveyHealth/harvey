@@ -179,7 +179,7 @@ class LabTestsController extends BaseAPIController
                 'notes' => request('notes'),
             ]);
 
-            return $this->baseTransformItem($lab_test_result, null, new LabTestResultTransformer, 'lab_test_result')->respond();
+            return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, 'lab_test_result')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
@@ -187,7 +187,7 @@ class LabTestsController extends BaseAPIController
 
     public function updateResult(Request $request, LabTestResult $lab_test_result)
     {
-        if (currentUser()->cant('update', $lab_test_result)) {
+        if (currentUser()->cant('update', $lab_test_result->labTest)) {
             return $this->respondNotAuthorized('You do not have access to update this LabTestResult.');
         }
 
@@ -208,7 +208,7 @@ class LabTestsController extends BaseAPIController
         }
 
         if (!$lab_test_result->delete()) {
-            return $this->baseTransformItem($lab_test_result, null, new LabTestResultTransformer, 'lab_test_result')->respond(ResponseCode::HTTP_CONFLICT);
+            return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, 'lab_test_result')->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);

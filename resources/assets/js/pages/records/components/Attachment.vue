@@ -53,7 +53,7 @@
               <quill-editor
               output="html"
               :options="simpleEditor"
-              v-model="quickNotes"
+              :value.sync="quickNotes"
               class="simple-editor"
               />
             </div>
@@ -81,7 +81,7 @@
               <quill-editor
                   output="html"
                   :options="simpleEditor"
-                  v-model="notes"
+                  :value.sync="notes"
                   class="simple-editor"
               />
             </div>
@@ -225,7 +225,7 @@ export default {
                 object.date = moment.tz(returns.attributes.created_at.date, returns.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                 object.original_date = returns.attributes.created_at.date;
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
-                object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
+                object.type = startCase(returns.attributes.name) + ' ' + returns.type.split('_').map(e => capitalize(e)).join(' ');
                 this.$parent.timeline = [object].concat(this.$parent.timeline);
                 this.loading = false;
                 this.$parent.news = false;
@@ -235,44 +235,39 @@ export default {
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
+        },
+        attachmentUrlFinder() {
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+        },
+        quickNotesFinder() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
         }
     },
     computed: {
         attachmentUrl() {
-            const prop = this.$parent.propData;
-            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            return this.attachmentUrlFinder();
         },
         quickNotes() {
-             const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+            return this.quickNotesFinder();
         }
     },
     watch: {
         attachmentUrl(val) {
             if (!val) {
-                const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    this.setNotes(prop.attributes.notes);
-                }
-                return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+                return this.attachmentUrlFinder();
             }
         },
         quickNotes(val) {
             if (!val) {
-               const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+               return this.quickNotesFinder();
             }
         }
     }

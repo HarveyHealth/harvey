@@ -80,7 +80,7 @@
             <quill-editor
             output="html"
             :options="simpleEditor"
-            v-model="notes"
+            :value.sync="notes"
             class="simple-editor"
             />
           </div>
@@ -216,7 +216,7 @@ export default {
                 notes: this.notes
             };
             for (let i in object) {
-                if (object[i] === null) {
+                if (object[i] === '') {
                     delete object[i];
                 }
             }
@@ -254,7 +254,7 @@ export default {
                 notes: this.notes
             };
             for (let i in object) {
-                if (object[i] === null) {
+                if (object[i] === '') {
                     delete object[i];
                 }
             }
@@ -281,79 +281,79 @@ export default {
         },
         submit() {
             return this.$parent.news ? this.createSoapNote() : this.editSoapNote();
-        }
-    },
-    computed: {
-        subjective() {
+        },
+        getSubject() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
             this.setSubjectiveTA(data);
             return data;
         },
-        objective() {
+        setObject() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.objective;
             this.setObjectiveTA(data);
             return data;
         },
-        assessment() {
+        setAssessment() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
             this.setAssessmentTA(data);
             return data;
         },
-        plan() {
+        setPlan() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
             this.setPlanTA(data);
             return data;
         },
+        findQuickNotes() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+        }
+    },
+    computed: {
+        subjective() {
+            return this.getSubject();
+        },
+        objective() {
+            return this.setObject();
+        },
+        assessment() {
+            return this.setAssessment();
+        },
+        plan() {
+            return this.setPlan();
+        },
         quickNotes() {
-             const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+            return this.findQuickNotes();
         }
     },
     watch: {
         subjective(val) {
             if (!val) {
-                let data = this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
-                this.setSubjectiveTA(data);
-                return data;
+                return this.getSubject();
             }
         },
         objective(val) {
             if (!val) {
-                let data = this.$parent.news ? '' : this.$parent.propData.attributes.objective;
-                this.setObjectiveTA(data);
-                return data;
+                return this.setObject();
             }
         },
         assessment(val) {
             if (!val) {
-                let data = this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
-                this.setAssessmentTA(data);
-                return data;
+                return this.setAssessment();
             }
         },
         plan(val) {
             if (!val) {
-                let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
-                this.setPlanTA(data);
-                return data;
+                return this.setPlan();
             }
         },
         quickNotes(val) {
             if (!val) {
-                 const prop = this.$parent.propData;
-                if (prop && prop.attributes && prop.attributes.notes) {
-                    let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
-                    this.$parent.news ? this.setNotes('') : this.setNotes(notes);
-                } else {
-                    this.setNotes('');
-                }
-                return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+                return this.findQuickNotes();
             }
         }
     }
