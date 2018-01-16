@@ -25,7 +25,7 @@
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
-        :tableRowData="appointments"        
+        :tableRowData="appointments"
       />
 
     </div>
@@ -113,21 +113,23 @@
       <div class="input__container" v-if="appointment.currentStatus === 'complete'" data-test="section_billing">
         <label class="input__label">Billing Info</label>
         <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
-        <div class="input__item">Billed to: {{ $root.userCardBrand }} ****{{ $root.userCardLast4 }}</div>
-        <div class="input__item" data-test="appointment_amount_charged">Charged: {{ appointment.duration.data === '60' ? '$150' : '$75' }}</div>
+        <div class="input__item">Billed to: {{ selectedRowData && selectedRowData.cardBrand ? selectedRowData.cardBrand : '' }} ****{{ selectedRowData && selectedRowData.cardLastFour ? selectedRowData.cardLastFour : '' }}</div>
+        <div class="input__item" data-test="appointment_amount_charged">Charged: {{ selectedRowData.amount ? '$' + Number(selectedRowData.amount).toFixed(0) : appointment.duration.data === '60' ? '$150' : '$75' }}</div>
       </div>
 
-      <TextBox v-model="appointment.purpose"
+      <TextBox
         name="purpose"
         :character-limit="purposeCharLimit"
         :editable="canEditFields"
+        :value="appointment.purpose"
         :visible="isVisiblePurpose"
       />
 
-      <TextBox v-model="appointment.notes"
+      <TextBox
         name="notes"
         :character-limit="notesCharLimit"
         :editable="canEditFields"
+        :value="appointment.notes"
         :visible="isVisibleNotes"
       />
 
@@ -766,7 +768,7 @@ export default {
 
         // Purpose text
         this.appointment.purpose = data.purpose;
-        this.appointment.notes = data.notes || '';
+        this.appointment.notes = data.notes[0] || '';
 
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';

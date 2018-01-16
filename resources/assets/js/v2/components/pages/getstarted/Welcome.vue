@@ -40,23 +40,26 @@ export default {
     methods: {
         trackAccountCreation(validation) {
             if (!validation.account_created) {
+                const user = App.Config.user.info;
+
                 analytics.track('Account Created');
-                analytics.identify(App.Config.user.info.id, {
-                    firstName: App.Config.user.info.first_name,
-                    lastName: App.Config.user.info.last_name,
-                    email: App.Config.user.info.email,
-                    city: App.Config.user.info.city,
-                    state: App.Config.user.info.state,
-                    zip: App.Config.user.info.zip
+                analytics.identify(user.id, {
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    email: user.email,
+                    city: user.city,
+                    state: user.state,
+                    zip: user.zip
                 }, {
                     integrations: {
                         Intercom : {
-                            user_hash: App.Config.user.info.intercom_hash
+                            user_hash: user.intercom_hash
                         }
                     }
                 });
                 if (validation.facebook_connect) {
                     analytics.track('Facebook Connect Signup');
+                    App.Logic.getstarted.trackSignupEvent(user.email, user.first_name, user.last_name);
                 }
                 App.Util.data.updateStorage('zip_validation', {
                     account_created: true,

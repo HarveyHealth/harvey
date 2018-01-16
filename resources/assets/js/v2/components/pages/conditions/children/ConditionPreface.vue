@@ -44,7 +44,7 @@
       <!-- Lab Tests -->
       <Heading2>Common Lab Tests</Heading2>
       <Spacer isBottom :size="2" />
-      <Grid :flexAt="'l'" :columns="[{l: '1of2'}, {l: '1of2'}]" :gutters="{ s:3, l:3 }">
+      <Grid :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
           <div :slot="1" class="bg-white">
               <LabTestCard :testId="tests[0] || false" />
           </div>

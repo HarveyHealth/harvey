@@ -4,12 +4,16 @@ namespace App\Transformers\V1;
 
 use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Invoice;
-use App\Transformers\V1\{InvoiceItemTransformer, PatientTransformer, DiscountCodeTransformer};
 
 class InvoiceTransformer extends HarveyTransformer
 {
-
-    protected $availableIncludes = ['patient', 'invoice_items', 'discount_code'];
+    protected $availableIncludes = [
+        'appointment',
+        'discount_code',
+        'invoice_items',
+        'lab_order',
+        'patient',
+    ];
 
     /**
      * A Fractal transformer.
@@ -21,6 +25,8 @@ class InvoiceTransformer extends HarveyTransformer
         return [
             'id' => cast_to_string($invoice->id),
             'patient_id' => cast_to_string($invoice->patient_id),
+            'appointment_id' => cast_to_string($invoice->appointment->id ?? null),
+            'lab_order_id' => cast_to_string($invoice->labOrder->id ?? null),
             'amount' => cast_to_string($invoice->amount),
             'card_brand' => $invoice->card_brand,
             'card_last_four' => cast_to_string($invoice->card_last_four),
@@ -52,6 +58,20 @@ class InvoiceTransformer extends HarveyTransformer
     {
         if ($discount_code = $invoice->discountCode) {
             return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_code');
+        }
+    }
+
+    public function includeAppointment(Invoice $invoice)
+    {
+        if ($appointment = $invoice->appointment) {
+            return $this->item($appointment, new AppointmentTransformer(), 'appointment');
+        }
+    }
+
+    public function includeLabOrder(Invoice $invoice)
+    {
+        if ($labOrder = $invoice->labOrder) {
+            return $this->item($labOrder, new LabOrderTransformer(), 'lab_order');
         }
     }
 }

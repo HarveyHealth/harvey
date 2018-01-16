@@ -28,6 +28,14 @@ export default function(appointments, zone, userType) {
       state: obj.patientData.state,
       zip: obj.patientData.zip,
 
+      amount: obj.patientData.amount,
+      cardBrand: obj.patientData.card_brand,
+      cardLastFour: obj.patientData.card_last_four,
+      paymentStatus: obj.patientData.status,
+      description: obj.patientData.description,
+      subtotal: obj.patientData.subtotal,
+      discount: obj.patientData.discount,
+
       _appointmentId: obj.id,
       _date: obj.attributes.appointment_at.date,
       _doctorId: obj.attributes.practitioner_id,
