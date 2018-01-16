@@ -19,14 +19,14 @@ export default function(laravel) {
             // For the time being, we associate each condition with two lab test ids
             // to be displayed on the conditions pages
             labTests: {
-                'skin-issues': [9, 10],
-                'food-allergies': [9, 10],
-                'stress-anxiety': [3, 1],
-                'digestive-issues': [10, 9],
-                'fatigue': [3, 1],
-                'weight-loss-gain': [9, 1],
-                'womens-health': [2, 4],
-                'general-health': [1, 9]
+                'skin-issues': ['Food Allergy', 'Microbiome (Gut)'],
+                'food-allergies': ['Food Allergy', 'Microbiome (Gut)'],
+                'stress-anxiety': ['Adrenals', 'Micronutrients'],
+                'digestive-issues': ['Microbiome (Gut)', 'Food Allergy'],
+                'fatigue': ['Adrenals', 'Micronutrients'],
+                'weight-loss-gain': ['Food Allergy', 'Micronutrients'],
+                'womens-health': ['Hormones', 'Thyroid/Cortisol'],
+                'general-health': ['Micronutrients', 'Food Allergy']
             },
             subText: {},
         },
