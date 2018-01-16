@@ -49,7 +49,7 @@ Route::get('privacy', 'LegalController@privacy');
 // PUBLIC BLADE PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
-Route::get('/financing', 'PagesController@getFinancing')->name('financing');
+Route::get('/doctors', 'PagesController@getDoctors')->name('doctors');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
 
 // PUBLIC VIEW PAGES

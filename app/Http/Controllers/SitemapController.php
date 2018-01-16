@@ -75,7 +75,6 @@ class SitemapController extends Controller
             'blog',
             'login',
             'about',
-            'financing',
             'get-started',
         ];
 
