@@ -47,6 +47,7 @@
       @include('_includes.svgs')
       <main>
         <div id="app" :class="isMobileMenuOpen">
+          <grid-styles></grid-styles>
           <router-view />
         </div>
       </main>

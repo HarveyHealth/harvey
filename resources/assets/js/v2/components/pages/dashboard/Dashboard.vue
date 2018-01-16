@@ -13,7 +13,7 @@
                 <SlideIn :to="'right'" v-if="shouldShowIntakeAlert">
                     <Card isAlert class="alert mb2 mb3-m">
                         <CardContent class="pt4">
-                            <Grid :columns="[{m:'2of3'}, {m:'1of3'}]" :gutters="{s:3}">
+                            <Grid :columns="[{m:8}, {m:4}]" :gutters="{s:3}">
                                 <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
                                 <div :slot="2" class="tc tr-m">
                                     <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
@@ -43,7 +43,7 @@
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
                     <Card :slot="1" :heading="'Contact Info'">
                         <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
                         <CardContent>
@@ -124,7 +124,7 @@ export default {
                     !this.State('users.intake.data.self');
         },
         topRowColumnConfig() {
-            return this.shouldShowDoctorInfo ? [{ l:'1of2' }, { l:'1of2' }] : [{ l:'1of1' }];
+            return this.shouldShowDoctorInfo ? [{ l:6 }, { l:6 }] : [{ l:12 }];
         },
         upcomingAppointments() {
             return this.State('appointments.data.upcoming').filter(a => a.attributes.status === 'pending');
