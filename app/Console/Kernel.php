@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
         Commands\SendAppointmentsRemindersCommand::class,
         Commands\SendUnreadMessageEmailNotificationsCommand::class,
         Commands\SetNginxConfigCommand::class,
+        Commands\ImportAvailableLabs::class,
+        Commands\ScrubAvailableLabs::class,
     ];
 
     /**
