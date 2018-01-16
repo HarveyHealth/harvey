@@ -276,7 +276,7 @@ export default {
                 } else {
                     const tokenResponse = response;
                     // Update user's card information
-                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
+                    axios.post(`/api/v1/users/${App.Config.user.info.id}/cards`, { id: response.id }).then(() => {
                         App.setState({
                             'getstarted.signup.cardName': this.cardName,
                             'getstarted.signup.cardNumber': this.cardNumber,
@@ -335,7 +335,6 @@ export default {
         }
     },
     mounted () {
-        App.Logic.getstarted.redirectDashboard();
         window.scroll(0, 0);
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 

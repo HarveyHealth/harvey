@@ -4,6 +4,11 @@
 // on a component's beforeMount hook.
 //   name (string) = the name of the component to bar
 export default function(name) {
+    if (!App.Config.user.info.signedIn) {
+        App.Router.push({ path: '/sign-up' });
+        return;
+    }
+
     const isComplete = this.State('getstarted.signup.hasCompletedSignup');
 
     // Route to or away from 'success' depending on completion
