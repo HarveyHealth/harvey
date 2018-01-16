@@ -1,39 +1,39 @@
 <template>
-  <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
-      <div class="respond-container">
-    <thead>
-      <tr v-if="rowData.length !== 0">
-        <th v-for="col in columns"
-            @click="onSort ? onSort(col) : null"
-            :width="col.width"
-            class="heading-2"
-            :style="{margin: '0 !important'}"
-        >{{ col.name }}</th>
-      </tr>
-    </thead>
-    <tbody class="copy-main">
-      <tr v-show="loading">
-        <td :colspan="columns.length" class="empty font-italic font-sm copy-muted">
-          {{ loadingMsg }}
-        </td>
-      </tr>
-      <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" class="empty font-italic font-sm copy-muted">
-          {{ emptyMsg }}
-        </td>
-      </tr>
-      <tr v-for="(row, i) in rowData"
-          v-show="!loading"
-          @click="onRowClick(row, i)"
-          :class="$$rowClasses(row.data, i)">
-        <td v-for="(val, j) in row.values" :width="columns[j].width">
-          <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
-          <div class="cell-wrap" v-html="val"></div>
-        </td>
-      </tr>
-    </tbody>
-    </div>
-  </table>
+    <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
+        <div class="respond-container">
+            <thead>
+                <tr v-if="rowData.length !== 0">
+                    <th v-for="col in columns"
+                        @click="onSort ? onSort(col) : null"
+                        :width="col.width"
+                        class="heading-2"
+                        :style="{margin: '0 !important'}"
+                    >{{ col.name }}</th>
+                </tr>
+            </thead>
+            <tbody class="copy-main">
+                <tr v-show="loading">
+                    <td :colspan="columns.length" class="empty font-italic font-sm copy-muted">
+                    {{ loadingMsg }}
+                    </td>
+                </tr>
+                <tr v-show="!loading && !rowData.length">
+                    <td :colspan="columns.length" class="empty font-italic font-sm copy-muted">
+                    {{ emptyMsg }}
+                    </td>
+                </tr>
+                <tr v-for="(row, i) in rowData"
+                    v-show="!loading"
+                    @click="onRowClick(row, i)"
+                    :class="$$rowClasses(row.data, i)">
+                    <td v-for="(val, j) in row.values" :width="columns[j].width">
+                    <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
+                    <div class="cell-wrap" v-html="val"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </div>
+    </table>
 </template>
 
 <script>

@@ -7,7 +7,7 @@
 
     .respond-container {
         @include btwQuery(xs, md) {
-            overflow: auto;
+            overflow-x: auto;
             overflow-y: hidden;
             white-space: nowrap;
             min-width: 1000px;
