@@ -185,7 +185,6 @@ export default {
     },
     mounted () {
         window.scroll(0, 0);
-        App.Logic.getstarted.redirectDashboard();
 
         // If the component mounts and there are practitioners in the list
         // but none have been selected, auto-select the first practitioner

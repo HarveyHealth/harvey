@@ -53,8 +53,6 @@ Route::get('/financing', 'PagesController@getFinancing')->name('financing');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
 
 // PUBLIC VIEW PAGES
-Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
-Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE

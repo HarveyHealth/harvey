@@ -17,7 +17,7 @@
                         <h1 class="title is-1">Choose better health.</h1>
                         <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey Health provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
+                            <a href="/get-started#/sign-up" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -88,29 +88,25 @@
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Select your most concerning health issue out of the list below to learn how our integrative doctors might approach your condition.</p>
                 <div class="columns is-margin-top">
                     <div class="column" v-for="(condition, index) in conditions" v-if="index < 4">
-                        <a :href="'/conditions/' + condition.slug">
+                        <span>
                             <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
                                 <img class="icon full" :src="condition.image_url">
                             </figure>
-                        </a>
+                        </span>
                         <div class="is-padding-top">
                             <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
-                            <!-- <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p> -->
-                            <a :href="'/conditions/' + condition.slug">Learn More</a>
                         </div>
                     </div>
                 </div>
                 <div class="columns">
                     <div class="column" v-for="(condition, index) in conditions" v-if="index > 3">
-                        <a :href="'/conditions/' + condition.slug">
+                        <span>
                             <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
                                 <img class="icon full" :src="condition.image_url">
                             </figure>
-                        </a>
+                        </span>
                         <div class="is-padding-top">
                             <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
-                            <!-- <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p> -->
-                            <a :href="'/conditions/' + condition.slug">Learn More</a>
                         </div>
                         </a>
                     </div>
@@ -227,7 +223,7 @@
                 <h2 class="title is-3">Start your health journey.</h2>
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Our integrative doctors are available for virtual consultations, lab testing and treatment for a wide variety of health conditions.</p>
                 <div class="button-wrapper">
-                    <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
+                    <a href="/get-started#/sign-up" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>

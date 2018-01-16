@@ -27,7 +27,7 @@ export default {
             type: String,
             default: 'primary',
             validator(theme) {
-                const validThemes = ['primary', 'inverse-dark'];
+                const validThemes = ['primary', 'inverse-dark', 'inverse-light'];
 
                 return validThemes.indexOf(theme) > -1;
             }
@@ -95,6 +95,12 @@ export default {
         &.inverse-dark {
             background: transparent;
             border: 3px solid $color-copy;
+        }
+
+        &.inverse-light {
+            background: transparent;
+            border: 3px solid $color-white;
+            color: $color-white;
         }
     }
 </style>
