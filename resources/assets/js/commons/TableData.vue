@@ -1,5 +1,6 @@
 <template>
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
+      <div class="respond-container">
     <thead>
       <tr v-if="rowData.length !== 0">
         <th v-for="col in columns"
@@ -27,10 +28,11 @@
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">
           <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
-          <div class="cell-wrap" :data-column="columns[j].name" v-html="val"></div>
+          <div class="cell-wrap" v-html="val"></div>
         </td>
       </tr>
     </tbody>
+    </div>
   </table>
 </template>
 

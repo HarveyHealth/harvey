@@ -5,6 +5,18 @@
     position: relative;
   }
 
+    .respond-container {
+        @include btwQuery(xs, md) {
+            overflow: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            min-width: 1000px;
+        }
+        width: 100%;
+        display: table;
+    }
+
+
   .empty {
       width: 100%;
       padding: 20px 40px;
@@ -49,6 +61,7 @@
 
   thead {
     display: table-caption;
+    width: 100%;
   }
 
   tr {
@@ -58,6 +71,9 @@
     border: none;
     border-bottom: 1px solid $color-gray-5;
     width: 100%;
+    @include btwQuery(xs, md) {
+        flex-direction: row;
+    }
   }
 
   th {
@@ -75,6 +91,12 @@
   }
 
   tbody {
+    width: 100%;
+    @include btwQuery(xs, md) {
+        display: flex;
+        flex-direction: column;
+    }
+
     tr {
       td {
         opacity: .70;
@@ -176,9 +198,6 @@
   td {
     font-size: 16px;
   }
-  .cell-wrap {
-    @include margin(0);
-  }
   .cell-wrap:before {
     display: none;
   }
@@ -187,9 +206,6 @@
 // Appointments Table
 .tabledata.appointments-table .cell-wrap {
   font-size: 14px;
-  @include btwQuery(xs, md) {
-        margin-left: 90px;
-    }
 }
 
 @include query(md) {

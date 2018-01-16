@@ -13,7 +13,7 @@ $breakpoints: (
 }
 
 @mixin btwQuery($min-bp, $max-bp) {
-    @media (min-width: map-get($breakpoints, $min-bp)) and (max-width: map-get($breakpoints, $max-bp)) {
+    @media (min-width: map-get($breakpoints, $min-bp)) and (max-width: (map-get($breakpoints, $max-bp) - 1)) {
       @content;
     }
   }
