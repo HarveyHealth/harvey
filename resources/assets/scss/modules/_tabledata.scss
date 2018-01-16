@@ -177,7 +177,7 @@
     font-size: 16px;
   }
   .cell-wrap {
-    // @include margin(0);
+    @include margin(0);
   }
   .cell-wrap:before {
     display: none;
@@ -187,8 +187,11 @@
 // Appointments Table
 .tabledata.appointments-table .cell-wrap {
   font-size: 14px;
-//   @include margin(null null null 90px);
+  @include btwQuery(xs, md) {
+        margin-left: 90px;
+    }
 }
+
 @include query(md) {
   .tabledata.appointments-table {
     @include normalTableStyles;
