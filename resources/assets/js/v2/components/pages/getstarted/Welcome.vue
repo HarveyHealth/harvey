@@ -43,6 +43,10 @@ export default {
     },
 
     mounted () {
+        // Must manually set this since we no longer refresh page
+        // but instead just push a new front-end route
+        App.Config.user.isPatient = true;
+
         if (!this.State('practitioners.wasRequested')) {
           App.Http.practitioners.get(App.Http.practitioners.getResponse);
         }
