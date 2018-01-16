@@ -18,7 +18,7 @@ class HarveyTransformer extends TransformerAbstract
         $includes = $this->figureOutWhichIncludes($scope);
 
         foreach ($includes as $include) {
-            $includedData = $this->includeResourceIfAvailableAndPolicyAllowInclusion(
+            $includedData = $this->includeResourceIfAvailableAndPolicyAllowsInclusion(
                 $scope,
                 $data,
                 $includedData,
@@ -57,9 +57,9 @@ class HarveyTransformer extends TransformerAbstract
         return $includes;
     }
 
-    private function includeResourceIfAvailableAndPolicyAllowInclusion(Scope $scope, object $data, array $includedData, string $include) : array
+    private function includeResourceIfAvailableAndPolicyAllowsInclusion(Scope $scope, object $data, array $includedData, string $include) : array
     {
-        $isIncludeAllowed = $this->policyAllowInclusion($data, $include);
+        $isIncludeAllowed = $this->policyAllowsInclusion($data, $include);
 
         if ($isIncludeAllowed && $resource = $this->callIncludeMethod($scope, $include, $data)) {
             $childScope = $scope->embedChildScope($include, $resource);
@@ -74,7 +74,7 @@ class HarveyTransformer extends TransformerAbstract
         return $includedData;
     }
 
-    private function policyAllowInclusion(object $data, string $include) : bool
+    private function policyAllowsInclusion(object $data, string $include) : bool
     {
         $model_name = (new ReflectionClass($data))->getShortName();
         $policy_class_name = 'App\\Policies\\' . studly_case($model_name) . 'Policy';
