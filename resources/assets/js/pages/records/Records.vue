@@ -494,19 +494,19 @@ export default {
             let patientUserId = this.$root.$data.global.user.id;
             let patientId = this.$root.$data.global.user.included.id;
             let object = {
-                address_1: patientUserData.address_1,
-                address_2: patientUserData.address_2,
-                city: patientUserData.city,
+                address_1: patientUserData.address_1 || 'N/A',
+                address_2: patientUserData.address_2 || 'N/A',
+                city: patientUserData.city || 'N/A',
                 date_of_birth:  patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : 'N/A',
                 email: patientUserData.email,
                 has_a_card: patientUserData.has_a_card,
                 id: patientId,
                 name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
-                phone: patientUserData.phone,
+                phone: patientUserData.phone || 'N/A',
                 search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
-                state: patientUserData.state,
+                state: patientUserData.state || 'N/A',
                 user_id: patientUserId,
-                zip: patientUserData.zip,
+                zip: patientUserData.zip || 'N/A',
                 image: patientUserData.image_url,
                 created_at: moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY")
             };
