@@ -186,7 +186,7 @@
           </div>
 
           <div :slot="2" class="searchbar-actions pa4 mt4">
-            <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:2, l:2 }">
+            <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:2, l:0 }">
               <button :slot="1" class="button flyout-toggle" @click="handleFlyoutOpen">
                 View Current Records
               </button>
@@ -261,7 +261,13 @@
                 :index="index"
                 :items="timelineData"
                 :emptyMessage="`No records for this patient`"
-                :loading="loading" />
+                :loading="loading">
+                <div class="w-100 new-attachment">
+                    <button class="button" @click="newAttachment">
+                        New Attachment
+                    </button>
+                </div>
+                </Timeline>
               </div>
             </Flyout>
           </div>
@@ -627,6 +633,12 @@ export default {
 
 <style lang="scss" scoped>
     @import '~sass';
+
+    .new-attachment {
+        display: flex;
+        justify-content: center;
+        margin: 25px 0;
+    }
 
     .main-container {
       flex-grow: 1;

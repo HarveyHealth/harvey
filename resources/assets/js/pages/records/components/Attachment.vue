@@ -45,7 +45,7 @@
 
 
         <!-- Quick Notes -->
-        <Card :slot="2" :heading="'Quick Notes'">
+        <Card :slot="2" :heading="'Quick Notes'" v-if="$root.$data.permissions !== 'patient'">
           <CardContent>
 
             <!-- Editor -->
