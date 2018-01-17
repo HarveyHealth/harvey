@@ -3,12 +3,13 @@
 namespace Tests\Feature;
 
 use App\Lib\PhoneNumberVerifier;
-use App\Models\{Patient, User};
+use App\Models\{Patient, User, LabOrder};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Carbon, Log, ResponseCode;
 use Illuminate\Support\Facades\Redis;
+use View;
 
 class PhoneNumberVerifierTest extends TestCase
 {
@@ -48,6 +49,15 @@ class PhoneNumberVerifierTest extends TestCase
         $code = Redis::get("phone_validation:{$user->id}:{$user->phone}");
 
         $this->assertTextWasSent($user->phone, "Your Harvey phone verification code is {$code}");
+    }
+
+    public function test_lab_order_reminder_is_sent()
+    {
+        // create a Lab Order
+        $lab_order = factory(LabOrder::class)->create();
+
+        $this->assertTextWasSent($lab_order->patient->user->phone,
+        View::make("sms/lab_order_reminder")->render());
     }
 
     public function test_a_five_digit_validation_code_is_requested()
