@@ -9,7 +9,7 @@
 
     <!-- New -->
     <div v-if="$parent.news" class="">
-      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
@@ -21,7 +21,7 @@
 
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ m:'1of2' }, { m:'1of2' }]" :gutters="{ m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:6 }, { m:6 }]" :gutters="{ m:3 }">
                   <div :slot="1">
                     <Heading3>File Upload</Heading3>
                     <Spacer isBottom :size="2" />
@@ -65,7 +65,7 @@
 
     <!-- Existing -->
     <div class="" v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
         <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="startCase($parent.propData.attributes.name) + ' Attachment'">
           <CardContent>
@@ -89,7 +89,7 @@
         </Card>
       </Grid>
 
-      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
             <div class="inline-centered">

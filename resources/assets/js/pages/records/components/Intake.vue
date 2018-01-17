@@ -6,7 +6,7 @@
             </CardContent>
         </Card>
         <Spacer isBottom :size="3" />
-      <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
             <div>

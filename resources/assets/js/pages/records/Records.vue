@@ -11,7 +11,7 @@
                 <Paragraph class="tc mt2" :size="'large'">Records loading</Paragraph>
             </SlideIn>
 
-          <Grid v-if="!$root.$data.global.loadingPatients" :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+          <Grid v-if="!$root.$data.global.loadingPatients" :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:3, l:3 }">
             <div :slot="1" class="bb b--light-gray bg-white pa4 w-100">
               <form>
                 <i class="font-lg pt1 fa fa-search absolute left-2"></i>
@@ -58,7 +58,7 @@
 
               <div class="bb b--light-gray bg-white pa4 w-100 relative">
                 <!-- Search Bar -->
-                <Grid :flexAt="'xxl'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]">
+                <Grid :flexAt="'xxl'" :columns="[{ xxl:8 }, { xxl:4 }]">
                     <div :slot="1">
                       <form>
                         <i class="font-lg pt1 fa fa-search absolute left-2"></i>
@@ -70,7 +70,7 @@
 
               <!-- Actions -->
               <div :slot="2" class="searchbar-actions pt3 ph3">
-                <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }, { l:'2of2' }]" :gutters="{ s:2, l:2 }">
+                <Grid :flexAt="'l'" :columns="[{ l:6 }, { l:6 }, { l:12 }]" :gutters="{ s:2, l:2 }">
                   <span :slot="1" class="custom-select">
                     <select class="f3 h-100 bg-white" @change="updateMenu($event)">
                       <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
@@ -132,7 +132,7 @@
 
               <!-- Details -->
               <div class="flyout-patient-info">
-                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                <Grid :flexAt="'l'" :columns="[{ s:6 }, { s:6 }]">
                   <div :slot="1">
                     <span class="db pa1">ID: <b>#{{ selectedPatient.id }}</b></span>
                     <span class="db pa1">Joined: <b>{{ selectedPatient.created_at }}</b></span>
@@ -174,7 +174,7 @@
       <div v-if="$root.$data.permissions === 'patient'">
         <div class="content-with-flyout">
           <!-- Loading state -->
-          <Grid :flexAt="'l'" :columns="[{l: '1of1'}]" :gutters="{ s:3, l:3 }">
+          <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:3, l:3 }">
             <div :slot="1" v-if="patientLoading && !selectedUserPatient" class="pa2 pa3-m">
               <LoadingSpinner class="mt3" />
               <Paragraph class="tc mt2" :size="'large'">Your records are loading...</Paragraph>
@@ -186,7 +186,7 @@
           </div>
 
           <div :slot="2" class="searchbar-actions pa4 mt4">
-            <Grid :flexAt="'l'" :columns="[{ l:'1of1' }]" :gutters="{ s:2, l:2 }">
+            <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:2, l:2 }">
               <button :slot="1" class="button flyout-toggle" @click="handleFlyoutOpen">
                 View Current Records
               </button>
@@ -240,7 +240,7 @@
 
               <!-- Details -->
               <div class="flyout-patient-info">
-                <Grid :flexAt="'l'" :columns="[{ s:'1of2' }, { s:'1of2' }]">
+                <Grid :flexAt="'l'" :columns="[{ s:6 }, { s:6 }]">
                   <div :slot="1">
                     <span class="db pa1">ID: <b>#{{ selectedUserPatient.id }}</b></span>
                     <span class="db pa1">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>

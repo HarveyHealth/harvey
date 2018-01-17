@@ -6,7 +6,7 @@
         </CardContent>
     </Card>
     <Spacer isBottom :size="3" />
-    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
 
       <!-- News -->
       <Card :slot="1" :heading="'Lab Results'">
@@ -20,7 +20,7 @@
             </div>
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ m:'1of3' }, { m:'1of3' }, { m:'1of3' }]" :gutters="{ m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:4 }, { m:4 }, { m:4 }]" :gutters="{ m:3 }">
                   <div :slot="1">
                     <Heading3>Lab Name</Heading3>
                     <Spacer isBottom :size="2" />
@@ -72,7 +72,7 @@
     </Grid>
 
     <div v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
         <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>
@@ -94,7 +94,7 @@
         </Card>
       </Grid>
 
-      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
             <div class="inline-centered">
