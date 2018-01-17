@@ -497,7 +497,7 @@ export default {
                 address_1: patientUserData.address_1,
                 address_2: patientUserData.address_2,
                 city: patientUserData.city,
-                date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
+                date_of_birth:  patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : 'N/A',
                 email: patientUserData.email,
                 has_a_card: patientUserData.has_a_card,
                 id: patientId,
