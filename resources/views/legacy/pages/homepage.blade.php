@@ -15,9 +15,9 @@
                 <div class="columns">
                     <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey Health provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                            <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
                         </div>
                     </div>
                 </div>
@@ -27,52 +27,92 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Not feeling your best? We can help.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">By taking a more personalized and whole-body approach to medicine, and emphasizing nutrition, lifestyle and environmental factors, we can help you find the root cause of your health issues and prevent risk of disease.</p>
+            <h2 class="title is-3">Find the root cause of symptoms.</h2>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">By taking a more personalized and whole-body approach to medicine, and emphasizing nutrition, lifestyle and environmental factors, Harvey Health can help you find the root cause of health issues and prevent risk of disease.</p>
             <div class="button-wrapper">
-                <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
+                <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">About Harvey</a>
             </div>
         </div>
     </section>
 
-    <section class="section" id="how-it-works">
+    <section class="section how-it-works">
         <div class="container has-text-centered">
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
             <div class="columns">
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_1"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
-                        <p>Review your health history during a 1-hour video consultation with a naturopathic doctor.</p>
+                        <p>Review your health conditions during a 1-hour video consultation with a naturopathic doctor.</p>
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-pink">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_2"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
-                        <p>Receive a custom lab kit mailed to your home for sample collection.</p>
+                        <p>Receive a custom lab kit mailed to your home for sample collection (home blood draws available).</p>
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_3"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>3. Analysis</strong></p>
-                        <p>Review your test results with your doctor to gain actionable health insights.</p>
+                        <p>Review your test results with your doctor to help diagnose and gain actionable health insights.</p>
                     </div>
                 </div>
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-gray">
                         <span class="icon icon_steps_4"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
-                        <p>Your doctor develops a personalized plan addressing your unique diagnosis.</p>
+                        <p>Receive a natural treatment plan that may include professional-grade vitamins and supplements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="anchor" id="conditions"></div>
+
+    <section class="section how-it-works">
+        <div class="container">
+            <h2 class="title is-4 section-header"><span>What We Treat</span></h2>
+            <div class="has-text-centered has-max-width-xl">
+                <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Select your most concerning health issue out of the list below to learn how our integrative doctors might approach your condition.</p>
+                <div class="columns is-margin-top">
+                    <div class="column" v-for="(condition, index) in conditions" v-if="index < 4">
+                        <a :href="'/conditions/' + condition.slug">
+                            <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
+                                <img class="icon full" :src="condition.image_url">
+                            </figure>
+                        </a>
+                        <div class="is-padding-top">
+                            <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
+                            <!-- <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p> -->
+                            <a :href="'/conditions/' + condition.slug">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column" v-for="(condition, index) in conditions" v-if="index > 3">
+                        <a :href="'/conditions/' + condition.slug">
+                            <figure :class="'icon-wrapper icon-wrapper-has-background expand ' + State.conditionIconColors[index]">
+                                <img class="icon full" :src="condition.image_url">
+                            </figure>
+                        </a>
+                        <div class="is-padding-top">
+                            <p class="title instructions is-5"><strong v-text="condition.name"></strong></p>
+                            <!-- <p v-if="State.conditionSubText[index]" v-text="State.conditionSubText[index]"></p> -->
+                            <a :href="'/conditions/' + condition.slug">Learn More</a>
+                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -82,7 +122,8 @@
     <section class="section" id="tests">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Lab Testing</span></h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">Gain access to specialty lab tests you can't find with primary care doctors.</p>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">Gain access to specialty lab tests you can't find with conventional practitioners. All of our tests can be taken from the comfort of your home*.</p>
+            <p class="small has-text-centered has-max-width-lg"><em>*Our in-home blood draw technicians are unavailable in some areas.</em></p>
             <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
@@ -139,10 +180,10 @@
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-3 is-padding-top"><strong>Lab testing delivered right to your doorstep.</strong></h2>
-                        <p class="is-6">All our lab tests can be taken in the comfort of your home. If recommended by your doctor, we will mail you a lab kit and (if necessary) schedule a mobile phlebotomist to perform a free in-home blood draw.</p>
+                        <p class="is-6">All our lab tests can be taken in the comfort of your home. We will mail you a lab kit and (if necessary) schedule you for a free in-home blood draw.</p>
                         <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">
-                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Lab Tests
+                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Explore Tests
                             </a>
                         </div>
                     </div>
@@ -153,83 +194,6 @@
 
     <section class="section is-paddingless is-marginless" id="social-feed">
         <ul class="juicer-feed" data-feed-id="goharveyapp" data-per="15"></ul>
-        <section class="section" id="email-capture">
-            <div class="container">
-                <div class="has-text-centered">
-                    <h2 class="copy-has-max-width title has-text-centered">
-                        <div id="ebook-wrapper">
-                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/ebook.png">
-                        </div> Download the Harvey eBook</h2>
-                    <p class="copy-has-max-width subtitle">Provide us with your email to receive our exclusive Harvey eBook <em>"10 Best Things for Your Health"</em> so you can start feeling better than ever.</p>
-                    <form>
-                        <input type="text" name="_gotcha" style="display: none">
-                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
-                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Send Now</button>
-                        <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
-                        <div v-if="emailCaptureSuccess" class="success-text">Success! Check your email to download.</div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </section>
-
-    <section class="section" id="stories">
-        <div class="container">
-            <h2 class="title is-4 section-header"><span>Patient Stories</span></h2>
-            <div class="columns is-narrow">
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jill.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jill's Story</strong></p>
-                    <em>Avoided unnecessary surgery.</em>
-                </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lisa.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
-                    <em>Found a natural remedy for chronic pain.</em>
-                </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lauren.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lauren's Story</strong></p>
-                    <em>Healed from a thyroid disorder.</em>
-                </div>
-            </div>
-            <div class="columns is-narrow is-hidden-mobile">
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=P35czqune48&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/scott.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Scott's Story</strong></p>
-                    <em>Optimized recovery from injury.</em>
-                </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=iaHuXlV7CtY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jamie.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jamie's Story</strong></p>
-                    <em>Healed from chronic fatigue syndrome and Lyme disease.</em>
-                </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=Ydk2bfHraEY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/bruce.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Bruce's Story</strong></p>
-                    <em>Cured himself of diabetes.</em>
-                </div>
-            </div>
-            <div class="container has-text-centered">
-                <div class="button-wrapper">
-                    <a href="https://www.youtube.com/watch?v=nfyk7irbYsw&list=UUNW4aHA1yCPUdk7OM65oNDw" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
-                        <i class="fa fa-youtube is-padding-right" aria-hidden="true"></i> Watch Videos
-                    </a>
-                </div>
-            </div>
-        </div>
     </section>
 
     <div class="anchor" id="prices"></div>
@@ -243,12 +207,12 @@
                         <h2 class="title is-4 is-marginless-bottom"><strong>Do you take insurance?</strong></h2>
                         <p class="is-6 is-margin is-marginless-left">We are not contracted with any insurance providers at this time. Preventative healthcare expenditures and specialty lab tests are not typically reimbursable under most health plans. However, you may be able to use an HSA/FSA account to pay for our services.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How much are lab tests?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we sell them at close to wholesale cost. <a href="lab-tests" alt="Lab Tests">Lab tests</a> start at $99 and are comparable to the out-of-pocket co-pays and deductibles you would pay at conventional medical clinics.</p>
+                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their speciality lab tests, we sell them at wholesale cost. <a href="lab-tests" alt="Lab Tests">Lab tests</a> range from $99 to $320.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How long are consultations?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">The initial consultation is 60 minutes ($150). However, follow-up appointments could be as low as 30 minutes ($75), depending on the number of lab tests and your individual needs.</p>
+                        <p class="is-6 is-margin is-marginless-left">The initial consultation is 60 minutes for $150. Follow-ups to review lab results are typically 30 minutes for $75.</p>
                     </div>
                 </div>
-                <div class="column is-6 is-auto-tablet">
+                <div class="column is-6 is-auto-tablet has-text-centered">
                     <figure>
                         <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/pricing.png" alt="">
                     </figure>
@@ -257,12 +221,13 @@
         </div>
     </section>
 
-    <section class="section" id="get-started">
+    <section class="section get-started">
         <div class="container">
-            <div class="has-text-centered">
-                <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
+            <div class="has-text-centered has-max-width-lg">
+                <h2 class="title is-3">Start your health journey.</h2>
+                <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Our integrative doctors are available for virtual consultations, lab testing and treatment for a wide variety of health conditions.</p>
                 <div class="button-wrapper">
-                    <a href="/conditions" class="button is-primary is-medium has-arrow">Get Started</a>
+                    <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
                 </div>
             </div>
         </div>

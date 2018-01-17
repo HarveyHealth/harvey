@@ -1,6 +1,7 @@
-// Bourbon IO
+// Vendor
 @import "../vendor/bourbon/bourbon";
 @import "../vendor/neat/neat";
+@import "../vendor/vue2-autocomplete";
 
 //v2
 @import 'v2/-INDEX';
@@ -8,3 +9,12 @@
 //Custom styles
 @import "base/-index";
 @import "modules/-index";
+
+// v2 + Tachyons
+@import '../vendor/tachyons/tachyons';
+@import '../styles/base';
+@import '../styles/global';
+@import '../styles/atomic';
+
+// Media Print Must be last
+@import './custom/_media-print';

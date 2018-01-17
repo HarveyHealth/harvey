@@ -1,5 +1,4 @@
 import VueRouter from 'vue-router';
-Vue.use(VueRouter);
 
 // Logic for managing root components based on the root URL
 //    /getting-started -> signup funnel
@@ -22,53 +21,55 @@ let rootRoute = {
 switch(context) {
   case 'get-started':
     rootRoute.name = 'get-started';
-    rootRoute.component = require('./pages/get-started/GetStarted');
+    rootRoute.component = require('./v2/components/pages/getstarted/GetStarted.vue');
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';
-    rootRoute.component = require('./pages/dashboard/Dashboard');
+    rootRoute.component = require('./v2/components/pages/dashboard/Dashboard');
     break;
   case 'conditions':
     rootRoute.name = 'conditions';
-    rootRoute.component = require('./v2/components/pages/conditions/Conditions');
+    rootRoute.component = require('./v2/components/pages/conditions/Conditions.vue');
     break;
-  // case 'intake':
-  //   rootRoute.name = 'intake';
-  //   rootRoute.component = require('./pages/intake/Intake');
-  //   break;
+  case 'intake':
+    rootRoute.name = 'intake';
+    rootRoute.component = require('./v2/components/pages/intake/Intake.vue');
+    break;
 }
 
 if (context === 'get-started' && loggedIn) {
   rootRoute.children = [
     { path: 'welcome',
       name: 'welcome',
-      component: require('./pages/get-started/children/Welcome.vue') },
+      component: require('./v2/components/pages/getstarted/Welcome.vue') },
     { path: 'practitioner',
       name: 'practitioner',
-      component: require('./pages/get-started/children/Practitioner.vue') },
+      component: require('./v2/components/pages/getstarted/Practitioner.vue') },
     { path: 'phone',
       name: 'phone',
-      component: require('./pages/get-started/children/Phone.vue') },
+      component: require('./v2/components/pages/getstarted/Phone.vue') },
     { path: 'schedule',
       name: 'schedule',
-      component: require('./pages/get-started/children/Schedule.vue') },
+      component: require('./v2/components/pages/getstarted/Schedule.vue') },
     { path: 'payment',
       name: 'payment',
-      component: require('./pages/get-started/children/Payment.vue') },
+      component: require('./v2/components/pages/getstarted/Payment.vue') },
     { path: 'confirmation',
       name: 'confirmation',
-      component: require('./pages/get-started/children/Confirmation.vue') },
+      component: require('./v2/components/pages/getstarted/Confirmation.vue') },
     { path: 'success',
       name: 'success',
-      component: require('./pages/get-started/children/Success.vue') }
+      component: require('./v2/components/pages/getstarted/Success.vue') }
   ];
 }
 
-rootRoute.children.push({
-  path: 'signup',
-  name: 'sign-up',
-  component: require('./v2/components/pages/getstarted/children/Signup')
-});
+if (context === 'get-started') {
+    rootRoute.children.push({
+      path: 'signup',
+      name: 'sign-up',
+      component: require('./v2/components/pages/getstarted/Signup.vue')
+    });
+}
 
 let routes = [
     rootRoute,
@@ -83,7 +84,7 @@ let routes = [
         component: require('./pages/messages/Messages.vue')
     },
     {
-        path: '/detail',
+        path: '/detail/:path',
         name: 'detail',
         props: true,
         component: require('./pages/messages/DetailMessage.vue')
@@ -91,10 +92,6 @@ let routes = [
     {
         path: '/lab_orders',
         component: require('./pages/lab_orders/LabOrders.vue')
-    },
-    {
-        path: '/clients',
-        component: require('./pages/clients/Clients.vue')
     },
     {
         path: '/records',

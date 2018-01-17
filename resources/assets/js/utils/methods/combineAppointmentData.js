@@ -18,7 +18,7 @@ export default function(appointmentData) {
 
       // first, get the patient information from the provided patient_id from appointment
     _included.map((item) => {
-          if (item.type === 'patients' && item.id === patientData.id.toString()) {
+          if (item.type === 'patient' && item.id === patientData.id.toString()) {
               patientData.user_id = item.attributes.user_id;
           }
       });
@@ -37,6 +37,23 @@ export default function(appointmentData) {
               patientData.state = item.attributes.state;
               patientData.phone = item.attributes.phone;
               patientData.zip = item.attributes.zip;
+          }
+      });
+
+      _included.map((item) => {
+          // needed since the data types are different
+          if (item.type === 'invoice' 
+          && _appointment.relationships
+          && _appointment.relationships.invoice
+          && _appointment.relationships.invoice.data
+          && _appointment.relationships.invoice.data.id === item.id) {
+              patientData.amount = item.attributes.amount;
+              patientData.card_brand = item.attributes.card_brand;
+              patientData.card_last_four = item.attributes.card_last_four;
+              patientData.status = item.attributes.status;
+              patientData.description = item.attributes.description;
+              patientData.subtotal = item.attributes.subtotal;
+              patientData.discount = item.attributes.discount;
           }
       });
 

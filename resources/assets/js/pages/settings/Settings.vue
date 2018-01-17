@@ -8,7 +8,7 @@
                     </h1>
                 </div>
             </div>
-            <div class="card" style="width: 450px;">
+            <div class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Payment Options
@@ -26,8 +26,11 @@
                             <div class="card-object">
                                 <p class="copy-main font-md font-italic">
                                     <i class="fa fa-credit-card"></i>
-                                    {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
-                                <div class="button-wrapper"></div>
+                                    {{ card.attributes.brand == 'American Express' ? 'Amex' : card.attributes.brand }} **** **** **** {{ card.attributes.last4 }}
+                                </p>
+                            </div>
+                            <div class="button-wrapper">
+                                <button @click="openModal(card)" class="button">Delete Card</button>
                             </div>
                         </div>
                     </div>
@@ -87,6 +90,48 @@
 
                 </div>
             </div>
+            <div class="card card-width">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
+                        Appointment Reminders
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <fieldset id="notification_settings" class="bn">
+                        <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+                            <li v-for="(setting, index) in settings.reminders" class="ph3 pv3 bb b--light-silver">
+                                <input v-on:change="settingUpdate" class="mr2" type="checkbox" :id="setting.name" :name="setting.name" v-model="setting.value">
+                                <label :for="setting.name" class="lh-copy">{{setting.label}}</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="card card-width">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
+                        Timezone Options
+                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
+                        <div class="loading">
+                            <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
+                        </div>
+                    </div>
+                    <div v-else class="card-contact-info">
+                        <span class="custom-select">
+                            <select name="timezone" @change="changeTimezone" v-model="user.attributes.timezone">
+                                <option v-for="timezone in timezones">{{ timezone }}</option>
+                            </select>
+                        </span>
+                        <div class="button-wrapper">
+                            <button @click="setTimezone" class="button">Save Timezone</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -95,6 +140,8 @@
 import axios from 'axios';
 import Modal from '../../commons/Modal.vue';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
+import timezones from '../../../../../public/timezones.json';
+
 export default {
     name: 'settings',
     components: {
@@ -116,6 +163,8 @@ export default {
             invalidModalActive: false,
             lastName: '',
             month: '',
+            timezones: timezones,
+            selectedTimezone: null,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12'],
             notificationActive: false,
             notificationDirection: 'top-right',
@@ -123,19 +172,85 @@ export default {
             notificationSymbol: '&#10003;',
             postalCode: '',
             sent: false,
-            user: {
-                attributes: {
-                    first_name: '',
-                    last_name: ''
-                }
-            },
             user_id: this.$route.params.id,
             year: '',
             stripe: this.$root.$data.stripe,
-            card: null
+            card: null,
+            settings: {
+                reminders: [
+                    {
+                        label: "24 hour email reminder",
+                        name: "reminder_email_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "24 hour text reminder",
+                        name: "reminder_text_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "1 hour email reminder",
+                        name: "reminder_email_1_hour",
+                        value: true
+                    },
+                    {
+                        label: "1 hour text reminder",
+                        name: "reminder_text_1_hour",
+                        value: true
+                    }
+                ]
+            }
         };
     },
     methods: {
+        readUserSettings(){
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`)
+                .then(respond => {
+                    for (var key in respond.data.data.attributes.settings){
+                        for (var i in this.settings.reminders){
+                            var reminder = this.settings.reminders[i];
+                            if (reminder.name == key){
+                                reminder.value = respond.data.data.attributes.settings[key];
+                                break;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(`GET ISSUE`, error);
+                });
+        },
+        settingUpdate() {
+            let new_settings = {
+                settings: {}
+            };
+            for (var key in this.settings.reminders){
+                var reminder = this.settings.reminders[key];
+                new_settings.settings[reminder.name] = reminder.value;
+            }
+
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`, new_settings)
+            .then(() => {
+                this.notificationMessage = "Successfully updated!";
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                console.log(`PATCH ISSUE`, error);
+            });
+        },
+        changeTimezone(e) {
+            this.selectedTimezone = e.target.value;
+        },
+        setTimezone() {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || Laravel.user.id}`, { timezone: this.selectedTimezone })
+            .then(() => {
+                this.$root.$data.global.user.attributes.timezone = this.selectedTimezone;
+                this.notificationMessage = "Successfully updated!";
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 3000);
+            });
+        },
         closeDetails() {
             this.details = false;
         },
@@ -172,20 +287,19 @@ export default {
             }
         },
         updateCard() {
-            let userId = this.user_id || window.Laravel.user.id;
-            axios.patch(`${this.$root.$data.apiUrl}/users/${userId}/cards`, {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
-                address_city: this.currentCard.address_city,
-                address_state: this.currentCard.address_state,
-                address_zip: this.postalCode || this.currentCard.address_zip,
-                exp_month: this.month || this.currentCard.exp_month,
-                exp_year: this.year || this.currentCard.exp_year,
-                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
+                address_city: this.currentCard.attributes.address_city,
+                address_state: this.currentCard.attributes.address_state,
+                address_zip: this.postalCode || this.currentCard.attributes.address_zip,
+                exp_month: this.month || this.currentCard.attributes.exp_month,
+                exp_year: this.year || this.currentCard.attributes.exp_year,
+                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.attributes.name
             })
             .then(() => {
                 axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                     .then(respond => {
-                        this.$root.$data.global.creditCards = respond.data.cards;
+                        this.$root.$data.global.creditCards = respond.data.data;
                         this.notificationMessage = "Successfully updated!";
                         this.notificationActive = true;
                         setTimeout(() => this.notificationActive = false, 3000);
@@ -206,9 +320,9 @@ export default {
                     this.notificationActive = true;
                     Laravel.user.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
-                    axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
+                    axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                         .then(respond => {
-                            this.$root.$data.global.creditCards = respond.data.cards;
+                            this.$root.$data.global.creditCards = respond.data.data;
                             this.$root.$data.global.loadingCreditCards = false;
                             this.details = false;
                             this.sent = false;
@@ -219,10 +333,13 @@ export default {
         },
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
-            let userId = this.user_id || window.Laravel.user.id;
-            axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`).then(response => {
-                this.$root.$data.global.creditCards = response.data.cards;
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
+                this.$root.$data.global.creditCards = response.data.data || [];
                 this.$root.$data.global.loadingCreditCards = false;
+            }).catch(error => {
+                if (error.response){
+                    console.error(error.response);
+                }
             });
         },
         getUser() {
@@ -286,6 +403,7 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
         this.getCards();
+        this.readUserSettings();
         if (this.user_id) {
             this.getUser();
         }
@@ -299,11 +417,20 @@ export default {
             } else {
                 this.setUserId(null);
             }
+            this.getCards();
+        },
+        user(val) {
+            if (!val) {
+                return this.$root.$data.global.user;
+            }
         }
     },
     computed: {
         _user_id() {
           return this.$route.params.id;
+        },
+        user() {
+            return this.$root.$data.global.user;
         }
     }
 };
@@ -312,5 +439,9 @@ export default {
 <style>
     .card-content-wrap .loading {
         margin: 0;
+    }
+    .card-width {
+        width: 93%;
+        max-width: 450px;
     }
 </style>

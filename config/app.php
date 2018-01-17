@@ -177,7 +177,6 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
-        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 

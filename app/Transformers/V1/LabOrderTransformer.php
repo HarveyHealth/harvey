@@ -26,6 +26,8 @@ class LabOrderTransformer extends TransformerAbstract
             'patient_id' => cast_to_string($lab_order->patient_id),
             'practitioner_id' => cast_to_string($lab_order->practitioner_id),
             'shipment_code' => cast_to_string($lab_order->shipment_code),
+            'shipment_label_url' => $lab_order->shipment_label_url,
+            'shippo_id' => $lab_order->shippo_id,
             'state' => $lab_order->state,
             'status' => $lab_order->status,
             'zip' => cast_to_string($lab_order->zip),
@@ -44,7 +46,7 @@ class LabOrderTransformer extends TransformerAbstract
             $transformer->setDefaultIncludes(['user']);
         }
 
-        return $this->item($lab_order->patient, $transformer, 'patients');
+        return $this->item($lab_order->patient, $transformer, 'patient');
     }
 
     /**
@@ -59,7 +61,7 @@ class LabOrderTransformer extends TransformerAbstract
             $transformer->setDefaultIncludes(['user']);
         }
 
-        return $this->item($lab_order->practitioner, $transformer, 'practitioners');
+        return $this->item($lab_order->practitioner, $transformer, 'practitioner');
     }
 
     /**
@@ -68,7 +70,7 @@ class LabOrderTransformer extends TransformerAbstract
      */
     public function includeLabTests(LabOrder $lab_order)
     {
-        return $this->collection($lab_order->labTests, new LabTestTransformer(), 'lab_tests');
+        return $this->collection($lab_order->labTests, new LabTestTransformer(), 'lab_test');
     }
 
     /**
@@ -78,7 +80,7 @@ class LabOrderTransformer extends TransformerAbstract
     public function includeInvoice(LabOrder $lab_order)
     {
         if ($invoice = $lab_order->invoice) {
-            return $this->item($invoice, new InvoiceTransformer(), 'invoices');
+            return $this->item($invoice, new InvoiceTransformer(), 'invoice');
         }
     }
 
@@ -89,7 +91,7 @@ class LabOrderTransformer extends TransformerAbstract
     public function includeDiscountCode(LabOrder $lab_order)
     {
         if ($discount_code = $lab_order->discountCode) {
-            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_code');
         }
     }
 }

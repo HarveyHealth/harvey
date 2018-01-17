@@ -1,12 +1,11 @@
 <template>
     <div class="main-container">
-        <div v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
-        <UserNav />
+        <div @click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                      <span class="text">{{ subject }}</span>                      
+                      <span class="text word-wrap">{{ chat && chat.subject ? chat.subject : 'Loading your messages...' }}</span>
                     </h1>
                     <h3 class="font-sm copy-muted-2">
                       <router-link to="/messages">
@@ -16,7 +15,13 @@
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :senderId="sender_id" :header="subject" :id="user_id" />
+                <Reply 
+                    v-if="renderReply && chat" 
+                    :name="chat.recipient_user_id != your_id ? chat.recipient_full_name : chat.sender_full_name" 
+                    :senderId="chat.sender_user_id" 
+                    :header="chat.subject" 
+                    :id="other_id" 
+                />
             </div>
             <NotificationPopup
                 :active="notificationActive"
@@ -24,18 +29,16 @@
                 :symbol="notificationSymbol"
                 :text="notificationMessage"
             />
-            <div class="content-container">
-                <div class="container-message" v-if="detailList">
+            <div v-if="loading" class="content-container">
+                <div class="container-message">
                     <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
-                        :name="detail.attributes.sender_full_name"
-                        :day="detail.attributes.created_at.date"
-                        :time="detail.attributes.created_at.date"
-                        :timezone="detail.attributes.created_at.timezone"
+                        :created-at="detail.attributes.created_at"
                         :header="detail.attributes.subject"
-                        :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
+                        :message="detail.attributes.message"
+                        :name="detail.attributes.sender_full_name"
                         :userId="detail.attributes.recipient_user_id"
                         :yourId="your_id"
                       />
@@ -55,17 +58,11 @@
     import DetailPost from './components/DetailPost.vue';
     import UserNav from '../../commons/UserNav.vue';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
-    import axios from 'axios';
     import socket from './websocket';
     import _ from 'lodash';
     export default {
         props: {
-            sender_id: String,
-            subject: String,
-            recipient_id: String,
-            sender_name: String,
-            recipient_full_name: String,
-            thread_id: String
+            path: String
         },
         name: 'messages',
         components: {
@@ -80,23 +77,72 @@
               renderNewMessage: false,
               renderReply: false,
               isActive: null,
-              user: this.userName,
               your_id: window.Laravel.user.id,
-              user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
-              notificationDirection: 'top-right'
+              notificationDirection: 'top-right',
+              detailList: []
             };
         },
         computed: {
-            detailList() {
-                return this.$root.$data.global.detailMessages[this.$props.thread_id];
+            stateDetail() {
+                if (this.$root.$data.global.detailMessages[this.$props.path]) {
+                    let messages = this.$root.$data.global.detailMessages[this.$props.path];
+                    let details = messages.sort((a, b) => a.id - b.id);
+                    this.setDetails(details);
+                    return details;
+                } else {
+                    return false;
+                }
+            },
+            loading() {
+                return this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length;
+            },
+            chat() {
+                if (this.$root.$data.global.detailMessages[this.$props.path]) {
+                    return this.$root.$data.global.detailMessages[this.$props.path][0].attributes;
+                }
+                return false;
+            },
+            other_id() {
+                if (this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path][0]) {
+                    return _.pull([this.$root.$data.global.detailMessages[this.$props.path][0].attributes.recipient_user_id, this.$root.$data.global.detailMessages[this.$props.path][0].attributes.sender_user_id], this.your_id)[0];
+                }
+                return false;
+            }
+        },
+        watch: {
+            stateDetail(val) {
+                if (!val) {
+                    let messages = this.$root.$data.global.detailMessages[this.$props.path];
+                    let details = messages.sort((a, b) => a.id - b.id);
+                    this.setDetails(details);
+                    return details;
+                }
+            },
+            loading(val) {
+                if (!val) {
+                    return this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length;
+                }
+            },
+            chat(val) {
+                if (!val && this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length) {
+                    return this.$root.$data.global.detailMessages[this.$props.path][0].attributes;
+                }
+            },
+            other_id(val) {
+                if (!val && this.$root.$data.global.detailMessages[this.$props.path] && this.$root.$data.global.detailMessages[this.$props.path].length) {
+                    return _.pull([this.$root.$data.global.detailMessages[this.$props.path][0].attributes.recipient_user_id, this.$root.$data.global.detailMessages[this.$props.path][0].attributes.sender_user_id], this.your_id)[0];
+                }
             }
         },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
+          },
+          setDetails(data) {
+              this.detailList = data.sort((a, b) => a.id - b.id);
           },
           reply() {
             this.renderReply = !this.renderReply;
@@ -121,39 +167,25 @@
            }
         },
         mounted() {
+            this.$root.$data.global.currentPage = 'details';
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
-                let subject = `${makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
+                let ws = data.data;
+                let subject = `${this.makeThreadId(ws.attributes.sender_user_id, ws.attributes.recipient_user_id)}-${ws.attributes.subject}`;
                 let userId = this.$root.$data.global.user.id;
-                this.$root.$data.global.detailMessages[subject].push(data.data);
-                this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
-                this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages)
+                if (this.$root.$data.global.detailMessages[subject]) {
+                    this.$root.$data.global.detailMessages[subject].push(ws);
+                } else {
+                    this.$root.$data.global.detailMessages[subject] = [ws];
+                }
+                this.$root.$data.global.unreadMessages = _.flattenDeep(Object.values(this.$root.$data.global.detailMessages))
                     .filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
                     .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
+                this.setDetails(this.$root.$data.global.detailMessages[subject]);
             });
-        },
-        destroyed() {
-            axios.get(`${this.$root.$data.apiUrl}/messages`)
-                .then(response => {
-                    let data = {};
-                    let userId = this.$root.$data.global.user.id;
-                    response.data.data.forEach(e => {
-                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
-                            data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
-                            [];
-                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
-                    });
-                    if (data) {
-                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-                        this.$root.$data.global.detailMessages = data;
-                        this.$root.$data.global.messages = Object.values(data)
-                            .map(e => e[e.length - 1])
-                            .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-                        this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
-                    }
-            });
+            this.$root.getMessages();
         }
     };
 </script>

@@ -1,0 +1,157 @@
+// === COLORS ================================================================
+
+// Branding
+$fiord: #4C586F;
+$lime: #E3EAA7;
+$pink: #EDA1A6;
+$brown: #ADA397;
+$purple: #BAA7B5;
+$turquoise: #82BEF2;
+$camouflage: #849974;
+$slategrey: #5F7278;
+$casper: #A1BBD0;
+$green: #BDCEBE;
+$red: #FF0000;
+
+// Semantic
+$color-accent:	#82bef2;
+$color-accent-dark: #54a6ed;
+$color-accent-darker: #3486cd;
+$color-alert: #6d859a;
+$color-callout: #e0aaa6;
+$color-copy: #5f7278;
+$color-copy-alt: #e3bab3;
+$color-copy-muted-1: #8fa2a8;
+$color-copy-muted-2:	#b0bcc0;
+$color-error:	#ed4146;
+$color-fade-dark: rgba(0, 0, 0, 0.3);
+$color-fade-darker: rgba(0, 0, 0, 0.85);
+$color-fade-light: rgba(255, 255, 255, 0.75);
+$color-fade-light-muted: rgba(255, 255, 255, 0.4);
+$color-good: #b4e7a0;
+$color-white:   #ffffff;
+$color-gray-0:	#f9f9f9;
+$color-gray-1:  #f5f5f5;
+$color-gray-2:  #f2f2f2;
+$color-gray-3:	#fafafa;
+$color-gray-4:  #eeeeee;
+$color-gray-5:  #e4eaec;
+
+// Background Fades
+$bg-fade-brown: linear-gradient(-180deg, #FFFFFF 0%, #bcb4a1 100%);
+$bg-fade-ford: linear-gradient(-180deg, #FFFFFF 0%, #8095BB 100%);
+$bg-fade-green: linear-gradient(-180deg, #FFFFFF 0%, #9cc197 100%);
+$bg-fade-lime: linear-gradient(-180deg, #FFFFFF 0%, #D5E1DF 100%);
+$bg-fade-pink: linear-gradient(-180deg, #FFFFFF 0%, #EDA1A6 100%);
+$bg-fade-purple: linear-gradient(-180deg, #FFFFFF 0%, #c8b2bf 100%);
+$bg-fade-slate: linear-gradient(-180deg, #FFFFFF 0%, #A1BBD0 100%);
+$bg-fade-turquoise: linear-gradient(-180deg, #FFFFFF 0%, #96baf7 100%);
+
+// === BORDERS ===============================================================
+
+$border: 1px solid $color-gray-0;
+$radius: 3px;
+
+// === BREAKPOINTS ===========================================================
+
+// By min-width
+$breakpoints: (
+  xs: 0px,
+  sm: 420px,
+  md: 640px,
+  lg: 780px,
+  xl: 960px,
+  xxl: 1280px
+);
+
+// By min-height
+$breakpoints-height: (
+  xs: 0px,
+  sm: 320px, // iphone 5 landscape
+  md: 560px, // iphone 5 portrait
+  lg: 768px, // ipad landscape
+  xl: 1024px // ipad portrait
+);
+
+// === LAYOUT ================================================================
+
+// Specifc max-widths
+$max-width-icon: 60px;
+$max-width-nav: 150px;
+$max-width-flyout: 365px;
+
+// Generic max-widths
+$max-width-sm: 200px;
+$max-width-md: 500px;
+$max-width-lg: 700px;
+$max-width-xl: 980px;
+$max-width-xxl: 1200px;
+
+// z-index list
+$z-list: (
+  'MainNav',
+  'MainNav-menu'
+);
+
+$z-index--1: 1000;
+$z-index--2: 2000;
+$z-index--3: 3000;
+$z-index--4: 4000;
+$z-index--5: 5000;
+$z-index--6: 6000;
+$z-index--7: 7000;
+$z-index--8: 8000;
+
+// === SPACING ===============================================================
+
+// Specific spacing variables
+$space-button: 12px;
+
+// Generic spacing variables
+$space-xxs: 4px;
+$space-xs: 8px;
+$space-sm: 16px;
+$space-md: 24px;
+$space-lg: 34px;
+$space-xl: 44px;
+$space-xxl: 54px;
+
+$space-list: (
+  xxs: $space-xxs,
+  xs: $space-xs,
+  sm: $space-sm,
+  md: $space-md,
+  lg: $space-lg,
+  xl: $space-xl,
+  xxl: $space-xxl,
+  button: $space-button
+);
+
+// === TYPOGRAPHY ============================================================
+
+// Families
+$font-family-main: "proxima-nova", "sans-serif";
+
+// Global copy elements
+$global-copy-elements: p, li;
+
+// Sizing
+$font-xs: 12px;
+$font-sm: 14px;
+$font-md: 16px;
+$font-lg: 17.5px;
+$font-xl: 24px;
+$font-xxl: 32px;
+
+// Weight
+$font-thin: 300;
+$font-normal: 400;
+$font-bold: 600;
+
+// Spacing
+$font-letter-spacing: 1px;
+
+// Line Height
+$line-height-sm: 1.2;
+$line-height-md: 1.4;
+$line-height-lg: 1.6;

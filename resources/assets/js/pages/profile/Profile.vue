@@ -50,14 +50,6 @@
                                         <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
                                     <div class="input__container">
-                                        <label class="input__label" for="timezone">Timezone</label>
-                                        <span class="custom-select">
-                                            <select name="timezone" v-model="user.attributes.timezone">
-                                                <option v-for="timezone in timezones">{{ timezone }}</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                    <div class="input__container">
                                         <label  class="input__label" for="gender">Gender</label>
                                         <div class="gender-options">
                                             <div class="gender-options__option">
@@ -79,7 +71,7 @@
                                                 v-on:uploaded="uploadedProfileImage"
                                                 v-on:uploadError="uploadError"
                                                 label="Picture"
-                                                :route="`api/v1/users/${user.id}/image/`"
+                                                :route="`api/v1/users/${user.id}/image`"
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">
@@ -152,7 +144,7 @@
             <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
 
             <!-- confirm code button -->
-            <button class="button button--blue phone-confirm-button" style="width: 160px; margin-top: 22px"
+            <button class="button button--blue phone-confirm-button" style="width: 170px; margin-top: 22px"
                     :disabled="isPhoneConfirming" @click="handleCodeConfirmation">
               <span v-if="!isPhoneConfirming">Confirm Code</span>
               <div v-else style="width: 12px; margin: 0 auto;">
@@ -198,7 +190,6 @@
                         email: '',
                         gender: '',
                         phone: '',
-                        timezone: '',
                         address_1: '',
                         address_2: '',
                         city: '',
@@ -355,12 +346,15 @@
                     .then(response => {
                       this.callSuccessNotification();
                       this.handleTextSend();
-                        if (this.canEditUsers) {
-                            this.user_data = response.data.data;
-                        } else {
-                            this.$root.$data.global.user = response.data.data;
-                        }
-                        this.submitting = false;
+                      if (this.updates.address_1 || this.updates.address_2 || this.updates.city || this.updates.state || this.updates.zip) {
+                          this.$root.getLabData();
+                      }
+                      if (this.canEditUsers) {
+                          this.user_data = response.data.data;
+                      } else {
+                          this.$root.$data.global.user = response.data.data;
+                      }
+                      this.submitting = false;
                     })
                     .catch(err => {
                         this.errorMessages = err.response.data.errors;

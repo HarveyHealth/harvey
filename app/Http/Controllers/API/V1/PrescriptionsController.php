@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\Prescription;
+use App\Models\{Patient, Prescription};
 use App\Transformers\V1\PrescriptionTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;
 
 class PrescriptionsController extends BaseAPIController
 {
-    protected $resource_name = 'prescriptions';
+    protected $resource_name = 'prescription';
 
     /**
      * PrescriptionsController constructor.
@@ -20,11 +20,6 @@ class PrescriptionsController extends BaseAPIController
     {
         parent::__construct();
         $this->transformer = $transformer;
-    }
-
-    public function getAll(Request $request)
-    {
-        return $this->baseTransformBuilder(Prescription::belongingTo(currentUser()), request('include'), new PrescriptionTransformer, request('per_page'))->respond();
     }
 
     public function getOne(Request $request, Prescription $prescription)
@@ -44,7 +39,7 @@ class PrescriptionsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
-            'notes' => 'string|max:1024',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = (string) $patient->user->id;
@@ -53,7 +48,7 @@ class PrescriptionsController extends BaseAPIController
             Storage::disk('s3')->putFileAs(
                 $relative_path,
                 $request->file('file'),
-                $fileName = "Prescription_{$patient->prescriptions->withoutGlobalScopes()->count()}.pdf",
+                $fileName = "Prescription_{$patient->prescriptions()->withoutGlobalScopes()->count()}.pdf",
                 [
                     'visibility' => 'private',
                     'ContentType' => $request->file('file')->getMimeType(),
@@ -72,7 +67,22 @@ class PrescriptionsController extends BaseAPIController
         return $this->baseTransformItem($prescription->fresh())->respond();
     }
 
-    public function deletePrescription(Request $request, Prescription $prescription)
+    public function update(Request $request, Prescription $prescription)
+    {
+        if (currentUser()->cant('update', $prescription)) {
+            return $this->respondNotAuthorized('You do not have access to update this Prescription.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:4096',
+        ]);
+
+        $prescription->update($request->all());
+
+        return $this->baseTransformItem($prescription, request('include'))->respond();
+    }
+
+    public function delete(Request $request, Prescription $prescription)
     {
         if (currentUser()->cant('delete', $prescription)) {
             return $this->respondNotAuthorized('You do not have access to delete this Prescription.');

@@ -14,10 +14,10 @@ class DiscountCodeTransformer extends TransformerAbstract
     {
         return [
             'valid' => true,
-            'id' => $discount_code->code,
+            'id' => cast_to_string($discount_code->code),
             'discount_type' => $discount_code->discount_type,
-            'amount' => $discount_code->amount,
-            'code' => $discount_code->code,
+            'amount' => cast_to_string($discount_code->amount),
+            'code' => cast_to_string($discount_code->code),
         ];
     }
 }

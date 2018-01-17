@@ -37,7 +37,7 @@ class UserTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_OK);
 
         // And the user can see their own information
-        $response->assertJsonFragment(['type' => 'users', 'id' => "{$user->id}"]);
+        $response->assertJsonFragment(['type' => 'user', 'id' => "{$user->id}"]);
     }
 
     public function test_a_user_can_modify_their_account_information()
@@ -188,6 +188,8 @@ class UserTest extends TestCase
 
     public function test_admin_can_search_users()
     {
+        $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
+        
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create(['first_name' => 'Toronja'])->id
         ]);
@@ -206,6 +208,8 @@ class UserTest extends TestCase
 
     public function test_admin_can_fuzzy_search_users_using_index()
     {
+        $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
+
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create(['first_name' => 'Toronja'])->id
         ]);

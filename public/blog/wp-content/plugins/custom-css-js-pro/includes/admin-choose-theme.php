@@ -106,9 +106,11 @@ class CustomCSSandJS_ChooseTheme {
 
 
 
-        wp_enqueue_script( 'addon_merge_match_patch', $cm . '/diff_match_patch.js', array( 'jquery' ), $v, false );
-        wp_enqueue_script( 'codemirror', $cm . '/codemirror-compressed.js', array( 'jquery' ), $v, false);
-        wp_enqueue_style( 'codemirror', $cm . '/codemirror-compressed.css', array(), $v );
+        wp_enqueue_script( 'ccj-addon_merge_match_patch', $cm . '/lib/diff_match_patch.js', array( 'jquery' ), $v, false );
+        wp_enqueue_script( 'ccj-codemirror', $cm . '/lib/codemirror.js', array( 'jquery' ), $v, false);
+        wp_enqueue_style( 'ccj-codemirror', $cm . '/lib/codemirror.css', array(), $v );
+        wp_enqueue_script('ccj-css', $cm . '/mode/css/css.js', array('ccj-codemirror'), $v, false);
+
 
         $themes = $this->get_themes();
 

@@ -1,5 +1,11 @@
+import determineImage from './determineImage';
 import filterByLicense from './filterByLicense';
+import findUserDoctor from './findUserDoctor';
+import transformAvailability from './transformAvailability';
 
 export default {
-  filterByLicense
+    determineImage,
+    filterByLicense,
+    findUserDoctor,
+    transformAvailability
 };

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{License};
-use App\Lib\{TimeInterval, ZipCodeValidator};
+use App\Models\License;
+use App\Lib\ZipCodeValidator;
 use Illuminate\Http\Request;
 use ResponseCode;
 
@@ -21,7 +21,7 @@ class ZipVerificationController extends BaseAPIController
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
       $is_serviceable = $this->zipCodeValidator->isServiceable($state);
-      $practitioners = count(License::where('state', $state)->first());
+      $practitioners = License::where('state', $state)->count();
       $is_regulated = $this->zipCodeValidator->isRegulated($state);
 
       return response()->json(compact('city', 'practitioners', 'is_regulated', 'is_serviceable', 'state', 'zip'));

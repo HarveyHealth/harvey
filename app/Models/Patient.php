@@ -5,10 +5,13 @@ namespace App\Models;
 use App\Lib\Clients\Typeform;
 use App\Lib\TimeInterval;
 use Illuminate\Database\Eloquent\{Model, Builder};
+use Laravel\Scout\Searchable;
 use Cache;
 
 class Patient extends Model
 {
+    use Searchable;
+
     protected $guarded = [
         'created_at',
         'enabled',
@@ -38,6 +41,22 @@ class Patient extends Model
                 $query->where('users.enabled', true);
             });
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->user->email,
+            'first_name' => $this->user->first_name,
+            'last_name' => $this->user->last_name,
+            'full_name' => $this->user->full_name,
+       ];
     }
 
     public function getIntakeValidationTokenAttribute()
@@ -73,6 +92,21 @@ class Patient extends Model
     public function prescriptions()
     {
         return $this->hasMany(Prescription::class, 'patient_id', 'id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'patient_id', 'id');
+    }
+
+    public function labOrders()
+    {
+        return $this->hasMany(LabOrder::class);
+    }
+
+    public function getByIntakeToken(string $token)
+    {
+        return self::where('intake_token', $token)->first();
     }
 
     public function getIntakeData()

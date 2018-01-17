@@ -20,12 +20,21 @@ export default function(appointments, zone, userType) {
       doctor: `Dr. ${obj.attributes.practitioner_name}`,
       status: convertStatus(obj.attributes.status),
       purpose: obj.attributes.reason_for_visit,
+      notes: obj.attributes.notes,
 
       address_1: obj.patientData.address_1,
       address_2: obj.patientData.address_2,
       city: obj.patientData.city,
       state: obj.patientData.state,
       zip: obj.patientData.zip,
+
+      amount: obj.patientData.amount,
+      cardBrand: obj.patientData.card_brand,
+      cardLastFour: obj.patientData.card_last_four,
+      paymentStatus: obj.patientData.status,
+      description: obj.patientData.description,
+      subtotal: obj.patientData.subtotal,
+      discount: obj.patientData.discount,
 
       _appointmentId: obj.id,
       _date: obj.attributes.appointment_at.date,

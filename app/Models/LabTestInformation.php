@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use App\Lib\TimeInterval;
-use App\Models\LabTestInformation;
 use App\Http\Traits\HasVisibilityColumn;
 use Cache;
 
 class LabTestInformation extends Model
 {
     use HasVisibilityColumn, SoftDeletes;
+
+    protected $appends = ['visibility'];
 
     const PUBLIC_VISIBILITY_ID = 0;
     const PATIENTS_VISIBILITY_ID = 1;
@@ -26,8 +27,9 @@ class LabTestInformation extends Model
 
     const PUBLIC_CACHE_KEY = 'public_lab_tests_information';
 
+    protected $fillable = ['description', 'image', 'sample', 'quote', 'lab_name', 'visibility'];
+    protected $hidden = ['visibility_id'];
     protected $table = 'lab_tests_information';
-    protected $fillable = ['description', 'image', 'sample', 'quote', 'lab_name', 'visibility_id'];
 
     public function sku()
     {

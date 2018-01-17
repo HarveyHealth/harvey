@@ -5,6 +5,7 @@
  */
 require('es6-promise').polyfill();
 
+import 'babel-polyfill';
 import Vue from 'vue';
 import Axios from 'axios';
 
@@ -28,6 +29,27 @@ Axios.interceptors.request.use(function(config){
 
     return config;
 });
+
+// Social Capital Pixel Init code
+(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
+  p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments);
+  };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
+  n.src=w;g.parentNode.insertBefore(n,g);}}(window,document,"script","https://datacoral.com/instrumentation/js/1.0.0/dc.js","datacoral"));
+
+window.datacoral('newTracker', 'anther', 'events.anther.io', {
+    appId: 'harvey',
+    platform : 'desktop',
+    cookieName: 'dc',
+    apiKey : 'RgYaIynBRBzhrlZZQZCWIKcXvPtHP5UeRkOK3tZ3',
+    datacoralEnv: 'prod',
+    forceSecureTracker : true,
+    post: true,
+    contexts: {
+        webPage: true,
+        gaCookies: true
+    }
+});
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

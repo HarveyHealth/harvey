@@ -1,5 +1,10 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout
+    :class="modalActive && 'with-active-modal'"
+    :active="$parent.detailFlyoutActive"
+    :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading"
+    :on-close="handleFlyoutClose"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -16,7 +21,7 @@
 
         <!-- Lab Tests -->
 
-        <div class="input__container">
+        <div class="input__container" data-test="lab-test-recommendations">
           <label class="input__label first">Lab Tests</label>
 
           <!-- Recommended -->
@@ -68,7 +73,7 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Card</label>
           <div class="left-column">
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label v-if="latestCard && latestCard.attributes.brand && latestCard.attributes.last4" class="input__item">{{`${latestCard.attributes.brand} ****${latestCard.attributes.last4}`}}</label>
             <span v-else class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
@@ -174,7 +179,7 @@
         <div class="input__container">
           <label class="input__label">Card</label>
           <div class="left-column">
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label v-if="latestCard && latestCard.attributes.brand && latestCard.attributes.last4" class="input__item">{{`${latestCard.attributes.brand} ****${latestCard.attributes.last4}`}}</label>
             <span v-else class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
@@ -195,7 +200,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.attributes.last4 || !latestCard.attributes.brand || loading" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -215,14 +220,14 @@
 
         <div class="input__container">
           <label class="input__label">Client</label>
-          <span class="input__item">{{ patientName }}</span>
+          <span class="input__item" v-html="patientName"></span>
         </div>
 
         <!-- Doctor -->
 
         <div class="input__container">
           <label class="input__label">Doctor</label>
-          <span class="input__item">{{ doctorName }}</span>
+          <span class="input__item" v-html="doctorName"></span>
         </div>
 
         <!-- Lab Tests -->
@@ -233,7 +238,7 @@
 
             <!-- Recommended or Confirmed -->
 
-            <div v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
+            <div  v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
@@ -244,7 +249,9 @@
             </a>
 
             <span class="custom-select">
-              <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="status === 'Recommended' || status === 'Confirmed'">
+              <select @change="updateTest($event, test)"
+                :class="{disabled: status === 'Confirmed' && $root.$data.permissions === 'practitioner'}"
+                :disabled="status === 'Confirmed' && $root.$data.permissions === 'practitioner'">
                 <option v-for="current in test.status">{{ current }}</option>
               </select>
             </span>
@@ -258,6 +265,13 @@
           <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank">
             <i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}
           </a>
+        </div>
+
+        <div v-if="shippingLabelUrl && status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+            <label class="input__label">Shipping Label</label>
+            <a :href="shippingLabelUrl" class="input__item link-color" target="_blank">
+                <i class="fa fa-truck" aria-hidden="true"></i> View Label
+            </a>
         </div>
 
         <!-- Address -->
@@ -274,14 +288,14 @@
 
         <!-- Card -->
 
-        <div class="input__container">
+        <div class="input__container" data-test="lab-order-credit-card">
           <label class="input__label">Card</label>
           <div class="left-column">
             <span v-if="$parent.loading">
               <em>Loading cards...</em>
             </span>
-            <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
-            <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
+            <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.attributes.brand && $parent.patientCard.attributes.last4" class="input__item">{{`${$parent.patientCard.attributes.brand} ****${$parent.patientCard.attributes.last4}`}}</label>
+            <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.attributes.brand || !$parent.patientCard.attributes.last4)" class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
           <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
@@ -308,10 +322,11 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateLabOrder">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
+          <button v-show="displayEnterTrackingButton" class="button" @click="nextStep">Enter Tracking
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </button>
+
+          <button v-show="displayUpdateOrderButton" class="button" @click="updateLabOrder">Update Order</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -334,7 +349,7 @@
 
       <div class="input__container">
         <label class="input__label">Master Tracking</label>
-        <input v-model="masterTracking" class="input--text" type="text">
+        <input v-model="masterTracking" :disabled="disableMasterTrackingInput" class="input--text" type="text">
       </div>
 
       <!-- Address -->
@@ -349,7 +364,15 @@
         <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
       </div>
 
+      <!-- Shipping Label -->
+      <div>
+        <span class="error-text" v-if="shippingErrorMessage">{{shippingErrorMessage}}</span>
+      </div>
+
       <!-- Mark as Shipped -->
+      <div class="button-wrapper">
+        <button class="button" @click="confirmShipping">Generate Label</button>
+      </div>
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -371,13 +394,33 @@
       </div>
     </Modal>
 
+    <Modal :active="shippingConfirmationModalActive" :onClose="closeShippingModal">
+        <div class="inline-centered">
+            <h1>Generate a shipping label?</h1>
+            <p>This action will generate a tracking number and label from FedEx.</p>
+            <div class="input__container" style="margin-top: 10px;">
+                <span class="input__label">Shipping Method</span>
+                <span class="custom-select">
+                    <select v-model="shippingOption">
+                        <option value="fedex_2_day">FedEx 2-Day (default)</option>
+                        <option value="fedex_ground">FedEx Ground</option>
+                    </select>
+                </span>
+            </div>
+            <div class="button-wrapper">
+                <button @click="getShippingInformation" class="button">Yes</button>
+                <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
+            </div>
+        </div>
+    </Modal>
+
   </Flyout>
 </template>
 
 <script>
 import Q from 'q';
 import Flyout from '../../../commons/Flyout.vue';
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import Modal from '../../../commons/Modal.vue';
 import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
@@ -385,7 +428,7 @@ import _ from 'lodash';
 export default {
   name: 'DetailLabOrders',
   props: {
-    'row-data': Object, 
+    'row-data': Object,
     reset: Function
   },
   components: {
@@ -396,12 +439,16 @@ export default {
   },
   data() {
     return {
+      hasCanceledTests: false,
       selectedStatus: null,
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingOption: "fedex_2_day",
+      shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
+      shippingLabel: null,
       firstName: '',
       lastName: '',
       month: '',
@@ -415,6 +462,7 @@ export default {
       newZip: '',
       percentAmount: '',
       disabledDiscount: false,
+      disableMasterTrackingInput: false,
       newState: '',
       patchCode: '',
       cardNumber: '',
@@ -432,6 +480,8 @@ export default {
       postalCode: '',
       invalidCC: false,
       invalidModalActive: false,
+      shippingConfirmationModalActive: false,
+      disabledEasterEgg: true,
       monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     };
   },
@@ -455,6 +505,7 @@ export default {
       this.subtotalAmount = subtotal;
 
       this.disabled = _.isEmpty(this.labPatients) ? true : false;
+      this.$forceUpdate();
     },
     keyDownDiscountCode(e) {
       if (e.target.value === '') {
@@ -479,49 +530,37 @@ export default {
       this.pricing = 0;
       this.newState = '';
       this.labPatients = {};
-      this.$parent.setupLabData();
-      if (this.$root.$data.permissions !== 'patient') {
-        let status = {
-          0: "Recommended",
-          1: "Confirmed",
-          2: "Shipped",
-          3: "Received",
-          4: "Mailed",
-          5: "Processing",
-          6: "Complete"
-        };
-        this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
-      }
+      this.masterTracking = '';
     },
     updateStatus(e) {
       this.selectedStatus = e.target.value;
     },
     updateTest(e, object) {
       this.selectedShipment[object.test_id] = e.target.value;
+      this.hasCanceledTests = this._hasCanceledTests();
+    },
+    processDiscount(response) {
+      if (response.data.data.attributes.valid) {
+        this.disabledDiscount = false;
+        this.discountType = response.data.data.attributes.discount_type;
+        this.discountAmount = Number(response.data.data.attributes.amount);
+        if (this.discountType === 'percent') {
+          this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2);
+        }
+        this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
+          this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
+        this.patchCode = response.data.data.attributes.code;
+        this.stepThree();
+      } else {
+        this.disabledDiscount = true;
+      }
+      this.stepThree();
     },
     validDiscountCode() {
       if (this.discountCode !== '') {
-        axios.get(`${this.$root.$data.apiUrl}/discount_code/${this.discountCode}?applies_to=lab-test`)
-          .then(response => {
-            if (response.data.data.attributes.valid) {
-              this.disabledDiscount = false;
-              this.discountType = response.data.data.attributes.discount_type;
-              this.discountAmount = Number(response.data.data.attributes.amount);
-              if (this.discountType === 'percent') {
-                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2);
-              }
-              this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
-                this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
-              this.patchCode = response.data.data.attributes.code;
-              this.stepThree();
-            } else {
-              this.disabledDiscount = true;
-            }
-            this.stepThree();
-          })
-          .catch(() => {
-            this.disabledDiscount = true;
-          });
+        axios.get(`${this.$root.$data.apiUrl}/discount_codes/${this.discountCode}?applies_to=lab-test`)
+          .then(this.processDiscount)
+          .catch(() => this.disabledDiscount = true);
       } else {
         this.stepThree();
         this.disabledDiscount = false;
@@ -598,30 +637,24 @@ export default {
             status: 'confirmed'
           })
             .then(resp => {
-              this.$root.$data.global.labTests.push(resp.data.data);
+                resp.data.data.included = this.$root.$data.labTests[resp.data.data.attributes.sku_id];
+                this.$root.$data.global.labTests.push(resp.data.data);
             }));
         }
       });
       return Q.allSettled(promises).then(() => {
-        let data = null;
+        let data = {
+          address_1: this.address1,
+          address_2: this.address2,
+          city: this.newCity,
+          state: this.newState,
+          zip: this.newZip
+        };
+
         if (this.discountCode) {
-          data = {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip,
-            discount_code: this.discountCode
-          };
-        } else {
-          data = {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip
-          };
+          data.discount_code = this.discountCode;
         }
+
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, data)
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
@@ -657,11 +690,52 @@ export default {
           });
       });
     },
+    confirmShipping() {
+        this.shippingConfirmationModalActive = true;
+    },
+    closeShippingModal() {
+        this.shippingConfirmationModalActive = false;
+    },
+    getShippingInformation() {
+        // close the modal
+        this.closeShippingModal();
+
+        // reset any errors
+        this.shippingErrorMessage = null;
+
+        this.loading = true;
+        const labOrderId = this.$props.rowData.id;
+
+        // talk to ship api endpoint to kick off shippo information
+        // PUT /api/v1/lab/orders/<lab_order_id>/ship
+
+        axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
+          carrier: 'fedex',
+          servicelevel_token: this.shippingOption
+        }).then((response) => {
+            // update the tracking number field for the package
+            const trackingNumber = response.data.data.attributes.shipment_code;
+            const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
+
+            this.masterTracking = trackingNumber;
+            this.shippingLabel = shippingLabelUrl;
+            this.disableMasterTrackingInput = true;
+            this.loading = false;
+        }).catch((error) => {
+            // stop the loading
+            this.loading = false;
+
+            // add the message
+            this.shippingErrorMessage = error.response.data.errors[0].detail;
+        });
+    },
     markedShipped() {
       this.loading = true;
       let promises = [];
       this.$props.rowData.test_list.forEach((e) => {
         promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+          carrier: this.shippingCodes[e.test_id] ? 'fedex' : undefined,
+          shipment_code: this.shippingCodes[e.test_id],
           status: 'shipped'
         })
           .then(resp => {
@@ -691,6 +765,19 @@ export default {
                 this.$parent.currentData[i].data.shipment_code = respond.data.data.attributes.shipment_code;
               }
             });
+             if (this.$root.$data.permissions !== 'patient') {
+                let status = {
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
+                };
+                this.$parent.setupLabData();
+                this.$parent.handleFilter({name: status[this.$parent.activeFilter]}, this.$parent.activeFilter);
+            }
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
@@ -699,43 +786,55 @@ export default {
           });
       });
     },
+    _hasCanceledTests(){
+        // returns true if the user has canceled any test from the current order
+        for (var key in this.$props.rowData.test_list){
+            let test = this.$props.rowData.test_list[key];
+             if (this.selectedShipment[Number(test.test_id)] == "Canceled") {
+                return true;
+            }
+        }
+        return false;
+    },
     updateLabOrder() {
       let promises = [];
+      // check for what we are updating on each lab test
       this.$props.rowData.test_list.forEach((e) => {
+        let changes = false;
+
         if (this.selectedShipment[Number(e.test_id)] != undefined) {
-          promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-          }).then(resp => {
-            this.$root.$data.global.labTests.forEach((ele, idx) => {
-              if (Number(ele.id) === Number(e.test_id)) {
-                this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
-              }
-            });
-          }));
-        } else if (this.$props.rowData.completed_at === 'Confirmed') {
-          promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            status: 'shipped',
-            shipment_code: this.shippingCodes[e.test_id]
-          }).then(resp => {
-            this.$root.$data.global.labTests.forEach((ele, idx) => {
-              if (Number(ele.id) === Number(e.test_id)) {
-                this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
-              }
-            });
-          }));
-        } else if (this.$props.rowData.completed_at === 'Recommended') {
-          promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-            status: 'confirmed'
-          }).then(resp => {
-            this.$root.$data.global.labTests.forEach((ele, idx) => {
-              if (Number(ele.id) === Number(e.test_id)) {
-                this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
-              }
-            });
-          }));
+            // if the status was changed
+            changes = {
+              status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+            };
+        } else if (this.$props.rowData.completed_at === 'Confirmed' && (this.shippingCodes[e.test_id] != undefined) ) {
+            // in case the shippment tracking code was set
+            changes = {
+              carrier: this.shippingCodes[e.test_id] ? 'fedex' : undefined,
+              shipment_code: this.shippingCodes[e.test_id],
+              status: 'shipped'
+            };
+        } else if (this.$props.rowData.completed_at === 'Recommended' && this.$root.$data.permissions === 'patient') {
+            // in case the patient confirmed the test
+            changes = {
+                status: 'confirmed'
+            };
+        }
+
+        if (changes !== false){
+            promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, changes).then(resp => {
+              this.$root.$data.global.labTests.forEach((ele, idx) => {
+                if (Number(ele.id) === Number(e.test_id)) {
+                  this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes;
+                }
+              });
+            }));
         }
       });
+
       return Q.allSettled(promises).then(() => {
+          // once all test were updated, get the updated info from lab order
+
         axios.get(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}?include=user,patient,invoice`)
           .then(respond => {
             let user = respond.data.included.filter(e => e.type === 'users');
@@ -759,6 +858,19 @@ export default {
                 });
               }
             });
+             if (this.$root.$data.permissions !== 'patient') {
+                let status = {
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
+                };
+                this.$parent.setupLabData();
+                this.$parent.handleFilter({name: status[this.$parent.activeFilter]}, this.$parent.activeFilter);
+            }
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
@@ -769,28 +881,54 @@ export default {
     }
   },
   computed: {
+    displayEnterTrackingButton(){
+        /* display enter tracking button if the status of the order is "confirmed"
+           but we hide it when the user is admin and wants to cancel a test
+           */
+       return (this.status === 'Confirmed' && !(this.$root.$data.permissions === 'admin' && this.hasCanceledTests));
+    },
+    displayUpdateOrderButton(){
+        /* hides the update button if we are assigning tracking codes
+           but if the user is admin will diplay it anyways if he is
+           canceling one lab test */
+        return (this.status !== 'Confirmed' || (this.$root.$data.permissions === 'admin' && this.hasCanceledTests)) && this.status !== 'Canceled';
+    },
     flyoutHeading() {
       return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : '';
     },
     doctorName() {
-      return this.$props.rowData ?
-        `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}, ND` :
-        '';
+      if (this.rowData) {
+        const doctors   = this.$root.$data.global.practitionerLookUp;
+        const doctorId  = Number(this.rowData.practitioner_id);
+        const userId    = doctors[doctorId].attributes.user_id;
+        const display   = `Dr. ${doctors[doctorId].attributes.name}, ND`;
+        const link      = `<a href="#/profile/${userId}">${display}</a>`;
+
+        return App.Config.user.isAdmin ? link : display;
+      }
     },
     patientName() {
-      return this.$props.rowData ?
-        `${this.$root.$data.global.patientLookUp[Number(this.$props.rowData.patient_id)].attributes.name}` :
-        '';
+      if (this.rowData) {
+        const patients  = this.$root.$data.global.patientLookUp;
+        const patientId = Number(this.rowData.patient_id);
+        const userId    = patients[patientId].attributes.user_id;
+        const display   = patients[patientId].attributes.name;
+        const link      = `<a href="#/profile/${userId}">${display}</a>`;
+
+        return App.Config.user.isAdmin ? link : display;
+      }
+    },
+    currentRowData() {
+      return this.rowData;
     },
     paid() {
       return this.$props.rowData ? this.$props.rowData.paid : false;
     },
     validZip() {
-      if (this.zip != '') {
-        return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
-      } else {
+      if (_.isEmpty(this.zip)) {
         return true;
       }
+      return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
     },
     id() {
       return this.$props.rowData ? this.$props.rowData.id : '';
@@ -800,6 +938,9 @@ export default {
     },
     shipmentCode() {
       return this.$props.rowData ? this.$props.rowData.shipment_code : '';
+    },
+    shippingLabelUrl() {
+      return this.$props.rowData ? this.$props.rowData.shipment_label_url : '';
     },
     addressOne() {
       return this.$props.rowData ? this.$props.rowData.address_1 : '';
@@ -881,6 +1022,15 @@ export default {
     },
     latestCard() {
       return this.$root.$data.global.creditCards.slice(-1).pop();
+    },
+    modalActive() {
+        return this.shippingConfirmationModalActive || this.invalidModalActive;
+    }
+  },
+  watch: {
+    currentRowData() {
+      // clear the shipping code on row update
+      this.masterTracking = this.shipmentCode || '';
     }
   }
 };

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Attachment, Patient, Prescription, SoapNote};
-use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PrescriptionTransformer, SoapNoteTransformer};
+use App\Models\{Attachment, Patient, Prescription, SoapNote, Invoice};
+use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PrescriptionTransformer, SoapNoteTransformer, InvoiceTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
 use Storage;
 
 class PatientsController extends BaseAPIController
 {
-    protected $resource_name = 'patients';
+    protected $resource_name = 'patient';
 
     /**
      * PatientsController constructor.
@@ -27,11 +27,19 @@ class PatientsController extends BaseAPIController
      */
     public function getAll()
     {
-        if (currentUser()->isAdminOrPractitioner()) {
-            return $this->baseTransformBuilder(Patient::make()->with('user'), request('include'), $this->transformer, request('per_page'))->respond();
+        if (currentUser()->isNotAdminOrPractitioner()) {
+            return $this->respondNotAuthorized('You are not authorized to access this patient.');
         }
+        $term = request('term');
+        $builder = Patient::make()->with('user');
 
-        return $this->respondNotAuthorized('You are not authorized to access this patient.');
+        if (!empty($term)) {
+            $builder = $builder->whereIn('id', Patient::search($term)->get()->pluck('id'));
+        }
+        $this->transformer->availableIncludes = ['user'];
+
+        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
+
     }
 
     /**
@@ -68,5 +76,21 @@ class PatientsController extends BaseAPIController
         $patient->update($request->all());
 
         return $this->baseTransformItem($patient)->respond();
+    }
+
+
+    public function getInvoices(Request $request, Patient $patient)
+    {
+        if (!(currentUser()->isAdmin() or currentUser()->is($patient->user))) {
+            return $this->respondNotAuthorized('You are not authorized to access this endpoint.');
+        }
+
+        if (!$invoices = $patient->invoices) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "invoices";
+
+        return $this->baseTransformCollection($invoices, null, new InvoiceTransformer)->respond();
     }
 }

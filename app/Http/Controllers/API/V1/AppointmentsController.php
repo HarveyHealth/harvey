@@ -13,7 +13,7 @@ use App\Models\DiscountCode;
 
 class AppointmentsController extends BaseAPIController
 {
-    protected $resource_name = 'appointments';
+    protected $resource_name = 'appointment';
 
     /**
      * AppointmentsController constructor.
@@ -65,15 +65,6 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $inputData = $request->all();
-        StrictValidator::check($inputData, [
-            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
-            'cancellation_reason' => 'max:1024',
-            'duration_in_minutes' => 'integer',
-            'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
-            'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
-            'reason_for_visit' => 'required',
-            'status' => ['filled', Rule::in(Appointment::STATUSES)],
-        ]);
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
@@ -81,51 +72,65 @@ class AppointmentsController extends BaseAPIController
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
+        StrictValidator::check($inputData, [
+            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
+            'cancellation_reason' => 'max:1024',
+            'duration_in_minutes' => 'integer',
+            'notes' => 'filled|admin_or_practitioner',
+            'patient_id' => 'required|exists:patients,id|appointments_less_than:2',
+            'practitioner_id' => 'required|exists:practitioners,id',
+            'reason_for_visit' => 'required',
+            'status' => ['filled', Rule::in(Appointment::STATUSES)],
+        ], [
+            'appointments_less_than' => "Sorry, you can't have more than two appointments at a time."
+        ]);
+
         $appointment = Appointment::create($inputData);
-        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
+        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation')->save();
 
         return $this->baseTransformItem($appointment->fresh())->respond();
     }
 
     public function update(Request $request, Appointment $appointment)
     {
-        if (currentUser()->can('update', $appointment)) {
-            StrictValidator::checkUpdate($request->all(), [
-                'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available:{$appointment->id}",
-                'cancellation_reason' => 'filled',
-                'duration_in_minutes' => 'integer',
-                'reason_for_visit' => 'filled',
-                'status' => ['filled', Rule::in(Appointment::STATUSES)],
-            ]);
-
-            $appointment->update($request->all());
-
-            return $this->baseTransformItem($appointment)->respond();
-        } else {
-            $message = $appointment->isLocked() ?
-                "You are unable to modify an appointment with less than "
-                    . Appointment::CANCEL_LOCK . " hours of notice."
-                : "You do not have access to update this appointment.";
-
+        if (currentUser()->cant('update', $appointment)) {
+            if ($appointment->isLocked() || $appointment->isNotPending()) {
+                $message = "This Appointment is locked for updates.";
+            } else {
+                $message = "You do not have access to update this appointment.";
+            }
             return $this->respondNotAuthorized($message);
         }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available:{$appointment->id}",
+            'cancellation_reason' => 'filled',
+            'duration_in_minutes' => 'integer',
+            'notes' => 'filled|admin_or_practitioner',
+            'reason_for_visit' => 'filled',
+            'status' => ['filled', Rule::in(Appointment::STATUSES)],
+        ]);
+
+        $appointment->update($request->all());
+
+        return $this->baseTransformItem($appointment)->respond();
     }
 
     public function delete(Appointment $appointment)
     {
-        if (currentUser()->can('delete', $appointment)) {
-            $appointment->delete();
-
-            return $this->baseTransformItem($appointment)
-                        ->addMeta(['deleted' => true])
-                        ->respond(ResponseCode::HTTP_NO_CONTENT);
-        } else {
-            $message = $appointment->isLocked() ?
-                "You are unable to cancel an appointment with less than "
-                    . Appointment::CANCEL_LOCK . " hours of notice."
-                : "You do not have access to cancel this appointment.";
-
+        if (currentUser()->cant('delete', $appointment)) {
+            if ($appointment->isLocked() || $appointment->isNotPending()) {
+                $message = "This Appointment is locked for canceling.";
+            } else {
+                $message = "You do not have access to cancel this appointment.";
+            }
             return $this->respondNotAuthorized($message);
         }
+
+        if (!$appointment->delete()) {
+            return $this->baseTransformItem($appointment)->respond(ResponseCode::HTTP_CONFLICT);
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 }

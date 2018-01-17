@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\{
     Appointment,
     Attachment,
+    LabTestResult,
     LabTest,
     Message,
     User,
@@ -14,6 +15,7 @@ use App\Models\{
 use App\Observers\{
     AppointmentObserver,
     AttachmentObserver,
+    LabTestResultObserver,
     LabTestObserver,
     MessageObserver,
     UserObserver,
@@ -23,7 +25,7 @@ use App\Observers\{
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Stripe\Stripe;
-use Validator;
+use Shippo, Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,8 +37,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
-
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
 
@@ -44,9 +44,13 @@ class AppServiceProvider extends ServiceProvider
         Attachment::observe(AttachmentObserver::class);
         LabOrder::observe(LabOrderObserver::class);
         LabTest::observe(LabTestObserver::class);
+        LabTestResult::observe(LabTestResultObserver::class);
         LabTestInformation::observe(LabTestInformationObserver::class);
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);
+
+        Shippo::setApiKey(config('services.shippo.key'));
+        Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**

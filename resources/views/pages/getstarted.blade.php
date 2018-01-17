@@ -18,7 +18,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="">
         <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
-        <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" />
+        <meta name="google-site-verification" content="6UgpVyc1D8nu-29CNMYM4WacQe4_lepLVOAuuDqbadc" />
         <meta property="fb:app_id" content="383090978468158">
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
@@ -30,35 +30,38 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
-          // Controller has determined that the user is:
-          // logged in as patient with no Appointment
-          // or logged out
-          var zipValidation  = localStorage.getItem('harvey_zip_validation');
-          var loggedIn = Laravel.user.signedIn;
+          window.Laravel = {!! $vue_data !!};
+          window.Blade = {};
           window.$$context = 'get-started';
-          if (!loggedIn && zipValidation) window.location.hash = '/signup';
-          if (loggedIn && zipValidation) window.location.hash = '/welcome';
-          if (!loggedIn && !zipValidation) window.location.href = '/conditions';
-          if (loggedIn && !zipValidation) window.location.href = '/logout';
+
+          @if (session('facebook_redirect_alert'))
+          window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
+          @endif
+
+          var zipValidation  = localStorage.getItem('harvey_zip_validation');
+          var isServiceable = zipValidation ? JSON.parse(zipValidation).is_serviceable : false;
+          var loggedIn = Laravel.user.signedIn;
+
+          if (loggedIn) window.location.hash = '/welcome';
+          if (!loggedIn && isServiceable) window.location.hash = '/signup';
+          if (!loggedIn && !isServiceable) window.location.href = '/conditions/get-zip';
         </script>
     </head>
     <body>
 
       @include('_includes.svgs')
 
-      <main class="height-100">
-        <div id="app" class="height-100">
+      <main>
+        <div id="app">
+          <grid-styles></grid-styles>
           <router-view />
         </div>
       </main>
-
       <footer>
         <script>
-          !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
-          analytics.load(Laravel.services.segment.key);
-          analytics.page();
-          }}();
+            !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
+            analytics.load(Laravel.services.segment.key);
+            }}();
         </script>
         <!-- Stripe -->
         <script type="text/javascript" src="https://js.stripe.com/v2"></script>
@@ -66,6 +69,5 @@
         <!-- App.js -->
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
       </footer>
-
     </body>
 </html>

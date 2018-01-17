@@ -1,12 +1,16 @@
 <template>
     <div class="main-container">
-        <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
                         <span class="text">Lab Orders</span>
-                        <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                        <button
+                            v-if="loadingLabs && $root.$data.permissions !== 'patient'"
+                            @click="addingFlyoutActive"
+                            class="button main-action circle"
+                            data-test="addLabOrder"
+                        >
                             <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                         </button>
                     </h1>
@@ -27,8 +31,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions != 'patient'"
-            :reset="setupLabData" :labTests="tests" />
+            <AddLabOrders v-if="loadingLabs && $root.$data.permissions !== 'patient'" :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
                 :active="addFlyoutActive"
@@ -36,18 +39,18 @@
             />
             <LabOrderTable
                 :handle-row-click="handleRowClick"
-                :loading="loadingLabs"
+                :loading="!loadingLabs"
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="currentData"
+                :filterSelected="activeFilter"
              />
         </div>
     </div>
 </template>
 
 <script>
-    import UserNav from '../../commons/UserNav.vue';
     import Overlay from '../../commons/Overlay.vue';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import FilterButtons from '../../commons/FilterButtons.vue';
@@ -59,7 +62,6 @@
     export default {
         name: 'LabOrders',
         components: {
-            UserNav,
             LabOrderTable,
             AddLabOrders,
             Overlay,
@@ -186,7 +188,8 @@
                     global.labTests,
                     patient,
                     global.practitionerLookUp,
-                    this.$root.$data.labTests
+                    this.$root.$data.labTests,
+                    this.$root.$data.permissions
                 );
                 this.labData = data;
                 let choices = {
@@ -217,7 +220,7 @@
             getPatientCreditCard(userId) {
                 axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
                 .then(response => {
-                    this.patientCard = response.data.cards[response.data.cards.length - 1];
+                    this.patientCard = response.data.data.pop() || null;
                 })
                 .then(() => {
                     this.loading = false;
@@ -228,14 +231,14 @@
             disabledFilters() {
                 return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
             },
-            filters() { 
+            filters() {
                 return [
-                    {name: `Recommended`, count: this.cache.Recommended.length}, 
-                    {name: `Confirmed`, count: this.cache.Confirmed.length}, 
-                    {name: `Shipped`, count: this.cache.Shipped.length}, 
-                    {name: `Received`, count: this.cache.Received.length}, 
-                    {name: `Mailed`, count: this.cache.Mailed.length}, 
-                    {name: `Processing`, count: this.cache.Processing.length}, 
+                    {name: `Recommended`, count: this.cache.Recommended.length},
+                    {name: `Confirmed`, count: this.cache.Confirmed.length},
+                    {name: `Shipped`, count: this.cache.Shipped.length},
+                    {name: `Received`, count: this.cache.Received.length},
+                    {name: `Mailed`, count: this.cache.Mailed.length},
+                    {name: `Processing`, count: this.cache.Processing.length},
                     {name: `Complete`, count: this.cache.Complete.length}
                 ];
             },
@@ -243,23 +246,23 @@
                 const global = this.$root.$data.global;
                 let permissions = this.$root.$data.permissions;
                 if (permissions === 'admin') {
-                    return global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingPatients ||
-                    global.loadingTestTypes ||
-                    global.loadingPractitioners;
+                    return !global.loadingLabTests &&
+                    !global.loadingLabOrders &&
+                    !global.loadingPatients &&
+                    !global.loadingTestTypes &&
+                    !global.loadingPractitioners;
                 } else if (permissions === 'practitioner') {
-                    return global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingTestTypes ||
-                    global.loadingPatients;
+                    return !global.loadingLabTests &&
+                    !global.loadingLabOrders &&
+                    !global.loadingTestTypes &&
+                    !global.loadingPatients;
                 } else if (permissions === 'patient') {
-                    return global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingTestTypes ||
-                    global.loadingPractitioners ||
-                    global.loadingUser ||
-                    global.loadingCreditCards;
+                    return !global.loadingLabTests &&
+                    !global.loadingLabOrders &&
+                    !global.loadingTestTypes &&
+                    !global.loadingPractitioners &&
+                    !global.loadingUser &&
+                    !global.loadingCreditCards;
                 }
                 return false;
             },
@@ -272,24 +275,27 @@
         },
         watch: {
             loadingLabs(val) {
-                if (!val) {
+                if (val) {
                     this.setupLabData();
                 }
             },
             labTests(val) {
-                if (!val) {
+                if (val) {
                     this.getLabTests();
                 }
             }
         },
         mounted() {
+            let global = this.$root.$data.global;
             this.$root.$data.global.currentPage = 'lab-orders';
-            if (!global.loadingLabTests ||
-                !global.loadingLabOrders ||
-                !global.loadingPractitioners ||
-                !global.loadingUser ||
-                !global.loadingTestTypes ||
-                !global.loadingCreditCards) {
+            let loadingForPatients = this.$root.$data.permissions === ' patient' ? global.loadingCreditCards : false;
+            let loadingForPractitioners = this.$root.$data.permissions !== ' practitioner' ? global.loadingPractitioners : false;
+            if (!global.loadingLabTests &&
+                !global.loadingLabOrders &&
+                !loadingForPractitioners &&
+                !global.loadingUser &&
+                !global.loadingTestTypes &&
+                !loadingForPatients) {
                 this.setupLabData();
             }
         },
@@ -306,58 +312,8 @@
             this.currentData = [];
             this.$root.$data.global.loadingLabTests = true;
             this.$root.$data.global.loadingLabOrders = true;
-            axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user,invoice`)
-                .then(response => {
-                    if (response.data.included) {
-                        let user = response.data.included.filter(e => e.type === 'users');
-                        let patient = response.data.included.filter(e => e.type === 'patients');
-                        let invoices = response.data.included.filter(e => e.type === 'invoices');
-                        let obj = {};
-                        if (invoices.length > 0) {
-                            invoices.forEach(e => {
-                                obj[e.id] = e;
-                            });
-                        }
-                        this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-                            e.user = user[i];
-                            e.patient = patient[i];
-                            if (e.relationships.invoice) {
-                                e.invoice = obj[e.relationships.invoice.data.id];
-                            }
-                            return e;
-                        });
-                    }
-                    this.$root.$data.global.loadingLabOrders = false;
-                });
-
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
-                .then(response => {
-                     let sku_ids = {};
-                     if (!response.data.included) {
-                         this.$root.$data.global.labTests = response.data.data;
-                         this.$root.$data.global.loadingLabTests = false;
-                         return;
-                    }
-                    response.data.included.forEach(e => {
-                        sku_ids[e.id] = e;
-                    });
-                    this.$root.$data.global.labTests = response.data.data.map((e) => {
-                        e.included = sku_ids[e.relationships.sku.data.id];
-                        return e;
-                    });
-                    this.$root.$data.global.loadingLabTests = false;
-                });
-
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests/information`)
-                .then(response => {
-                    response.data.data.forEach(e => {
-                        this.$root.$data.labTests[e.id] = e;
-                        this.$root.$data.labTests[e.id]['checked'] = false;
-                    });
-                })
-                .then(() => {
-                    this.$root.$data.global.loadingTestTypes = false;
-                });
+            this.$root.getLabData();
+            this.$root.$data.global.loadingTestTypes = false;
         }
     };
 </script>

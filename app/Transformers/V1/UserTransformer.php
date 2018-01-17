@@ -17,11 +17,11 @@ class UserTransformer extends TransformerAbstract
     public function transform(User $user)
     {
         return [
-            'id' => (string) $user->id,
+            'id' => cast_to_string($user->id),
             'address_1' => $user->address_1,
             'address_2' => $user->address_2,
             'card_brand' => $user->card_brand,
-            'card_last4' => empty($user->card_last_four) ? null : (string) $user->card_last_four,
+            'card_last4' => cast_to_string($user->card_last_four),
             'city' => $user->city,
             'created_at' => $user->created_at,
             'doctor_name' => $user->getLastPractitioner()->full_name ?? null,
@@ -39,7 +39,13 @@ class UserTransformer extends TransformerAbstract
             'terms_accepted_at' => $user->terms_accepted_at,
             'timezone' => $user->timezone,
             'user_type' => $user->type,
-            'zip' => (string) $user->zip,
+            'zip' => cast_to_string($user->zip),
+            'settings' => array_merge([
+                "reminder_email_24_hours" => true,
+                "reminder_text_24_hours" => true,
+                "reminder_email_1_hour" => true,
+                "reminder_text_1_hour" => true,
+            ], $user->settings??[]),
         ];
     }
 

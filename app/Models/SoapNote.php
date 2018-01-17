@@ -30,6 +30,7 @@ class SoapNote extends Model
     {
         return [
             'id' => $this->id,
+            'notes' => $this->notes,
             'patient_name' => $this->patient->user->full_name,
             'subjective' => $this->subjective,
             'objective' => $this->objective,
@@ -56,14 +57,5 @@ class SoapNote extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
-    }
-
-    /*
-     * Scopes
-     */
-
-    public function scopeFilterForPatient(Builder $builder)
-    {
-        return $builder->select(['id', 'patient_id', 'created_by_user_id', 'plan']);
     }
 }

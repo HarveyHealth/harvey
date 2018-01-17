@@ -13,6 +13,13 @@ use Illuminate\Routing\Controller;
 |
 */
 
+// stupid blog re-routing
+Route::domain('blog.goharvey.com')->group(function () {
+    Route::get('/', function() {
+        return redirect('/blog', 301);
+    });
+});
+
 // AUTHENTICATION
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');
@@ -39,10 +46,6 @@ Route::post('invite', 'InviteController@postInvite');
 Route::get('terms', 'LegalController@terms');
 Route::get('privacy', 'LegalController@privacy');
 
-// SITEMAP
-Route::get('sitemap.xml', 'SitemapController@index');
-Route::get('sitemap-{map?}.xml', 'SitemapController@index');
-
 // PUBLIC BLADE PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
@@ -54,6 +57,9 @@ Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
 Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
+// INTAKE
+Route::get('/intake', 'IntakeController@index')->name('intake');
+
 if (isLocal()) {
-    Route::get('test', 'TestController@index');
+	Route::get('test', 'TestController@index');
 }

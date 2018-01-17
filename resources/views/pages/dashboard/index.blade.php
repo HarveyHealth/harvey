@@ -23,6 +23,7 @@
     <div class="admin-content">
       <div id="app" :class="{ 'menu-open': global.menuOpen }">
         {{-- Alert component for handling success/error messages --}}
+        <grid-styles></grid-styles>
 
         <noscript>
             <div class="card noscript">
@@ -31,8 +32,6 @@
                 </div>
             </div>
         </noscript>
-
-        <alert></alert>
 
         <usernav></usernav>
 

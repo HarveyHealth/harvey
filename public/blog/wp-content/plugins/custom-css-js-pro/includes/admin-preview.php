@@ -142,7 +142,7 @@ class CustomCSSandJS_Preview {
         $a = plugins_url( '/', CCJ_PLUGIN_FILE_PRO). 'assets';
         $v = CCJ_VERSION_PRO; 
 
-        wp_enqueue_script( 'ccj_admin-preview', $a . '/ccj_preview.js', array('jquery', 'ccj_admin'), $v, false );
+        wp_enqueue_script( 'ccj_admin-preview', $a . '/ccj_preview.js', array('jquery', 'ccj-admin'), $v, false );
     }
 
 

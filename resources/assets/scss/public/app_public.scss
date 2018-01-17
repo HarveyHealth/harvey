@@ -4,6 +4,7 @@
 @import "../v2/settings/-INDEX";
 @import "../v2/atomic/-INDEX";
 @import "../v2/modules/-INDEX";
+@import "../../styles/base";
 @import "pages/home.scss";
 @import "pages/signup.scss";
 @import "pages/lab_tests.scss";
@@ -241,4 +242,20 @@ body {
     button:focus {
         outline: none;
     }
+}
+
+
+// When the mobile menu is opened we need to stop scrolling
+@include query-up-to(lg) {
+    #app.menu-is-open {
+        height: 100vh;
+        overflow: hidden;
+    }
+}
+
+// Alert bar for facebook redirect errors
+.alert-bar {
+    background-color: $color-error;
+    color: $color-white;
+    padding: 1.2rem;
 }

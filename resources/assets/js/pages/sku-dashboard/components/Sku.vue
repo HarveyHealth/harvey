@@ -9,46 +9,48 @@
         <td class="sku-table__column">{{ `${sku.attributes.lab_test_information.quote.substr(0,15)}...` }}</td>
         <td class="sku-table__column">${{ sku.attributes.price }}</td>
         <td class="sku-table__column">${{ sku.attributes.cost }}</td>
-        <td class="sku-table__column">{{ skuPublic }}</td>
+        <td class="sku-table__column">{{ visibilityFriendlyName }}</td>
     </tr>
 </template>
 
 <script>
 export default {
     data() {
-        return {
-
-        }
+        return {};
     },
     components: {
     },
     methods: {
     },
     computed: {
-        skuPublic() {
-            // Workaround for not being able to cast the visibility_id to a string
-            return (this.sku.attributes.lab_test_information.visibility_id === "0"
-                || this.sku.attributes.lab_test_information.visibility_id === 0)
-                ? "Yes"
-                : "No";
-        },
         isSelected() {
-            if(this.selectedSku) {
+            if (this.selectedSku) {
                 return this.sku.id === this.selectedSku.id ? 'is-selected' : '';
             }
             return '';
+        },
+        visibilityFriendlyName() {
+            let visibility = this.sku.attributes.lab_test_information.visibility;
+            let translation = {
+                public: 'All',
+                patients: 'Patient, Practitioners and Admins',
+                practitioners: 'Practitioners and Admins',
+                admins: 'Only Admins'
+            };
+
+            return translation[visibility] || 'Unknown';
         }
     },
     props: {
         sku: {
-            type: Object,
+            type: Object
         },
         index: {
-            type: Number,
+            type: Number
         },
         selectedSku: {
-            type: Object,
+            type: Object
         }
     }
-}
+};
 </script>

@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class AppointmentTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['patient', 'practitioner', 'discount_code'];
+    protected $availableIncludes = ['patient', 'practitioner', 'discount_code', 'invoice'];
 
     /**
      * @param Appointment $appointment
@@ -21,6 +21,7 @@ class AppointmentTransformer extends TransformerAbstract
             'discount_code_id' => cast_to_string($appointment->discount_code_id),
             'duration_in_minutes' => cast_to_string($appointment->duration_in_minutes),
             'google_meet_link' => $appointment->google_meet_link,
+            'notes' => only_if_admin_or_practitioner($appointment->notes),
             'patient_id' => cast_to_string($appointment->patient_id),
             'practitioner_id' => cast_to_string($appointment->practitioner_id),
             'practitioner_name' => cast_to_string($appointment->practitioner->user->full_name),
@@ -39,7 +40,18 @@ class AppointmentTransformer extends TransformerAbstract
         return $this->item(
             $patient,
             new PatientTransformer()
-        )->setResourceKey('patients');
+        )->setResourceKey('patient');
+    }
+
+    /**
+     * @param Appointment $appointment
+     * @return mixed
+     */
+    public function includeInvoice(Appointment $appointment)
+    {
+        if ($invoice = $appointment->invoice){
+            return $this->item($invoice, new InvoiceTransformer())->setResourceKey('invoice');
+        }
     }
 
     /**
@@ -52,7 +64,7 @@ class AppointmentTransformer extends TransformerAbstract
         return $this->item(
             $practitioner,
             new PractitionerTransformer()
-        )->setResourceKey('practitioners');
+        )->setResourceKey('practitioner');
     }
 
     /**
@@ -62,7 +74,7 @@ class AppointmentTransformer extends TransformerAbstract
     public function includeDiscountCode(Appointment $appointment)
     {
         if ($discount_code = $appointment->discountCode) {
-            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_code');
         }
     }
 

@@ -44,7 +44,7 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
         $older_than = Carbon::now()->subMinutes(self::UNREAD_OLDER_THAN_MINUTES);
         $newer_than = Carbon::now()->subMinutes(self::UNREAD_NEWER_THAN_MINUTES);
 
-        if (is_numeric($lastProcessedId)) {
+        if (is_numeric($lastProcessedId) and $lastProcessedId < $builder->max('id')) {
             // retrieves messages after last processed ID (from Redis)
             // with a buffer of 10 minutes to give time to logged in users to read from the web
             $this->info("Last processed ID = {$lastProcessedId}.");

@@ -3,7 +3,7 @@
  * Plugin Name: Simple Custom CSS and JS PRO
  * Plugin URI: http://www.silkypress.com/simple-custom-css-js-pro/
  * Description: Easily add Custom CSS or JS to your website with an awesome editor.
- * Version: 3.9
+ * Version: 3.10
  * Author: SilkyPress.com
  * Author URI: http://www.silkypress.com
  *
@@ -24,7 +24,7 @@ if ( ! function_exists( 'ccj_plugin_updater_data' ) ) {
             'plugin_server' => 'https://www.silkypress.com',
             'file' => __FILE__,
             'data' => array(
-               'version' => '3.9',
+               'version' => '3.10',
                'plugin_name' => 'Simple Custom CSS and JS PRO',
                'author' => 'Diana Burduja',
             ),
@@ -191,7 +191,7 @@ final class CustomCSSandJSpro {
         $dir = wp_upload_dir();
         $constants = array(
             'CCJ_PREVIEW_PREFIX'  => 'ccj_preview-',
-            'CCJ_VERSION_PRO'         => '3.9',
+            'CCJ_VERSION_PRO'         => '3.10-beta3',
             'CCJ_UPLOAD_DIR'      => $dir['basedir'] . '/custom-css-js',
             'CCJ_UPLOAD_URL'      => $dir['baseurl'] . '/custom-css-js',
             'CCJ_PLUGIN_FILE_PRO'     => __FILE__,
