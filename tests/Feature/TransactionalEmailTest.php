@@ -261,12 +261,8 @@ class TransactionalEmailTest extends TestCase
         // assert the information sent was correct
         $this->assertEmailTemplateNameWas('patient.lab_order.reminder');
 
-        $this->assertEmailTemplateDataWas([
-            'lab_orders_link' => config('app.url') . '/dashboard#/lab_orders',
-            'lab_test_name' => $result->labTest->sku->name,
-        ]);
     }
-    
+
     public function test_labresult_created_notification()
     {
         // create a Lab Order
