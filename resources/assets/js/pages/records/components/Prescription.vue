@@ -56,7 +56,7 @@
               <quill-editor
               output="html"
               :options="simpleEditor"
-              :value.sync="quickNotes"
+              v-model="notes"
               class="simple-editor"
               />
             </div>
