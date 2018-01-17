@@ -48,24 +48,6 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <!-- LEAVE THESE COMMENTS HERE -->
-
-       <!-- <router-link to="/records" title="Records"
-        :class="currentPageCheck('records')"
-        @click.native="handleMenu(false, 'records')">
-        <i class="fa fa-files-o icon icon-nav-bar"></i>
-        <div class="text">Records</div>
-      </router-link>  -->
-
-      <router-link
-        v-if="user === 'admin'"
-        to="/clients" title="Recent Clients"
-        :class="currentPageCheck('clients')"
-        @click.native="handleMenu(false, 'clients')">
-        <i class="fa fa-users icon icon-nav-bar"></i>
-        <div class="text">Clients</div>
-      </router-link>
-
       <router-link to="/profile" title="Profile"
                    :class="currentPageCheck('profile')"
                    @click.native="handleMenu(false, 'profile')">

@@ -79,7 +79,7 @@ class LabOrder extends Model
         return $this->hasMany(LabTest::class);
     }
 
-    public static function findByShipmentCode($shipment_code)
+    public static function findByShipmentCode(string $shipment_code)
     {
         return self::where('shipment_code', $shipment_code)->first();
     }

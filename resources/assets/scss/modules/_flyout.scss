@@ -57,7 +57,7 @@
   .title, h2 {
     border-bottom: 1px solid $light-gray;
     @include padding(null null 15px null);
-    @include margin(15px null);
+    @include margin(15px 0);
   }
 
 }
