@@ -58,6 +58,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\LabOrderRecommended' => [
             'App\Listeners\SendPatientLabOrderCreatedEmail',
+            'App\Listeners\SetPendingLabOrderReminders',
         ],
 
         'App\Events\LabTestProcessing' => [
