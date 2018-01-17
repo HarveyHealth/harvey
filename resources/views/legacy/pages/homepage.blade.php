@@ -32,7 +32,7 @@
                     </div>
                     <div class="pt2">
                         <p class="font-xl"><strong>Home Lab Tests</strong></p>
-                        <p class="font-md pt2">Order one of our specialized lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergy</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/hormones-lab-test">Hormones</a>, <a href="https://store.goharvey.com/products/toxic-metals-lab-test">Toxic Metals</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
+                        <p class="font-md pt2">Order one of our specialized lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergy</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/toxic-metals-lab-test">Toxic Metals</a>, <a href="https://store.goharvey.com/products/hormones-lab-test">Hormones</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
                         <a href="https://store.goharvey.com/collections/lab-tests" class="f5 ba ph3 pv2 mb2 dib br2 mt3 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
                     </div>
                 </div>
