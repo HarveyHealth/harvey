@@ -33,7 +33,7 @@
               <tr v-for="patient in results" @click="selectPatient(patient)" class="patient-row">
                 <td class="pt2 pb2 pl2">{{ patient.search_name }}</td>
                 <td class="pt2 pb2">{{ patient.email }}</td>
-                <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth }}</td>
+                <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth  || 'N/A' }}</td>
               </tr>
             </table>
 
@@ -125,7 +125,7 @@
                 <Heading2 class="dib no-border w-70">{{selectedPatient.search_name}}</Heading2>
                 <img class="w3 h3 fr" :src="selectedPatient.image" />
                 <a class="db" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-                <a class="db" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+                <a class="db" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone || 'N/A' }}</a>
               </div>
 
               <Spacer isBottom :size="4" />
@@ -136,11 +136,11 @@
                   <div :slot="1">
                     <span class="db pa1">ID: <b>#{{ selectedPatient.id }}</b></span>
                     <span class="db pa1">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                    <span class="db pa1">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedPatient.date_of_birth || 'N/A' }}</b></span>
                   </div>
                   <div :slot="2">
-                    <span class="db pa1">City: <b>{{ selectedPatient.city }}</b></span>
-                    <span class="db pa1">State: <b>{{ selectedPatient.state }}</b></span>
+                    <span class="db pa1">City: <b>{{ selectedPatient.city || 'N/A' }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedPatient.state || 'N/A' }}</b></span>
                   </div>
                 </Grid>
               </div>

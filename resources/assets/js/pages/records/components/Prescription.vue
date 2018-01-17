@@ -13,7 +13,7 @@
           <CardContent>
             <div class="">
               <Paragraph>
-                  You are about upload a prescription for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of the pharmacy before uploading, so we keep things organized. Anything you upload will be viewable to your patient. The only file format accepted is PDF.
+                  You are about upload a prescription for client {{ patient.search_name }}, born {{ patient.date_of_birth || 'N/A' }}. Please verify the name of the pharmacy before uploading, so we keep things organized. Anything you upload will be viewable to your patient. The only file format accepted is PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>

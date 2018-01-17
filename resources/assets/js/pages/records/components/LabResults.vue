@@ -14,7 +14,7 @@
           <div class="">
             <div class="">
               <Paragraph>
-                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
+                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth || 'N/A' }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>
