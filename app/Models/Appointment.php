@@ -159,6 +159,8 @@ class Appointment extends Model
 
     public function sendClientReminderSms24Hs()
     {
+        if (!$this->patient->user->getSetting("reminder_text_24_hours")) return false;
+
         $templateData = [
             'doctor_name' => $this->practitioner->user->full_name,
             'time' => $this->patientAppointmentAtDate()->format('h:i A'),
@@ -170,6 +172,9 @@ class Appointment extends Model
 
     public function sendDoctorReminderSms24Hs()
     {
+
+        if (!$this->practitioner->user->getSetting("reminder_text_24_hours")) return false;
+
         $templateData = [
             'time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
             'timezone' => $this->practitionerAppointmentAtDate()->format('T'),
@@ -181,7 +186,7 @@ class Appointment extends Model
 
     public function sendClientReminderEmail24Hs()
     {
-        return false;
+        if (!$this->patient->user->getSetting("reminder_email_24_hours")) return false;
 
         $templateData = [
             'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
@@ -199,7 +204,7 @@ class Appointment extends Model
 
     public function sendDoctorReminderEmail24Hs()
     {
-        return false;
+        if (!$this->practitioner->user->getSetting("reminder_email_24_hours")) return false;
 
         $templateData = [
             'appointment_date' => $this->practitionerAppointmentAtDate()->format('l F j'),
@@ -228,6 +233,8 @@ class Appointment extends Model
 
     public function sendClientReminderSms1Hs()
     {
+        if (!$this->patient->user->getSetting("reminder_text_1_hour")) return false;
+
         $templateData = [
             'meet_link' => $this->google_meet_link,
             'time' => $this->patientAppointmentAtDate()->format('h:i A'),
@@ -239,6 +246,8 @@ class Appointment extends Model
 
     public function sendDoctorReminderSms1Hs()
     {
+        if (!$this->practitioner->user->getSetting("reminder_text_1_hour")) return false;
+
         $templateData = [
             'patient_name' => $this->patient->user->full_name,
             'patient_phone' => $this->patient->user->phone,

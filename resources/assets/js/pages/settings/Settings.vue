@@ -189,11 +189,6 @@ export default {
                         value: true
                     },
                     {
-                        label: "1 hour email reminder",
-                        name: "reminder_email_1_hour",
-                        value: true
-                    },
-                    {
                         label: "1 hour text reminder",
                         name: "reminder_text_1_hour",
                         value: true
