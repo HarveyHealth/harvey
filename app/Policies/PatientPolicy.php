@@ -16,7 +16,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $user->isAdmin() || $patient->user->is($user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $patient->user->is($user);
     }
 
     /**
@@ -26,7 +26,7 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient)
     {
-        return $user->isAdmin() || $patient->user->is($user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $patient->user->is($user);
     }
 
     /**
@@ -38,7 +38,7 @@ class PatientPolicy
      */
     public function storeAttachment(User $user, Patient $patient)
     {
-        return $user->isAdmin() || $user->is($patient->user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $user->is($patient->user);
     }
 
     /**
@@ -50,7 +50,7 @@ class PatientPolicy
      */
     public function storePrescription(User $user, Patient $patient)
     {
-        return $user->isAdmin() || $user->is($patient->user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $user->is($patient->user);
     }
 
     /**
@@ -62,26 +62,6 @@ class PatientPolicy
      */
     public function storeSoapNote(User $user, Patient $patient)
     {
-        return $user->isAdmin() || $user->is($patient->user) || $user->isPractitioner();
-    }
-
-    public function includeAttachments(User $user, Patient $patient)
-    {
-        return $user->is($patient->user) || $user->isPractitioner();
-    }
-
-    public function includeSoapNotes(User $user, Patient $patient)
-    {
-        return $user->is($patient->user) || $user->isPractitioner();
-    }
-
-    public function includeIntake(User $user, Patient $patient)
-    {
-        return $user->is($patient->user) || $user->isPractitioner();
-    }
-
-    public function includePrescriptions(User $user, Patient $patient)
-    {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $user->is($patient->user);
     }
 }

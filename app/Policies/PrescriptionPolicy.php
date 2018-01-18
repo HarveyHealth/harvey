@@ -9,7 +9,7 @@ class PrescriptionPolicy
 {
     use HandlesAuthorization;
 
-    public function get(User $user, Prescription $prescription)
+    public function view(User $user, Prescription $prescription)
     {
         return $user->isPractitioner() || $user->is($prescription->creator) || $user->is($prescription->patient->user);
     }

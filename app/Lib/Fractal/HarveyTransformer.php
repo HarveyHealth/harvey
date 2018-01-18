@@ -2,7 +2,8 @@
 
 namespace App\Lib\Fractal;
 
-use Illuminate\Contracts\Auth\Access\Gate;;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Database\Eloquent\{Collection, Model};
 use League\Fractal\Scope;
 use League\Fractal\TransformerAbstract;
 use ReflectionClass;
@@ -76,18 +77,23 @@ class HarveyTransformer extends TransformerAbstract
 
     private function policyAllowsInclusion(object $data, string $include) : bool
     {
-        $model_name = (new ReflectionClass($data))->getShortName();
-        $policy_class_name = 'App\\Policies\\' . studly_case($model_name) . 'Policy';
-        $policy_method_name = 'include'.ucfirst($include);
+        $included_attribute = studly_case($include);
+        $included_data = $data->$included_attribute;
+        $policy_function = function ($item) { return app(Gate::class)->forUser(currentUser())->check('view', $item); };
 
-        if (!currentUser() || !class_exists($policy_class_name) || !method_exists(new $policy_class_name, $policy_method_name)) {
-            return true;
-        };
+        if ($included_data instanceof Model) {
+            return $policy_function($included_data);
+        }
 
-        if (method_exists(new $policy_class_name, 'before')) {
-            return app(Gate::class)->forUser(currentUser())->check('before', $data);
-        };
+        if ($included_data instanceof Collection) {
+            return $included_data->every($policy_function);
+        }
 
-        return app(Gate::class)->forUser(currentUser())->check($policy_method_name, $data);
+        // Edge case for Policies without a model, we use the 'include' string and the parent model.
+        if (is_array($included_data)) {
+            return app(Gate::class)->forUser(currentUser())->check('view', [$include, $data]);
+        }
+
+        return false;
     }
 }

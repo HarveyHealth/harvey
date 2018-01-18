@@ -7,14 +7,14 @@ use App\Models\Patient;
 
 class PatientTransformer extends HarveyTransformer
 {
-    public $availableIncludes = [
+    protected $availableIncludes = [
         'appointments',
         'attachments',
         'intake',
+        'lab_orders',
         'prescriptions',
         'soap_notes',
         'user',
-        'lab_orders'
     ];
 
     /**
@@ -68,7 +68,7 @@ class PatientTransformer extends HarveyTransformer
      */
     public function includeIntake(Patient $patient)
     {
-        if (empty($intake = $patient->getIntakeData())) {
+        if (empty($intake = $patient->intake)) {
             return $this->null();
         }
 

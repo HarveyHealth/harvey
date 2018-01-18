@@ -9,7 +9,7 @@ class AttachmentPolicy
 {
     use HandlesAuthorization;
 
-    public function get(User $user, Attachment $attachment)
+    public function view(User $user, Attachment $attachment)
     {
         return $user->isPractitioner() || $user->is($attachment->creator) || $user->is($attachment->patient->user);
     }

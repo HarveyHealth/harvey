@@ -28,9 +28,4 @@ class LabTestPolicy
     {
         return $user->is($labTest->practitioner->user) || $user->is($labTest->patient->user);
     }
-
-    public function includeResults(User $user, LabTest $labTest)
-    {
-        return $user->isPractitioner() || $user->is($labTest->practitioner->user) || $user->is($labTest->patient->user);
-    }
 }

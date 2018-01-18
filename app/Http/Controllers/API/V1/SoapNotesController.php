@@ -25,7 +25,7 @@ class SoapNotesController extends BaseAPIController
 
     public function getOne(Request $request, SoapNote $soap_note)
     {
-        if (currentUser()->cant('get', $soap_note)) {
+        if (currentUser()->cant('view', $soap_note)) {
             return $this->respondNotAuthorized('You do not have access to retrieve this SOAP Note.');
         }
 

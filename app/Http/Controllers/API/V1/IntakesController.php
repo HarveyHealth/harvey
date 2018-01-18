@@ -39,7 +39,7 @@ class IntakesController extends BaseAPIController
             $paginationAdapter = null;
         }
 
-        $collection = $collection->map(function ($i) { return $i->getIntakeData(); })->filter();
+        $collection = $collection->map(function ($i) { return $i->intake; })->filter();
 
         return $this->baseTransformCollection($collection, request('include'), $this->transformer, $paginationAdapter)->respond();
     }
@@ -51,7 +51,7 @@ class IntakesController extends BaseAPIController
         }
 
         if (currentUser()->isPractitioner() || currentUser()->isPatient() && currentUser()->patient->is($patient)) {
-            return $this->baseTransformItem($patient->getIntakeData())->respond();
+            return $this->baseTransformItem($patient->intake)->respond();
         }
 
         return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
