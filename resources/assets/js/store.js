@@ -16,6 +16,7 @@ export default function(laravel, State) {
       flyoutActive: false,
       guest: false,
       stripe: null,
+      labTypes: {},
       global: {
           appointments: [],
           currentPage: '',
@@ -94,7 +95,6 @@ export default function(laravel, State) {
       initialAppointment: {},
       initialAppointmentComplete: false,
       labTests: {},
-      labTypes: {},
       timezone: moment.tz.guess(),
       timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
   };

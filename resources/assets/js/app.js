@@ -254,7 +254,7 @@ const app = new Vue({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
+                        date_of_birth: obj.attributes && obj.attributes.birthdate && obj.attributes.birthdate.date ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : 'N/A',
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,
@@ -403,7 +403,7 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.attributes.sku_id] = e;
-                        if (!this.labTypes[e.attributes.lab_name]) { 
+                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) { 
                             this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
                         }
                         this.labTests[e.attributes.sku_id]['checked'] = false;

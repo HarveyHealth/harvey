@@ -14,7 +14,7 @@
           <div class="">
             <div class="">
               <Paragraph>
-                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
+                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth || 'N/A' }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>
@@ -35,7 +35,7 @@
                     <Spacer isBottom :size="2" />
                     <span class="custom-select">
                       <select @change="updateLab($event)">
-                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.sku_name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
+                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
                       </select>
                     </span>
                   </div>
@@ -62,7 +62,7 @@
             <quill-editor
             output="html"
             :options="simpleEditor"
-            :value.sync="notes"
+            v-model="notes"
             class="simple-editor"
             />
           </div>
@@ -246,8 +246,11 @@ export default {
         },
         findUserLabList() {
             let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
-                e.attributes.sku_name = Object.values(this.$root.$data.labTests).filter(e1 => e1.id == e.attributes.sku_id).pop().attributes.name;
-                return e;
+                let object = {};
+                object.id = e.id;
+                object.attributes = {};
+                object.attributes.name = this.$root.$data.labTests[e.attributes.sku_id].attributes.name;
+                return object;
             });
             return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
         },

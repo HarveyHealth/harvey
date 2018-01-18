@@ -33,7 +33,7 @@
               <tr v-for="patient in results" @click="selectPatient(patient)" class="patient-row">
                 <td class="pt2 pb2 pl2">{{ patient.search_name }}</td>
                 <td class="pt2 pb2">{{ patient.email }}</td>
-                <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth }}</td>
+                <td class="pt2 pb2 tr pr2">{{ patient.date_of_birth  || 'N/A' }}</td>
               </tr>
             </table>
 
@@ -125,7 +125,7 @@
                 <Heading2 class="dib no-border w-70">{{selectedPatient.search_name}}</Heading2>
                 <img class="w3 h3 fr" :src="selectedPatient.image" />
                 <a class="db" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-                <a class="db" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+                <a class="db" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone || 'N/A' }}</a>
               </div>
 
               <Spacer isBottom :size="4" />
@@ -136,11 +136,11 @@
                   <div :slot="1">
                     <span class="db pa1">ID: <b>#{{ selectedPatient.id }}</b></span>
                     <span class="db pa1">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                    <span class="db pa1">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                    <span class="db pa1">DOB: <b>{{ selectedPatient.date_of_birth || 'N/A' }}</b></span>
                   </div>
                   <div :slot="2">
-                    <span class="db pa1">City: <b>{{ selectedPatient.city }}</b></span>
-                    <span class="db pa1">State: <b>{{ selectedPatient.state }}</b></span>
+                    <span class="db pa1">City: <b>{{ selectedPatient.city || 'N/A' }}</b></span>
+                    <span class="db pa1">State: <b>{{ selectedPatient.state || 'N/A' }}</b></span>
                   </div>
                 </Grid>
               </div>
@@ -186,7 +186,7 @@
           </div>
 
           <div :slot="2" class="searchbar-actions pa4 mt4">
-            <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:2, l:2 }">
+            <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:2, l:0 }">
               <button :slot="1" class="button flyout-toggle" @click="handleFlyoutOpen">
                 View Current Records
               </button>
@@ -261,7 +261,13 @@
                 :index="index"
                 :items="timelineData"
                 :emptyMessage="`No records for this patient`"
-                :loading="loading" />
+                :loading="loading">
+                <div class="w-100 new-attachment">
+                    <button class="button" @click="newAttachment">
+                        New Attachment
+                    </button>
+                </div>
+                </Timeline>
               </div>
             </Flyout>
           </div>
@@ -488,19 +494,19 @@ export default {
             let patientUserId = this.$root.$data.global.user.id;
             let patientId = this.$root.$data.global.user.included.id;
             let object = {
-                address_1: patientUserData.address_1,
-                address_2: patientUserData.address_2,
-                city: patientUserData.city,
-                date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
+                address_1: patientUserData.address_1 || 'N/A',
+                address_2: patientUserData.address_2 || 'N/A',
+                city: patientUserData.city || 'N/A',
+                date_of_birth:  patientData.birthdate && patientData.birthdate.date ? moment(patientData.birthdate.date).format("MM/DD/YY") : 'N/A',
                 email: patientUserData.email,
                 has_a_card: patientUserData.has_a_card,
                 id: patientId,
                 name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
-                phone: patientUserData.phone,
+                phone: patientUserData.phone || 'N/A',
                 search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
-                state: patientUserData.state,
+                state: patientUserData.state || 'N/A',
                 user_id: patientUserId,
-                zip: patientUserData.zip,
+                zip: patientUserData.zip || 'N/A',
                 image: patientUserData.image_url,
                 created_at: moment.tz(patientUserData.created_at.date, patientUserData.created_at.timezone).tz(this.$root.$data.timezone).format("MM/DD/YY")
             };
@@ -627,6 +633,12 @@ export default {
 
 <style lang="scss" scoped>
     @import '~sass';
+
+    .new-attachment {
+        display: flex;
+        justify-content: center;
+        margin: 25px 0;
+    }
 
     .main-container {
       flex-grow: 1;

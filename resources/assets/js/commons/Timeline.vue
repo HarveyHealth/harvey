@@ -8,6 +8,9 @@
         <!-- Loaded -->
         <div v-if="!loading">
             <!-- Timeline Items -->
+
+            <slot></slot>
+
             <div class="timeline-item" v-for="(item, key) in items" :name="'key-' + key">
               <Grid :flexAt="'l'" :columns="[{ s:2 }, { s:10 }]">
 
