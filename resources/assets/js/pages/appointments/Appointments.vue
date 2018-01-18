@@ -768,7 +768,7 @@ export default {
 
         // Purpose text
         this.appointment.purpose = data.purpose;
-        this.appointment.notes = data.notes[0] || '';
+        this.appointment.notes = data.notes || '';
 
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';
