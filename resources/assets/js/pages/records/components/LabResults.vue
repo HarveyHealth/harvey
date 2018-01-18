@@ -35,7 +35,7 @@
                     <Spacer isBottom :size="2" />
                     <span class="custom-select">
                       <select @change="updateLab($event)">
-                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.sku_name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
+                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
                       </select>
                     </span>
                   </div>
@@ -246,7 +246,8 @@ export default {
         },
         findUserLabList() {
             let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
-                e.attributes.sku_name = Object.values(this.$root.$data.labTests).filter(e1 => e1.id == e.attributes.sku_id).pop().attributes.name;
+                e.attributes = {};
+                e.attributes.name = this.$root.$data.labTests[e.attributes.sku_id].attributes.name;
                 return e;
             });
             return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
