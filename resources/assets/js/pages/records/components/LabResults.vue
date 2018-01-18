@@ -246,9 +246,11 @@ export default {
         },
         findUserLabList() {
             let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
-                e.attributes = {};
-                e.attributes.name = this.$root.$data.labTests[e.attributes.sku_id].attributes.name;
-                return e;
+                let object = {};
+                object.id = e.id;
+                object.attributes = {};
+                object.attributes.name = this.$root.$data.labTests[e.attributes.sku_id].attributes.name;
+                return object;
             });
             return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
         },
