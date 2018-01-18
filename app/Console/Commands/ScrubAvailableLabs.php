@@ -43,7 +43,7 @@ class ScrubAvailableLabs extends Command
         $scrubbed_filename = str_replace('.csv','-scrubbed.csv',$this->argument('filename'));
 
         $this->info($scrubbed_filename);
-        
+
         $csv_scrubbed = new CSV($scrubbed_filename);
         $csv->ignoreFirstLine(true);
 
@@ -56,11 +56,16 @@ class ScrubAvailableLabs extends Command
             $x++;
 
             // reset
-            $street_address_1 = $street_address_2 = $city = $state = $country = $zip = $email = $website = $phone_number = '';
+            $street_address_1 = $street_address_2 = $city = $state = $country = $zip = $email = $website = $phone_number = $longitude = $latitude = '';
 
             array_walk($line, 'trim');
 
-            list($id, $branch, $categories, $mobile, $physical_address, $postal_address, $street_address_1, $street_address_2, $city, $state, $zip, $email, $website, $phone_number) = $line;
+            list($id, $branch, $categories, $mobile, $physical_address, $postal_address, $street_address_1, $street_address_2, $city, $state, $zip, $latitude, $longitude, $email, $website, $phone_number) = $line;
+
+            if (!empty($latitude)) {
+                $csv_scrubbed->addLine($line_array);
+                continue;
+            }
 
             // break the address into pieces
             $address_array = explode(',', $physical_address);
@@ -100,8 +105,43 @@ class ScrubAvailableLabs extends Command
             $line_array[8] = $city;
             $line_array[9] = $state;
             $line_array[10] = $zip;
-            $line_array[12] = 'xxx';
             $line_array[13] = $formatted_phone;
+
+            $pattern = '/\(.*\)/';
+
+            // now try to geocode it
+            $geocode_array = [];
+            $strings = ['street_address_1','city','state','zip'];
+            foreach ($strings as $part) {
+                if (!empty($$part)) {
+                    $the_part = preg_replace($pattern, '', $$part);
+                    $the_part = trim($the_part);
+                }
+                    $geocode_array[] = $the_part;
+            }
+            $geocode_array[] = 'United States';
+
+            $query = implode(',', $geocode_array);
+
+            $location_string = exec("fnlocation $query");
+
+            if (!empty($location_string)) {
+                $location_parts = explode(': ', $location_string);
+                if (count($location_parts) > 1) {
+                    $this->info(json_encode($location_parts));
+                    if (count($location_parts) > 1) {
+                        $location_parts = explode(', ', $location_parts[1]);
+                        if (count($location_parts) > 1) {
+                            list($latitude, $longitude) = $location_parts;
+                        }
+                    }
+                }
+
+                sleep(5);
+            }
+
+            $line_array[11] = $latitude;
+            $line_array[12] = $longitude;
 
             $csv_scrubbed->addLine($line_array);
         }
