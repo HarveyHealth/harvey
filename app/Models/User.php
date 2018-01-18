@@ -32,8 +32,9 @@ class User extends Authenticatable implements Mailable
 
     const DEFAULT_SETTINGS = [
         "reminder_email_24_hours" => false,
-        "reminder_text_24_hours" => true,        
+        "reminder_text_24_hours" => true,
         "reminder_text_1_hour" => true,
+        "notification_message_content" => true,
     ];
 
     public $asYouType = true;
@@ -108,6 +109,7 @@ class User extends Authenticatable implements Mailable
 
     public function getSettingsAttribute($value)
     {
+        $value = json_decode($value,true);        
         return array_merge(self::DEFAULT_SETTINGS, $value??[]);
     }
 

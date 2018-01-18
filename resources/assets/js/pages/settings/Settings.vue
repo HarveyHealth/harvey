@@ -110,6 +110,23 @@
             <div class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
+                        Notifications
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <fieldset id="notification_settings" class="bn">
+                        <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+                            <li v-for="(setting, index) in settings.notifications" class="ph3 pv3 bb b--light-silver">
+                                <input v-on:change="settingUpdate" class="mr2" type="checkbox" :id="setting.name" :name="setting.name" v-model="setting.value">
+                                <label :for="setting.name" class="lh-copy">{{setting.label}}</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="card card-width">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
                         Timezone Options
                         <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
                     </h2>
@@ -181,7 +198,7 @@ export default {
                     {
                         label: "24 hour email reminder",
                         name: "reminder_email_24_hours",
-                        value: true
+                        value: false
                     },
                     {
                         label: "24 hour text reminder",
@@ -193,20 +210,32 @@ export default {
                         name: "reminder_text_1_hour",
                         value: true
                     }
+                ],
+                notifications: [
+                    {
+                        label: "Include Content in New Message Notifications",
+                        name: "notification_message_content",
+                        value: true
+                    }
                 ]
             }
         };
     },
     methods: {
         readUserSettings(){
+            // retrieve user setting values
             axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`)
                 .then(respond => {
+                    // loop the settings values and assign them to our component
                     for (var key in respond.data.data.attributes.settings){
-                        for (var i in this.settings.reminders){
-                            var reminder = this.settings.reminders[i];
-                            if (reminder.name == key){
-                                reminder.value = respond.data.data.attributes.settings[key];
-                                break;
+                        // in our component we have the settings organized in several categories
+                        for (var category in this.settings){
+                            for (var i in this.settings[category]){
+                                var setting = this.settings[category][i];
+                                if (setting.name == key){
+                                    setting.value = respond.data.data.attributes.settings[key];
+                                    break;
+                                }
                             }
                         }
                     }
@@ -216,12 +245,15 @@ export default {
                 });
         },
         settingUpdate() {
+            // save user Settings by calling the API
             let new_settings = {
                 settings: {}
             };
-            for (var key in this.settings.reminders){
-                var reminder = this.settings.reminders[key];
-                new_settings.settings[reminder.name] = reminder.value;
+            for (var category in this.settings){
+                for (var key in this.settings[category]){
+                    var setting = this.settings[category][key];
+                    new_settings.settings[setting.name] = setting.value;
+                }
             }
 
             axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`, new_settings)
