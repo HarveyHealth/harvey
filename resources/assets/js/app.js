@@ -403,7 +403,7 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.attributes.sku_id] = e;
-                        if (!this.labTypes[e.attributes.lab_name]) { 
+                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) { 
                             this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
                         }
                         this.labTests[e.attributes.sku_id]['checked'] = false;
