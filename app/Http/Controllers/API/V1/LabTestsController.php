@@ -158,7 +158,7 @@ class LabTestsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:pdf',
-            'notes' => 'string|max:1024',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = "{$lab_test->patient->user->id}";
@@ -174,18 +174,34 @@ class LabTestsController extends BaseAPIController
                 ]
             );
 
-            $lab_test->results()->create([
+            $lab_test_result = $lab_test->results()->create([
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);
 
             $this->resource_name = 'lab_tests_results';
 
-            return $this->baseTransformItem($lab_test->fresh(), 'results')->respond();
+            return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer)->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
     }
+
+    public function updateResult(Request $request, LabTestResult $lab_test_result)
+    {
+        if (currentUser()->cant('update', $lab_test_result->labTest)) {
+            return $this->respondNotAuthorized('You do not have access to update this LabTestResult.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:4096',
+        ]);
+
+        $lab_test_result->update($request->all());
+
+        return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer)->respond();
+    }
+
 
     public function deleteResult(Request $request, LabTestResult $lab_test_result)
     {
@@ -194,7 +210,7 @@ class LabTestsController extends BaseAPIController
         }
 
         if (!$lab_test_result->delete()) {
-            return $this->baseTransformItem($lab_test_result)->respond(ResponseCode::HTTP_CONFLICT);
+            return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer)->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);

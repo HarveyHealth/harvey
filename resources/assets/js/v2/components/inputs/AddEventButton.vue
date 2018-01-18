@@ -26,12 +26,12 @@ export default {
             required: true,
             validator(config) {
                 return (
-                    config.start && typeof config.start === 'string' &&
-                    config.end && typeof config.end === 'string' &&
-                    config.timezone && typeof config.timezone === 'string' &&
-                    config.title && typeof config.title === 'string' &&
-                    config.description && typeof config.description === 'string' &&
-                    config.location && typeof config.location === 'string'
+                    typeof config.start === 'string' &&
+                    typeof config.end === 'string' &&
+                    typeof config.timezone === 'string' &&
+                    typeof config.title === 'string' &&
+                    typeof config.description === 'string' &&
+                    typeof config.location === 'string'
                 );
             }
         }

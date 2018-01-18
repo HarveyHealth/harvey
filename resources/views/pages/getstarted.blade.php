@@ -30,27 +30,21 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
-          // Controller has determined that the user is:
-          // logged in as patient with no Appointment or logged out
-          // Now we check if there is zipValidation stored and whether
-          // the user's zip is serviceable or not
-          var zipValidation  = localStorage.getItem('harvey_zip_validation');
-          var isServiceable = zipValidation ? JSON.parse(zipValidation).is_serviceable : false;
-          var loggedIn = Laravel.user.signedIn;
-
-          window.$$context = 'get-started';
+          window.Laravel = {!! $vue_data !!};
           window.Blade = {};
+          window.$$context = 'get-started';
 
           @if (session('facebook_redirect_alert'))
           window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
           @endif
 
-          // Now we redirect the user based on their logged in status and zip code
+          var zipValidation  = localStorage.getItem('harvey_zip_validation');
+          var isServiceable = zipValidation ? JSON.parse(zipValidation).is_serviceable : false;
+          var loggedIn = Laravel.user.signedIn;
+
+          if (loggedIn) window.location.hash = '/welcome';
           if (!loggedIn && isServiceable) window.location.hash = '/signup';
-          if (loggedIn && isServiceable) window.location.hash = '/welcome';
-          if (!loggedIn && !isServiceable) window.location.href = '/conditions';
-          if (loggedIn && !isServiceable) window.location.href = '/logout';
+          if (!loggedIn && !isServiceable) window.location.href = '/conditions/get-zip';
         </script>
     </head>
     <body>

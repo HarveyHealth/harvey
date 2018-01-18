@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\{
     Appointment,
     Attachment,
+    LabTestResult,
     LabTest,
     Message,
     User,
@@ -14,6 +15,7 @@ use App\Models\{
 use App\Observers\{
     AppointmentObserver,
     AttachmentObserver,
+    LabTestResultObserver,
     LabTestObserver,
     MessageObserver,
     UserObserver,
@@ -42,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Attachment::observe(AttachmentObserver::class);
         LabOrder::observe(LabOrderObserver::class);
         LabTest::observe(LabTestObserver::class);
+        LabTestResult::observe(LabTestResultObserver::class);
         LabTestInformation::observe(LabTestInformationObserver::class);
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);

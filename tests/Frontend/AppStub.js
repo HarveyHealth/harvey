@@ -112,6 +112,32 @@ const AppStub = function(component, componentName, props, setAppState) {
       getLabData() { return false; },
       shouldTrack() { return false; }
     },
+    computed: {
+          userIsPatient() {
+              return 'patient' === laravel.user.user_type;
+          },
+          userIsNotPatient() {
+              return !this.userIsPatient;
+          },
+          userIsPractitioner() {
+              return 'practitioner' === laravel.user.user_type;
+          },
+          userIsNotPractitioner() {
+              return !this.userIsPractitioner;
+          },
+          userIsAdmin() {
+              return 'admin' === laravel.user.user_type;
+          },
+          userIsNotAdmin() {
+              return !this.userIsAdmin;
+          },
+          userIsAdminOrPractitioner() {
+              return this.userIsAdmin || this.userIsPractitioner;
+          },
+          userIsNotAdminOrPractitioner() {
+              return !this.userIsAdminOrPractitioner;
+          },
+    },
     render(create) {
       return create('div', [
         create(componentName, { props: props || {} })

@@ -39,8 +39,8 @@ class AttachmentsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
-            'name' => 'string|max:64',
-            'notes' => 'string|max:1024',
+            'name' => 'string|max:128',
+            'notes' => 'string|max:4096',
         ]);
 
         $relative_path = (string) $patient->user->id;
@@ -68,9 +68,25 @@ class AttachmentsController extends BaseAPIController
         return $this->baseTransformItem($attachment->fresh())->respond();
     }
 
+    public function update(Request $request, Attachment $attachment)
+    {
+        if (currentUser()->cant('update', $attachment)) {
+            return $this->respondNotAuthorized('You do not have access to update this Attachment.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'notes' => 'filled|string|max:4096',
+        ]);
+
+        $attachment->update($request->all());
+
+        return $this->baseTransformItem($attachment, request('include'))->respond();
+    }
+
     public function delete(Request $request, Attachment $attachment)
     {
         if (currentUser()->cant('delete', $attachment)) {
+
             return $this->respondNotAuthorized('You do not have access to delete this Attachment.');
         }
 
