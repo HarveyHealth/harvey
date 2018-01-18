@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\{DiscountCode, InvoiceItem, Patient, LabOrder, Appointment};
 use App\Http\Traits\{IsNot, BelongsToPatient};
 
-
-
 class Invoice extends Model
 {
     use IsNot, BelongsToPatient;

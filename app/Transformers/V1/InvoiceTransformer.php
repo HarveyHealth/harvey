@@ -10,7 +10,7 @@ class InvoiceTransformer extends HarveyTransformer
     protected $availableIncludes = [
         'appointment',
         'discount_code',
-        'invoice_items',
+        'items',
         'lab_order',
         'patient',
     ];
@@ -49,7 +49,7 @@ class InvoiceTransformer extends HarveyTransformer
         return $this->item($invoice->patient, $transformer, 'patient');
     }
 
-    public function includeInvoiceItems(Invoice $invoice)
+    public function includeItems(Invoice $invoice)
     {
         return $this->collection($invoice->items, new InvoiceItemTransformer(), 'invoice_item');
     }
