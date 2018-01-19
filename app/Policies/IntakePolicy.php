@@ -11,6 +11,6 @@ class IntakePolicy
 
     public function view(User $user, Patient $patient)
     {
-        return $user->isPractitioner() || $user->patient->intake_token == $patient->intake_token;
+        return $user->isPractitioner() || ($user->isPatient() && $user->patient->intake_token == $patient->intake_token);
     }
 }
