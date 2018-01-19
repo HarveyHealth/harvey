@@ -804,7 +804,7 @@ export default {
         practitioner_id: this.appointment.practitionerId * 1
       };
 
-      if (!isPatient) {
+      if (!isPatient && this.appointment.notes !== '') {
         data.notes = this.appointment.notes;
       }
 
