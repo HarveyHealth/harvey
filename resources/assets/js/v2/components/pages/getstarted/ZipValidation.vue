@@ -37,7 +37,7 @@
                 <Paragraph :color="'light'">You can still <a href="https://store.goharvey.com">shop our store</a> for vitamins and supplements or <a href="https://telegram.me/goharvey_doctors" target="_blank">chat for free</a> with our doctors about general wellness.</Paragraph>
                 <Spacer isBottom :size="3" />
                 <a href="#" class="white" @click.prevent="Logic.getstarted.resetZip">
-                    <i class="fa fa-undo"></i><Spacer isRight :size="3" />Try Again
+                    <i class="fa fa-undo"></i><Spacer isRight :size="2"/>Try Again
                 </a>
             </SlideIn>
         </div>

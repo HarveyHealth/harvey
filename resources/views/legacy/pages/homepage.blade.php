@@ -17,43 +17,43 @@
                 <p class="subtitle f4 fw4 white">Harvey offers preventative lab tests and clinical-grade vitamins and supplements—under the guidance of integrative doctors.</p>
                 <div class="tc">
                     <a href="https://store.goharvey.com" class="button f3 ph4 is-primary has-arrow">Start Shopping</a>
-                    <p class="db cf ma3 white">Questions? <a href="/doctors" class="underline white dim">Chat with a doctor</a></p>
+                    <p class="db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Chat with a doctor</a></p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="products">
-        <div class="container tc pv5">
-            <div class="columns">
-                <div class="column">
-                    <div class="icon-wrapper icon-wrapper-has-background is-gray">
-                        <span class="icon icon_steps_2"></span>
+        <div class="container">
+            <div class="flex tc pv5">
+                <div class="w-third">
+                    <div class="pa4 br-100 dib o-80 brown-bg">
+                        <span class="icon icon_steps_2 h60 w60 dib"></span>
                     </div>
-                    <div class="pt2">
-                        <p class="font-xl"><strong>Home Lab Tests</strong></p>
-                        <p class="font-md pt2">Order one of our specialized lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergy</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/toxic-metals-lab-test">Toxic Metals</a>, <a href="https://store.goharvey.com/products/hormones-lab-test">Hormones</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
-                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 ba ph3 pv2 mb2 dib br2 mt3 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="icon-wrapper icon-wrapper-has-background is-gray">
-                        <span class="icon icon_steps_4"></span>
-                    </div>
-                    <div class="pt2">
-                        <p class="font-xl"><strong>Vitamins & Supplements</strong></p>
-                        <p class="font-md pt2">Shop the largest online dispensory of professional-grade vitamins and supplements at guaranteed wholesale prices.</p>
-                        <a href="https://store.goharvey.com/collections/supplements" class="f5 ba ph3 pv2 mb2 dib br2 mt3 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                    <div class="pa2">
+                        <p class="f3 fw5 pt2">Home Lab Tests</p>
+                        <p class="f5 pa3">Order one of our specialized home lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergies</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
+                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 ba ph3 pv2 mb3 dib br2 mt3 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="icon-wrapper icon-wrapper-has-background is-gray">
-                        <span class="icon icon_steps_1"></span>
+                <div class="w-third">
+                    <div class="pa4 br-100 dib o-80 brown-bg">
+                      <span class="icon icon_steps_4 h60 w60 dib"></span>
                     </div>
-                    <div class="pt2">
-                        <p class="font-xl"><strong>Functional Doctors</strong></p>
-                        <p class="font-md pt2">Chat for free with our licensed Naturopathic Doctors about your health goals, or schedule a full consultation to build a detailed treatment plan.</p>
-                        <a href="/doctors" class="f5 ba ph3 pv2 mb2 dib br2 mt3 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
+                    <div class="pa2">
+                        <p class="f3 fw5 pt2">Vitamins & Supplements</p>
+                        <p class="f5 pa3">Shop the largest online dispensory of professional-grade vitamins and supplements at guaranteed wholesale prices.</p>
+                        <a href="https://store.goharvey.com/collections/supplements" class="f5 ba ph3 pv2 mb3 dib br2 mt3 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                    </div>
+                </div>
+                <div class="w-third">
+                    <div class="pa4 br-100 dib o-80 brown-bg">
+                      <span class="icon icon_steps_1 h60 w60 dib"></span>
+                    </div>
+                    <div class="pa2">
+                        <p class="f3 fw5 pt2">Functional Doctors</p>
+                        <p class="f5 pa3">Chat for free with a licensed Naturopathic Doctor about your health goals, or schedule a full consultation to build a treatment plan.</p>
+                        <a href="/doctors" class="f5 ba ph3 pv2 mb3 dib br2 mt3 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
                     </div>
                 </div>
             </div>
@@ -193,8 +193,8 @@
                 <p class="f2">Start your health journey.</p>
                 <p class="f4 pa3">If you're new to integrative medicine, we recommend chatting with one of our doctors before buying lab tests or supplements. If you know what you want, you can start shopping now.</p>
                 <div class="tc">
-                    <a href="https://store.goharvey.com" class="button is-primary is-medium has-arrow">Start Shopping</a>
-                    <p class="db cf ma3">Questions? <a href="/doctors" class="underline dim">Chat with a doctor</a></p>
+                    <a href="https://store.goharvey.com" class="button f4 ph4 is-primary has-arrow">Start Shopping</a>
+                    <p class="db cf ma3">Questions? <a href="/consultations" class="underline dim">Chat with a doctor</a></p>
                 </div>
             </div>
         </div>
