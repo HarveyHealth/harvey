@@ -182,7 +182,7 @@
     <section id="get-started" class="bg-near-white">
         <div class="container">
             <div class="tc pv5 ph6-ns">
-                <p class="f2">Now serving patients in 45 states.</p>
+                <p class="f2">Serving patients in 45 states.</p>
                 <p class="f4 pa4">We recommend talking with an integrative doctor to receive a full treatment plan. You can book a video consultation today or private chat with our doctors on Telegram.</p>
                 <div class="tc">
                     <a href="/get-started" class="button f4 ph4 is-primary has-arrow">Check Availability</a>
