@@ -11,7 +11,7 @@
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
-                    <a href="/consultations/#stories">Stories</a>
+                    <a href="/consultations#stories">Stories</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
