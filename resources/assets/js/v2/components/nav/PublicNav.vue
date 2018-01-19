@@ -12,7 +12,7 @@
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about" class="fw5 dim">About</a>
                     <a href="/consultations#stories" class="fw5 dim">Stories</a>
-                    <a v-if="!showDashboard" href="/login" class="fw5 dim">Log In</a>
+                    <a v-if="!showDashboard" href="/login" class="fw5 dim">Login</a>
                 </div>
                 <div class="nav-right">
                     <div class="nav-phone" v-if="hasPhone">

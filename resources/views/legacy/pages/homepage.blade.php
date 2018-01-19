@@ -127,7 +127,7 @@
                     <div class="ph5-l ph3 mb4">
                       <i class="fa fa-comments-o f2-l f3 ma1" aria-hidden="true"></i>
                       <p class="f3-l f4 fw3 mv2">Free Messaging</p>
-                      <p class="f4-l f5">We offer unlimited free chat with your doctor through a private Telegram channel. Full video consultations start at $75.</p>
+                      <p class="f4-l f5">We offer unlimited free chat with your doctor through a private Telegram channel. Full private video consultations are $150.</p>
                     </div>
                 </div>
             </div>
