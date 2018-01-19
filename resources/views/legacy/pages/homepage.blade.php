@@ -6,18 +6,18 @@
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
 
     <section id="hero-background">
-        <div id="hero-video-container">
+        <div id="hero-video-container" class="o-80">
             <video id="hero-video" autoplay loop muted></video>
             <div id="video-cover"></div>
-            <div id="overlay"></div>
+            <div class="overlay"></div>
         </div>
         <div class="container">
             <div class="tc pt6-ns pb4-ns ph7-ns">
-                <h1 class="f1 lh-title mt0 white">Learn what your body really needs to feel its best.</h1>
-                <p class="subtitle f4 fw4 white">Harvey offers preventative lab tests and clinical-grade vitamins and supplements—under the guidance of integrative doctors.</p>
+                <h1 class="f1 lh-title mt0 mb3 white">Learn what your body really needs to feel its best.</h1>
+                <p class="f4 fw5 mb4 white">Harvey offers preventative lab tests and clinical-grade vitamins and supplements—under the guidance of integrative doctors.</p>
                 <div class="tc">
                     <a href="https://store.goharvey.com" class="button f3 ph4 is-primary has-arrow">Start Shopping</a>
-                    <p class="db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Chat with a doctor</a></p>
+                    <p class="f5 fw5 db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Chat with a doctor</a></p>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                     <div class="pa2">
                         <p class="f3 fw5 pt2">Functional Doctors</p>
                         <p class="f5 pa3">Chat for free with a licensed Naturopathic Doctor about your health goals, or schedule a full consultation to build a treatment plan.</p>
-                        <a href="/doctors" class="f5 ba ph3 pv2 mb3 dib br2 mt3 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
+                        <a href="/consultations" class="f5 ba ph3 pv2 mb3 dib br2 mt3 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
                     </div>
                 </div>
             </div>
@@ -63,8 +63,8 @@
     <section id="featured-video" class="o-70">
         <div class="container flex-l pv4">
             <div class="w-50-l pv4 tc">
-                <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" class="w-100 w-60-ns br2">
+                <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video dim" frameborder="0" data-lity allowfullscreen>
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/nutrition.jpg" class="w-100 w-60-ns br2">
                 </a>
             </div>
             <div class="w-50-l pt4">
@@ -82,7 +82,7 @@
                 <p class="f2">Private & Personalized Treatment</p>
                 <p class="f4 pv3 ph4">Your health shouldn't be a guessing game on Google. Our doctors have successfully treated hundreds of patients fighting skin issues, food allergies, stress and anxiety, digestive issues, fatigue, weight gain/loss, hormonal changes, and many other health conditions.</p>
                 <div class="db cf ma2 f4">
-                    <a href="/consultations#patients"><i class="fa fa-play-circle pt1" aria-hidden="true"></i> Watch Patient Stories</a>
+                    <a href="/consultations#stories"><i class="fa fa-play-circle pt1" aria-hidden="true"></i> Watch Patient Stories</a>
                 </div>
             </div>
         </div>
@@ -137,11 +137,11 @@
     <section id="press" class="bt b--near-white">
         <div class="container">
             <div class="tc pt4 ph7">
-                <p class="f4 moon-gray">Don't just take our word for it.</p>
+                <p class="f3 moon-gray">Don't just take our word for it.</p>
             </div>
             <div class="flex flex-wrap pa4">
                 <div class="ph3 ph5-ns pv3 w-50 w-33-m w-25-ns tc">
-                    <a href="http://google.com" class="dim">
+                    <a href="https://www.youtube.com/watch?v=Q9usyL_Zs-A" class="dim">
                         <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/quality-talks.png">
                     </a>
                 </div>

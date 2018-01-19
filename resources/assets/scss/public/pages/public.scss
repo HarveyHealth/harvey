@@ -33,7 +33,6 @@ h1, h2, h3, h4, h5, p, em, strong {
   position: absolute;
   height: 100%; width: 100%;
   top: 0; left: 0; right: 0; bottom: 0;
-  opacity: .6;
 }
 
 #hero-video {
@@ -52,10 +51,9 @@ h1, h2, h3, h4, h5, p, em, strong {
   // Background image defined at bottom
 }
 
-#overlay {
+.overlay {
   position: absolute;
   top: 0; right: 0; left: 0; bottom: 0;
-  background: rgba(227, 186, 179, .6)
 }
 
 // Icons
@@ -99,17 +97,32 @@ h1, h2, h3, h4, h5, p, em, strong {
 body.home {
     #video-cover {
         background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/home/hero-cover-home.jpg') no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .overlay {
+        background: rgba(214, 203, 211, 0.6);
     }
 }
 
 body.about {
     #video-cover {
-        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/about/hero-cover-about.jpg') no-repeat;
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/about/hero-cover-labs.jpg') no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .overlay {
+        background: rgba(203, 197, 193, .4);
     }
 }
 
 body.consultations {
     #video-cover {
-        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/consultations/hero-cover-consult.jpg') no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .overlay {
+        background: rgba(76, 88, 111, 0.6);
     }
 }
