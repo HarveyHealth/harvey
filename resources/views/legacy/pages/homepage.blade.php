@@ -5,18 +5,18 @@
 
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
 
-    <section class="hero hero-background">
+    <section id="hero-background">
         <div id="hero-video-container">
             <video id="hero-video" autoplay loop muted></video>
             <div id="video-cover"></div>
             <div id="overlay"></div>
         </div>
         <div class="container">
-            <div class="tc pt5-ns pb4-ns ph7-ns">
-                <h1 class="title is-1">Learn what your body really needs to feel its best.</h1>
-                <p class="subtitle is-5">Harvey offers preventative lab tests and clinical-grade vitamins and supplements—under the guidance of integrative doctors.</p>
+            <div class="tc pt6-ns pb4-ns ph7-ns">
+                <h1 class="f1 lh-title mt0 white">Learn what your body really needs to feel its best.</h1>
+                <p class="subtitle f4 fw4 white">Harvey offers preventative lab tests and clinical-grade vitamins and supplements—under the guidance of integrative doctors.</p>
                 <div class="tc">
-                    <a href="https://store.goharvey.com" class="button is-primary is-medium has-arrow">Start Shopping</a>
+                    <a href="https://store.goharvey.com" class="button f3 ph4 is-primary has-arrow">Start Shopping</a>
                     <p class="db cf ma3 white">Questions? <a href="/doctors" class="underline white dim">Chat with a doctor</a></p>
                 </div>
             </div>
@@ -60,7 +60,7 @@
         </div>
     </section>
 
-    <section id="testimonials" class="o-90">
+    <section id="featured-video" class="o-70">
         <div class="container flex-l pv4">
             <div class="w-50-l pv4 tc">
                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -69,8 +69,8 @@
             </div>
             <div class="w-50-l pt4">
                 <div class="w-100 white center v-mid">
-                    <p class="f2 pt3">#1 Integrative Medicine Platform</p>
-                    <p class="f4 pt2">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just a set of symptoms.</p>
+                    <p class="f2 pt3 white">#1 Integrative Medicine Platform</p>
+                    <p class="f4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just a set of symptoms.</p>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <p class="f2">Private & Personalized Treatment</p>
                 <p class="f4 pv3 ph4">Your health shouldn't be a guessing game on Google. Our doctors have successfully treated hundreds of patients fighting skin issues, food allergies, stress and anxiety, digestive issues, fatigue, weight gain/loss, hormonal changes, and many other health conditions.</p>
                 <div class="db cf ma2 f4">
-                    <a href="/patients"><i class="fa fa-play-circle pt1" aria-hidden="true"></i> Watch Patient Stories</a>
+                    <a href="/consultations#patients"><i class="fa fa-play-circle pt1" aria-hidden="true"></i> Watch Patient Stories</a>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
     <section id="press" class="bt b--near-white">
         <div class="container">
             <div class="tc pt4 ph7">
-                <p class="f4 moon-gray">Don't take our word for it.</p>
+                <p class="f4 moon-gray">Don't just take our word for it.</p>
             </div>
             <div class="flex flex-wrap pa4">
                 <div class="ph3 ph5-ns pv3 w-50 w-33-m w-25-ns tc">
