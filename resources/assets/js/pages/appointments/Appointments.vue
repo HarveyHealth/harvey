@@ -784,15 +784,29 @@ export default {
       }
     },
     handleUserAction() {
+      // api constraints
+      const isPatient = this.$root.userIsPatient;
+      const isPractitioner = this.$root.userIsPractitioner;
+      const isAdmin = this.$root.userIsAdmin;
+      const isUpdate = this.userAction === 'update';
+      const isCancel = this.userAction === 'cancel';
+      const isNew = this.userAction === 'new';
+      const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
+      const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
+      const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
+
       // Setup
       let data = {
         appointment_at: this.appointment.date || this.appointment.currentDate,
         reason_for_visit: this.appointment.purpose,
-        notes: this.appointment.notes,
         status: this.appointment.status,
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
       };
+
+      if (!isPatient) {
+        data.notes = this.appointment.notes;
+      }
 
       if (this.discountCode) data.discount_code = this.discountCode;
 
@@ -806,17 +820,6 @@ export default {
       const appointmentDate = data.appointment_at;
       const appointmentPatientEmail = this.appointment.patientEmail;
       const trackingPatientId = data.patient_id;
-
-      // api constraints
-      const isPatient = this.$root.userIsPatient;
-      const isPractitioner = this.$root.userIsPractitioner;
-      const isAdmin = this.$root.userIsAdmin;
-      const isUpdate = this.userAction === 'update';
-      const isCancel = this.userAction === 'cancel';
-      const isNew = this.userAction === 'new';
-      const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
-      const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
-      const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
 
       // Patients don't need to send up their id
       // Cancellations don't require a patient id
