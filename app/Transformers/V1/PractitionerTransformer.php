@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Practitioner;
-use League\Fractal\TransformerAbstract;
 
-class PractitionerTransformer extends TransformerAbstract
+class PractitionerTransformer extends HarveyTransformer
 {
     protected $availableIncludes = ['user'];
 

@@ -109,7 +109,7 @@ class Patient extends Model
         return self::where('intake_token', $token)->first();
     }
 
-    public function getIntakeData()
+    public function getIntakeAttribute()
     {
         if (empty($token = $this->intake_token)) {
             return [];

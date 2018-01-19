@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Appointment;
-use League\Fractal\TransformerAbstract;
 
-class AppointmentTransformer extends TransformerAbstract
+class AppointmentTransformer extends HarveyTransformer
 {
     protected $availableIncludes = ['patient', 'practitioner', 'discount_code', 'invoice'];
 

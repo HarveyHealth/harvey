@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\SoapNote;
-use League\Fractal\TransformerAbstract;
 
-class SoapNoteTransformer extends TransformerAbstract
+class SoapNoteTransformer extends HarveyTransformer
 {
     /**
      * @return array

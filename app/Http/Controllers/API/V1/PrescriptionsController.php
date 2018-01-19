@@ -24,7 +24,7 @@ class PrescriptionsController extends BaseAPIController
 
     public function getOne(Request $request, Prescription $prescription)
     {
-        if (currentUser()->cant('get', $prescription)) {
+        if (currentUser()->cant('view', $prescription)) {
             return $this->respondNotAuthorized('You do not have access to retrieve this Prescription.');
         }
 

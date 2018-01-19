@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Attachment;
-use League\Fractal\TransformerAbstract;
 
-class AttachmentTransformer extends TransformerAbstract
+class AttachmentTransformer extends HarveyTransformer
 {
     /**
      * @return array

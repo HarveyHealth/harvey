@@ -2,29 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\User;
-use App\Sku;
+use App\Models\{SKU, User};
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SkuPolicy
 {
     use HandlesAuthorization;
-    
+
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+        return $user->isAdmin() ?: null;
     }
 
     /**
      * Determine whether the user can view the sku.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Sku  $sku
+     * @param  \App\Models\SKU  $sku
      * @return mixed
      */
-    public function view(User $user, Sku $sku)
+    public function view(User $user, SKU $sku)
     {
         return true;
     }
@@ -44,10 +41,10 @@ class SkuPolicy
      * Determine whether the user can update the sku.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Sku  $sku
+     * @param  \App\Models\SKU  $sku
      * @return mixed
      */
-    public function update(User $user, Sku $sku)
+    public function update(User $user, SKU $sku)
     {
         return $user->isAdmin();
     }
@@ -56,10 +53,10 @@ class SkuPolicy
      * Determine whether the user can delete the sku.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Sku  $sku
+     * @param  \App\Models\SKU  $sku
      * @return mixed
      */
-    public function delete(User $user, Sku $sku)
+    public function delete(User $user, SKU $sku)
     {
         return $user->isAdmin();
     }

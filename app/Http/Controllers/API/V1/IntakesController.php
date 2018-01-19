@@ -23,7 +23,7 @@ class IntakesController extends BaseAPIController
 
     public function getAll(Request $request)
     {
-        if (currentUser()->isNotAdminOrPractitioner()) {
+        if (currentUser()->isNotPractitioner()) {
             return $this->respondNotAuthorized('You do not have access to retrieve Intake forms.');
         }
 
@@ -39,7 +39,7 @@ class IntakesController extends BaseAPIController
             $paginationAdapter = null;
         }
 
-        $collection = $collection->map(function ($i) { return $i->getIntakeData(); })->filter();
+        $collection = $collection->map(function ($i) { return $i->intake; })->filter();
 
         return $this->baseTransformCollection($collection, request('include'), $this->transformer, $paginationAdapter)->respond();
     }
@@ -50,10 +50,10 @@ class IntakesController extends BaseAPIController
             return $this->respondNotFound("Can't find a Patient with that Intake token assigned.");
         }
 
-        if (currentUser()->isNotAdminOrPractitioner() && currentUser()->patient->isNot($patient)) {
-            return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
+        if (currentUser()->isPractitioner() || currentUser()->isPatient() && currentUser()->patient->is($patient)) {
+            return $this->baseTransformItem($patient->intake)->respond();
         }
 
-        return $this->baseTransformItem($patient->getIntakeData())->respond();
+        return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
     }
 }

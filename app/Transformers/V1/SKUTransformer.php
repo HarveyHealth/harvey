@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\SKU;
-use League\Fractal\TransformerAbstract;
 
-class SKUTransformer extends TransformerAbstract
+class SKUTransformer extends HarveyTransformer
 {
     public function transform(SKU $sku)
     {
