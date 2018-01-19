@@ -68,12 +68,15 @@
         <div class="footer-content mha pa2 pa4-m pa4-l">
             <p>Copyright &copy;2018 Harvey Health, Inc. All Rights Reserved. Harvey does not diagnose, treat, cure or prevent any disease.</p>
             <p>These statements have not been evaluated by the Food and Drug Administration.</p>
+            <div class="mt4 tr">
+                <SocialIcons isBranded :brands="['facebook', 'twitter', 'instagram', 'youtube']" />
+            </div>
         </div>
     </footer>
 </template>
 
 <script>
-import { LogoIcon } from 'icons';
+import { LogoIcon, SocialIcons } from 'icons';
 import { Accordian, Grid, Spacer } from 'layout';
 
 export default {
@@ -81,6 +84,7 @@ export default {
       Accordian,
       Grid,
       LogoIcon,
+      SocialIcons,
       Spacer
   }
 };
@@ -104,6 +108,11 @@ export default {
 
         a:hover {
             color: $color-accent;
+        }
+
+        .login &,
+        .page-404 & {
+            display: none;
         }
     }
 
