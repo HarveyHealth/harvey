@@ -1,5 +1,5 @@
 <template>
-    <footer id="footer" class="footer-container">
+    <footer id="footer" class="footer-container pt4 pb5">
         <div class="footer-content mha pa2 pa4-m pa4-l">
             <Grid :columns="[{xl:5}, {xl:7}]" :gutters="{ s:2, m:4 }">
                 <div :slot="1">
@@ -23,7 +23,44 @@
                     </div>
                 </div>
                 <div :slot="2">
-                    Links
+                    <Grid :columns="[{l:4}, {l:4}, {l:4}]" :gutters="{s:2, l:3}">
+                        <div :slot="1">
+                            <Accordian :stop="'l'">
+                                <span :slot="'trigger'" class="uppercase white">Company</span>
+                                <div :slot="'content'">
+                                    <a href="/" class="dib pv1">Home</a><br />
+                                    <a href="/about" class="dib pv1">About</a><br />
+                                    <a href="/blog" class="dib pv1">Blog</a><br />
+                                    <a href="/legal/terms" class="dib pv1">Terms</a><br />
+                                    <a href="/legal/privacy" class="dib pv1">Privacy</a><br />
+                                    <a href="help.goharvey.com" class="dib pv1">Help</a>
+                                </div>
+                            </Accordian>
+                        </div>
+                        <div :slot="2">
+                            <Accordian :stop="'l'">
+                                <span :slot="'trigger'" class="uppercase white">Research</span>
+                                <div :slot="'content'">
+                                    <a href="/collections/skin-issues" class="dib pv1">Skin Issues</a><br />
+                                    <a href="/collections/food-allergies" class="dib pv1">Food Allergies</a><br />
+                                    <a href="/collections/stress-anxiety" class="dib pv1">Stress &amp; Anxiety</a><br />
+                                    <a href="/collections/fatigue" class="dib pv1">Fatigue</a><br />
+                                    <a href="/collections/weight-loss-gain" class="dib pv1">Weight Loss/Gain</a><br />
+                                    <a href="/collections/weight-loss-gain" class="dib pv1">Women's Health</a><br />
+                                    <a href="/collections/general-health" class="dib pv1">General Health</a>
+                                </div>
+                            </Accordian>
+                        </div>
+                        <div :slot="3">
+                            <Accordian :stop="'l'">
+                                <span :slot="'trigger'" class="uppercase white">Account</span>
+                                <div :slot="'content'">
+                                    <a href="/login" class="dib pv1">Login</a><br />
+                                    <a href="/consultations" class="dib pv1">Full Consultation</a>
+                                </div>
+                            </Accordian>
+                        </div>
+                    </Grid>
                 </div>
             </Grid>
         </div>
@@ -37,10 +74,11 @@
 
 <script>
 import { LogoIcon } from 'icons';
-import { Grid, Spacer } from 'layout';
+import { Accordian, Grid, Spacer } from 'layout';
 
 export default {
   components: {
+      Accordian,
       Grid,
       LogoIcon,
       Spacer
