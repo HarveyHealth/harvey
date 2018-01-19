@@ -589,8 +589,9 @@ export default {
           }
           this.isModalActive = true;
           break;
+
         case 'new':
-          if (!this.billingConfirmed && this.$root.userIsPatient) {
+          if (!Laravel.user.has_a_card && this.$root.userIsPatient) {
             this.shouldShowBillingError = true;
             return;
           }
