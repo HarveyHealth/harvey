@@ -117,19 +117,17 @@
         <div class="input__item" data-test="appointment_amount_charged">Charged: {{ selectedRowData.amount ? '$' + Number(selectedRowData.amount).toFixed(0) : appointment.duration.data === '60' ? '$150' : '$75' }}</div>
       </div>
 
-      <TextBox
+      <TextBox v-model="appointment.purpose"
         name="purpose"
         :character-limit="purposeCharLimit"
         :editable="canEditFields"
-        :value="appointment.purpose"
         :visible="isVisiblePurpose"
       />
 
-      <TextBox
+      <TextBox v-model="appointment.notes"
         name="notes"
         :character-limit="notesCharLimit"
         :editable="canEditFields"
-        :value="appointment.notes"
         :visible="isVisibleNotes"
       />
 
