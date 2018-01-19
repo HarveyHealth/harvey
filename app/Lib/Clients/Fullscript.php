@@ -21,7 +21,7 @@ class Fullscript extends BaseClient
         $this->base_endpoint = config('services.fullscript.api_host');
 
         if (empty($this->base_endpoint)) {
-            throw new Exception('Fullscript API Host not set, please check your ".env" or ".env.testing" file.');
+            throw new Exception('Fullscript API Host not set, please check your environment variables.');
         }
     }
 

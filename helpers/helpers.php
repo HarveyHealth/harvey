@@ -69,6 +69,11 @@ function currentUser()
     return auth()->user();
 }
 
+function currentUserIsAdminOrPractitioner()
+{
+    return currentUser() && currentUser()->isAdminOrPractitioner();
+}
+
 function isLocal()
 {
     return app()->environment('local');
