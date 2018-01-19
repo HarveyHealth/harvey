@@ -11,12 +11,12 @@
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
-                    <a href="/patients">Patients</a>
+                    <a href="/consultations/#patients">Patients</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
                     <div class="nav-phone dim" v-if="hasPhone">
-                        <a href="/doctors">Chat with a doctor</a>
+                        <a href="/consultations">Consult a doctor</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
                         <a v-if="showDashboard" class="dim" href="/dashboard">

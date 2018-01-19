@@ -1,12 +1,8 @@
-@import '../../vendor/bourbon/bourbon';
-// Variables
-@import "~bulma/sass/utilities/functions";
 @import "variables";
-
-@import "./pages/symptoms";
-// Libraries
-@import '~bulma/bulma';
-@import '~animate.css/animate';
+@import "../../vendor/bourbon/bourbon";
+@import "~bulma/sass/utilities/functions";
+@import "~bulma/bulma";
+@import "~animate.css/animate";
 
 // Rewrite bulma styles
 
@@ -42,12 +38,6 @@ $font-family: "proxima-nova";
 
 .control.has-icon .button.is-primary > .icon {
   color: #fff;
-}
-
-// Homepage
-
-#testimonials {
-  background-image: linear-gradient(120deg, #A1BBD0 25%, #9AABB9 60%);
 }
 
 // Footer

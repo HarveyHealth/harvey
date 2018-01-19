@@ -1,0 +1,115 @@
+// This stylesheet is for all public pages
+
+// Hero Big Video
+
+h1, h2, h3, h4, h5, p, em, strong {
+    color: $text-secondary;
+}
+
+.dim:focus, .dim:hover {
+    opacity: .7 !important;
+}
+
+.watch-video,
+.watch-video:focus
+.watch-video:hover
+.watch-video:active
+.watch-video:visited {
+    outline: none;
+    outline-style:none;
+    box-shadow:none;
+    border-color:transparent;
+}
+
+#hero-background {
+    width: 100%;
+    position: relative;
+    background: #5f7278;
+    height: 500px;
+}
+
+#hero-video-container {
+  overflow: hidden;
+  position: absolute;
+  height: 100%; width: 100%;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: .6;
+}
+
+#hero-video {
+  position: absolute;
+  top: 50%; left: 50%;
+  height: 100%; width: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+#video-cover {
+  position: absolute;
+  width: 100%; height: 100%;
+  background-size: cover;
+  background-position: center;
+  // Background image defined at bottom
+}
+
+#overlay {
+  position: absolute;
+  top: 0; right: 0; left: 0; bottom: 0;
+  background: rgba(227, 186, 179, .6)
+}
+
+// Icons
+
+.lime-bg {
+    @include background-gradient($harvey-sage);
+}
+.pink-bg {
+    @include background-gradient($harvey-pink);
+}
+.brown-bg {
+    @include background-gradient($harvey-brown);
+}
+.purple-bg {
+    @include background-gradient($harvey-purple);
+}
+.turquoise-bg {
+    @include background-gradient($harvey-turquoise);
+}
+.slategrey-bg {
+    @include background-gradient($harvey-slategrey);
+}
+.green-bg {
+    @include background-gradient($harvey-green);
+}
+.ford-bg {
+    @include background-gradient($harvey-ford);
+}
+.gray-bg {
+    @include background-gradient($harvey-gray);
+}
+
+// Fades
+
+#featured-video {
+  background-image: linear-gradient(120deg, #A1BBD0 25%, #9AABB9 60%);
+}
+
+// Cover images
+
+body.home {
+    #video-cover {
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/home/hero-cover-home.jpg') no-repeat;
+    }
+}
+
+body.about {
+    #video-cover {
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/about/hero-cover-about.jpg') no-repeat;
+    }
+}
+
+body.consultations {
+    #video-cover {
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
+    }
+}
