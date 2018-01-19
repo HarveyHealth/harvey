@@ -14,6 +14,8 @@ class PractitionerAvailability
     protected $only_predefined_blocks;
     protected $practitioner;
 
+    const DEFAULT_AVAILABILITY_BUFFER_IN_HOURS = 48;
+
     const PREDEFINED_BLOCKS = [
         '09:00',
         '10:30',
@@ -25,9 +27,9 @@ class PractitionerAvailability
         '19:30',
     ];
 
-    public function __construct(Practitioner $practitioner, int $buffer_in_hours = 0, bool $only_predefined_blocks = true)
+    public function __construct(Practitioner $practitioner, int $buffer_in_hours = null, bool $only_predefined_blocks = true)
     {
-        $this->buffer_in_hours = $buffer_in_hours;
+        $this->buffer_in_hours = $buffer_in_hours ?? self::DEFAULT_AVAILABILITY_BUFFER_IN_HOURS;
         $this->only_predefined_blocks = $only_predefined_blocks;
         $this->practitioner = $practitioner;
     }
