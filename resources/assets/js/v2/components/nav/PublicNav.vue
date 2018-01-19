@@ -6,24 +6,24 @@
                 <button class="nav-hamburger" @click="handleMenuClick(null, true)">
                     <i :class="hamburgerClasses"></i>
                 </button>
-                <a href="/" class="nav-logo" v-if="hasLogo">
+                <a href="/" class="nav-logo dim" v-if="hasLogo">
                     <LogoIcon :alwaysShowText="keepLogoText" :hasDarkIcon="hasDarkLogo" :hasDarkText="hasDarkLogo" revealText />
                 </a>
                 <div class="nav-links" v-if="hasLinks">
-                    <a href="/about">About</a>
-                    <a href="/consultations#stories">Stories</a>
-                    <a v-if="!showDashboard" href="/login">Log In</a>
+                    <a href="/about" class="fw5 dim">About</a>
+                    <a href="/consultations#stories" class="fw5 dim">Stories</a>
+                    <a v-if="!showDashboard" href="/login" class="fw5 dim">Log In</a>
                 </div>
                 <div class="nav-right">
-                    <div class="nav-phone dim" v-if="hasPhone">
-                        <a href="/consultations">Consultations</a>
+                    <div class="nav-phone" v-if="hasPhone">
+                        <a href="/consultations" class="fw5 dim">Consult a Doctor</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
-                        <a v-if="showDashboard" class="dim" href="/dashboard">
+                        <a v-if="showDashboard" class="fw5 dim" href="/dashboard">
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="https://store.goharvey.com" class="dim"> <i class="fa fa-shopping-cart pr2" aria-hidden="true"></i>Shop Store</a>
+                        <a v-else href="https://store.goharvey.com" class="fw5 dim"> <i class="fa fa-shopping-cart pr2" aria-hidden="true"></i>Shop Store</a>
                     </div>
                 </div>
             </div>
@@ -300,10 +300,10 @@ export default {
 
         .nav-is-mobile & {
             @include query-up-to(lg) {
-                background: rgba(255,255,255,0.4);
+                background: rgba(154, 171, 185, .4);
                 border: 0;
                 border-radius: 50%;
-                color: $color-copy;
+                color: white;
                 cursor: pointer;
                 display: block;
                 height: 42px;

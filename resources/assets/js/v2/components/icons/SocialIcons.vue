@@ -3,10 +3,10 @@
         <a
             v-for="brand in brands"
             :href="brandInfo[brand].href"
-            class="circle dib h2 mh2 relative w2 white social"
+            class="circle dib h2 mh1 relative w2 white social"
             :style="{ backgroundColor: isBranded ? brandInfo[brand].color : '' }"
         >
-            <i :class="brandInfo[brand].class + ' f5 center-absolute'"></i>
+            <i :class="brandInfo[brand].class + ' f4 center-absolute'"></i>
         </a>
     </div>
 </template>
@@ -17,7 +17,7 @@ export default {
         brands: {
             type: Array,
             default: function() {
-                return ['medium', 'instagram', 'facebook', 'twitter', 'youtube'];
+                return ['instagram', 'facebook', 'twitter', 'youtube'];
             }
         },
         isBranded: Boolean
@@ -25,11 +25,6 @@ export default {
     data() {
         return {
             brandInfo: {
-                medium: {
-                    class: 'fa fa-medium',
-                    color: 'rgba(0,0,0,.84)',
-                    href: 'https://www.goharvey.com/blog'
-                },
                 instagram: {
                     class: 'fa fa-instagram',
                     color: '#4c799f',

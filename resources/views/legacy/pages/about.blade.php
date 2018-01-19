@@ -11,7 +11,7 @@
         <div class="container">
             <div class="tc pt6 pb4-ns ph6-l ph5-m ph3">
                 <h1 class="f1-l f2 lh-title mt0 mb3 white">About Harvey</h1>
-                <p class="f3-l f4 fw5 mb4-l mb3 white">Harvey empowers people to find natural and holistic remedies to chronic health conditions. We believe in science, and we believe in treating your whole body, not just your isolated symptoms. We would love to get to know you.</p>
+                <p class="f3-l f4 fw5 mb4-l mb3 white">Harvey empowers people to find natural and holistic remedies to chronic health conditions. We believe in science, and we believe in treating your whole body, not just a set of isolated symptoms. We would love to get to know you.</p>
                 <div class="tc">
                     <p class="db cf ma3 white">
                         <a href="//www.youtube.com/watch?v=Q9usyL_Zs-A&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video f3-l f4-l f5 fw5 white dim" frameborder="0" data-lity allowfullscreen><i class="fa fa-play-circle pt1 pr2" aria-hidden="true"></i>Learn About Our Mission</a>
@@ -25,9 +25,9 @@
         <div class="container">
             <div class="ph6-l ph4-m ph3 tc">
                 <h1 class="f2-l f3 pt4">Welcome to Harvey Health</h1>
-                <p class="f3-l f4">Founded in 2016, we pride ourselves in our scientific approach to holistic health. Our mission is to increase human healthspan and maintain our position as the nation's #1 platform for integrative medicine. Every day, we are providing patients with new and actionable insights about their bodies, and helping them make smarter decisions about their diet, nutrition and lifestyle.</p>
-                <p class="f3-l f4 pt3">We have assembled a network of the nation's top integrative doctors from a vatiery of different specialities, and we are working hard to make them more accessable than ever before. We offer the safest and most advanced home lab tests on the market—including food allergies, micronutrient and toxic metals—to help you determine what nutrients your body is lacking, and what foods you might need to avoid. We also provide access to the highest-grade vitamins and supplements on the market from the world's top brands, making it easy to adhere to your treatment plan.</p>
-                <p class="f3-l f4 pt3">Our headquarters is in Playa Vista, CA and we serve patients in 40 states.</p>
+                <p class="f4-l f5">Founded in 2016, we pride ourselves in our scientific approach to holistic health. Our mission is to increase human healthspan and maintain our position as the nation's #1 platform for integrative medicine. Every day, we are providing patients with new and actionable insights about their bodies, and helping them make smarter decisions about their diet, nutrition and lifestyle.</p>
+                <p class="f4-l f5 pt3">We have assembled a network of the nation's top integrative doctors from a vatiery of different specialities, and we are working hard to make them more accessable than ever before. We offer the safest and most advanced home lab tests on the market—including food allergies, micronutrient and toxic metals—to help you determine what nutrients your body is lacking, and what foods you might need to avoid. We also provide access to the highest-grade vitamins and supplements on the market from the world's top brands, making it easy to adhere to your treatment plan.</p>
+                <p class="f4-l f5 pt3">Our headquarters is in Playa Vista, CA and we serve patients in 40 states.</p>
             </div>
         </div>
     </section>
@@ -137,7 +137,7 @@
             </div>
             <div class="w-50-l pt3-l pa3 tl-l tc">
                 <div class="w-100 v-mid">
-                    <p class="f2-l f3 fw5 pt3-l white">#1 Integrative Medicine Platform</p>
+                    <p class="f3-l f4 fw5 pt3-l white">#1 Integrative Medicine Platform</p>
                     <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just symptoms.</p>
                 </div>
             </div>
