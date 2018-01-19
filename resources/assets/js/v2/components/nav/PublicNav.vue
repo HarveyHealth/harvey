@@ -266,7 +266,7 @@ export default {
         display: none;
 
         .nav-is-mobile & {
-            background: rgba($color-copy, 0);
+            background: rgba(#232323, 0);
             display: block;
             transition: background 200ms ease-in-out;
 
@@ -276,7 +276,7 @@ export default {
         }
 
         .menu-is-active & {
-            background: rgba($color-copy, 0.97);
+            background: rgba(#232323, 0.97);
             background-size: cover;
             background-position: center;
             bottom: 0;
@@ -323,10 +323,17 @@ export default {
                 .fa {
                     font-size: 1rem;
                 }
+            }
+        }
 
-                .menu-is-active & {
+        .menu-is-active & {
+            @include query-up-to(lg) {
+                color: white;
+                background: transparent;
+                border: 1px solid white;
+
+                &:hover {
                     background: transparent;
-                    color: white;
                 }
             }
         }
@@ -452,7 +459,7 @@ export default {
 
         .nav-is-mobile & {
             @include query-up-to(lg) {
-                background: $color-copy;
+                background: transparent;
                 left: 12px;
             }
         }

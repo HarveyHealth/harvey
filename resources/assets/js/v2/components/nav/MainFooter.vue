@@ -56,7 +56,7 @@
                                 <span :slot="'trigger'" class="uppercase white">Account</span>
                                 <div :slot="'content'">
                                     <a href="/login" class="dib pv1">Login</a><br />
-                                    <a href="/consultations" class="dib pv1">Full Consultation</a>
+                                    <a href="/consultations" class="dib pv1">Consultations</a>
                                 </div>
                             </Accordian>
                         </div>
@@ -111,7 +111,8 @@ export default {
         }
 
         .login &,
-        .page-404 & {
+        .page-404 &,
+        .password-reset & {
             display: none;
         }
     }
