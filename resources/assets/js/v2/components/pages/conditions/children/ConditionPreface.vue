@@ -42,16 +42,18 @@
       <ConditionVideos></ConditionVideos>
 
       <!-- Lab Tests -->
-      <Heading2>Common Lab Tests</Heading2>
-      <Spacer isBottom :size="2" />
-      <Grid :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
-          <div :slot="1" class="bg-white">
-              <LabTestCard :testId="tests[0] || false" />
-          </div>
-          <div :slot="2" class="bg-white">
-              <LabTestCard :testId="tests[1] || false" />
-          </div>
-      </Grid>
+      <template v-if="tests">
+          <Heading2>Common Lab Tests</Heading2>
+          <Spacer isBottom :size="2" />
+          <Grid :columns="[{l: 6}, {l: 6}]" :gutters="{ s:3, l:3 }">
+              <div :slot="1" class="bg-white">
+                  <LabTestCard :test="tests[0] || false" />
+              </div>
+              <div :slot="2" class="bg-white">
+                  <LabTestCard :test="tests[1] || false" />
+              </div>
+          </Grid>
+    </template>
 
     </SlideIn>
 
@@ -98,16 +100,29 @@ export default {
     };
   },
   methods: {
+      // filters lab tests by name and returns Object
+      // if no object returned, return false for LabTestCard
+      getTest(labTestName) {
+          return this.State('conditions.labTests').filter(test => {
+              return test.lab_name === labTestName;
+          })[0] || false;
+      },
       handleQuizStart() {
           window.scrollTo(0, 0);
           App.setState('conditions.prefaceRead', true);
       }
   },
   computed: {
+      hasCondition() {
+          return this.State('conditions.condition');
+      },
       tests() {
-          return this.State('conditions.condition')
-            ? this.Config.conditions.labTests[this.State('conditions.condition.slug')]
-            : [];
+          if (this.hasCondition) {
+              const names = this.Config.conditions.labTests[this.State('conditions.condition.slug')];
+              return names.map(this.getTest);
+          } else {
+              return null;
+          }
       }
   }
 };

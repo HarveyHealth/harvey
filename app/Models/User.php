@@ -30,6 +30,13 @@ class User extends Authenticatable implements Mailable
         'zip',
     ];
 
+    const DEFAULT_SETTINGS = [
+        "reminder_email_24_hours" => false,
+        "reminder_text_24_hours" => true,
+        "reminder_text_1_hour" => true,
+        "notification_message_content" => true,
+    ];
+
     public $asYouType = true;
 
     public $allowedSortBy = [
@@ -98,6 +105,18 @@ class User extends Authenticatable implements Mailable
     public function getImageUrlAttribute()
     {
         return $this->getAttributeFromArray('image_url') ?: config('app.default_image_url');
+    }
+
+    public function getSettingsAttribute($value)
+    {
+        $value = json_decode($value,true);        
+        return array_merge(self::DEFAULT_SETTINGS, $value??[]);
+    }
+
+    public function getSetting(string $key)
+    {
+        if (!isset($this->settings[$key])) throw new Exception("Default value for user Setting '$key' not set");
+        return $this->settings[$key];
     }
 
     public function getTypeAttribute()

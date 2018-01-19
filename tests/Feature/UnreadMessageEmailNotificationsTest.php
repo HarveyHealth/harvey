@@ -105,15 +105,15 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
     }
 
-    public function test_email_is_sent_if_message_is_almost_15_minutes_in_the_past()
+    public function test_email_sent_with_right_data()
     {
         Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
         $patient = factory(Patient::class)->create();
 
-        $newer_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_NEWER_THAN_MINUTES - 1;
+        $older_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_OLDER_THAN_MINUTES + 1;
 
         $message = factory(Message::class)->create([
-            'created_at' => Carbon::parse("-{$newer_than} minutes 59 seconds"),
+            'created_at' => Carbon::parse("-{$older_than} minutes"),
             'read_at' => null,
             'recipient_user_id' => $patient->user->id,
         ]);
@@ -123,7 +123,7 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         $output = $this->getMessageEmailCommandOutput();
 
         $this->assertEmailWasSentTo($message->recipient->email);
-        $this->assertEmailTemplateNameWas('message.unread');
+        //$this->assertEmailTemplateNameWas('message.unread');
         $this->assertEmailTemplateDataWas([
             'sender_name' => $message->sender->full_name,
             'message_date' => $createdAt->format('l F j'),
@@ -133,6 +133,56 @@ class UnreadMessageEmailNotificationsTest extends TestCase
             'message_link' => config('app.url') . "/dashboard#/messages/{$message->id}",
         ]);
 
+        $this->assertEquals('Done. [1 emails sent.]', $output[3]);
+    }
+
+    public function test_content_in_notification_setting()
+    {
+        $patient = factory(Patient::class)->create();
+
+        // set content in notification enabled
+        $settings = $patient->user->settings;
+        $settings['notification_message_content'] = true;
+        $patient->user->settings = $settings;
+        $patient->user->save();
+
+        $older_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_OLDER_THAN_MINUTES + 1;
+
+        $message = factory(Message::class)->create([
+            'created_at' => Carbon::parse("-{$older_than} minutes"),
+            'read_at' => null,
+            'recipient_user_id' => $patient->user->id,
+        ]);
+
+        $output = $this->getMessageEmailCommandOutput();
+
+        $this->assertEmailWasSentTo($message->recipient->email);
+        $this->assertEmailTemplateNameWas('message.unread_content');
+        $this->assertEquals('Done. [1 emails sent.]', $output[3]);
+    }
+
+    public function test_no_content_in_notification_setting()
+    {
+        $patient = factory(Patient::class)->create();
+
+        // set content in notification enabled
+        $settings = $patient->user->settings;
+        $settings['notification_message_content'] = false;
+        $patient->user->settings = $settings;
+        $patient->user->save();
+
+        $older_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_OLDER_THAN_MINUTES + 1;
+
+        $message = factory(Message::class)->create([
+            'created_at' => Carbon::parse("-{$older_than} minutes"),
+            'read_at' => null,
+            'recipient_user_id' => $patient->user->id,
+        ]);
+
+        $output = $this->getMessageEmailCommandOutput();
+
+        $this->assertEmailWasSentTo($message->recipient->email);
+        $this->assertEmailTemplateNameWas('message.unread');
         $this->assertEquals('Done. [1 emails sent.]', $output[3]);
     }
 
@@ -146,8 +196,6 @@ class UnreadMessageEmailNotificationsTest extends TestCase
             'read_at' => null,
             'recipient_user_id' => $patient->user->id,
         ]);
-        $timezone = $message->recipient->timezone;
-        $createdAt = $message->created_at->timezone($timezone);
 
         $output = $this->getMessageEmailCommandOutput();
 

@@ -64,17 +64,21 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
             $timezone = $message->recipient->timezone;
             $createdAt = $message->created_at->timezone($timezone);
 
+            $data = [
+                'sender_name' => $message->sender->full_name,
+                'message_date' => $createdAt->format('l F j'),
+                'message_time' => $createdAt->format('h:i A'),
+                'message_timezone' => $timezone,
+                'message_content' => $message->message,
+                'message_link' => config('app.url') . "/dashboard#/messages/{$message->id}",
+            ];
+
+            $template = $message->recipient->getSetting('notification_message_content')? 'message.unread_content':'message.unread';
+
             dispatch(TransactionalEmail::createJob()
                 ->setTo($message->recipient->email)
-                ->setTemplate('message.unread')
-                ->setTemplateModel([
-                    'sender_name' => $message->sender->full_name,
-                    'message_date' => $createdAt->format('l F j'),
-                    'message_time' => $createdAt->format('h:i A'),
-                    'message_timezone' => $timezone,
-                    'message_content' => $message->message,
-                    'message_link' => config('app.url') . "/dashboard#/messages/{$message->id}",
-            ]));
+                ->setTemplate($template)
+                ->setTemplateModel($data));
         }
 
         Redis::set(self::LAST_PROCESSED_ID_REDIS_KEY, $messages->last()->id ?? $lastProcessedId);

@@ -1,14 +1,14 @@
 <?php
 
 use App\Lib\{TimeslotManager, ZipCodeValidator};
-use App\Models\{Appointment, Practitioner, LabOrder};
+use App\Models\{Appointment, Practitioner, LabOrder, User};
 
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
 });
 
 Validator::extend('user_setting', function ($attribute, $value, $parameters, $validator) {
-    return  (preg_match('/reminder_(email|text)_\d+_hour[s]{0,1}/', $attribute) and is_bool($value));
+    return array_key_exists(str_replace('settings.','', $attribute), User::DEFAULT_SETTINGS) and is_bool($value);
 });
 
 Validator::extendImplicit('required_if_is_admin', function ($attribute, $value, $parameters, $validator) {
