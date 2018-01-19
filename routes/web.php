@@ -49,12 +49,10 @@ Route::get('privacy', 'LegalController@privacy');
 // PUBLIC BLADE PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
-Route::get('/financing', 'PagesController@getFinancing')->name('financing');
+Route::get('/consultations', 'PagesController@getConsultations')->name('consultations');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
 
 // PUBLIC VIEW PAGES
-Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
-Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE

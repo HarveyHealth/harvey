@@ -24,11 +24,12 @@
     </div>
     @endif
     <div id="app" :class="appClass">
+        <grid-styles></grid-styles>
         @include('legacy._layouts.includes.top_nav')
         <div class="page-content">
             @yield('main_content')
         </div>
-        @include('legacy._layouts.includes.footer')
+        <main-footer></main-footer>
     </div>
 
     @stack('square')

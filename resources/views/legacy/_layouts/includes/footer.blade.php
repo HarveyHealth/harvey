@@ -30,9 +30,8 @@
             </div>
             <p class="nav-center">
                 <a href="/about" class="nav-item">About</a>
-                <a href="/lab-tests" class="nav-item">Labs</a>
-                <a href="/#conditions" class="nav-item">Conditions</a>
-                <a href="/financing" class="nav-item">Financing</a>
+                <a href="https://store.goharvey.com" class="nav-item">Store</a>
+                <a href="/doctors" class="nav-item">Doctors</a>
                 <a href="/blog" class="nav-item">Blog</a>
                 <a href="http://help.goharvey.com" class="nav-item">Help</a>
             </p>
