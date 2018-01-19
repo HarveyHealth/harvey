@@ -12,7 +12,7 @@ export function formatTableData(dictionary, time) {
         data.total = '$' + e.attributes.amount;
         data.patientId = e.attributes.patient_id;
         data.details = e.attributes.description;
-        data.service = e.attributes.description;
+        data.service = Object.values(e.items).map(el => el.attributes.description).join(', ');
         data.status = capitalize(e.attributes.status);
         data.id = '#' + e.id;
         data.patient_name = e.patient.search_name;

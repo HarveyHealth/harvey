@@ -408,10 +408,16 @@ const app = new Vue({
         },
         getTransactions() {
             this.requestPatients('', (patient, patientLookUp) => {
-                axios.get(`${this.apiUrl}/invoices`)
+                axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
                     .then((response) => {
+                        let invoices = response.data.included.reduce((acc, item) => {
+                            acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                            acc[item.attributes.invoice_id][item.id] = item;
+                            return acc;
+                        }, {});
                         this.global.transactions = response.data.data.reduce((acc, item) => {
                             item.patient = patientLookUp[item.attributes.patient_id];
+                            item.items = invoices[item.id];
                             acc[item.id] = item;
                             return acc;
                         }, {}); 
