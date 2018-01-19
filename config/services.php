@@ -99,6 +99,7 @@ return [
             ],
             'message' => [
                 'unread' => 2495382,
+                'unread_content' => 4665723,
             ],
         ],
     ],

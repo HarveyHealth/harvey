@@ -110,7 +110,7 @@
             <div class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
-                        Notifications
+                        Message Notifications
                     </h2>
                 </div>
                 <div class="card-content-wrap">
@@ -213,7 +213,7 @@ export default {
                 ],
                 notifications: [
                     {
-                        label: "Include Content in New Message Notifications",
+                        label: "Include Message in Notifications",
                         name: "notification_message_content",
                         value: true
                     }
