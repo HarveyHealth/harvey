@@ -58,7 +58,7 @@ class HarveyTransformer extends TransformerAbstract
         return $includes;
     }
 
-    private function includeResourceIfAvailableAndPolicyAllowsInclusion(Scope $scope, object $data, array $includedData, string $include) : array
+    private function includeResourceIfAvailableAndPolicyAllowsInclusion(Scope $scope, Model $data, array $includedData, string $include) : array
     {
         $isIncludeAllowed = $this->policyAllowsInclusion($data, $include);
 
@@ -75,7 +75,7 @@ class HarveyTransformer extends TransformerAbstract
         return $includedData;
     }
 
-    private function policyAllowsInclusion(object $data, string $include) : bool
+    private function policyAllowsInclusion(Model $data, string $include) : bool
     {
         $included_attribute = studly_case($include);
         $included_data = $data->$included_attribute;
