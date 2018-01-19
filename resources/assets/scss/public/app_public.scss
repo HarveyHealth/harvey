@@ -5,10 +5,7 @@
 @import "../v2/atomic/-INDEX";
 @import "../v2/modules/-INDEX";
 @import "../../styles/base";
-@import "pages/home.scss";
-@import "pages/signup.scss";
-@import "pages/lab_tests.scss";
-@import "pages/about.scss";
+@import "pages/public.scss";
 @import "../../vendor/tachyons/tachyons";
 @import "../../styles/atomic";
 //
@@ -69,63 +66,6 @@
     p:not(.title),
     .content ul {
         font-family: $family-secondary;
-    }
-}
-
-.title + .subtitle {
-    @include margin(0.25rem null null null);
-}
-
-.disclaimer {
-    font-family: "proxima-nova" !important;
-}
-
-blockquote {
-    font-family: $family-secondary;
-    font-style: italic;
-    font-size: $size-5;
-}
-
-.is-paddingless-mobile {
-    @include until($tablet) {
-        @include padding(0);
-    }
-}
-
-.column.is-auto-desktop {
-    @include from($desktop) {
-        width: auto;
-        flex: 1;
-    }
-}
-
-.vertical-tabs {
-    .menu-list a {
-        &:not(.is-active):hover {
-            color: $tertiary;
-        }
-        &.is-active {
-            background-color: $tertiary;
-        }
-    }
-}
-
-.check-load {
-    opacity: 0;
-    transition: opacity cubic-bezier(1,.03,.42,.88) .25s;
-    &.is-loaded {
-        opacity: 1;
-    }
-}
-
-.has-small-lineheight {
-    line-height: 1;
-}
-
-@include from($tablet) {
-    .copy-has-max-width {
-        max-width: 700px;
-        @include margin(0 auto);
     }
 }
 
@@ -218,34 +158,6 @@ body {
         }
     }
 }
-
-.email-capture--footer form {
-    @include margin(1rem null 1rem null);
-    input{
-        width: 30%;
-        @include padding(.7em 1em .7em 1em);
-        @include margin(null null null null);
-        border-radius: 3px;
-        box-shadow: none;
-        border-style: solid;
-        border: 1px solid #eee;
-        background: #f9f9f9;
-        color: #444;
-        font-size: 1rem;
-    }
-    button{
-        line-height: .1em;
-        @include margin(null null null .5rem);
-        @include padding(1.3em 2em);
-    }
-    input:focus,
-    select:focus,
-    textarea:focus,
-    button:focus {
-        outline: none;
-    }
-}
-
 
 // When the mobile menu is opened we need to stop scrolling
 @include query-up-to(lg) {

@@ -5,7 +5,7 @@
         <SlideIn v-if="!State('getstarted.zipValidation')">
             <Heading1 class="pv2" :color="'light'" doesExpand>What is your zip code?</Heading1>
             <Spacer isBottom :size="3" />
-            <Paragraph :color="'light'">Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
+            <Paragraph :color="'light'">Harvey can now service patients in 45 states. Please enter your zip code below to verify that we can work together.</Paragraph>
             <Spacer isBottom :size="3" />
             <form @submit.prevent>
                 <CodeInput
@@ -32,14 +32,12 @@
 
         <div v-if="State('getstarted.zipValidation.is_serviceable') === false">
             <SlideIn>
-                <Heading1 doesExpand class="pv2" :color="'light'">Unfortunately, we cannot service patients in your state yet.</Heading1>
+                <Heading1 doesExpand class="pv2" :color="'light'">Sorry, we are unable to work with you yet.</Heading1>
                 <Spacer isBottom :size="3" />
-                <Paragraph :color="'light'">
-                    We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.
-                </Paragraph>
+                <Paragraph :color="'light'">You can still <a href="https://store.goharvey.com">shop our store</a> for vitamins and supplements or <a href="https://telegram.me/goharvey_doctors" target="_blank">chat for free</a> with our doctors about general wellness.</Paragraph>
                 <Spacer isBottom :size="3" />
                 <a href="#" class="white" @click.prevent="Logic.getstarted.resetZip">
-                    <i class="fa fa-undo"></i><Spacer isRight :size="3" />Try Again
+                    <i class="fa fa-undo"></i><Spacer isRight :size="2"/>Try Again
                 </a>
             </SlideIn>
         </div>

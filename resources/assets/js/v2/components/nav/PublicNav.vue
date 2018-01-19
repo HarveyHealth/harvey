@@ -11,19 +11,19 @@
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
-                    <a href="/patients">Patients</a>
+                    <a href="/consultations#stories">Stories</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
                     <div class="nav-phone dim" v-if="hasPhone">
-                        <a href="/doctors">Chat with a doctor</a>
+                        <a href="/consultations">Consultations</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
                         <a v-if="showDashboard" class="dim" href="/dashboard">
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="https://store.goharvey.com" class="dim">Shop Store</a>
+                        <a v-else href="https://store.goharvey.com" class="dim"> <i class="fa fa-shopping-cart pr2" aria-hidden="true"></i>Shop Store</a>
                     </div>
                 </div>
             </div>
