@@ -112,7 +112,7 @@ class AuthController extends Controller
                 'last_name' => $last_name,
                 'email' => $user->email,
                 'image_url' => $user->avatar,
-                'terms_accepted_at' => \Carbon::now(),
+                'terms_accepted_at' => Carbon::now(),
                 'facebook_provider_id' => $user->id,
                 'zip' => $zip,
                 'city' => $city,
