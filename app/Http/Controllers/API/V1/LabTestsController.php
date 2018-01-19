@@ -143,7 +143,7 @@ class LabTestsController extends BaseAPIController
 
     public function getOneResult(Request $request, LabTestResult $lab_test_result)
     {
-        if (currentUser()->cant('view', $lab_test_result->labTest)) {
+        if (currentUser()->cant('view', $lab_test_result)) {
             return $this->respondNotAuthorized('You do not have access to view this LabTest result.');
         }
 
@@ -187,7 +187,7 @@ class LabTestsController extends BaseAPIController
 
     public function updateResult(Request $request, LabTestResult $lab_test_result)
     {
-        if (currentUser()->cant('update', $lab_test_result->labTest)) {
+        if (currentUser()->cant('update', $lab_test_result)) {
             return $this->respondNotAuthorized('You do not have access to update this LabTestResult.');
         }
 
@@ -203,7 +203,7 @@ class LabTestsController extends BaseAPIController
 
     public function deleteResult(Request $request, LabTestResult $lab_test_result)
     {
-        if (currentUser()->cant('delete', $lab_test_result->labTest)) {
+        if (currentUser()->cant('delete', $lab_test_result)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabTest result");
         }
 

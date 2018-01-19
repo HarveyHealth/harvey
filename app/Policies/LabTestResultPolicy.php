@@ -13,4 +13,15 @@ class LabTestResultPolicy
     {
         return $user->isPractitioner() || $user->is($lab_test_result->labTest->patient->user);
     }
+
+    public function update(User $user, LabTestResult $lab_test_result)
+    {
+        return $user->isPractitioner();
+    }
+
+    public function delete(User $user, LabTestResult $lab_test_result)
+    {
+        return $user->isPractitioner();
+    }
+
 }
