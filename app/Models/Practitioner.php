@@ -68,7 +68,9 @@ class Practitioner extends Model
 
     public function availability()
     {
-        return new PractitionerAvailability($this, TimeInterval::days(2)->toHours());
+        $buffer_in_hours = currentUserIsAdminOrPractitioner() ? 0 : PractitionerAvailability::DEFAULT_AVAILABILITY_BUFFER_IN_HOURS;
+
+        return new PractitionerAvailability($this, $buffer_in_hours);
     }
 
     /*
