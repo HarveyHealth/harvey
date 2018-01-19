@@ -2,11 +2,11 @@
 
 namespace App\Transformers\V1;
 
-use Illuminate\Database\Eloquent\Model;
-use League\Fractal\TransformerAbstract;
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\{SoapNote, Attachment, Prescription, LabTestResult};
+use Illuminate\Database\Eloquent\Model;
 
-class SearchResultTransformer extends TransformerAbstract
+class SearchResultTransformer extends HarveyTransformer
 {
     public function transform(Model $result)
     {

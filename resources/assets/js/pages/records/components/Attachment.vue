@@ -9,19 +9,19 @@
 
     <!-- New -->
     <div v-if="$parent.news" class="">
-      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1" :heading="'Attachment'">
           <CardContent>
             <div class="">
               <Paragraph>
-                You are about upload an attachment for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of attachment before uploading, so we can keep things organized. Anything you upload will be viewable to your doctor and doctor's assisstants only. The only file format accepted is a PDF.
+                You are about upload an attachment for client {{ patient.search_name }}, born {{ patient.date_of_birth || 'N/A' }}. Please verify the name of attachment before uploading, so we can keep things organized. Anything you upload will be viewable to your doctor and doctor's assisstants only. The only file format accepted is a PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>
 
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ m:'1of2' }, { m:'1of2' }]" :gutters="{ m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:6 }, { m:6 }]" :gutters="{ m:3 }">
                   <div :slot="1">
                     <Heading3>File Upload</Heading3>
                     <Spacer isBottom :size="2" />
@@ -45,7 +45,7 @@
 
 
         <!-- Quick Notes -->
-        <Card :slot="2" :heading="'Quick Notes'">
+        <Card :slot="2" :heading="'Quick Notes'" v-if="$root.$data.permissions !== 'patient'">
           <CardContent>
 
             <!-- Editor -->
@@ -53,7 +53,7 @@
               <quill-editor
               output="html"
               :options="simpleEditor"
-              v-model="quickNotes"
+              v-model="notes"
               class="simple-editor"
               />
             </div>
@@ -65,7 +65,7 @@
 
     <!-- Existing -->
     <div class="" v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
         <!-- Main Card -->
         <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="startCase($parent.propData.attributes.name) + ' Attachment'">
           <CardContent>
@@ -89,7 +89,7 @@
         </Card>
       </Grid>
 
-      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
             <div class="inline-centered">
@@ -225,7 +225,7 @@ export default {
                 object.date = moment.tz(returns.attributes.created_at.date, returns.attributes.created_at.timezone).tz(this.$root.$data.timezone).format('dddd, MMM Do YYYY');
                 object.original_date = returns.attributes.created_at.date;
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
-                object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
+                object.type = startCase(returns.attributes.name) + ' ' + returns.type.split('_').map(e => capitalize(e)).join(' ');
                 this.$parent.timeline = [object].concat(this.$parent.timeline);
                 this.loading = false;
                 this.$parent.news = false;

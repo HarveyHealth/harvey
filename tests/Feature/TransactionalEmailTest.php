@@ -250,6 +250,19 @@ class TransactionalEmailTest extends TestCase
         ]);
     }
 
+    public function test_laborder_reminder()
+    {
+        // create a Lab Order
+        $lab_order = factory(LabOrder::class)->create();
+
+        // assert the notification email was sent to the patient
+        $this->assertEmailWasSentTo($lab_order->patient->user->email);
+
+        // assert the information sent was correct
+        $this->assertEmailTemplateNameWas('patient.lab_order.reminder');
+
+    }
+
     public function test_labresult_created_notification()
     {
         // create a Lab Order

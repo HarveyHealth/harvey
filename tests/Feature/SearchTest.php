@@ -1,7 +1,5 @@
 <?php
-
 namespace Tests\Feature;
-
 use App\Models\{SoapNote, Attachment, Prescription, LabTestResult, Patient, LabTest};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
@@ -80,7 +78,7 @@ class SearchTest extends TestCase
     public function test_it_finds_labresult()
     {
         $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
-        
+
         $lab_test = factory(LabTest::class)->create();
 
         $patient = $lab_test->labOrder->patient;

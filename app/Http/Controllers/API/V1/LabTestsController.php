@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
 use App\Lib\Clients\Shippo;
-use App\Models\{LabTest, LabTestInformation, LabTestResult};
+use App\Models\{LabOrder, LabTest, LabTestInformation, LabTestResult};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -59,10 +59,6 @@ class LabTestsController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        if (currentUser()->cant('create', LabTest::class)) {
-            return $this->respondNotAuthorized('You are not authorized to access this resource.');
-        }
-
         StrictValidator::check($request->all(), [
             'lab_order_id' => 'required|exists:lab_orders,id',
             'carrier' => 'string|max:16',
@@ -70,6 +66,10 @@ class LabTestsController extends BaseAPIController
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
             'shipment_code' => 'string',
         ]);
+
+        if (currentUser()->cant('update', LabOrder::find($request->input('lab_order_id')))) {
+            return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        }
 
         if ($request->input('carrier') && Shippo::isUsingTestKey()) {
             $request->merge(['carrier' => 'shippo']);
@@ -136,18 +136,18 @@ class LabTestsController extends BaseAPIController
             $builder = $builder->public();
         }
 
+        $this->resource_name = 'lab_test_information';
+
         return $this->baseTransformBuilder($builder, request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 
     public function getOneResult(Request $request, LabTestResult $lab_test_result)
     {
-        if (currentUser()->cant('view', $lab_test_result->labTest)) {
+        if (currentUser()->cant('view', $lab_test_result)) {
             return $this->respondNotAuthorized('You do not have access to view this LabTest result.');
         }
 
-        $this->resource_name = 'lab_tests_results';
-
-        return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, request('per_page'))->respond();
+        return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, 'lab_test_result')->respond();
     }
 
     public function storeResult(Request $request, LabTest $lab_test)
@@ -179,9 +179,7 @@ class LabTestsController extends BaseAPIController
                 'notes' => request('notes'),
             ]);
 
-            $this->resource_name = 'lab_tests_results';
-
-            return $this->baseTransformItem($lab_test_result, null, new LabTestResultTransformer)->respond();
+            return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, 'lab_test_result')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
@@ -199,18 +197,18 @@ class LabTestsController extends BaseAPIController
 
         $lab_test_result->update($request->all());
 
-        return $this->baseTransformItem($lab_test_result, request('include'))->respond();
+        return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, 'lab_test_result')->respond();
     }
 
 
     public function deleteResult(Request $request, LabTestResult $lab_test_result)
     {
-        if (currentUser()->cant('delete', $lab_test_result->labTest)) {
+        if (currentUser()->cant('delete', $lab_test_result)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabTest result");
         }
 
         if (!$lab_test_result->delete()) {
-            return $this->baseTransformItem($lab_test_result)->respond(ResponseCode::HTTP_CONFLICT);
+            return $this->baseTransformItem($lab_test_result, request('include'), new LabTestResultTransformer, 'lab_test_result')->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);

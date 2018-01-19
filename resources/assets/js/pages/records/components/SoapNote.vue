@@ -6,7 +6,7 @@
         </CardContent>
     </Card>
     <Spacer isBottom :size="3" />
-    <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+    <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
       <!-- Main Card -->
       <Card :slot="1" :heading="'SOAP Note'">
         <CardContent>
@@ -88,7 +88,7 @@
       </Card>
     </Grid>
 
-    <Grid :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+    <Grid :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
       <Card :slot="1">
         <CardContent>
           <!-- Save -->
@@ -216,7 +216,7 @@ export default {
                 notes: this.notes
             };
             for (let i in object) {
-                if (object[i] === null) {
+                if (object[i] === '') {
                     delete object[i];
                 }
             }
@@ -254,7 +254,7 @@ export default {
                 notes: this.notes
             };
             for (let i in object) {
-                if (object[i] === null) {
+                if (object[i] === '') {
                     delete object[i];
                 }
             }

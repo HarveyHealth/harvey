@@ -8,8 +8,11 @@
         <!-- Loaded -->
         <div v-if="!loading">
             <!-- Timeline Items -->
+
+            <slot></slot>
+
             <div class="timeline-item" v-for="(item, key) in items" :name="'key-' + key">
-              <Grid :flexAt="'l'" :columns="[{ s:'1of5' }, { s:'4of5' }]">
+              <Grid :flexAt="'l'" :columns="[{ s:2 }, { s:10 }]">
 
                 <!-- Dot -->
                 <div :slot="1" class="self-center">
@@ -21,7 +24,7 @@
                 <!-- Info -->
                 <div :slot="2" class="self-center">
                   <div @click="item.onClick" class="timeline-info" :class="key === index ? 'info-on' : ''">
-                      <Grid :flexAt="'l'" :columns="[{ s:'3of4' }, { s:'1of4' }]">
+                      <Grid :flexAt="'l'" :columns="[{ s:9 }, { s:3 }]">
                         <div :slot="1" class="self-center">
                             <span class="db">{{ item.type }}</span>
                             <span class="db">{{ item.date }}</span>

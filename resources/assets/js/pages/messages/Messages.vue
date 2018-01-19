@@ -12,7 +12,6 @@
                             </button>
                             <ClipLoader class="main-action" style="background-color: transparent;" v-else :color="'#82BEF2'" :loading="true" />
                         </h1>
-                        <p class="font-italic gray font-xs is-padding-left margin-bottom-0">Please note: doctors may take up to 24 hours to respond. The messaging service should not to be used for urgent matters. Please call 911 in the event of emergency.</p>
                     </div>
                 </div>
                 <NotificationPopup
@@ -117,11 +116,11 @@
           loadingAddMessage() {
               const global = this.$root.$data.global;
               if (Laravel.user.user_type === 'admin') {
-                  return !global.loadingAppointments && !global.loadingPractitioners && !global.loadingPatients;
+                  return !global.loadingPractitioners && !global.loadingPatients;
               } else if (Laravel.user.user_type === 'practitioner') {
-                  return !global.loadingAppointments && !global.loadingPatients;
+                  return !global.loadingPatients;
               } else if (Laravel.user.user_type === 'patient') {
-                  return !global.loadingAppointments && !global.loadingPractitioners;
+                  return !global.loadingPractitioners;
               }
           }
         },

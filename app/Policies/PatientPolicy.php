@@ -10,23 +10,13 @@ class PatientPolicy
     use HandlesAuthorization;
 
     /**
-     * @param User $user
-     * @param      $ability
-     * @return bool
-     */
-    public function before(User $user, $ability)
-    {
-        return $user->isAdmin() ?: null;
-    }
-
-    /**
      * @param User    $user
      * @param Patient $patient
      * @return bool
      */
     public function view(User $user, Patient $patient)
     {
-        return $patient->user->is($user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $patient->user->is($user);
     }
 
     /**
@@ -36,7 +26,7 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient)
     {
-        return $patient->user->is($user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $patient->user->is($user);
     }
 
     /**
@@ -48,7 +38,7 @@ class PatientPolicy
      */
     public function storeAttachment(User $user, Patient $patient)
     {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $user->is($patient->user);
     }
 
     /**
@@ -60,7 +50,7 @@ class PatientPolicy
      */
     public function storePrescription(User $user, Patient $patient)
     {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $user->is($patient->user);
     }
 
     /**
@@ -72,6 +62,6 @@ class PatientPolicy
      */
     public function storeSoapNote(User $user, Patient $patient)
     {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $user->isAdminOrPractitioner() || $user->is($patient->user);
     }
 }

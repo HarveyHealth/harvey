@@ -6,7 +6,7 @@
         </CardContent>
     </Card>
     <Spacer isBottom :size="3" />
-    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+    <Grid v-if="$parent.news" :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
 
       <!-- News -->
       <Card :slot="1" :heading="'Lab Results'">
@@ -14,13 +14,13 @@
           <div class="">
             <div class="">
               <Paragraph>
-                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
+                You are about upload a new lab test for client {{ patient.search_name }}, born {{ patient.date_of_birth || 'N/A' }}. Please verify the name of the lab and the type of lab test before uploading the results, so we can match the result with a lab test. The only file format accepted is PDF.
               </Paragraph>
               <Spacer isBottom :size="5" />
             </div>
             <Card>
               <CardContent>
-                <Grid :flexAt="'l'" :columns="[{ m:'1of3' }, { m:'1of3' }, { m:'1of3' }]" :gutters="{ m:3 }">
+                <Grid :flexAt="'l'" :columns="[{ m:4 }, { m:4 }, { m:4 }]" :gutters="{ m:3 }">
                   <div :slot="1">
                     <Heading3>Lab Name</Heading3>
                     <Spacer isBottom :size="2" />
@@ -35,7 +35,7 @@
                     <Spacer isBottom :size="2" />
                     <span class="custom-select">
                       <select @change="updateLab($event)">
-                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.sku_name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
+                        <option v-for="lab in userLabTestList" :data-id="lab.id">{{ lab.attributes.name }} {{ lab.id ? `(#${lab.id})` : '' }}</option>
                       </select>
                     </span>
                   </div>
@@ -72,7 +72,7 @@
     </Grid>
 
     <div v-if="!$parent.news">
-      <Grid :flexAt="'l'" :columns="[{ xxl:'2of3' }, { xxl:'1of3' }]" :gutters="{ s:2, m:3 }">
+      <Grid :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
         <!-- Not News -->
         <Card :class="{'f-100': $root.$data.permissions === 'patient'}" :slot="1" :heading="$root.$data.labTests[$parent.lab_tests[$parent.propData.attributes.lab_test_id].attributes.sku_id].attributes.name + ' Results'">
           <CardContent>
@@ -94,7 +94,7 @@
         </Card>
       </Grid>
 
-      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:'1of1' }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
             <div class="inline-centered">
@@ -246,8 +246,11 @@ export default {
         },
         findUserLabList() {
             let userLabTests = Object.values(this.$parent.lab_tests).map(e => {
-                e.attributes.sku_name = Object.values(this.$root.$data.labTests).filter(e1 => e1.id == e.attributes.sku_id).pop().attributes.name;
-                return e;
+                let object = {};
+                object.id = e.id;
+                object.attributes = {};
+                object.attributes.name = this.$root.$data.labTests[e.attributes.sku_id].attributes.name;
+                return object;
             });
             return userLabTests.length ? [{attributes: {name: ''}, id: 0}].concat(userLabTests) : [{attributes: {name: 'No Lab Tests'}, id: 0}];
         },

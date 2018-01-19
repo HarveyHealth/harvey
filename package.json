@@ -18,7 +18,8 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json",
     "test": "NODE_ENV=test karma start karma.conf.js",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "validate": "npm ls"
   },
   "pre-commit": [
     "lint",
@@ -28,6 +29,7 @@
     "ajv": "^5.4.0",
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
+    "babel-polyfill": "^6.26.0",
     "bootstrap-sass": "^3.3.7",
     "bulma": "^0.3.0",
     "card": "^2.4.0",
