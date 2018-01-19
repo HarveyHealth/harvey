@@ -15,7 +15,7 @@
                 <h1 class="f1-l f2 lh-title mt0 mb3 ph3 white">Book a consultation with <br class="dn db-ns"/>a Naturopathic Doctor.</h1>
                 <p class="f4-l f5 fw5 mb4 ph3 white">Schedule a 1-hour consultation with a licensed Naturopathic Doctor <br class="dn db-ns"/>to review lab results or build a personalized treatment plan.</p>
                 <div class="tc">
-                    <a href="/get-started" class="button f3-l f4 ph4 is-primary has-arrow">Check Availability</a>
+                    <a href="/get-started" class="button f4-l f5 ph4 is-primary has-arrow">Check Availability</a>
                     <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="https://telegram.me/goharvey_doctors" class="underline white dim" target="_blank">Chat free with a doctor</a></p>
                 </div>
             </div>
@@ -96,9 +96,9 @@
                     <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" class="w-100 w-60-ns br2">
                 </a>
             </div>
-            <div class="w-50-l pt3-l pa3 tl-l tc">
+            <div class="w-50-l pa0-ns pa3 tl-l tc">
                 <div class="w-100 v-mid">
-                    <p class="f3 fw5 pt3-l white">Choose your own doctor.</p>
+                    <p class="f2-l f3 fw5 pt3-l white">Choose your own doctor.</p>
                     <p class="f4-l f5 fw4 pt2 white">Dr. Amanda Frick, ND is a practicing naturopathic physician with a doctoral degree in Naturopathic Medicine. She believes wellness can be achieved through a blend of traditional approaches as well as natural and holistic therapies.</p>
                 </div>
             </div>
@@ -115,50 +115,80 @@
             <p class="f2-l f3 ph3 tc">Meet Our Patients</p>
             <p class="f4-l f5 pt3 ph6-l ph5-m ph3 tc">Watch the stories of our patients who were failed by conventional medicine.</p>
             <div class="flex flex-wrap justify-center ph3 mt4-l mt4">
-              <div class="w-40-ns w-100 pa3 mr4-l mr3-m mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
+              <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=8e3aJIZrRNs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="http://harvey-production.s3.amazonaws.com/assets/images/consultations/danny.png">
+                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/danny.png">
                     </a>
                 </div>
-                <div class="fl w-75-l w-80-m w-100 pl3-ns">
+                <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
+                    <p class="f4-l f5 moon-gray">Danny</p>
+                    <a href="//www.youtube.com/watch?v=8e3aJIZrRNs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-video-camera f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
                     <p class="f5-l f6 pt2 lh-title">"I found the cure to my asthma, and it had nothing to do with drugs."</p>
-                    <p class="f4-l f5 pt2 moon-gray">Danny</p>
                 </div>
               </div>
-              <div class="w-40-ns w-100 pa3 mr4-l mr3-m mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
+              <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=Cx_jr8ySOvc&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="http://harvey-production.s3.amazonaws.com/assets/images/consultations/rachel.png">
+                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/rachel.png">
                     </a>
                 </div>
-                <div class="fl w-75-l w-80-m w-100 pl3-ns">
-                    <p class="f5-l f6 pt2 lh-title">"I have a 4-year-old daughter, and I wanted to be able to keep up with her and feel comfortable in my own skin. We did lab tests I didn't even know existed."</p>
-                    <p class="f4-l f5 pt2 moon-gray">Rachel</p>
+                <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
+                    <p class="f4-l f5 moon-gray">Rachel</p>
+                    <a href="//www.youtube.com/watch?v=Cx_jr8ySOvc&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-video-camera f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
+                    <p class="f5-l f6 pt2 lh-title">"I have a 4-year-old daughter, and I wanted to be able to keep up with her and feel comfortable in my own skin. We did tests I didn't even know existed."</p>
                 </div>
               </div>
             </div>
             <div class="flex flex-wrap justify-center ph3">
-              <div class="w-40-ns w-100 pa3 mr4-l mr3-m mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
+              <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=sSfp1F11u9U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="http://harvey-production.s3.amazonaws.com/assets/images/consultations/raffaella.png">
+                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/raffaella.png">
                     </a>
                 </div>
-                <div class="fl w-75-l w-80-m w-100 pl3-ns">
+                <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
+                    <p class="f4-l f5 moon-gray">Raffaella</p>
+                    <a href="//www.youtube.com/watch?v=sSfp1F11u9U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-video-camera f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
                     <p class="f5-l f6 pt2 lh-title">"It turned out I had leaky gut and multiple food allergies. I had to cut out a lot of foods, which I was later able to re-introduce. I feel great."</p>
-                    <p class="f4-l f5 pt2 moon-gray">Raffaella</p>
                 </div>
               </div>
-              <div class="w-40-ns w-100 pa3 mr4-l mr3-m mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
+              <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=sO9lHH08sVs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="http://harvey-production.s3.amazonaws.com/assets/images/consultations/steve.png">
+                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/steve.png">
                     </a>
                 </div>
-                <div class="fl w-75-l w-80-m w-100 pl3-ns">
-                    <p class="f5-l f6 pt2 lh-title">"We did some bloodwork, and it was an amazing experience. She recommended a vitamin regimen that improved my performance and recovery time."</p>
-                    <p class="f4-l f5 pt2 moon-gray">Steve</p>
+                <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
+                    <p class="f4-l f5 moon-gray">Steve</p>
+                    <a href="//www.youtube.com/watch?v=sO9lHH08sVs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-video-camera f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
+                    <p class="f5-l f6 pt2 lh-title">"We did some bloodwork, and it was a great experience. She recommended a vitamin regimen that improved my performance and recovery time."</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap justify-center ph3">
+              <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
+                <div class="fl w-25-l w-20-m w-100">
+                    <a href="//www.youtube.com/watch?v=bbbxHViNiLk&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/sukari.png">
+                    </a>
+                </div>
+                <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
+                    <p class="f4-l f5 moon-gray">Sukari</p>
+                    <a href="//www.youtube.com/watch?v=bbbxHViNiLk&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-video-camera f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
+                    <p class="f5-l f6 pt2 lh-title">"The food allergies test help was especially helpful because it showed I had sensitivities to dairy, which I was eating every day. I was able to make substitutions to better support my skin and gut health."</p>
+                </div>
+              </div>
+              <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
+                <div class="fl w-25-l w-20-m w-100">
+                    <a href="//www.youtube.com/watch?v=_lAsiO_wZ3U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/jonathan.png">
+                    </a>
+                </div>
+                <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
+                    <p class="f4-l f5 moon-gray">Jonathan</p>
+                    <a href="//www.youtube.com/watch?v=_lAsiO_wZ3U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-video-camera f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
+                    <p class="f5-l f6 pt2 lh-title">"I did a CT scan with my regular doctor, and they gave me medicine, but none of it worked. Luckily I found Dr Frick, and we found gut bacteria through the food sensitivities test that I never would have found otherwise."</p>
                 </div>
               </div>
             </div>
@@ -174,23 +204,23 @@
             <div class="tc pt5-l pt5 pa4">
                 <p class="f3 moon-gray">Let's talk about pricing.</p>
             </div>
-            <div class="flex flex-wrap pa4-l pa3-m">
-                <div class="w-60-l w-100">
-                    <div class="h-85-l dt w-100 pr3-l tl-l tc">
+            <div class="flex flex-wrap pa3">
+                <div class="w-50-l w-100">
+                    <div class="h-100-l h-75 dt w-100 pr3-l tl-l tc">
                         <div class="dtc v-mid ph3-l">
-                            <p class="f3-l p4 fw6 pb2 lh-title">How much is a consultation?</p>
-                            <p class="f4-l f5 mb3">Full/first-time consultations are $150, lasting up to 90 minutes. Follow-up consults are $75, lasting up to 30 minutes.</p>
-                            <p class="f3-l p4 fw6 pt2 pb2 lh-title">Are your services eligible for HSA/FSA?</p>
-                            <p class="f4-l f5 mb3">Yes. While we are not yet contracted with any insurance providers, all Harvey services can be purchased using your HSA/FSA funds.</p>
-                            <p class="f3-l p4 fw6 pt2 pb2 lh-title">Can I buy lab tests and supplements on the <br class="dn db-l"/>store without a consultation?</p>
-                            <p class="f4-l f5 mb4">Yes. While we strongly recommend having a full consultation before buying lab tests or supplements, you can <a href="https://store.goharvey.com">shop our store</a> at any time and our doctors are always available via chat.</p>
+                            <p class="f4-l p5 fw6 pb2 lh-title">How much is a consultation?</p>
+                            <p class="f5-l f6 mb3">Full/first-time consultations are $150, lasting 60-90 minutes. Follow-up consults are $75, lasting 15-30 minutes.</p>
+                            <p class="f4-l p5 fw6 pt2 pb2 lh-title">Are your services eligible for HSA/FSA?</p>
+                            <p class="f5-l f6 mb3">Yes. While we are not yet contracted with any insurance providers, all Harvey services can be purchased using your HSA/FSA funds.</p>
+                            <p class="f4-l p5 fw6 pt2 pb2 lh-title">Can I buy lab tests and supplements on the <br class="dn db-l"/>store without a consultation?</p>
+                            <p class="f5-l f6 mb4">Yes. While we strongly recommend having a full consultation before buying lab tests or supplements, you can <a href="https://store.goharvey.com">shop our store</a> at any time and our doctors are always available via chat.</p>
                         </div>
                     </div>
                 </div>
-                <div class="w-40-l w-100">
-                    <div class="h-75-l dt w-100">
+                <div class="w-50-l w-100">
+                    <div class="h-100-l h-75 dt w-100">
                         <figure class="dtc v-mid pt3-l pb4 tc">
-                            <img src="http://harvey-production.s3.amazonaws.com/assets/images/consultations/dual-pricing.png" alt="">
+                            <img src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/dual-pricing.png" alt="">
                         </figure>
                     </div>
                 </div>

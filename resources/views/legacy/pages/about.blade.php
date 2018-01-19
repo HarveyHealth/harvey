@@ -39,85 +39,85 @@
             </div>
             <div class="flex flex-wrap justify-center">
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/mike-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/mike-sq.png">
                     <p class="f3-l f4">Mike</p>
                     <p class="f5 moon-gray lh-solid">Founder</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/kyle-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/kyle-sq.png">
                     <p class="f3-l f4">Kyle</p>
                     <p class="f5 moon-gray lh-solid">Founder</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/sandra-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/sandra-sq.png">
                     <p class="f3-l f4">Sandra</p>
                     <p class="f5 moon-gray lh-solid">Operations Manager</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/audrey-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/audrey-sq.png">
                     <p class="f3-l f4">Audrey</p>
                     <p class="f5 moon-gray lh-solid">Creative Director</p>
                 </div>
 
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/amanda-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/amanda-sq.png">
                     <p class="f3-l f4">Amanda</p>
                     <p class="f5 moon-gray lh-solid">Naturopathic Doctor</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/faler-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/faler-sq.png">
                     <p class="f3-l f4">Layne</p>
                     <p class="f5 moon-gray lh-solid">Engineer</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/layne-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/layne-sq.png">
                     <p class="f3-l f4">Thrasher</p>
                     <p class="f5 moon-gray lh-solid">VP Finance</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/august-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/august-sq.png">
                     <p class="f3-l f4">August</p>
                     <p class="f5 moon-gray lh-solid">CTO</p>
                 </div>
 
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/tate-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/tate-sq.png">
                     <p class="f3-l f4">Tate</p>
                     <p class="f5 moon-gray lh-solid">Engineer</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/rachel-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/rachel-sq.png">
                     <p class="f3-l f4">Rachel</p>
                     <p class="f5 moon-gray lh-solid">Chief Medical Officer</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/alex-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/alex-sq.png">
                     <p class="f3-l f4">Alex</p>
                     <p class="f5 moon-gray lh-solid">Quality Assurance</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/javier-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/javier-sq.png">
                     <p class="f3-l f4">Javier</p>
                     <p class="f5 moon-gray lh-solid">Engineer</p>
                 </div>
 
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/jose-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/jose-sq.png">
                     <p class="f3-l f4">Jose</p>
                     <p class="f5 moon-gray lh-solid">Engineer</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/jon-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/jon-sq.png">
                     <p class="f3-l f4">Jon</p>
                     <p class="f5 moon-gray lh-solid">Engineer</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/ryan-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/ryan-sq.png">
                     <p class="f3-l f4">Ryan</p>
                     <p class="f5 moon-gray lh-solid">Designer</p>
                 </div>
                 <div class="w-20-l w-40 pa3 mh2 mb3 br3 ba b--light-gray bg-white">
-                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="http://harvey-production.s3.amazonaws.com/assets/images/about/team/harvey-sq.png">
+                    <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/harvey-sq.png">
                     <p class="f3-l f4">Harvey</p>
                     <p class="f5 moon-gray lh-solid">Good Boy</p>
                 </div>
@@ -137,8 +137,8 @@
             </div>
             <div class="w-50-l pt3-l pa3 tl-l tc">
                 <div class="w-100 v-mid">
-                    <p class="f3-l f4 fw5 pt3-l white">#1 Integrative Medicine Platform</p>
-                    <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just a set of symptoms.</p>
+                    <p class="f2-l f3 fw5 pt3-l white">#1 Integrative Medicine Platform</p>
+                    <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just symptoms.</p>
                 </div>
             </div>
         </div>
@@ -152,27 +152,27 @@
             <div class="flex flex-wrap pa4-l pa3">
                 <div class="ph4-l ph3-m ph2 pv3-l pv2 w-20-l w-50 tc">
                     <a href="https://www.science-inc.com/" target="_blank">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/about/investors/science.png">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/about/investors/science.png">
                     </a>
                 </div>
                 <div class="ph4-l ph3-m ph2 pv3-l pv2 w-20-l w-50 tc">
                     <a href="http://www.socialcapital.com/" target="_blank">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/about/investors/social.png">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/about/investors/social.png">
                     </a>
                 </div>
                 <div class="ph4-l ph3-m ph2 pv3-l pv2 w-20-l w-50 tc">
                     <a href="http://www.ghco.com/" target="_blank">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/about/investors/graham.png">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/about/investors/graham.png">
                     </a>
                 </div>
                 <div class="ph4-l ph3-m ph2 pv3-l pv2 w-20-l w-50 tc">
                     <a href="http://www.techstarscedarssinaiaccelerator.com/" target="_blank">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/about/investors/cedars.png">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/about/investors/cedars.png">
                     </a>
                 </div>
                 <div class="ph4-l ph3-m ph2 pv3-l pv2 w-20-l w-50 tc">
                     <a href="http://www.techstarscedarssinaiaccelerator.com/" target="_blank">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/about/investors/techstars.png">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/about/investors/techstars.png">
                     </a>
                 </div>
             </div>

@@ -14,10 +14,10 @@
         <div class="container">
             <div class="tc pt6 pb4-ns ph2">
                 <h1 class="f1-l f2 lh-title mt0 mb3 white">Learn what your body really <br class="dn db-ns"/>needs to feel its best.</h1>
-                <p class="f4-l f5 fw5 mb4 white">Harvey offers preventative lab tests and clinical-grade vitamins <br class="dn db-ns"/>and supplements—under the guidance of integrative doctors.</p>
+                <p class="f4-l f5 fw5 mb4 white">Harvey offers advanced lab tests and professional-grade vitamins <br class="dn db-l"/>and supplements—under the guidance of integrative doctors.</p>
                 <div class="tc">
-                    <a href="https://store.goharvey.com" class="button f3-l f4 ph4 is-primary has-arrow">Start Shopping</a>
-                    <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Chat with a doctor</a></p>
+                    <a href="https://store.goharvey.com" class="button f4-l f5 ph4 is-primary has-arrow">Start Shopping</a>
+                    <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Consult a doctor</a></p>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                     <div class="pa2">
                         <p class="f3-l f4 fw5 pt2">Home Lab Tests</p>
                         <p class="f5-l f6 pa3-l pa2">Order one of our specialized home lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergies</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
-                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Lab Tests</a>
                     </div>
                 </div>
                 <div class="w-third-ns w-100 tc">
@@ -43,7 +43,7 @@
                     <div class="pa2">
                         <p class="f3-l f4 fw5 pt2">Vitamins & Supplements</p>
                         <p class="f5-l f6 pa3-l pa2">Shop the largest online dispensory of professional-grade vitamins and supplements at guaranteed wholesale prices.</p>
-                        <a href="https://store.goharvey.com/collections/supplements" class="f5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                        <a href="https://store.goharvey.com/collections/supplements" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Supplements</a>
                     </div>
                 </div>
                 <div class="w-third-ns w-100 tc">
@@ -53,7 +53,7 @@
                     <div class="pa2">
                         <p class="f3-l f4 fw5 pt2">Functional Doctors</p>
                         <p class="f5-l f6 pa3-l pa2">Chat for free with a licensed Naturopathic Doctor about your health goals, or schedule a full consultation to build a treatment plan.</p>
-                        <a href="/consultations" class="f5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
+                        <a href="/consultations" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Physicians</a>
                     </div>
                 </div>
             </div>
@@ -70,13 +70,13 @@
             <div class="w-50-l pt3-l pa3 tl-l tc">
                 <div class="w-100 v-mid">
                     <p class="f3-l f4 fw5 pt3-l white">#1 Integrative Medicine Platform</p>
-                    <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just a set of symptoms.</p>
+                    <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just symptoms.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services" style="background-image: url(http://harvey-production.s3.amazonaws.com/assets/images/home/symbols.png)">
+    <section id="services" style="background-image: url(https://harvey-production.s3.amazonaws.com/assets/images/home/symbols.png)">
         <div class="container">
             <div class="tc pt5-l pt4 ph3 ph6-l">
                 <p class="f2-l f3">Private & Personalized Treatment</p>
@@ -141,43 +141,43 @@
             </div>
             <div class="flex flex-wrap pa4">
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="https://www.youtube.com/watch?v=Q9usyL_Zs-A" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/quality-talks.png">
+                    <a href="https://www.youtube.com/watch?v=Q9usyL_Zs-A" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/quality-talks.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://google.com" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/cnbc.png">
+                    <a href="https://www.cnbc.com/2017/10/11/homehero-pivots-rebrands-to-harvey.html" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/cnbc.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://google.com" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/techcrunch.png">
+                    <a href="https://techcrunch.com/2017/12/01/a-prescription-for-healing-the-healthcare-industry/" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/techcrunch.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://google.com" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/well-and-good.png">
+                    <a href="https://www.wellandgood.com/good-food/health-benefits-shatavari/" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/well-and-good.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://www.adweek.com/digital/5-workplace-tech-tools-every-office-should-use-in-2018/" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/adweek.png">
+                    <a href="http://www.adweek.com/digital/5-workplace-tech-tools-every-office-should-use-in-2018/" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/adweek.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://google.com" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/ted.png">
+                    <a href="https://www.youtube.com/watch?v=RL9LxmEcUOM" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/ted.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://google.com" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/bustle.png">
+                    <a href="https://www.bustle.com/p/10-things-your-tongue-can-tell-you-about-your-health-based-on-chinese-medicine-7544613" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/bustle.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
-                    <a href="http://www.organicauthority.com/curious-about-acupuncture-but-scared-of-needles-check-out-these-new-techniques-that-celebs-love" class="dim">
-                        <img src="http://harvey-production.s3.amazonaws.com/assets/images/home/press/organic-authority.png">
+                    <a href="http://www.organicauthority.com/curious-about-acupuncture-but-scared-of-needles-check-out-these-new-techniques-that-celebs-love" class="o-70">
+                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/organic-authority.png">
                     </a>
                 </div>
             </div>
@@ -194,7 +194,7 @@
                 <p class="f4-l f5 pa3">If you're new to integrative medicine, we recommend chatting with one of our doctors before buying lab tests or supplements. If you know what you want, you can start shopping now.</p>
                 <div class="tc">
                     <a href="https://store.goharvey.com" class="button f4-ns f5 ph4 is-primary has-arrow">Start Shopping</a>
-                    <p class="f5-l f6 fw5 db cf ma3">Questions? <a href="/consultations" class="underline dim">Chat with a doctor</a></p>
+                    <p class="f5-l f6 fw5 db cf ma3">Questions? <a href="/consultations" class="underline dim">Consult a doctor</a></p>
                 </div>
             </div>
         </div>
