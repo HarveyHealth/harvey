@@ -153,4 +153,36 @@ class UnreadMessageEmailNotificationsTest extends TestCase
 
         $this->assertEquals('Done. [0 emails sent.]', $output[3]);
     }
+
+    public function test_notification_time_conditions()
+    {
+
+        $newer_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_NEWER_THAN_MINUTES;
+        $older_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_OLDER_THAN_MINUTES;
+
+        // too old (before newer than)
+        Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
+        $minutes_ago = $newer_than;
+        factory(Message::class)->create(['created_at' => Carbon::parse("-{$minutes_ago} minutes"),'read_at' => null,]);
+        $output = $this->getMessageEmailCommandOutput();
+        $this->assertEquals('Done. [0 emails sent.]', $output[3]);
+
+        // ok (after newer than)
+        $minutes_ago = $newer_than - 1;
+        factory(Message::class)->create(['created_at' => Carbon::parse("-{$minutes_ago} minutes"),'read_at' => null,]);
+        $output = $this->getMessageEmailCommandOutput();
+        $this->assertEquals('Done. [1 emails sent.]', $output[3]);
+
+        // ok (before older than)
+        $minutes_ago = $older_than + 1;
+        factory(Message::class)->create(['created_at' => Carbon::parse("-{$minutes_ago} minutes"),'read_at' => null,]);
+        $output = $this->getMessageEmailCommandOutput();
+        $this->assertEquals('Done. [1 emails sent.]', $output[2]);
+
+        // too new ( older than)
+        $minutes_ago = $older_than;
+        factory(Message::class)->create(['created_at' => Carbon::parse("-{$minutes_ago} minutes"),'read_at' => null,]);
+        $output = $this->getMessageEmailCommandOutput();
+        $this->assertEquals('Done. [0 emails sent.]', $output[2]);
+    }
 }
