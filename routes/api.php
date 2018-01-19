@@ -34,7 +34,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
 
         # Search
-        Route::get('search', 'SearchController@search')->name('search.search');        
+        Route::get('search', 'SearchController@search')->name('search.search');
 
         # Validate Discount Codes
         Route::get('discount_codes/{code}', 'DiscountCodesController@getOne')->name('discount-codes.index');
@@ -79,8 +79,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('prescriptions/{prescription}', 'PrescriptionsController@update')->name('prescriptions.update');
         Route::delete('prescriptions/{prescription}', 'PrescriptionsController@delete')->name('prescriptions.delete');
 
-        # SOAP Notes
-        Route::get('soap_notes', 'SoapNotesController@getAll')->name('soap_notes.get-all');
+        # SOAP Notes        
         Route::get('soap_notes/{soap_note}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
         Route::patch('soap_notes/{soap_note}', 'SoapNotesController@update')->name('soap_notes.update');
         Route::post('patients/{patient}/soap_notes', 'SoapNotesController@store')->name('soap_notes.store');
