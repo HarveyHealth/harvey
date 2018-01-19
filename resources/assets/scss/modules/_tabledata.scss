@@ -137,16 +137,13 @@
     }
   }
 
-  tr.has-updated td {
-    background: $color--grey;
+  .cell-wrap {
+      display: flex;
+      flex-direction: row;
   }
 
-  .cell-wrap:before {
-    content: attr(data-column);
-    display: block;
-    font-weight: bold;
-    left: 22px;
-    position: absolute;
+  tr.has-updated td {
+    background: $color--grey;
   }
 
   .sortable:hover {
@@ -174,16 +171,13 @@
 }
 
 .sku-header {
+    display: flex !important;
     thead {
-        display: flex !important;
+        align-items: center;
     }
     th {
-        display: flex !important;
-        flex-direction: row !important;
-        margin: 1rem !important;
         padding: 0 !important;
     }
-    text-align: center;
 }
 
 @mixin normalTableStyles {
