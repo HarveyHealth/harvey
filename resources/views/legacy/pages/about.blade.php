@@ -51,7 +51,7 @@
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/sandra-sq.png">
                     <p class="f3-l f4">Sandra</p>
-                    <p class="f6 moon-gray lh-solid">Operations Manager</p>
+                    <p class="f6 moon-gray lh-solid">Sr. Operations Manager</p>
                 </div>
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/audrey-sq.png">
@@ -62,7 +62,7 @@
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/amanda-sq.png">
                     <p class="f3-l f4">Amanda</p>
-                    <p class="f6 moon-gray lh-solid">Naturopathic Doctor</p>
+                    <p class="f6 moon-gray lh-solid">Lead Naturopathic Doctor</p>
                 </div>
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/faler-sq.png">
@@ -93,7 +93,7 @@
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/alex-sq.png">
                     <p class="f3-l f4">Alex</p>
-                    <p class="f6 moon-gray lh-solid">Quality Assurance</p>
+                    <p class="f6 moon-gray lh-solid">Quality Engineer</p>
                 </div>
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/javier-sq.png">
