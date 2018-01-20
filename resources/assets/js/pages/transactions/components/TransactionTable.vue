@@ -10,6 +10,7 @@
         :table-class="'appointments-table'"
         :updated-row="updatedRow"
         :updating-row="updatingRow"
+        :no-text-break="true"
     />
 </template>
 
