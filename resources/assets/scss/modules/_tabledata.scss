@@ -158,7 +158,6 @@
       font-size: 10px;
       position: absolute;
       display: inline-block;
-    //   @include padding(2px 10px);
     }
     &.sort-up:after {
       content: '\25B2';
@@ -184,16 +183,11 @@
   & {
     @include padding(0);
   }
-  thead th {
-    // @include padding(10px 20px);
-  }
   th, td {
-    // display: table-cell;
     border: none;
     &.copy-muted {
       display: table-caption;
     }
-    // @include padding(20px);
   }
   td {
     font-size: 16px;
