@@ -53,26 +53,10 @@
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
         <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
         <script>
-            App.setState('conditions.all', {!! $conditions !!});
-            App.setState('conditions.labTests', {!! $lab_tests !!});
-            @isset($lab_tests)
-                @foreach ($lab_tests as $test)
-                    App.setState('conditions.labTests.{!! $loop->index !!}.sku', {!! $test->sku !!});
-                @endforeach
-            @endisset
-            @if ($get_zip) {
-                App.setState('conditions.condition', {questions: []});
-                App.setState('conditions.questionIndex', 999);
-                App.setState('conditions.prefaceRead', true);
-            } @else (is_numeric($index)) {
-                App.setState('conditions.selectedIndex', {!! $index !!});
-            }
-            @endif
-        </script>
-        <script>
             !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
                 analytics.load(Laravel.services.segment.key);
-                analytics.page('Conditions');
+                analytics.page('Consultations');
+                window.datacoral('trackPageView');
             }}();
         </script>
     </footer>

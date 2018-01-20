@@ -61,5 +61,9 @@
         <!-- App.js -->
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
       </footer>
+      <!-- S+C pixel -->
+      <script type="text/javascript">
+          window.datacoral('trackPageView');
+      </script>
     </body>
 </html>
