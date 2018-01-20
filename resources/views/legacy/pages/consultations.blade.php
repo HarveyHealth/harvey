@@ -99,7 +99,7 @@
             <div class="w-50-l pa0-ns pa3 tl-l tc">
                 <div class="w-100 v-mid">
                     <p class="f2-l f3 fw5 pt3-l white">Choose your own doctor.</p>
-                    <p class="f4-l f5 fw4 pt2 white">Dr. Amanda Frick, ND is a practicing naturopathic physician with a doctoral degree in Naturopathic Medicine. She believes wellness can be achieved through a blend of traditional approaches as well as natural and holistic therapies.</p>
+                    <p class="f4-l f5 fw4 pt2 white">Dr. Amanda Frick, ND, is the Lead Naturopath at Harvey. She is a physician with a doctoral degree in Naturopathic Medicine. She believes wellness can be achieved through a blend of traditional approaches and natural and holistic therapies.</p>
                 </div>
             </div>
         </div>
