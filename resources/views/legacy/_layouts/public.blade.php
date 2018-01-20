@@ -93,9 +93,7 @@
     <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
     <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
     <script type="text/javascript">
-        @isset($conditions)
-            App.Public.setConditions({!! $conditions !!});
-        @endisset
+        window.datacoral('trackPageView');
     </script>
     @stack('scripts')
 

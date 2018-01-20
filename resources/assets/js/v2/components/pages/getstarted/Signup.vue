@@ -290,7 +290,11 @@ export default {
                 App.Config.user.info.id = response.data.data.id;
                 App.Config.user.info.signedIn = true;
 
-                // remove local storage items on sign up
+                // Manually change this value so the Welcome step properly filters
+                // the practitioner list
+                App.Config.user.isPatient = true;
+
+                // remove sign-up form local storage items on sign up
                 // needed if you decide to sign up multiple acounts on one browser
                 App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
 
