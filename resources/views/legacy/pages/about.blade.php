@@ -137,7 +137,7 @@
             </div>
             <div class="w-50-l pt3-l pa3 tl-l tc">
                 <div class="w-100 v-mid">
-                    <p class="f3-l f4 fw5 pt3-l white">#1 Integrative Medicine Platform</p>
+                    <p class="f3-l f4 fw5 pt3-l white">#1 Natural Health Marketplace</p>
                     <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just symptoms.</p>
                 </div>
             </div>
