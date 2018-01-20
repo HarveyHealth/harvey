@@ -1,7 +1,7 @@
 <template>
     <tr class="cell-wrap grabbable" :class="isSelected">
-        <td class="sku-table__column sku-table__move-icon sort"><i class="fa fa-bars"></i></td>
-        <td class="sku-table__column sku-table__move-icon sort">{{ sku.id }}</td>
+        <td class="sku-table__column sku-table__move-icon"><i class="fa fa-bars"></i></td>
+        <td class="sku-table__column sku-table__move-icon">{{ sku.id }}</td>
         <td class="sku-table__column">{{ sku.attributes.lab_test_information.lab_name }}</td>
         <td class="sku-table__column sku-table__sku-name">{{ sku.attributes.name }}</td>
         <td class="sku-table__column">{{ sku.attributes.lab_test_information.sample }}</td>

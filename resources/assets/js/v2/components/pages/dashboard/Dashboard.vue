@@ -35,8 +35,6 @@
           <Card :slot="1" :heading="'Contact Info'">
             <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
             <CardContent>
-              <LabeledTextBlock :label="'Name'">{{ Util.misc.fullName(Config.user.info) }}</LabeledTextBlock>
-              <Spacer isBottom :size="3" />
               <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
               <Spacer isBottom :size="3" />
               <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone | formatPhone }}</a></LabeledTextBlock>
