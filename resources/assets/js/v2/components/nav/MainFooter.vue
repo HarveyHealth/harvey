@@ -7,7 +7,7 @@
                         <LogoIcon alwaysShowText />
                     </a>
                     <Spacer isBottom :size="3" />
-                    <p class="pr2-ns">Harvey offers advanced lab tests and professional-grade vitamins and supplements—under the guidance of functional and integrative doctors.</p>
+                    <p class="pr2-ns">Harvey offers advanced home lab tests and professional-grade supplements—under the guidance of functional and integrative doctors.</p>
                     <Spacer isBottom :size="3" />
                     <div class="pv1">
                         <i class="fa fa-map-marker dib dib pt1" />

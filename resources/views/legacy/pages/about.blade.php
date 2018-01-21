@@ -24,10 +24,9 @@
     <section id="message">
         <div class="container">
             <div class="ph6-l ph4-m ph3 tc">
-                <h1 class="f2-l f3 pt4">Welcome to Harvey Health</h1>
-                <p class="f4-l f5">Founded in 2016, we pride ourselves on our scientific approach to natural health. Our mission is to increase human healthspan and become the nation's most trusted platform for integrative medicine. Every day, we are providing patients with new and actionable insights about their bodies, and helping them make smarter decisions about their diet, nutrition and lifestyle.</p>
-                <p class="f4-l f5 pt3">We have assembled a unique network of the nation's top functional and naturopathic doctors, and we are working hard to make these doctors more accessable than ever before. We offer the safest and most advanced home lab tests on the market to help you determine what nutrients your body is lacking, and what foods you might need to avoid. We also provide access to the highest-grade supplements on the market from the world's top brands, making it easy to adhere to your treatment plan.</p>
-                <p class="f4-l f5 pt3">Our headquarters is in Playa Vista, CA and we serve patients in 40 states.</p>
+                <h1 class="f2-l f3 pt4 lh-title">Where food is thy medicine.</h1>
+                <p class="f4-l f5">Founded in 2016, we pride ourselves on our scientific approach to natural health. Our mission is to increase human healthspan and become the nation's most trusted platform for integrative medicine. Every day, we are providing patients with new and actionable insights about their bodies, and optimizing the way they feel.</p>
+                <p class="f4-l f5 pt3">We have assembled a network of the nation's top functional and integrative doctors, and we are working hard to make these doctors more accessable to patients everywhere. We offer the safest and most advanced home lab tests on the market to help you determine what nutrients your body is lacking, and what foods you might need to avoid. We also provide access to the highest-grade supplements on the market from the world's top brands, making it easy to adhere to your treatment plan. Our headquarters is in Playa Vista, CA and we can serve patients in 40 states.</p>
             </div>
         </div>
     </section>
@@ -56,7 +55,7 @@
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/audrey-sq.png">
                     <p class="f3-l f4">Audrey</p>
-                    <p class="f6 moon-gray lh-solid">Creative Director</p>
+                    <p class="f6 moon-gray lh-solid">Content Manager</p>
                 </div>
 
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
@@ -137,7 +136,7 @@
             </div>
             <div class="w-50-l pt3-l pa3 tl-l tc">
                 <div class="w-100 v-mid">
-                    <p class="f3-l f4 fw5 pt3-l white">#1 Natural Health Marketplace</p>
+                    <p class="f3-l f4 fw5 pt3-l white">Where food is thy medicine.</p>
                     <p class="f4-l f5 fw4 pt2 white">Harvey empowers people to find natural treatments to chronic health conditions. We believe in science, and we believe in treating the whole body, not just symptoms.</p>
                 </div>
             </div>
@@ -147,7 +146,7 @@
     <section id="investors">
         <div class="container">
             <div class="tc pt5-l pt4">
-                <p class="f3-l f4 moon-gray">Meet our stakeholders.</p>
+                <p class="f3-l f4 moon-gray">Meet our investors.</p>
             </div>
             <div class="flex flex-wrap pa4-l pa3">
                 <div class="ph4-l ph3-m ph2 pv3-l pv2 w-20-l w-50 tc">
@@ -184,18 +183,15 @@
 
     <section id="products">
         <div class="container">
-            <div class="tc pt5-l pt4">
-                <p class="f3-l f4 moon-gray">What would you like to do?</p>
-            </div>
-            <div class="flex-ns flex-none pv5-l pv4">
+            <div class="flex-ns flex-none pv5-ns pv4">
                 <div class="w-third-ns w-100 tc">
                     <div class="pa4 br-100 dib o-80 brown-bg">
                         <span class="icon icon_steps_2 h60 w60 dib"></span>
                     </div>
                     <div class="pa2">
-                        <p class="f3-l f4 fw5 pt2">Home Lab Tests</p>
-                        <p class="f5-l f6 pa3-l pa2">Order one of our specialized home lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Allergies</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
-                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                        <p class="f3-l f4 fw5 pt2 lh-title">Home Lab Tests</p>
+                        <p class="f5-l f6 pa3-l pa2">Order one of our specialized home lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Sensitivities</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
+                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
                     </div>
                 </div>
                 <div class="w-third-ns w-100 tc">
@@ -203,9 +199,9 @@
                       <span class="icon icon_steps_4 h60 w60 dib"></span>
                     </div>
                     <div class="pa2">
-                        <p class="f3-l f4 fw5 pt2">Vitamins & Supplements</p>
-                        <p class="f5-l f6 pa3-l pa2">Shop the largest online dispensory of professional-grade vitamins and supplements at guaranteed wholesale prices.</p>
-                        <a href="https://store.goharvey.com/collections/supplements" class="f5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                        <p class="f3-l f4 fw5 pt2 lh-title">Vitamins & Supplements</p>
+                        <p class="f5-l f6 pa3-l pa2">Shop the largest online dispensary of professional-grade vitamins and supplements at near wholesale prices.</p>
+                        <a href="https://store.goharvey.com/collections/supplements" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
                     </div>
                 </div>
                 <div class="w-third-ns w-100 tc">
@@ -213,9 +209,9 @@
                       <span class="icon icon_steps_1 h60 w60 dib"></span>
                     </div>
                     <div class="pa2">
-                        <p class="f3-l f4 fw5 pt2">Functional Doctors</p>
+                        <p class="f3-l f4 fw5 pt2 lh-title">Holistic Treatment Plans</p>
                         <p class="f5-l f6 pa3-l pa2">Chat for free with a licensed Naturopathic Doctor about your health goals, or schedule a full consultation to build a treatment plan.</p>
-                        <a href="/consultations" class="f5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
+                        <a href="/consultations" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
                     </div>
                 </div>
             </div>

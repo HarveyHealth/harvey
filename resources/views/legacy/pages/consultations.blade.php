@@ -113,7 +113,7 @@
                 <path d="M36,36c0,2.209-1.791,4-4,4  H5c-2.209,0-4-1.791-4-4V14c0-2.209,1.791-4,4-4h27c2.209,0,4,1.791,4,4V36z" fill="none" stroke="#5F7278" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
             </svg>
             <p class="f2-l f3 ph3 tc">Meet Our Patients</p>
-            <p class="f4-l f5 pt3 ph6-l ph5-m ph3 tc">Watch the stories of our patients who were failed by conventional medicine.</p>
+            <p class="f4-l f5 pt3 ph6-l ph5-m ph3 tc">Meet some of our patients who needed more than conventional medicine.</p>
             <div class="flex flex-wrap justify-center ph3 mt4-l mt4">
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
@@ -232,7 +232,7 @@
         <div class="container">
             <div class="ph6-l ph4-m ph3 pv5 tc">
                 <p class="f2-l f3">Serving patients across 40 states.</p>
-                <p class="f4-l f5 pa3">We recommend talking with an integrative doctor to receive a full treatment plan. You can book a video consultation today or private chat with our doctors on Telegram.</p>
+                <p class="f4-l f5 pa3">We recommend talking with a doctor to receive a full treatment plan. You can book a video consultation today or start a private chat with one of our doctors on Telegram.</p>
                 <div class="tc">
                     <a href="/get-started" class="button f4-ns f5 ph4 is-primary has-arrow">Check Availability</a>
                     <p class="f5-l f6 fw5 db cf ma3">Questions? <a href="https://telegram.me/goharvey_doctors" class="underline dim" target="_blank">Chat free with a doctor</a></p>
