@@ -1,3 +1,4 @@
+export { default as Accordian } from './Accordian.vue';
 export { default as Background } from './Background.vue';
 export { default as Card } from './Card.vue';
 export { default as CardContent } from './CardContent.vue';

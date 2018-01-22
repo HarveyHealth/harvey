@@ -67,8 +67,8 @@ class PagesController extends Controller
             : redirect("/conditions/".Condition::first()->slug);
     }
 
-    public function getFinancing()
+    public function getConsultations()
     {
-        return view('legacy.pages.financing');
+        return view('legacy.pages.consultations');
     }
 }
