@@ -407,7 +407,25 @@ const app = new Vue({
                 });
         },
         getTransactions() {
-            this.requestPatients('', (patient, patientLookUp) => {
+            if (Laravel.user.user_type !== 'patient') {
+                this.requestPatients('', (patient, patientLookUp) => {
+                    axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
+                        .then((response) => {
+                            let invoices = response.data.included.reduce((acc, item) => {
+                                acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                acc[item.attributes.invoice_id][item.id] = item;
+                                return acc;
+                            }, {});
+                            this.global.transactions = response.data.data.reduce((acc, item) => {
+                                item.patient = patientLookUp[item.attributes.patient_id];
+                                item.items = invoices[item.id];
+                                acc[item.id] = item;
+                                return acc;
+                            }, {}); 
+                            this.global.loadingTransactions = false;
+                        });
+                });
+            } else {
                 axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
                     .then((response) => {
                         let invoices = response.data.included.reduce((acc, item) => {
@@ -416,14 +434,13 @@ const app = new Vue({
                             return acc;
                         }, {});
                         this.global.transactions = response.data.data.reduce((acc, item) => {
-                            item.patient = patientLookUp[item.attributes.patient_id];
                             item.items = invoices[item.id];
                             acc[item.id] = item;
                             return acc;
                         }, {}); 
                         this.global.loadingTransactions = false;
                     });
-            });
+            }
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)

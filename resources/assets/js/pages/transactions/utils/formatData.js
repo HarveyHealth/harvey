@@ -15,7 +15,7 @@ export function formatTableData(dictionary, time) {
         data.service = Object.values(e.items).map(el => el.attributes.description).join(', ');
         data.status = capitalize(e.attributes.status);
         data.id = '#' + e.id;
-        data.patient_name = e.patient.search_name;
+        data.patient_name = Laravel.user.user_type !== 'patient' ? e.patient.search_name : `${Laravel.user.first_name} ${Laravel.user.last_name}`;
 
         return {
             data,
