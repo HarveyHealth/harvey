@@ -35,6 +35,9 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
      */
     public function handle()
     {
+
+        return false; // disabling this cron in favor of the queued jobs.
+
         $this->info('Looking for unread messages.');
 
         $lastProcessedId = Redis::get(self::LAST_PROCESSED_ID_REDIS_KEY);
