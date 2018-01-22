@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
         Commands\PractitionerCreateCommand::class,
         Commands\ReportsMonthlyCommand::class,
         Commands\SendAppointmentsRemindersCommand::class,
-        Commands\SendUnreadMessageEmailNotificationsCommand::class,
         Commands\SetNginxConfigCommand::class,
     ];
 

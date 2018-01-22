@@ -75,8 +75,8 @@ class SitemapController extends Controller
             'blog',
             'login',
             'about',
-            'financing',
-            'get-started',
+            'consultations',
+            'get-started'
         ];
 
         // sort 'em if you got 'em
@@ -98,21 +98,6 @@ class SitemapController extends Controller
 
         foreach ($tests as $test) {
             $map->addPath('lab-tests/' . $test->slug);
-        }
-
-        return $map->sitemap();
-    }
-
-    private function conditions()
-    {
-        $conditions = $this->conditions->all();
-
-        $map = new SitemapGenerator(url(config('app.url')));
-
-        $map->addPath('conditions');
-
-        foreach ($conditions as $condition) {
-            $map->addPath('conditions/' . $condition->slug . '#/');
         }
 
         return $map->sitemap();
