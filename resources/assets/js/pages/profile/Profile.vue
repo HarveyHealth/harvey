@@ -29,7 +29,7 @@
                         <!-- Using v-if here because we don't want the rest to register until user data is up -->
                         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
                         <form action="#" method="POST" class="form" id="user_form" v-else>
-                            <div class="formgroups">
+                            <div class="formgroups flex-respond-row">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
                                         <label class="input__label" for="first_name">First Name</label>
