@@ -117,19 +117,17 @@
         <div class="input__item" data-test="appointment_amount_charged">Charged: {{ selectedRowData.amount ? '$' + Number(selectedRowData.amount).toFixed(0) : appointment.duration.data === '60' ? '$150' : '$75' }}</div>
       </div>
 
-      <TextBox
+      <TextBox v-model="appointment.purpose"
         name="purpose"
         :character-limit="purposeCharLimit"
         :editable="canEditFields"
-        :value="appointment.purpose"
         :visible="isVisiblePurpose"
       />
 
-      <TextBox
+      <TextBox v-model="appointment.notes"
         name="notes"
         :character-limit="notesCharLimit"
         :editable="canEditFields"
-        :value="appointment.notes"
         :visible="isVisibleNotes"
       />
 
@@ -591,8 +589,9 @@ export default {
           }
           this.isModalActive = true;
           break;
+
         case 'new':
-          if (!this.billingConfirmed && this.$root.userIsPatient) {
+          if (!Laravel.user.has_a_card && this.$root.userIsPatient) {
             this.shouldShowBillingError = true;
             return;
           }
@@ -768,7 +767,7 @@ export default {
 
         // Purpose text
         this.appointment.purpose = data.purpose;
-        this.appointment.notes = data.notes[0] || '';
+        this.appointment.notes = data.notes || '';
 
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';
@@ -786,15 +785,29 @@ export default {
       }
     },
     handleUserAction() {
+      // api constraints
+      const isPatient = this.$root.userIsPatient;
+      const isPractitioner = this.$root.userIsPractitioner;
+      const isAdmin = this.$root.userIsAdmin;
+      const isUpdate = this.userAction === 'update';
+      const isCancel = this.userAction === 'cancel';
+      const isNew = this.userAction === 'new';
+      const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
+      const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
+      const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
+
       // Setup
       let data = {
         appointment_at: this.appointment.date || this.appointment.currentDate,
         reason_for_visit: this.appointment.purpose,
-        notes: this.appointment.notes,
         status: this.appointment.status,
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
       };
+
+      if (!isPatient && this.appointment.notes !== '') {
+        data.notes = this.appointment.notes;
+      }
 
       if (this.discountCode) data.discount_code = this.discountCode;
 
@@ -808,17 +821,6 @@ export default {
       const appointmentDate = data.appointment_at;
       const appointmentPatientEmail = this.appointment.patientEmail;
       const trackingPatientId = data.patient_id;
-
-      // api constraints
-      const isPatient = this.$root.userIsPatient;
-      const isPractitioner = this.$root.userIsPractitioner;
-      const isAdmin = this.$root.userIsAdmin;
-      const isUpdate = this.userAction === 'update';
-      const isCancel = this.userAction === 'cancel';
-      const isNew = this.userAction === 'new';
-      const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
-      const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
-      const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
 
       // Patients don't need to send up their id
       // Cancellations don't require a patient id
