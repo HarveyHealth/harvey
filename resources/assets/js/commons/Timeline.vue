@@ -12,25 +12,25 @@
             <slot></slot>
 
             <div class="timeline-item" v-for="(item, key) in items" :name="'key-' + key">
-              <Grid :flexAt="'l'" :columns="[{ s:2 }, { s:10 }]">
+              <Grid :flexAt="'l'" :columns="[{ s:2 }, { s:10 }]" class="align-items-center justify-center">
 
                 <!-- Dot -->
-                <div :slot="1" class="self-center">
+                <div :slot="1">
                   <div @click="item.onClick" :class="key === index ? 'on' : ''" class="timeline-selection">
                       <div :class="key === index ? 'subOn' : ''" />
                   </div>
                 </div>
 
                 <!-- Info -->
-                <div :slot="2" class="self-center">
+                <div :slot="2">
                   <div @click="item.onClick" class="timeline-info" :class="key === index ? 'info-on' : ''">
-                      <Grid :flexAt="'l'" :columns="[{ s:9 }, { s:3 }]">
-                        <div :slot="1" class="self-center">
+                      <Grid :flexAt="'l'" :columns="[{ s:9 }, { s:3 }]"  class="align-items-center justify-center">
+                        <div :slot="1">
                             <span class="db">{{ item.type }}</span>
                             <span class="db">{{ item.date }}</span>
                             <span class="db">{{ item.doctor }}</span>
                         </div>
-                        <div :slot="2" class="timeline-icon self-center">
+                        <div :slot="2" class="timeline-icon">
                             <i :class="`fa fa-${
                                 item.type === 'SOAP Note' ? 'pencil-square-o ' :
                                 item.type === 'Prescription' ? 'file-excel-o' :
