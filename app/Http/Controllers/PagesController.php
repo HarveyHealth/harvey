@@ -33,6 +33,8 @@ class PagesController extends Controller
 
     public function getLabTests(string $labTestSlug = null)
     {
+        return redirect('https://store.goharvey.com/collections/lab-tests');
+
         $lab_tests = LabTestInformation::publicFromCache();
 
         $index = $lab_tests->pluck('sku')->search(function ($item) use ($labTestSlug) {
