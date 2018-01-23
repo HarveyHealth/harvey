@@ -79,7 +79,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('prescriptions/{prescription}', 'PrescriptionsController@update')->name('prescriptions.update');
         Route::delete('prescriptions/{prescription}', 'PrescriptionsController@delete')->name('prescriptions.delete');
 
-        # SOAP Notes
+        # SOAP Notes        
         Route::get('soap_notes/{soap_note}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
         Route::patch('soap_notes/{soap_note}', 'SoapNotesController@update')->name('soap_notes.update');
         Route::post('patients/{patient}/soap_notes', 'SoapNotesController@store')->name('soap_notes.store');

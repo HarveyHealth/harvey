@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use View;
 
 class SendLabOrderReminder implements ShouldQueue
 {
@@ -34,7 +35,7 @@ class SendLabOrderReminder implements ShouldQueue
     {
         // check for lab_order status
         if ($this->lab_order->status == LabOrder::RECOMMENDED_STATUS_ID){
-            // if still pending  send email
+            // send email
             $transactional_email_job = TransactionalEmail::createJob()
             ->setTo($this->lab_order->patient->user->email)
             ->setTemplate('patient.lab_order.reminder')
@@ -43,6 +44,10 @@ class SendLabOrderReminder implements ShouldQueue
             ]);
 
             dispatch($transactional_email_job);
+
+            // Send SMS message
+            $message = View::make("sms/lab_order_reminder")->render();
+            $this->lab_order->patient->user->sendText($message);
         }
     }
 }

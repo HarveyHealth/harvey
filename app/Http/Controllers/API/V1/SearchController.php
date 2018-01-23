@@ -66,7 +66,8 @@ class SearchController extends BaseAPIController
             ->sortByDesc('created_at');
 
         // add support for pagination
-        if (is_numeric(request('per_page'))) {
+
+        if (is_numeric(request('per_page'))){
             $perPage = request('per_page');
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage('page');
