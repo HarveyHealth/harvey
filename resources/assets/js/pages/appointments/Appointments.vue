@@ -592,7 +592,7 @@ export default {
           this.isModalActive = true;
           break;
         case 'new':
-          if (!this.billingConfirmed && this.$root.userIsPatient) {
+          if (!App.Config.user.info.has_a_card && App.Config.user.isPatient) {
             this.shouldShowBillingError = true;
             return;
           }
@@ -790,7 +790,6 @@ export default {
       let data = {
         appointment_at: this.appointment.date || this.appointment.currentDate,
         reason_for_visit: this.appointment.purpose,
-        notes: this.appointment.notes,
         status: this.appointment.status,
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
@@ -861,6 +860,10 @@ export default {
       // If user is patient and action is cancel, add cancellation_reason to data
       if (isPatient && isCancel && this.cancellationReason) {
         data.cancellation_reason = this.cancellationReason;
+      }
+
+      if (this.appointment.notes) {
+          data.notes = this.appointments.notes;
       }
 
       // Make the call
