@@ -19,6 +19,15 @@
     }
 }
 
+.flex-respond-row {
+    display: flex;
+    flex-direction: row;
+    @include btwQuery(xs, md) {
+        flex-direction: column;
+        padding-top: 10px;
+    }
+}
+
 .filter-bubble {
     height: 17.5px;
     width: 17.5px;

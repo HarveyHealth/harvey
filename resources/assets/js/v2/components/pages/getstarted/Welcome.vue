@@ -37,46 +37,20 @@ export default {
         SlideIn,
         Spacer
     },
-    methods: {
-        trackAccountCreation(validation) {
-            if (!validation.account_created) {
-                const user = App.Config.user.info;
 
-                analytics.track('Account Created');
-                analytics.identify(user.id, {
-                    firstName: user.first_name,
-                    lastName: user.last_name,
-                    email: user.email,
-                    city: user.city,
-                    state: user.state,
-                    zip: user.zip
-                }, {
-                    integrations: {
-                        Intercom : {
-                            user_hash: user.intercom_hash
-                        }
-                    }
-                });
-                if (validation.facebook_connect) {
-                    analytics.track('Facebook Connect Signup');
-                    App.Logic.getstarted.trackSignupEvent(user.email, user.first_name, user.last_name);
-                }
-                App.Util.data.updateStorage('zip_validation', {
-                    account_created: true,
-                    facebook_connect: false
-                });
-            }
-        }
+    beforeMount() {
+        App.Logic.getstarted.refuseStepSkip.call(this, 'welcome');
     },
+
     mounted () {
         if (!this.State('practitioners.wasRequested')) {
           App.Http.practitioners.get(App.Http.practitioners.getResponse);
         }
-        App.Logic.getstarted.redirectDashboard();
 
-        const zipValidation = JSON.parse(App.Util.data.fromStorage('zip_validation'));
+        App.Logic.getstarted.trackAccountCreation(this.State('getstarted.signupMode'));
 
-        this.trackAccountCreation(zipValidation);
+        const user = App.Config.user.info;
+        App.Logic.getstarted.trackSignupEvent(user.email, user.first_name, user.last_name);
 
         analytics.page('Welcome');
         analytics.identify();

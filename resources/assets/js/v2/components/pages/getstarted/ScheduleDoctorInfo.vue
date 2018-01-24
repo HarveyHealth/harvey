@@ -1,6 +1,6 @@
 <template>
     <SlideIn :to="'left'" class="tc">
-        <img
+        <img alt=""
             class="circle"
             style="height: 120px; width: 120px;"
             :src="Logic.practitioners.determineImage(doctorInfo.picture_url, 'user')"

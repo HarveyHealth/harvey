@@ -8,7 +8,7 @@ use Closure, UnexpectedValueException, ResponseCode;
 
 class AuthenticateWebhook
 {
-    protected $except = ['/webhook/typeform'];
+    protected $except = [];
 
     /**
      * Handle an incoming request.

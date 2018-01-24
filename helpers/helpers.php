@@ -74,6 +74,11 @@ function isTargetOrAdmin(App\Models\User $targetUser){
     return $user->is($targetUser) or $user->isAdmin();
 }
 
+function currentUserIsAdminOrPractitioner()
+{
+    return currentUser() && currentUser()->isAdminOrPractitioner();
+}
+
 function isLocal()
 {
     return app()->environment('local');

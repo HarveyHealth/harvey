@@ -37,14 +37,6 @@
           @if (session('facebook_redirect_alert'))
           window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
           @endif
-
-          var zipValidation  = localStorage.getItem('harvey_zip_validation');
-          var isServiceable = zipValidation ? JSON.parse(zipValidation).is_serviceable : false;
-          var loggedIn = Laravel.user.signedIn;
-
-          if (loggedIn) window.location.hash = '/welcome';
-          if (!loggedIn && isServiceable) window.location.hash = '/signup';
-          if (!loggedIn && !isServiceable) window.location.href = '/conditions/get-zip';
         </script>
     </head>
     <body>
@@ -69,5 +61,9 @@
         <!-- App.js -->
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
       </footer>
+      <!-- S+C pixel -->
+      <script type="text/javascript">
+          window.datacoral('trackPageView');
+      </script>
     </body>
 </html>
