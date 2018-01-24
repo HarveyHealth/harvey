@@ -18,7 +18,7 @@ class TypeformController extends BaseWebhookController
         } elseif (empty($userId = $formResponse['hidden']['harvey_id'])) {
             ops_warning('TypeformController', "Missing 'harvey_id' value when handling event '{$eventType}'.");
         } elseif (empty($formResponse['hidden']['intake_validation_token'])) {
-            ops_warning('TypeformController', "Missing 'intake_validation_token' value when handling event '{$eventType}'.");
+            ops_warning('TypeformController', "Missing 'intake_validation_token' value when handling event '{$eventType}' for (supposedly) User ID #{$userId}.");
         } elseif (empty($user = User::find($userId))) {
             ops_warning('TypeformController', "Can't find User #{$userId} when handling event '{$eventType}'.");
         } elseif ($formResponse['hidden']['intake_validation_token'] != $user->patient->intake_validation_token) {
