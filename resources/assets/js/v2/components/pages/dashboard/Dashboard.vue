@@ -1,75 +1,61 @@
 <template>
-    <PageContainer>
-        <PageHeader :heading="pageHeading" />
-        <div class="mw8 pa2 pa3-m">
-            <NotificationPopup
-                :active='isNotificationActive'
-                comes-from='top-right'
-                symbol='&#10003;'
-                :text='notificationText'
-            />
-            <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
-            <SlideIn v-else>
-                <SlideIn :to="'right'" v-if="shouldShowIntakeAlert">
-                    <Card isAlert class="alert mb2 mb3-m">
-                        <CardContent class="pt4">
-                            <Grid :columns="[{m:8}, {m:4}]" :gutters="{s:3}">
-                                <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
-                                <div :slot="2" class="tc tr-m">
-                                    <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
-                                </div>
-                            </Grid>
-                        </CardContent>
-                    </Card>
-                </SlideIn>
-                <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
-                    <Card :slot="1" :heading="'Appointments'">
-                        <div v-if="upcomingAppointments.length">
-                            <AppointmentCardInfo
-                                v-for="(appt, i) in upcomingAppointments"
-                                :appointment="appt"
-                                :hasBorder="i < upcomingAppointments.length - 1"
-                                :key="appt.id"
-                            />
-                        </div>
-                        <CardContent v-else>
-                            <Paragraph :weight="'thin'">No upcoming appointments scheduled</Paragraph>
-                        </CardContent>
-                    </Card>
-                    <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
-                        <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
-                        <CardContent>
-                            <Paragraph :weight="'thin'">{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid :flexAt="'l'" :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
-                    <Card :slot="1" :heading="'Contact Info'">
-                        <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
-                        <CardContent>
-                            <LabeledTextBlock :label="'Name'">{{ Util.misc.fullName(Config.user.info) }}</LabeledTextBlock>
-                            <Spacer isBottom :size="3" />
-                            <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
-                            <Spacer isBottom :size="3" />
-                            <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone | formatPhone }}</a></LabeledTextBlock>
-                            <Spacer isBottom :size="3" />
-                            <LabeledTextBlock :label="'Location'">{{ Config.user.info.city }}, {{ Config.user.info.state }}</LabeledTextBlock>
-                        </CardContent>
-                    </Card>
-                    <Card :slot="2" :heading="'Support'">
-                        <AvatarCardHeading :heading="Config.support.name" />
-                        <CardContent>
-                            <LabeledTextBlock :label="'Support'"><a :href="'mailto:'+Config.support.email">{{ Config.support.email }}</a></LabeledTextBlock>
-                            <Spacer isBottom :size="3" />
-                            <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.support.phone">{{ Config.support.phone }}</a></LabeledTextBlock>
-                            <Spacer isBottom :size="3" />
-                            <LabeledTextBlock :label="'Available'">{{ Config.support.available }}</LabeledTextBlock>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </SlideIn>
-        </div>
-    </PageContainer>
+  <PageContainer>
+    <PageHeader :heading="Config.user.isAdmin ? 'Admin Dashboard' : 'Dashboard'" />
+    <div class="mw8 pa2 pa3-m">
+      <NotificationPopup
+        :active='isNotificationActive'
+        comes-from='top-right'
+        symbol='&#10003;'
+        :text='notificationText'
+      />
+      <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
+      <SlideIn v-else>
+        <Grid :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
+          <Card :slot="1" :heading="'Appointments'">
+            <div v-if="upcomingAppointments.length">
+              <AppointmentCardInfo
+                v-for="(appt, i) in upcomingAppointments"
+                :appointment="appt"
+                :hasBorder="i < upcomingAppointments.length - 1"
+                :key="appt.id"
+              />
+            </div>
+            <CardContent v-else>
+              <Paragraph :weight="'thin'">No upcoming appointments scheduled</Paragraph>
+            </CardContent>
+          </Card>
+          <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
+            <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
+            <CardContent>
+              <Paragraph :weight="'thin'">{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
+          <Card :slot="1" :heading="'Contact Info'">
+            <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
+            <CardContent>
+              <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
+              <Spacer isBottom :size="3" />
+              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone | formatPhone }}</a></LabeledTextBlock>
+              <Spacer isBottom :size="3" />
+              <LabeledTextBlock :label="'Location'">{{ Config.user.info.city }}, {{ Config.user.info.state }}</LabeledTextBlock>
+            </CardContent>
+          </Card>
+          <Card :slot="2" :heading="'Support'">
+            <AvatarCardHeading :heading="Config.support.name" />
+            <CardContent>
+              <LabeledTextBlock :label="'Support'"><a :href="'mailto:'+Config.support.email">{{ Config.support.email }}</a></LabeledTextBlock>
+              <Spacer isBottom :size="3" />
+              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.support.phone">{{ Config.support.phone }}</a></LabeledTextBlock>
+              <Spacer isBottom :size="3" />
+              <LabeledTextBlock :label="'Available'">{{ Config.support.available }}</LabeledTextBlock>
+            </CardContent>
+          </Card>
+      </Grid>
+      </SlideIn>
+    </div>
+  </PageContainer>
 </template>
 
 <script>

@@ -16,6 +16,8 @@ class Message extends Model
         'updated_at',
     ];
 
+    const NOTIFY_AFTER_MINUTES = 20;
+
     protected $guarded = ['id', 'created_at', 'updated_at', 'read_at', 'is_admin', 'sender_user_id'];
 
     protected static function boot()

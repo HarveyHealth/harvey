@@ -106,6 +106,7 @@ export default {
     },
     mounted () {
         analytics.page('Success');
+        window.datacoral('trackPageView');
     }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PublicNav v-if="!isSignupForm" disableMobile giveSpace hasLogo hasPhone />
+        <PublicNav v-if="Config.user.info.signedIn" disableMobile giveSpace hasLogo hasPhone />
         <div class="bg-blue-fade"></div>
         <ProgressBar
             v-show="State('getstarted.signup.showProgress')"
@@ -35,19 +35,26 @@ export default {
         }
     },
     beforeMount() {
-        // The blade template has determined that this user is logged in or that they have a zip validation object
-        // If the user is logged in but does NOT have a zip validation object, it means they may have used a different
-        // device to log in but have not finished the signup funnel. In this case, we set a temp zip validation
-        // object so the user cannot go to the intake page.
-        const zipValidation = App.Logic.getstarted.getZipValidation();
-        if (!zipValidation) {
-            App.Util.data.toStorage('zip_validation', 'temp');
-        } else {
+        // Grab signup_mode from localStorage and apply to global state
+        App.setState('getstarted.signupMode', JSON.parse(App.Util.data.fromStorage('signup_mode')));
+
+        // If zipValidation does not exist in local storage the user should not be on the signup form
+        // so we redirect them to /conditions. If they are, we set state accordingly.
+        const zipValidation = App.Logic.getstarted.getZipValidation() || {};
+        if (zipValidation.is_serviceable) {
             App.setState({
                 'getstarted.zipValidation': zipValidation,
                 'getstarted.userPost.zip': zipValidation.zip
             });
-      }
+        } else {
+            App.Util.data.killStorage('zip_validation');
+        }
+
+        if (App.Config.user.isLoggedIn || App.Config.user.info.signedIn) {
+            App.Router.push('welcome');
+        } else {
+            App.Router.push('sign-up');
+        }
     },
     mounted() {
         // If the user is logged in it means they'll be taken to the funnel proper. We want
