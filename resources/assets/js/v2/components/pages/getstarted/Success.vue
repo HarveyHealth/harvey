@@ -20,7 +20,7 @@
                     You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. You can with us on this screen if you have any questions.
                 </Paragraph>
                 <Spacer isBottom :size="4" />
-                <Grid :flexAt="'m'" :columns="[{m:'1of2'}, {m:'1of2'}]" :gutters="{s:2, m:3}">
+                <Grid :columns="[{m:6}, {m:6}]" :gutters="{s:2, m:3}">
                     <div :slot="1" class="tr-m">
                         <InputButton
                             :href="'/dashboard'"
@@ -133,6 +133,7 @@ export default {
     },
     mounted () {
         analytics.page('Success');
+        window.datacoral('trackPageView');
     }
 };
 </script>

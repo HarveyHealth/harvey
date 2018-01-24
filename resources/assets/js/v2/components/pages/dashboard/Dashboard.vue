@@ -10,7 +10,7 @@
       />
       <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
       <SlideIn v-else>
-        <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
+        <Grid :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Appointments'">
             <div v-if="upcomingAppointments.length">
               <AppointmentCardInfo
@@ -31,12 +31,10 @@
             </CardContent>
           </Card>
         </Grid>
-        <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, m:3 }">
+        <Grid :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Contact Info'">
             <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
             <CardContent>
-              <LabeledTextBlock :label="'Name'">{{ Util.misc.fullName(Config.user.info) }}</LabeledTextBlock>
-              <Spacer isBottom :size="3" />
               <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
               <Spacer isBottom :size="3" />
               <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone | formatPhone }}</a></LabeledTextBlock>
@@ -54,7 +52,7 @@
               <LabeledTextBlock :label="'Available'">{{ Config.support.available }}</LabeledTextBlock>
             </CardContent>
           </Card>
-        </Grid>
+      </Grid>
       </SlideIn>
     </div>
   </PageContainer>
@@ -86,7 +84,7 @@ export default {
       return App.Config.user.isPatient && this.State('practitioners.userDoctor');
     },
     topRowColumnConfig() {
-      return this.shouldShowDoctorInfo ? [{ l:'1of2' }, { l:'1of2' }] : [{ l:'1of1' }];
+      return this.shouldShowDoctorInfo ? [{ l:6 }, { l:6 }] : [{ l:12 }];
     },
     upcomingAppointments() {
       return this.State('appointments.data.upcoming').filter(a => a.attributes.status === 'pending');
@@ -112,3 +110,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+    .test {
+        background: skyblue;
+        text-align: center;
+        padding: 1rem;
+        text-transform: uppercase;
+    }
+</style>

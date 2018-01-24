@@ -29,6 +29,7 @@
     "ajv": "^5.5.2",
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
+    "babel-polyfill": "^6.26.0",
     "bootstrap-sass": "^3.3.7",
     "bulma": "^0.3.0",
     "card": "^2.4.0",

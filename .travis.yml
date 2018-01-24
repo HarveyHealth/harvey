@@ -43,6 +43,7 @@ script:
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - php artisan dusk
 - sudo killall -s SIGKILL Xvfb chromedriver-linux php
+- php artisan passport:getkeys
 - vendor/bin/phpunit
 - rm .env
 
@@ -51,6 +52,7 @@ branches:
   - master
   - develop
   - dusk-tests
+  - staging
   - /^release\//
 notifications:
   email: false

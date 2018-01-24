@@ -200,7 +200,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.attributes.last4 || !latestCard.attributes.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.attributes.last4 || !latestCard.attributes.brand || loading" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -505,6 +505,7 @@ export default {
       this.subtotalAmount = subtotal;
 
       this.disabled = _.isEmpty(this.labPatients) ? true : false;
+      this.$forceUpdate();
     },
     keyDownDiscountCode(e) {
       if (e.target.value === '') {
