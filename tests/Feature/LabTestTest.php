@@ -133,12 +133,29 @@ class LabTestTest extends TestCase
         $this->assertDatabaseHas('lab_tests', ['sku_id' => $sku->id]);
     }
 
-    public function test_it_allows_a_practitioner_to_create_a_lab_test()
+    public function test_it_does_not_allows_a_practitioner_to_create_a_lab_test_if_lab_order_is_assigned_to_another_practitioner()
     {
         $labOrder = factory(LabOrder::class)->create();
         $sku = factory(SKU::class)->create();
 
         Passport::actingAs(factory(Practitioner::class)->create()->user);
+
+        $parameters = [
+            'lab_order_id' => $labOrder->id,
+            'sku_id' => $sku->id,
+        ];
+
+        $response = $this->json('POST', 'api/v1/lab/tests', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+    }
+
+    public function test_it_allows_a_practitioner_to_create_a_lab_test_if_lab_order_belongs_to_practitioner()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $sku = factory(SKU::class)->create();
+
+        Passport::actingAs($labOrder->practitioner->user);
 
         $parameters = [
             'lab_order_id' => $labOrder->id,

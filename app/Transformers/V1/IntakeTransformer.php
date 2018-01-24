@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Patient;
-use League\Fractal\TransformerAbstract;
 
-class IntakeTransformer extends TransformerAbstract
+class IntakeTransformer extends HarveyTransformer
 {
     /**
      * @param Patient $patient

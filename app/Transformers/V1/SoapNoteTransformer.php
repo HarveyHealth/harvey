@@ -2,25 +2,25 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\SoapNote;
-use League\Fractal\TransformerAbstract;
 
-class SoapNoteTransformer extends TransformerAbstract
+class SoapNoteTransformer extends HarveyTransformer
 {
     /**
      * @return array
      */
-    public function transform(SoapNote $soapNote)
+    public function transform(SoapNote $soap_note)
     {
-        return [
-            'id' => cast_to_string($soapNote->id),
-            'assessment' => $soapNote->assessment,
-            'created_at' => $soapNote->created_at,
-            'created_by_user_id' => cast_to_string($soapNote->creator->id),
-            'doctor_name' => $soapNote->doctor_name,
-            'objective' => $soapNote->objective,
-            'plan' => $soapNote->plan,
-            'subjective' => $soapNote->subjective,
-        ];
+        if (currentUser()) {
+            if (currentUser()->isPatient()) {
+                return (new SoapNotePatientTransformer)->transform($soap_note);
+            }
+            if (currentUser()->isAdminOrPractitioner()) {
+                return (new SoapNoteAdminOrPractitionerTransformer)->transform($soap_note);
+            }
+        }
+
+        return [];
     }
 }
