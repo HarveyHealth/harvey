@@ -1,5 +1,5 @@
 <template>
-  <div class="filters">
+    <div class="filters">
         <button
             v-for="(name, index) in filters"
             :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
@@ -8,7 +8,7 @@
             {{ name.name ? name.name : name }}
             <div class="filter-bubble" v-if="name.count && name.name !== 'Complete'">{{ name.count }}</div>
         </button>
-  </div>
+    </div>
 </template>
 
 <script>

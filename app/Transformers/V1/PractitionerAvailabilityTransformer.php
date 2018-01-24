@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Practitioner;
-use League\Fractal\TransformerAbstract;
 
-class PractitionerAvailabilityTransformer extends TransformerAbstract
+class PractitionerAvailabilityTransformer extends HarveyTransformer
 {
     /**
      * @param Practitioner $practitioner

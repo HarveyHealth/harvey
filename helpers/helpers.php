@@ -69,6 +69,11 @@ function currentUser()
     return auth()->user();
 }
 
+function isTargetOrAdmin(App\Models\User $targetUser){
+    $user = currentUser();
+    return $user->is($targetUser) or $user->isAdmin();
+}
+
 function currentUserIsAdminOrPractitioner()
 {
     return currentUser() && currentUser()->isAdminOrPractitioner();
@@ -155,7 +160,16 @@ function cast_to_string($value)
     return empty($value) ? null : (string) $value;
 }
 
-function maybe()
+function only_if_admin_or_practitioner($value)
 {
-    return (bool) rand(0,1);
+    if ($currentUser = auth()->user() and $currentUser->isAdminOrPractitioner()) {
+        return $value;
+    }
+
+    return null;
+}
+
+function maybe($value = true)
+{
+    return rand(0,1) ? null : $value;
 }

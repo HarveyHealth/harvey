@@ -16,6 +16,7 @@ export default function(laravel, State) {
       flyoutActive: false,
       guest: false,
       stripe: null,
+      labTypes: {},
       global: {
           appointments: [],
           currentPage: '',
