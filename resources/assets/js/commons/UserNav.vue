@@ -65,11 +65,20 @@
       </router-link>
 
       <router-link to="/profile" title="Profile"
-                   :class="currentPageCheck('profile')"
-                   @click.native="handleMenu(false, 'profile')">
+        :class="currentPageCheck('profile')"
+        @click.native="handleMenu(false, 'profile')">
         <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Profile</div>
       </router-link>
+
+        <router-link
+            v-if="user !== 'practitioner'"
+            to="/transactions" title="Transactions"
+            :class="currentPageCheck('transactions')"
+            @click.native="handleMenu(false, 'transactions')">
+            <i class="fa fa-usd icon icon-nav-bar"></i>
+            <div class="text">Transactions</div>
+        </router-link>
 
        <router-link
        to="/settings" title="Settings"
