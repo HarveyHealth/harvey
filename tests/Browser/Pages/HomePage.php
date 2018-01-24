@@ -8,17 +8,13 @@
 
 class HomePage extends Page
 {
-
-
     public $signupText = "Personalized for better health.";
     public $conditions = "Start your health journey.";
-    public $cover = "Choose better health.";
+    public $cover = "Learn what your body really needs to feel its best.";
     public $labs = 'Micronutrients Test';
     public $help =  'Advice and answers from the Harvey Team';
-    public $about = 'Harvey empowers people to find natural and holistic remedies to chronic health conditions.';
+    public $about = 'About Harvey';
     public $financing = '0% Loan Financing';
-
-
 
     public function url()
     {
@@ -152,10 +148,10 @@ class HomePage extends Page
         return [
             '@element' => '#selector',
             '@getStartedHeader' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > div.nav-right > div.nav-start > a',
-            '@loginHeader' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(4)',
-            '@harveyLogoHeader' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > a',
+            '@loginHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(3)',
+            '@harveyLogoHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > a > svg > g > path.logo-text.always-text.reveal-text',
             '@labTesting' => '#tests > div > h2 > span',
-            '@about1' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(1)',
+            '@about1' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(1)',
             '@about2' => '#app > div.page-content > div > section:nth-child(2) > div > div > a',
             '@labsTestHeader' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(2)',
             '@pricingHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',

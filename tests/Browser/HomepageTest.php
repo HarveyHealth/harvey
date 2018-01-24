@@ -24,8 +24,7 @@ class HomepageTest extends DuskTestCase
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->clickAbout('1')
-                    ->clickAbout('2');
+                    ->clickAbout('1');
           });
     }
 
@@ -38,13 +37,13 @@ class HomepageTest extends DuskTestCase
     }
 
 
-    public function test_get_started_in_header()
-    {
-          $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->getStartedHeader();
-              });
-    }
+    // public function test_get_started_in_header()
+    // {
+    //       $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->getStartedHeader();
+    //           });
+    // }
 
     public function test_login_button_in_header()
     {
@@ -84,74 +83,66 @@ class HomepageTest extends DuskTestCase
     //           });
     // }
 
-    public function test_explore_conditions_in_cover()
-    {
-          $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->exploreConditionsCover();
-              });
-    }
-
-    public function test_if_labs_tests_button_works()
-    {   $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->script('window.scrollTo(0,2000)');
-    });
-        $this->browse(function ($browser) {
-
-            $browser->visit(new HomePage)
-                    ->labsButton();
-        });
-    }
-
-    public function test_if_home_button_works_in_footer()
-    {
-        $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->script('window.scrollTo(0,document.body.scrollHeight)');
-    });
-        $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->footer('cover');
-        });
-     }
-
-
-    public function test_if_labs_button_work_in_footer()
-    {
-        $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->script('window.scrollTo(0,document.body.scrollHeight)');
-    });
-        $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->footer('labs');
-        });
-     }
-
-     public function test_if_financing_button_work_in_footer()
-     {
-        $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->script('window.scrollTo(0,document.body.scrollHeight)');
-     });
-         $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->footer('financing');
-         });
-      }
-
-      public function test_if_help_button_works_in_footer()
-      {
-          $this->browse(function ($browser) {
-              $browser->visit(new HomePage)
-                      ->script('window.scrollTo(0,document.body.scrollHeight)');
-      });
-          $this->browse(function ($browser) {
-              $browser->visit(new HomePage)
-                      ->footer('help');
-          });
-       }
+    // public function test_if_labs_tests_button_works()
+    // {   $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->script('window.scrollTo(0,2000)');
+    // });
+    //     $this->browse(function ($browser) {
+    //
+    //         $browser->visit(new HomePage)
+    //                 ->labsButton();
+    //     });
+    // }
+    //
+    // public function test_if_home_button_works_in_footer()
+    // {
+    //     $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->script('window.scrollTo(0,document.body.scrollHeight)');
+    // });
+    //     $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->footer('cover');
+    //     });
+    //  }
+    //
+    //
+    // public function test_if_labs_button_work_in_footer()
+    // {
+    //     $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->script('window.scrollTo(0,document.body.scrollHeight)');
+    // });
+    //     $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->footer('labs');
+    //     });
+    //  }
+    //
+    //  public function test_if_financing_button_work_in_footer()
+    //  {
+    //     $this->browse(function ($browser) {
+    //          $browser->visit(new HomePage)
+    //                  ->script('window.scrollTo(0,document.body.scrollHeight)');
+    //  });
+    //      $this->browse(function ($browser) {
+    //          $browser->visit(new HomePage)
+    //                  ->footer('financing');
+    //      });
+    //   }
+    //
+    //   public function test_if_help_button_works_in_footer()
+    //   {
+    //       $this->browse(function ($browser) {
+    //           $browser->visit(new HomePage)
+    //                   ->script('window.scrollTo(0,document.body.scrollHeight)');
+    //   });
+    //       $this->browse(function ($browser) {
+    //           $browser->visit(new HomePage)
+    //                   ->footer('help');
+    //       });
+    //    }
 
 
 
