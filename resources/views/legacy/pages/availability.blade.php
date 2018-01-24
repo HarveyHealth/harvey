@@ -1,8 +1,12 @@
 @extends('legacy._layouts.public')
 @section('page_title','Availability')
-@section('body_class','availability')
+@section('body_class','page-availability')
 @section('main_content')
-<section>
-    <h1>Availability</h1>
+
+<section class="ph3 pv6">
+    <div class="mha mw7">
+        <availability></availability>
+    </div>
 </section>
+
 @endsection
