@@ -10,20 +10,26 @@ class HomePage extends Page
 {
     public $signupText = "Personalized for better health.";
     public $conditions = "Start your health journey.";
-    public $cover = "Learn what your body really needs to feel its best.";
+    public $cover = "Learn what your body really";
     public $labs = 'Micronutrients Test';
     public $help =  'Advice and answers from the Harvey Team';
     public $about = 'About Harvey';
     public $financing = '0% Loan Financing';
+    public $login = 'Remember me';
+    public $stories = 'Meet Our Patients';
+    public $consultations = 'Book a consultation with';
+    public $shopify = 'Learn what your body needs to feel its best.';
 
     public function url()
     {
         return '/';
     }
 
+
+
     public function assertCoverTitle(Browser $browser)
     {
-      $browser->pause(2000)
+      $browser->waitForText($this->cover)
               ->assertSee($this->cover);
     }
 
@@ -35,58 +41,25 @@ class HomePage extends Page
 
     public function logout(Browser $browser)
     {
-    $browser->press('@accountButton')
-            ->clickLink('Logout');
+        $browser->press('@accountButton')
+                ->clickLink('Logout');
     }
 
 //********************Header Tests
-    public function getStartedHeader(Browser $browser)
+
+  public function clickAssert(Browser $browser, $selector, $assertion)
+  {
+        $browser->click($selector)
+                ->waitForText($this->$assertion)
+                ->assertSee($this->$assertion);
+  }
+
+// Cover buttons
+    public function startShopping(Browser $browser)
     {
-        $browser->click('@getStartedHeader')
-                ->waitForText($this->conditions)
-                ->assertSee($this->conditions);
-    }
-
-    public function loginHeader(Browser $browser)
-    {
-        $browser->click('@loginHeader')
-                ->assertSee('Remember me');
-    }
-
-    public function logoHeader(Browser $browser)
-    {
-        $browser->click('@harveyLogoHeader')
-                ->assertCoverTitle();
-    }
-
-
-
-    public function labsTestHeader(Browser $browser)
-    {
-        $browser->click('@labsTestHeader')
-                ->assertSee($this->labs);
-    }
-
-    public function pricingHeader(Browser $browser)
-    {
-        $browser->click('@pricingHeader')
-                ->waitForText('SIMPLE PRICING')
-                ->assertSee('SIMPLE PRICING');
-    }
-
-    public function financingHeader(Browser $browser)
-    {
-        $browser->click('@financingHeader')
-                ->waitForText('0% Loan Financing')
-                ->assertSee('0% Loan Financing');
-    }
-
-//About Harvey on page
-    public function clickAbout(Browser $browser, $about)
-    {
-        $browser->click('@about' . $about)
-                ->assertSee($this->about)
-                ->visit('/');
+        $browser->click('@startShopping')
+                ->waitForText('Learn what your body needs to feel its best.')
+                ->assertSee('Learn what your body needs to feel its best.');
     }
 
 //Explore Conditions on page
@@ -149,15 +122,17 @@ class HomePage extends Page
             '@element' => '#selector',
             '@getStartedHeader' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > div.nav-right > div.nav-start > a',
             '@loginHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(3)',
-            '@harveyLogoHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > a > svg > g > path.logo-text.always-text.reveal-text',
+            '@harveyLogoHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > button',
             '@labTesting' => '#tests > div > h2 > span',
             '@about1' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(1)',
             '@about2' => '#app > div.page-content > div > section:nth-child(2) > div > div > a',
             '@labsTestHeader' => '#app > div.nav-wrap.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(2)',
             '@pricingHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
-            '@financingHeader' => '#app > div.header.nav > div > div.nav-left > div > a:nth-child(4)',
+            '@storiesHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(2)',
+            '@consultHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-right > div.nav-phone > a',
+            '@consultCover' => '#hero-background > div.container > div > div > p > a',
             '@exloreConditionsCover' => '#app > div.page-content > div > section.hero.hero-background > div.hero-body > div > div > div > div > a',
-            '@bookCover' => '#app > div.page-content > div > section.hero.hero-background > div.hero-body > div > div > div > div > a',
+            '@startShopping' => '#hero-background > div.container > div > div > a',
             '@bookAppTwo' => '#get-started > div > div > div > a',
             '@labMouseOver' => '#feature > div',
             '@labsTestButton' => '#feature > div > div > div > div > div > a',

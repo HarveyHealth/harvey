@@ -24,77 +24,56 @@ class HomepageTest extends DuskTestCase
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->clickAbout('1');
+                    ->clickAssert('@about1', 'about');
           });
     }
 
-    public function test_lab_tests_button_in_header()
-    {
-          $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->labsTestHeader();
-          });
-    }
-
-
-    // public function test_get_started_in_header()
-    // {
-    //       $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->getStartedHeader();
-    //           });
-    // }
 
     public function test_login_button_in_header()
     {
         $this->browse(function ($browser){
             $browser->visit(new HomePage)
-                    ->loginHeader();
+                    ->clickAssert('@loginHeader', 'login');
         });
 
     }
 
-    public function test_logo_in_header()
+    public function test_stories_button_in_header()
     {
         $this->browse(function ($browser){
             $browser->visit(new HomePage)
-                ->logoHeader();
+                    ->clickAssert('@storiesHeader', 'stories');
         });
-
     }
 
-    // public function test_financing_in_header()
-    // {
-    //
-    //   $this->browse(function ($browser){
-    //       $browser->visit(new Homepage)
-    //               ->financingHeader();
-    //   });
-    //
-    // }
+    public function test_consult_button_in_header()
+    {
+        $this->browse(function ($browser) {
+           $browser->visit(new HomePage)
+                   ->clickAssert('@consultHeader', 'consultations');
+        });
+    }
 
-    //Cover Image tests
 
-    // public function test_book_appointment_in_cover()
-    // {
-    //       $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->bookCover();
-    //           });
-    // }
+   //Cover Image tests
 
-    // public function test_if_labs_tests_button_works()
-    // {   $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->script('window.scrollTo(0,2000)');
-    // });
-    //     $this->browse(function ($browser) {
-    //
-    //         $browser->visit(new HomePage)
-    //                 ->labsButton();
-    //     });
-    // }
-    //
+    public function test_start_shopping_button_on_cover()
+    {
+        $this->browse(function ($browser) {
+           $browser->visit(new HomePage)
+                   ->clickAssert('@startShopping', 'shopify');
+        });
+    }
+
+    public function test_consult_a_doctor_on_cover()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->clickAssert('@consultCover', 'consultations');
+        });
+    }
+
+
     // public function test_if_home_button_works_in_footer()
     // {
     //     $this->browse(function ($browser) {
