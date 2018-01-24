@@ -592,7 +592,7 @@ export default {
           break;
 
         case 'new':
-          if (!Laravel.user.has_a_card && this.$root.userIsPatient) {
+          if (!App.Config.user.info.has_a_card && App.Config.user.isPatient) {
             this.shouldShowBillingError = true;
             return;
           }
@@ -864,6 +864,10 @@ export default {
       // If user is patient and action is cancel, add cancellation_reason to data
       if (isPatient && isCancel && this.cancellationReason) {
         data.cancellation_reason = this.cancellationReason;
+      }
+
+      if (this.appointment.notes) {
+          data.notes = this.appointments.notes;
       }
 
       // Make the call
