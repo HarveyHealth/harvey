@@ -687,6 +687,7 @@ export default {
             this.$parent.selectedRowData = null;
             setTimeout(() => this.$parent.notificationActive = false, 3000);
             this.handleFlyoutClose();
+            if (status === 'Confirmed') this.$root.getTransactions();
           });
       });
     },

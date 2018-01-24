@@ -547,6 +547,7 @@ export default {
                 this.userActionTitle = 'Confirm Appointment';
                 this.appointment.status = 'pending';
                 this.isModalActive = true;
+                this.$root.getTransactions();
             }
         };
       switch (action) {
