@@ -11,6 +11,7 @@
         :updated-row="updatedRow"
         :updating-row="updatingRow"
         :no-text-break="true"
+        :not-selectable="true"
     />
 </template>
 
