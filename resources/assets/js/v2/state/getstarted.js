@@ -46,6 +46,7 @@ export default {
             confirmation: false
         }
     },
+    signupMode: null,
     userPost: {
         email: Util.data.fromStorage('email') || '',
         first_name: Util.data.fromStorage('first_name') || '',

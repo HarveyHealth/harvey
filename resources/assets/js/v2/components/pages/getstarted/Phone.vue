@@ -93,7 +93,6 @@ export default {
         }
     },
     mounted() {
-        App.Logic.getstarted.redirectDashboard();
         window.scroll(0, 0);
         analytics.page('Phone');
     }

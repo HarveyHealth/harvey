@@ -113,7 +113,7 @@ export default {
             axios.post('/api/v1/appointments', signupData).then(response => {
                 this.isProcessing = false;
                 analytics.track("Consultation Confirmed");
-                App.Util.data.killStorage('zip_validation');
+                App.Util.data.killStorage(['signup_mode', 'zip_validation']);
                 App.setState({
                     'getstarted.signup.googleMeetLink': response.data.data.attributes.google_meet_link,
                     'getstarted.signup.stepsCompleted.confirmation': true,
@@ -149,7 +149,6 @@ export default {
     },
     mounted () {
         window.scroll(0, 0);
-        App.Logic.getstarted.redirectDashboard();
         analytics.page('Confirmation');
     }
 };
