@@ -411,33 +411,44 @@ const app = new Vue({
                 this.requestPatients('', (patient, patientLookUp) => {
                     axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
                         .then((response) => {
-                            let invoices = response.data.included.reduce((acc, item) => {
-                                acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
-                                acc[item.attributes.invoice_id][item.id] = item;
-                                return acc;
-                            }, {});
-                            this.global.transactions = response.data.data.reduce((acc, item) => {
-                                item.patient = patientLookUp[item.attributes.patient_id];
-                                item.items = invoices[item.id];
-                                acc[item.id] = item;
-                                return acc;
-                            }, {}); 
+                            let invoices = {};
+                            if (response.data.included) {
+                                invoices = response.data.included.reduce((acc, item) => {
+                                    acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                    acc[item.attributes.invoice_id][item.id] = item;
+                                    return acc;
+                                }, {});
+                            }
+                            if (response.data.data && response.data.data.length) {
+                                this.global.transactions = response.data.data.reduce((acc, item) => {
+                                    item.patient = patientLookUp[item.attributes.patient_id] !== undefined ? patientLookUp[item.attributes.patient_id] : {};
+                                    item.items = invoices[item.id] !== undefined ? invoices[item.id] : {};
+                                    acc[item.id] = item;
+                                    return acc;
+                                }, {}); 
+                            }
                             this.global.loadingTransactions = false;
                         });
                 });
             } else {
                 axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
                     .then((response) => {
-                        let invoices = response.data.included.reduce((acc, item) => {
-                            acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
-                            acc[item.attributes.invoice_id][item.id] = item;
-                            return acc;
-                        }, {});
-                        this.global.transactions = response.data.data.reduce((acc, item) => {
-                            item.items = invoices[item.id];
-                            acc[item.id] = item;
-                            return acc;
-                        }, {}); 
+                        let invoices = {};
+                        if (response.data.included) {
+                            invoices = response.data.included.reduce((acc, item) => {
+                                acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                acc[item.attributes.invoice_id][item.id] = item;
+                                return acc;
+                            }, {});
+                        }
+                        this.global.transactions = {};
+                        if (response.data.data && response.data.data.length) {
+                            this.global.transactions = response.data.data.reduce((acc, item) => {
+                                item.items = invoices[item.id] !== undefined ? invoices[item.id] : {};
+                                acc[item.id] = item;
+                                return acc;
+                            }, {}); 
+                        }
                         this.global.loadingTransactions = false;
                     });
             }
