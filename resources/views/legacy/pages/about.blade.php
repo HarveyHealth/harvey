@@ -103,17 +103,17 @@
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img alt="" class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/jose-sq.png">
                     <p class="f3-l f4">Jose</p>
-                    <p class="f6 moon-gray lh-solid">Engineer</p>
+                    <p class="f6 moon-gray lh-solid">Engineer (<a href="https://tighten.co" target="_blank">Tighten</a>)</p>
                 </div>
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img alt="" class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/jon-sq.png">
                     <p class="f3-l f4">Jon</p>
-                    <p class="f6 moon-gray lh-solid">Engineer</p>
+                    <p class="f6 moon-gray lh-solid">Engineer (<a href="https://thescenery.co" target="_blank">Scenery</a>)</p>
                 </div>
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img alt="" class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/ryan-sq.png">
                     <p class="f3-l f4">Ryan</p>
-                    <p class="f6 moon-gray lh-solid">Designer</p>
+                    <p class="f6 moon-gray lh-solid">Designer (<a href="https://thescenery.co" target="_blank">Scenery</a>)</p>
                 </div>
                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img alt="" class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/harvey-sq.png">
