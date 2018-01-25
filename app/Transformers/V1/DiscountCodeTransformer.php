@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\DiscountCode;
-use League\Fractal\TransformerAbstract;
 
-class DiscountCodeTransformer extends TransformerAbstract
+class DiscountCodeTransformer extends HarveyTransformer
 {
     /**
      * @return array

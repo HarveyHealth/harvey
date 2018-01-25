@@ -36,6 +36,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
+        # Search
+        Route::get('search', 'SearchController@search')->name('search.search');
+
         # Validate Discount Codes
         Route::get('discount_codes/{code}', 'DiscountCodesController@getOne')->name('discount-codes.index');
 
@@ -70,18 +73,20 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Attachments
         Route::get('attachments/{attachment}', 'AttachmentsController@getOne')->name('attachment.get-one');
         Route::post('patients/{patient}/attachments', 'AttachmentsController@store')->name('attachment.store');
+        Route::patch('attachments/{attachment}', 'AttachmentsController@update')->name('attachment.update');
         Route::delete('attachments/{attachment}', 'AttachmentsController@delete')->name('attachment.delete');
 
         # Prescriptions
         Route::get('prescriptions/{prescription}', 'PrescriptionsController@getOne')->name('prescriptions.get-one');
         Route::post('patients/{patient}/prescriptions', 'PrescriptionsController@store')->name('prescriptions.store');
+        Route::patch('prescriptions/{prescription}', 'PrescriptionsController@update')->name('prescriptions.update');
         Route::delete('prescriptions/{prescription}', 'PrescriptionsController@delete')->name('prescriptions.delete');
 
-        # SOAP Notes
-        Route::get('soap_notes/{soapNote}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
-        Route::patch('soap_notes/{soapNote}', 'SoapNotesController@update')->name('soap_notes.update');
+        # SOAP Notes        
+        Route::get('soap_notes/{soap_note}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
+        Route::patch('soap_notes/{soap_note}', 'SoapNotesController@update')->name('soap_notes.update');
         Route::post('patients/{patient}/soap_notes', 'SoapNotesController@store')->name('soap_notes.store');
-        Route::delete('soap_notes/{soapNote}', 'SoapNotesController@delete')->name('soap_notes.delete');
+        Route::delete('soap_notes/{soap_note}', 'SoapNotesController@delete')->name('soap_notes.delete');
 
         # Intakes
         Route::get('intakes', 'IntakesController@getAll')->name('intakes.get-all');
@@ -122,6 +127,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Lab Test Results
         Route::get('lab/tests/results/{lab_test_result}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
         Route::post('lab/tests/{lab_test}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
+        Route::patch('lab/tests/results/{lab_test_result}', 'LabTestsController@updateResult')->name('lab-tests.update-result');
         Route::delete('lab/tests/results/{lab_test_result}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
 
         # Lab Orders

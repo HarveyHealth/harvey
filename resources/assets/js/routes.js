@@ -27,10 +27,10 @@ switch(context) {
     rootRoute.name = 'dashboard';
     rootRoute.component = require('./v2/components/pages/dashboard/Dashboard');
     break;
-  // case 'intake':
-  //   rootRoute.name = 'intake';
-  //   rootRoute.component = require('./pages/intake/Intake');
-  //   break;
+  case 'intake':
+    rootRoute.name = 'intake';
+    rootRoute.component = require('./v2/components/pages/intake/Intake.vue');
+    break;
 }
 
 if (context === 'get-started') {
@@ -95,6 +95,10 @@ let routes = [
     {
         path: '/settings/:id',
         component: require('./pages/settings/Settings.vue')
+    },
+    {
+        path: '/transactions',
+        component: require('./pages/transactions/Transactions.vue')
     },
     {
         path: '/profile',

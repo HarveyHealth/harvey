@@ -64,7 +64,7 @@
         <div class="container flex-l flex-none pv4">
             <div class="w-50-l pv4-l pa3 tc">
                 <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video dim" frameborder="0" data-lity allowfullscreen>
-                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/nutrition.jpg" class="w-100 w-60-ns br2">
+                    <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/nutrition.jpg" class="w-100 w-60-ns br2">
                 </a>
             </div>
             <div class="w-50-l pt3-l pa3 tl-l tc">
@@ -142,42 +142,42 @@
             <div class="flex flex-wrap pa4">
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="https://www.youtube.com/watch?v=Q9usyL_Zs-A" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/quality-talks.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/quality-talks.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="https://www.cnbc.com/2017/10/11/homehero-pivots-rebrands-to-harvey.html" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/cnbc.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/cnbc.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="https://techcrunch.com/2017/12/01/a-prescription-for-healing-the-healthcare-industry/" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/techcrunch.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/techcrunch.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="https://www.wellandgood.com/good-food/health-benefits-shatavari/" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/well-and-good.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/well-and-good.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="http://www.adweek.com/digital/5-workplace-tech-tools-every-office-should-use-in-2018/" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/adweek.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/adweek.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="https://www.youtube.com/watch?v=RL9LxmEcUOM" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/ted.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/ted.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="https://www.bustle.com/p/10-things-your-tongue-can-tell-you-about-your-health-based-on-chinese-medicine-7544613" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/bustle.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/bustle.png">
                     </a>
                 </div>
                 <div class="ph5-l ph4-m ph3 pv3-l pv2 w-25-ns w-50 tc">
                     <a href="http://www.organicauthority.com/curious-about-acupuncture-but-scared-of-needles-check-out-these-new-techniques-that-celebs-love" class="o-70" target="_blank">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/organic-authority.png">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/home/press/organic-authority.png">
                     </a>
                 </div>
             </div>

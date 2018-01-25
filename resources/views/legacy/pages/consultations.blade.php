@@ -29,28 +29,28 @@
             <div class="flex flex-wrap justify-center ma3-l">
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 lime-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Skin Issues</p>
                     <a href="https://store.goharvey.com/collections/skin-issues" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 pink-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/food-allergies.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/food-allergies.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Food Allergies</p>
                     <a href="https://store.goharvey.com/collections/food-allergies" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 brown-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/stress-anxiety.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/stress-anxiety.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Stess & Anxiety</p>
                     <a href="https://store.goharvey.com/collections/stress-anxiety" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 purple-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/digestive-issues.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/digestive-issues.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Digestive Issues</p>
                     <a href="https://store.goharvey.com/collections/digestive-issues" class="pt2">Shop Products</a>
@@ -59,28 +59,28 @@
             <div class="flex flex-wrap justify-center ma3-l">
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 turquoise-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/fatigue.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/fatigue.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Fatigue</p>
                     <a href="https://store.goharvey.com/collections/fatigue" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 slategrey-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/weight-loss-gain.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/weight-loss-gain.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Weight Loss/Gain</p>
                     <a href="https://store.goharvey.com/collections/weight-loss-gain" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 green-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/womens-health.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/womens-health.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">Women's Health</p>
                     <a href="https://store.goharvey.com/collections/skin-issues" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 ford-bg">
-                      <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/general-health.png" class="br-100 h3 w3 dib">
+                      <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/general-health.png" class="br-100 h3 w3 dib">
                     </div>
                     <p class="f4 pt3 fw4">General Health</p>
                     <a href="https://store.goharvey.com/collections/general-health" class="pt2">Shop Products</a>
@@ -93,7 +93,7 @@
         <div class="container flex-l flex-none pv4">
             <div class="w-50-l pv4-l pa3 tc">
                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video dim" frameborder="0" data-lity allowfullscreen>
-                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" class="w-100 w-60-ns br2">
+                    <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" class="w-100 w-60-ns br2">
                 </a>
             </div>
             <div class="w-50-l pa0-ns pa3 tl-l tc">
@@ -118,7 +118,7 @@
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=8e3aJIZrRNs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/danny.png">
+                        <img alt="" class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/danny.png">
                     </a>
                 </div>
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
@@ -130,7 +130,7 @@
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=Cx_jr8ySOvc&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/rachel.png">
+                        <img alt="" class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/rachel.png">
                     </a>
                 </div>
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
@@ -144,7 +144,7 @@
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=sSfp1F11u9U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/raffaella.png">
+                        <img alt="" class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/raffaella.png">
                     </a>
                 </div>
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
@@ -156,7 +156,7 @@
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=sO9lHH08sVs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/steve.png">
+                        <img alt="" class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/steve.png">
                     </a>
                 </div>
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
@@ -170,7 +170,7 @@
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=bbbxHViNiLk&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/sukari.png">
+                        <img alt="" class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/sukari.png">
                     </a>
                 </div>
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
@@ -182,7 +182,7 @@
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
                 <div class="fl w-25-l w-20-m w-100">
                     <a href="//www.youtube.com/watch?v=_lAsiO_wZ3U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/jonathan.png">
+                        <img alt="" class="fl-l mr3-ns mb3-l br-100 dim" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/jonathan.png">
                     </a>
                 </div>
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
@@ -220,7 +220,7 @@
                 <div class="w-50-l w-100">
                     <div class="h-100-l h-75 dt w-100">
                         <figure class="dtc v-mid pt3-l pb4 tc">
-                            <img src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/dual-pricing.png" alt="">
+                            <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/consultations/dual-pricing.png" alt="">
                         </figure>
                     </div>
                 </div>

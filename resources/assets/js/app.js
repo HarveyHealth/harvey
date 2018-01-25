@@ -4,9 +4,15 @@ import router from './routes';
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
 import VueRouter from 'vue-router';
+import VueQuillEditor from 'vue-quill-editor';
+
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
 
 Vue.use(VeeValidate);
 Vue.use(VueRouter);
+Vue.use(VueQuillEditor);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
@@ -107,8 +113,6 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
-Vue.config.devtools = env !== 'production';
-
 const app = new Vue({
     router,
     components: {
@@ -122,14 +126,53 @@ const app = new Vue({
     data: Store,
 
     computed: {
-      isMobileMenuOpen() {
-          return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
-      },
-      isSignupBookingAllowed() {
-        return this.signup.billingConfirmed &&
-          this.signup.phoneConfirmed &&
-          this.signup.data.appointment_at &&
-          this.signup.data.practitioner_id;
+        userIsPatient() {
+            return 'patient' === Laravel.user.user_type;
+        },
+        userIsNotPatient() {
+            return !this.userIsPatient;
+        },
+        userIsPractitioner() {
+            return 'practitioner' === Laravel.user.user_type;
+        },
+        userIsNotPractitioner() {
+            return !this.userIsPractitioner;
+        },
+        userIsAdmin() {
+            return 'admin' === Laravel.user.user_type;
+        },
+        userIsNotAdmin() {
+            return !this.userIsAdmin;
+        },
+        userIsAdminOrPractitioner() {
+            return this.userIsAdmin || this.userIsPractitioner;
+        },
+        userIsNotAdminOrPractitioner() {
+            return !this.userIsAdminOrPractitioner;
+        },
+        userHasACard() {
+            return Laravel.user.has_a_card;
+        },
+        userHasNotACard() {
+            return !this.userHasACard;
+        },
+        userCardBrand() {
+            return Laravel.user.card_brand;
+        },
+        userCardLast4() {
+            return Laravel.user.card_last4;
+        },
+        userType() {
+            return Laravel.user.userType;
+        },
+        isMobileMenuOpen() {
+            return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
+        },
+        isSignupBookingAllowed() {
+            return this.signup.billingConfirmed &&
+            this.signup.phoneConfirmed &&
+            this.signup.data.appointment_at &&
+            this.signup.data.practitioner_id;
       }
     },
     methods: {
@@ -203,15 +246,16 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
+                let patientCache = {};
                 const include = response.data.included;
 
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
-                    patients.push({
+                    let object = {
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: obj.attributes.birthdate ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : '',
+                        date_of_birth: obj.attributes && obj.attributes.birthdate && obj.attributes.birthdate.date ? moment(obj.attributes.birthdate.date).format('MM/DD/YY') : 'N/A',
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,
@@ -220,8 +264,12 @@ const app = new Vue({
                         search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.id})`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
-                        zip: includeData.zip
-                    });
+                        zip: includeData.zip,
+                        image: includeData.image_url,
+                        created_at: moment(includeData.created_at.date).format("MM/DD/YY")
+                    };
+                    patients.push(object);
+                    patientCache[obj.id] = object;
                 });
 
                 patients = sortByLastName(patients);
@@ -233,7 +281,7 @@ const app = new Vue({
 
                 // build an array with patient data to look up by ID
                 response.data.data.forEach(e => {
-                    patientLookUp[e.id] = e;
+                    patientLookUp[e.id] = Object.assign({}, e, patientCache[e.id]);
                 });
                 this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
@@ -247,6 +295,10 @@ const app = new Vue({
             this.requestPatients('',(patients, patientLookUp)=>{
                 this.global.patients = patients;
                 this.global.patientLookUp = patientLookUp;
+                this.global.patientDictionary = patientLookUp.reduce((acc, item) => {
+                    acc[item.id] = item;
+                    return acc;
+                }, {});
             });
         },
         getPractitioners() {
@@ -357,8 +409,11 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/tests/information`)
                 .then(response => {
                     response.data.data.forEach(e => {
-                        this.labTests[e.id] = e;
-                        this.labTests[e.id]['checked'] = false;
+                        this.labTests[e.attributes.sku_id] = e;
+                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) { 
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
+                        }
+                        this.labTests[e.attributes.sku_id]['checked'] = false;
                     });
                     this.global.loadingTestTypes = false;
                 });
@@ -398,6 +453,53 @@ const app = new Vue({
                     }
                     this.global.loadingMessages = false;
                 });
+        },
+        getTransactions() {
+            if (Laravel.user.user_type !== 'patient') {
+                this.requestPatients('', (patient, patientLookUp) => {
+                    axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
+                        .then((response) => {
+                            let invoices = {};
+                            if (response.data.included) {
+                                invoices = response.data.included.reduce((acc, item) => {
+                                    acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                    acc[item.attributes.invoice_id][item.id] = item;
+                                    return acc;
+                                }, {});
+                            }
+                            if (response.data.data && response.data.data.length) {
+                                this.global.transactions = response.data.data.reduce((acc, item) => {
+                                    item.patient = patientLookUp[item.attributes.patient_id] !== undefined ? patientLookUp[item.attributes.patient_id] : {};
+                                    item.items = invoices[item.id] !== undefined ? invoices[item.id] : {};
+                                    acc[item.id] = item;
+                                    return acc;
+                                }, {}); 
+                            }
+                            this.global.loadingTransactions = false;
+                        });
+                });
+            } else {
+                axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
+                    .then((response) => {
+                        let invoices = {};
+                        if (response.data.included) {
+                            invoices = response.data.included.reduce((acc, item) => {
+                                acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                acc[item.attributes.invoice_id][item.id] = item;
+                                return acc;
+                            }, {});
+                        }
+                        this.global.transactions = {};
+                        if (response.data.data && response.data.data.length) {
+                            this.global.transactions = response.data.data.reduce((acc, item) => {
+                                item.items = invoices[item.id] !== undefined ? invoices[item.id] : {};
+                                acc[item.id] = item;
+                                return acc;
+                            }, {}); 
+                        }
+                        this.global.loadingTransactions = false;
+                    });
+            }
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
@@ -494,6 +596,7 @@ const app = new Vue({
                 this.global.loadingPatients = false;
             }
             if (Laravel.user.user_type === 'admin') this.getClientList();
+            if (Laravel.user.user_type !== 'practitioner') this.getTransactions();
         },
         toDashboard() {
           if (this.signup.completedSignup) {

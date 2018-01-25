@@ -2,10 +2,11 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\LabTest;
 use League\Fractal\TransformerAbstract;
 
-class LabTestTransformer extends TransformerAbstract
+class LabTestTransformer extends HarveyTransformer
 {
 
     protected $availableIncludes = ['patient', 'practitioner', 'lab_order', 'sku', 'results'];

@@ -1,7 +1,7 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
+  <div class="nav-bar hide-print" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button" @click="handleMenu(null)">
+    <button class="menu-button hide-print" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
@@ -48,12 +48,37 @@
         <div class="text">Messages</div>
       </router-link>
 
+       <router-link to="/records" title="Records"
+        :class="currentPageCheck('records')"
+        @click.native="handleMenu(false, 'records')">
+        <i class="fa fa-files-o icon icon-nav-bar"></i>
+        <div class="text">Records</div>
+      </router-link> 
+
+      <router-link
+        v-if="user === 'admin'"
+        to="/clients" title="Recent Clients"
+        :class="currentPageCheck('clients')"
+        @click.native="handleMenu(false, 'clients')">
+        <i class="fa fa-users icon icon-nav-bar"></i>
+        <div class="text">Clients</div>
+      </router-link>
+
       <router-link to="/profile" title="Profile"
-                   :class="currentPageCheck('profile')"
-                   @click.native="handleMenu(false, 'profile')">
+        :class="currentPageCheck('profile')"
+        @click.native="handleMenu(false, 'profile')">
         <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Profile</div>
       </router-link>
+
+        <router-link
+            v-if="user !== 'practitioner'"
+            to="/transactions" title="Transactions"
+            :class="currentPageCheck('transactions')"
+            @click.native="handleMenu(false, 'transactions')">
+            <i class="fa fa-usd icon icon-nav-bar"></i>
+            <div class="text">Transactions</div>
+        </router-link>
 
        <router-link
        to="/settings" title="Settings"

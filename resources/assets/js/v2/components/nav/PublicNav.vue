@@ -20,7 +20,7 @@
                     </div>
                     <div class="nav-start" v-if="hasStart">
                         <a v-if="showDashboard" class="fw5 dim" href="/dashboard">
-                            <img class="top-nav-avatar" :src="Laravel.user.image_url" />
+                            <img alt="" class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
                         <a v-else href="https://store.goharvey.com" class="fw5 dim"> <i class="fa fa-shopping-cart pr2" aria-hidden="true"></i>Shop Store</a>

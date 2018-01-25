@@ -192,7 +192,7 @@ const app = new Vue({
             : { href: '/login', display: 'Log in' };
         },
         userAvatar() {
-          return `<img src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
+          return `<img alt="" src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
         }
     },
     methods: {
