@@ -181,12 +181,6 @@ const app = new Vue({
                 .catch(error => {
                   if (error.response) console.warn(error.response);
                 });
-
-            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user,invoice`)
-                .then((response) => this.global.recent_appointments = response.data)
-                .catch(error => {
-                  if (error.response) console.warn(error.response);
-                });
         },
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);

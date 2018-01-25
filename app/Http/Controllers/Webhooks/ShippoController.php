@@ -54,16 +54,22 @@ class ShippoController extends BaseWebhookController
 
     protected function setLabOrderStatus(LabOrder $lab_order, string $tracking_status)
     {
+        $lab_order_old_status_id = $lab_order->status_id;
+
         switch ($tracking_status) {
             case 'DELIVERED':
                 $lab_order->labTests->each->markAsReceived();
                 $lab_order->setStatus()->save();
-                ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} delivered.", 'operations');
+                if ($lab_order_old_status_id != $lab_order->status_id) {
+                    ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} delivered.", 'operations');
+                }
                 break;
             case 'TRANSIT':
                 $lab_order->labTests->each->markAsShipped();
                 $lab_order->setStatus()->save();
-                ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} in transit.", 'operations');
+                if ($lab_order_old_status_id != $lab_order->status_id) {
+                    ops_info('Shippo webhook', " LabOrder ID #{$lab_order->id} in transit.", 'operations');
+                }
                 break;
             case 'FAILURE':
                 ops_error('Shippo webhook error', "The Postal Service has identified a problem when processing LabOrder ID #{$lab_order->id}.", 'operations');
@@ -85,14 +91,20 @@ class ShippoController extends BaseWebhookController
 
     protected function setLabTestStatus(LabTest $lab_test, string $tracking_status)
     {
+        $lab_test_old_status_id = $lab_test->status_id;
+
         switch ($tracking_status) {
             case 'DELIVERED':
                 $lab_test->markAsProcessing();
-                ops_info('Shippo webhook', " LabTest ID #{$lab_test->id} delivered.", 'operations');
+                if ($lab_test_old_status_id != $lab_test->status_id) {
+                    ops_info('Shippo webhook', " LabTest ID #{$lab_test->id} delivered.", 'operations');
+                }
                 break;
             case 'TRANSIT':
                 $lab_test->markAsMailed();
-                ops_info('Shippo webhook', " LabTest ID #{$lab_test->id} in transit.", 'operations');
+                if ($lab_test_old_status_id != $lab_test->status_id) {
+                    ops_info('Shippo webhook', " LabTest ID #{$lab_test->id} in transit.", 'operations');
+                }
                 break;
             case 'FAILURE':
                 ops_error('Shippo webhook error', "The Postal Service has identified a problem when processing LabTest ID #{$lab_test->id}.", 'operations');

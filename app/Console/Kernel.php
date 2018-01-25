@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
         Commands\PractitionerCreateCommand::class,
         Commands\ReportsMonthlyCommand::class,
         Commands\SendAppointmentsRemindersCommand::class,
-        Commands\SendUnreadMessageEmailNotificationsCommand::class,
         Commands\SetNginxConfigCommand::class,
         Commands\ImportAvailableLabs::class,
         Commands\ScrubAvailableLabs::class,
@@ -41,7 +40,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('appointments:reminders')->hourly()->withoutOverlapping();
-        $schedule->command('messages:send-unread-messages-notifications')->cron('*/15 * * * * *')->withoutOverlapping();
     }
 
     /**

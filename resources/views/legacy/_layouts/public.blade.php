@@ -24,11 +24,12 @@
     </div>
     @endif
     <div id="app" :class="appClass">
+        <grid-styles></grid-styles>
         @include('legacy._layouts.includes.top_nav')
         <div class="page-content">
             @yield('main_content')
         </div>
-        @include('legacy._layouts.includes.footer')
+        <main-footer></main-footer>
     </div>
 
     @stack('square')
@@ -92,9 +93,7 @@
     <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
     <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
     <script type="text/javascript">
-        @isset($conditions)
-            App.Public.setConditions({!! $conditions !!});
-        @endisset
+        window.datacoral('trackPageView');
     </script>
     @stack('scripts')
 

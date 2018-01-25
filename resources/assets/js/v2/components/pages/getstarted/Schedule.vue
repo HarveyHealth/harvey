@@ -159,7 +159,6 @@ export default {
         App.Logic.getstarted.refuseStepSkip.call(this, 'schedule');
     },
     mounted () {
-        App.Logic.getstarted.redirectDashboard();
         window.scroll(0, 0);
         analytics.page('Schedule');
     }
