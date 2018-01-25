@@ -54,6 +54,14 @@ class HomepageTest extends DuskTestCase
         });
     }
 
+    public function test_shop_store_button_in_header()
+    {
+        $this->browse(function ($browser) {
+           $browser->visit(new HomePage)
+                   ->clickAssert('@shopStoreHeader', 'shopify');
+        });
+    }
+
 
    //Cover Image tests
 
@@ -72,6 +80,51 @@ class HomepageTest extends DuskTestCase
                    ->clickAssert('@consultCover', 'consultations');
         });
     }
+
+    // Second set of button Home Lab Tests - Vitamins & Supplements - Holistic Treatment Plans
+
+    public function test_shopnow_lab_button()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->clickAssert('@shopNowLab', 'shopifyLabs');
+        });
+    }
+
+    public function test_shopnow_supplements_button()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->clickAssert('@shopNowSupplements', 'shopifySupplements');
+        });
+    }
+
+    public function test_meet_doctors_button()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->clickAssert('@meetDoctors', 'consultations');
+        });
+    }
+
+    public function test_watch_patient_stories_button()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@mouseOverStoryBody')
+                   ->clickAssert('@storiesBody', 'stories');
+        });
+    }
+
+    public function test_shop_now_over_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@startShoppingOverFooter', 'shopify');
+        });
+    }
+
 
 
     // public function test_if_home_button_works_in_footer()

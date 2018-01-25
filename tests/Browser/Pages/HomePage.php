@@ -19,6 +19,8 @@ class HomePage extends Page
     public $stories = 'Meet Our Patients';
     public $consultations = 'Book a consultation with';
     public $shopify = 'Learn what your body needs to feel its best.';
+    public $shopifyLabs = 'Lab Tests';
+    public $shopifySupplements = 'Supplements';
 
     public function url()
     {
@@ -53,14 +55,6 @@ class HomePage extends Page
                 ->waitForText($this->$assertion)
                 ->assertSee($this->$assertion);
   }
-
-// Cover buttons
-    public function startShopping(Browser $browser)
-    {
-        $browser->click('@startShopping')
-                ->waitForText('Learn what your body needs to feel its best.')
-                ->assertSee('Learn what your body needs to feel its best.');
-    }
 
 //Explore Conditions on page
 
@@ -131,12 +125,20 @@ class HomePage extends Page
             '@storiesHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-links > a:nth-child(2)',
             '@consultHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-right > div.nav-phone > a',
             '@consultCover' => '#hero-background > div.container > div > div > p > a',
+            '@shopStoreHeader' => '#app > div.nav-wrap.nav-is-mobile.nav-is-sticky > div.nav-container > div > div.nav-right > div.nav-start > a > i',
             '@exloreConditionsCover' => '#app > div.page-content > div > section.hero.hero-background > div.hero-body > div > div > div > div > a',
             '@startShopping' => '#hero-background > div.container > div > div > a',
             '@bookAppTwo' => '#get-started > div > div > div > a',
             '@labMouseOver' => '#feature > div',
             '@labsTestButton' => '#feature > div > div > div > div > div > a',
-            '@footer' => '#app > footer > div > div > a > img',
+            '@shopNowLab' => '#products > div > div > div:nth-child(1) > div.pa2 > a',
+            '@shopNowSupplements' => '#products > div > div > div:nth-child(2) > div.pa2 > a',
+            '@meetDoctors' => '#products > div > div > div:nth-child(3) > div.pa2 > a',
+            '@mouseOverStoryBody' => '#services > div:nth-child(2) > div > div:nth-child(1) > div > i',
+            '@startShoppingOverFooter' => '#get-started > div > div > div > a',
+            '@ConsultDoctorOverFooter' => '#get-started > div > div > div > p > a',
+            '@storiesBody' => '#services > div:nth-child(1) > div > div > a',
+            '@footer' => '#footer > div:nth-child(1)',
             '@footerBottom' => '#app > footer > div > div > p.has-small-lineheight > small',
             '@footercover' => '#app > footer > div > div > p:nth-child(3) > a:nth-child(1)',
             '@footerlabs' => '#app > footer > div > div > p.nav-center > a:nth-child(3)',
