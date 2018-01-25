@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Attachment, Patient, Practitioner, Prescription, SoapNote};
-use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PractitionerTransformer, PrescriptionTransformer, SoapNoteTransformer};
+use App\Models\{Attachment, Patient, Practitioner, Prescription, SoapNote, Invoice};
+use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PractitionerTrasnformer, PrescriptionTransformer, SoapNoteTransformer, InvoiceTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
 use Storage;
@@ -82,5 +82,20 @@ class PatientsController extends BaseAPIController
     public function getSelecteablePractitioners(Request $request, Patient $patient)
     {
         return $this->baseTransformBuilder(Practitioner::canServeOn($patient->user->state), request('include'), new PractitionerTransformer, request('per_page'))->respond();
+    }
+
+    public function getInvoices(Request $request, Patient $patient)
+    {
+        if (!(currentUser()->isAdmin() or currentUser()->is($patient->user))) {
+            return $this->respondNotAuthorized('You are not authorized to access this endpoint.');
+        }
+
+        if (!$invoices = $patient->invoices) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "invoices";
+
+        return $this->baseTransformCollection($invoices, null, new InvoiceTransformer)->respond();
     }
 }

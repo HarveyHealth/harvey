@@ -29,7 +29,7 @@
                         <!-- Using v-if here because we don't want the rest to register until user data is up -->
                         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
                         <form action="#" method="POST" class="form" id="user_form" v-else>
-                            <div class="formgroups">
+                            <div class="formgroups flex-respond-row">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
                                         <label class="input__label" for="first_name">First Name</label>
@@ -75,7 +75,7 @@
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">
-                                            <img :src="user.attributes.image_url" />
+                                            <img alt="" :src="user.attributes.image_url" />
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>

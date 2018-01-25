@@ -32,6 +32,10 @@ class VueHelperViewComposer
             'csrf_token' => csrf_token()
         ];
 
+        if (!empty($message = session('message'))) {
+            $data['message'] = $message;
+        }
+
         return $data;
     }
 

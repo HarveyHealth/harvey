@@ -37,5 +37,13 @@ export default {
     "timezone": "America/Chicago",
     "user_type": "admin",
     "zip": "90411"
+  },
+  services: {
+    pusher: {
+      key: ''
+    }
+  },
+  app: {
+    csrfToken: ''
   }
 }

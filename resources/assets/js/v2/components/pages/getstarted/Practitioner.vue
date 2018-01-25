@@ -32,11 +32,11 @@
                 <Spacer isBottom :size="1" />
                 <Card class="m0auto mw7">
                     <CardContent>
-                        <Grid :flexAt="'m'" :columns="[{m:'1of2'},{m:'1of2'}]" :gutters="{s:3}">
+                        <Grid :columns="[{m:6},{m:6}]" :gutters="{s:3}">
                             <div :slot="1" class="col pa3">
                                 <Heading3 :color="'muted'" class="tc uppercase">Available Doctors</Heading3>
                                 <Spacer isBottom :size="3" />
-                                <Grid :flexAt="'s'" :columns="practitioners.map(dr => ({s:'1of2', ns:'1of4', m:'1of2'}))" :gutters="{s:2}">
+                                <Grid :flexAt="'s'" :columns="practitioners.map(dr => ({s:6, ns:3, m:6}))" :gutters="{s:2}">
                                     <AvatarSelection
                                         v-for="(dr, index) in practitioners"
                                         :slot="index + 1"
@@ -185,7 +185,6 @@ export default {
     },
     mounted () {
         window.scroll(0, 0);
-        App.Logic.getstarted.redirectDashboard();
 
         // If the component mounts and there are practitioners in the list
         // but none have been selected, auto-select the first practitioner

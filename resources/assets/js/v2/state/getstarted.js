@@ -25,7 +25,9 @@ export default {
         googleMeetLink: '',
         hasCompletedSignup: false,
         phone: '',
+        phoneCache: '',
         phoneCode: '',
+        phoneVerifiedDate: null,
         practitioner: null,
         practitionerName: '',
         practitionerState: '',
@@ -44,6 +46,7 @@ export default {
             confirmation: false
         }
     },
+    signupMode: null,
     userPost: {
         email: Util.data.fromStorage('email') || '',
         first_name: Util.data.fromStorage('first_name') || '',

@@ -1,11 +1,15 @@
 import getZipValidation from './getZipValidation';
 import nextStep from './nextStep';
-import redirectDashboard from './redirectDashboard';
 import refuseStepSkip from './refuseStepSkip';
+import resetZip from './resetZip';
+import trackAccountCreation from './trackAccountCreation';
+import trackSignupEvent from './trackSignupEvent';
 
 export default {
   getZipValidation,
   nextStep,
-  redirectDashboard,
-  refuseStepSkip
+  refuseStepSkip,
+  resetZip,
+  trackAccountCreation,
+  trackSignupEvent
 };

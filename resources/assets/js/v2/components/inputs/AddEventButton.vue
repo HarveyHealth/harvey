@@ -25,14 +25,10 @@ export default {
             type: Object,
             required: true,
             validator(config) {
-                return (
-                    config.start && typeof config.start === 'string' &&
-                    config.end && typeof config.end === 'string' &&
-                    config.timezone && typeof config.timezone === 'string' &&
-                    config.title && typeof config.title === 'string' &&
-                    config.description && typeof config.description === 'string' &&
-                    config.location && typeof config.location === 'string'
-                );
+                // All property values should be strings
+                return Object.keys(config)
+                    .filter(item => typeof config[item] !== 'string')
+                    .length === 0;
             }
         }
     },

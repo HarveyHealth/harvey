@@ -19,6 +19,7 @@ export default function (laravel) {
     gridRowId: 0,
     guest: false,
     intakeLink: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${laravel.user.id}`,
-    socialMedia
+    socialMedia,
+    spacing: [0, 0.25, 0.7, 1.3, 2, 4, 8, 16]
   }
 }

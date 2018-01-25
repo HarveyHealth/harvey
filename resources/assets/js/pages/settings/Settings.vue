@@ -8,109 +8,111 @@
                     </h1>
                 </div>
             </div>
-            <div class="card card-width">
-                <div class="card-heading-container">
-                    <h2 class="heading-2">
-                        Payment Options
-                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
-                    </h2>
-                </div>
-                <div class="card-content-wrap">
-                    <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
-                        <div class="loading">
-                            <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
-                        </div>
+            <div class="flex-respond-row">
+                <div class="card card-width">
+                    <div class="card-heading-container">
+                        <h2 class="heading-2">
+                            Payment Options
+                            <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                        </h2>
                     </div>
-                    <div v-if="!details && !$root.$data.global.loadingCreditCards" >
-                        <div v-for="card in $root.$data.global.creditCards">
-                            <div class="card-object">
-                                <p class="copy-main font-md font-italic">
-                                    <i class="fa fa-credit-card"></i>
-                                    {{ card.attributes.brand == 'American Express' ? 'Amex' : card.attributes.brand }} **** **** **** {{ card.attributes.last4 }}
-                                </p>
-                            </div>
-                            <div class="button-wrapper">
-                                <button @click="openModal(card)" class="button">Delete Card</button>
+                    <div class="card-content-wrap">
+                        <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
+                            <div class="loading">
+                                <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="card-contact-info">
-                        <div class="loading">
-                            <p class="copy-muted font-md font-italic">You do not have any saved cards.</p>
+                        <div v-if="!details && !$root.$data.global.loadingCreditCards" >
+                            <div v-for="card in $root.$data.global.creditCards">
+                                <div class="card-object">
+                                    <p class="copy-main font-md font-italic">
+                                        <i class="fa fa-credit-card"></i>
+                                        {{ card.attributes.brand == 'American Express' ? 'Amex' : card.attributes.brand }} **** **** **** {{ card.attributes.last4 }}
+                                    </p>
+                                </div>
+                                <div class="button-wrapper">
+                                    <button @click="openModal(card)" class="button">Delete Card</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="button-wrapper">
-                        <button v-if="!edit" @click="mountStripeForm" class="button">Add Card</button>
-                    </div>
-
-                    <div v-show="details">
-                        <form @submit.prevent="generateCardTokenWithStripeForm" id="payment-form" name="billing-info">
-                            <div class="form-row">
-                                <div id="card-element"></div>
-                                <div id="card-errors" role="alert"></div>
+                        <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="card-contact-info">
+                            <div class="loading">
+                                <p class="copy-muted font-md font-italic">You do not have any saved cards.</p>
                             </div>
-                            <div class="button-wrapper">
-                                <button class="button button--cancel" @click="closeDetails">Cancel</button>
-                                <button type="submit" :disabled="sent" class="button">Save Card</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <Modal :active="deleteModalActive" :onClose="closeModal">
-                        <div class="card-content-wrap">
+                        <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="button-wrapper">
+                            <button v-if="!edit" @click="mountStripeForm" class="button">Add Card</button>
+                        </div>
+
+                        <div v-show="details">
+                            <form @submit.prevent="generateCardTokenWithStripeForm" id="payment-form" name="billing-info">
+                                <div class="form-row">
+                                    <div id="card-element"></div>
+                                    <div id="card-errors" role="alert"></div>
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="button button--cancel" @click="closeDetails">Cancel</button>
+                                    <button type="submit" :disabled="sent" class="button">Save Card</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <Modal :active="deleteModalActive" :onClose="closeModal">
+                            <div class="card-content-wrap">
+                                <div class="inline-centered">
+                                    <h1 class="header-xlarge"><span class="text">Delete Credit Card</span></h1>
+                                    <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
+                                </div>
+                                <div class="button-wrapper">
+                                    <button @click="closeModal" class="button button--cancel">Cancel</button>
+                                    <button @click="deleteCard" class="button">Yes, Confirm</button>
+                                </div>
+                            </div>
+                        </Modal>
+
+                        <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
                             <div class="inline-centered">
-                                <h1 class="header-xlarge"><span class="text">Delete Credit Card</span></h1>
-                                <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
+                                <h1>Invalid Credit Card</h1>
+                                <p>The credit card you entered is invalid.</p>
+                                <div class="inline-centered">
+                                    <button @click="closeInvalidCC" class="button">Try Again</button>
+                                </div>
                             </div>
-                            <div class="button-wrapper">
-                                <button @click="closeModal" class="button button--cancel">Cancel</button>
-                                <button @click="deleteCard" class="button">Yes, Confirm</button>
-                            </div>
-                        </div>
-                    </Modal>
+                        </Modal>
 
-                    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
-                        <div class="inline-centered">
-                            <h1>Invalid Credit Card</h1>
-                            <p>The credit card you entered is invalid.</p>
-                            <div class="inline-centered">
-                                <button @click="closeInvalidCC" class="button">Try Again</button>
-                            </div>
-                        </div>
-                    </Modal>
+                        <NotificationPopup
+                            :active="notificationActive"
+                            :comes-from="notificationDirection"
+                            :symbol="notificationSymbol"
+                            :text="notificationMessage"
+                        />
 
-                    <NotificationPopup
-                        :active="notificationActive"
-                        :comes-from="notificationDirection"
-                        :symbol="notificationSymbol"
-                        :text="notificationMessage"
-                    />
-
-                </div>
-            </div>
-            <div  class="card card-width">
-                <div class="card-heading-container">
-                    <h2 class="heading-2">
-                        Timezone Options
-                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
-                    </h2>
-                </div>
-                <div class="card-content-wrap">
-                    <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
-                        <div class="loading">
-                            <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
-                        </div>
                     </div>
-                    <div v-else class="card-contact-info">
-                        <span class="custom-select">
-                            <select name="timezone" @change="changeTimezone" v-model="user.attributes.timezone">
-                                <option v-for="timezone in timezones">{{ timezone }}</option>
-                            </select>
-                        </span>
-                        <div class="button-wrapper">
-                            <button @click="setTimezone" class="button">Save Timezone</button>
+                </div>
+                <div  class="card card-width">
+                    <div class="card-heading-container">
+                        <h2 class="heading-2">
+                            Timezone Options
+                            <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                        </h2>
+                    </div>
+                    <div class="card-content-wrap">
+                        <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
+                            <div class="loading">
+                                <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
+                            </div>
+                        </div>
+                        <div v-else class="card-contact-info">
+                            <span class="custom-select">
+                                <select name="timezone" @change="changeTimezone" v-model="user.attributes.timezone">
+                                    <option v-for="timezone in timezones">{{ timezone }}</option>
+                                </select>
+                            </span>
+                            <div class="button-wrapper">
+                                <button @click="setTimezone" class="button">Save Timezone</button>
+                            </div>
                         </div>
                     </div>
                 </div>

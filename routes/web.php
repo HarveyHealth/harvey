@@ -13,8 +13,16 @@ use Illuminate\Routing\Controller;
 |
 */
 
+// stupid blog re-routing
+Route::domain('blog.goharvey.com')->group(function () {
+    Route::get('/', function() {
+        return redirect('/blog', 301);
+    });
+});
+
 // AUTHENTICATION
 Auth::routes();
+Route::get('/robots.txt', 'PagesController@getRobots');
 Route::get('logout', 'Auth\LoginController@logout');
 
 // Additional routing to not use Laravel's built-in "register" route
@@ -42,12 +50,10 @@ Route::get('privacy', 'LegalController@privacy');
 // PUBLIC BLADE PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
-Route::get('/financing', 'PagesController@getFinancing')->name('financing');
+Route::get('/consultations', 'PagesController@getConsultations')->name('consultations');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
 
 // PUBLIC VIEW PAGES
-Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
-Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE

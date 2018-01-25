@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{DiscountCode, InvoiceItem, Patient};
-use App\Http\Traits\IsNot;
+use App\Models\{DiscountCode, InvoiceItem, Patient, LabOrder, Appointment};
+use App\Http\Traits\{IsNot, BelongsToPatient};
+
+
 
 class Invoice extends Model
 {
-    use IsNot;
+    use IsNot, BelongsToPatient;
 
     const PAID_STATUS = 'paid';
     const PENDING_STATUS = 'pending';
@@ -80,14 +82,19 @@ class Invoice extends Model
         return $this->belongsTo(DiscountCode::class);
     }
 
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class);
+    }
+
+    public function labOrder()
+    {
+        return $this->hasOne(LabOrder::class);
+    }
+
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
-    }
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
     }
 
     public function calculateTotals($reset = false)

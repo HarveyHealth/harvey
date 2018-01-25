@@ -20,14 +20,30 @@ import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
-import { PublicNav } from 'nav';
+import { MainFooter, PublicNav } from 'nav';
+import { GridStyles } from 'layout';
+
+import Util from './v2/util';
+import Config from './v2/config';
 
 window.App = {};
+App.Config = Config(Laravel);
+App.Util = Util;
 App.Public = {};
 App.Public.State = {
     conditions: [],
     conditionSubText: [],
-    conditionIconColors: ['is-lime', 'is-pink', 'is-brown', 'is-green', 'is-turquoise', 'is-slategrey', 'is-purple', 'is-ford']
+    conditionIconColors: ['is-lime', 'is-pink', 'is-brown', 'is-green', 'is-turquoise', 'is-slategrey', 'is-purple', 'is-ford'],
+    misc: {
+        grid: {
+            s:     { width: 0,    classes: [] },
+            ns:    { width: 420,  classes: [] },
+            m:     { width: 640,  classes: [] },
+            l:     { width: 780,  classes: [] },
+            xl:    { width: 960,  classes: [] },
+            xxl:   { width: 1280, classes: [] }
+        }
+    }
 };
 
 App.Public.setConditions = conditions => {
@@ -35,11 +51,19 @@ App.Public.setConditions = conditions => {
 };
 
 Vue.prototype.Laravel = Laravel;
+Vue.prototype.Config = App.Config;
+Vue.prototype.Util = App.Util;
+
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.data.propDeep(path.split('.'), App.Public.State, ifUndefined);
+};
 
 const app = new Vue({
     components: {
         LoadingGraphic,
         FacebookSignin,
+        GridStyles,
+        MainFooter,
         PublicNav,
         Symptoms,
         VerticalTab,
@@ -164,7 +188,7 @@ const app = new Vue({
             : { href: '/login', display: 'Log in' };
         },
         userAvatar() {
-          return `<img src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
+          return `<img alt="" src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
         }
     },
     methods: {
