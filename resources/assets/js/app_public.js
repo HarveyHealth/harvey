@@ -53,6 +53,7 @@ App.setNavInversion = bool => {
 };
 
 Vue.prototype.Laravel = Laravel;
+Vue.prototype.Blade = window.Blade;
 Vue.prototype.Config = App.Config;
 Vue.prototype.Util = App.Util;
 

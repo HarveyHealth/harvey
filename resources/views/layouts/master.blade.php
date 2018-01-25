@@ -34,6 +34,10 @@
         @stack('stylesheets')
         <script>
             window.Laravel = {!! $vue_data !!}
+            window.Blade = {};
+            @if (!empty($availability))
+                window.Blade.availability = {!! $availability !!}
+            @endif
         </script>
 
         <script>

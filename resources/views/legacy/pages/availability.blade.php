@@ -5,7 +5,7 @@
 
 <section class="ph3 pv6">
     <div class="mha mw7">
-        <availability></availability>
+        <availability :product-availability="Blade.availability"></availability>
     </div>
 </section>
 

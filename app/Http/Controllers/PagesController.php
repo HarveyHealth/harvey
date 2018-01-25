@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
+use App\Lib\HarveyAvailability;
 use App\Models\{Condition, LabTestInformation};
 
 /*
@@ -49,6 +50,6 @@ class PagesController extends Controller
 
     public function getAvailability()
     {
-        return view('legacy.pages.availability');
+        return view('legacy.pages.availability')->with(['availability' => json_encode(HarveyAvailability::get())]);
     }
 }
