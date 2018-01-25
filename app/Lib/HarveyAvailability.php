@@ -30,4 +30,8 @@ class HarveyAvailability
             ],
         ];
     }
+
+    public static function getAsJson() {
+        return json_encode(static::get());
+    }
 }

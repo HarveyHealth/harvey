@@ -50,6 +50,6 @@ class PagesController extends Controller
 
     public function getAvailability()
     {
-        return view('legacy.pages.availability')->with(['availability' => json_encode(HarveyAvailability::get())]);
+        return view('legacy.pages.availability')->with(['availability' => HarveyAvailability::getAsJson()]);
     }
 }
