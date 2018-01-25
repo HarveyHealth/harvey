@@ -32,7 +32,7 @@
       </router-link>
 
       <router-link
-        v-if="user === 'admin'"
+        v-if="$root.userIsAdmin"
         to="/lab_tests/edit" title="Lab Tests"
         :class="currentPageCheck('sku-dashboard')"
         @click.native="handleMenu(false, 'sku-dashboard')">
@@ -49,14 +49,15 @@
       </router-link>
 
        <router-link to="/records" title="Records"
+        v-if="$root.userIsNotAdmin"
         :class="currentPageCheck('records')"
         @click.native="handleMenu(false, 'records')">
         <i class="fa fa-files-o icon icon-nav-bar"></i>
         <div class="text">Records</div>
-      </router-link> 
+      </router-link>
 
       <router-link
-        v-if="user === 'admin'"
+        v-if="$root.userIsAdmin"
         to="/clients" title="Recent Clients"
         :class="currentPageCheck('clients')"
         @click.native="handleMenu(false, 'clients')">
@@ -104,9 +105,6 @@
       // Checks to see if there are any unread messages
       unread() {
         return this.$root.$data.global.unreadMessages.length > 0;
-      },
-      user() {
-        return this.$root.$data.permissions;
       }
     },
     methods: {

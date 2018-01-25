@@ -2,7 +2,7 @@
   <div class="main-container">
 
       <!-- Non-Patient -->
-      <div v-if="$root.$data.permissions !== 'patient'">
+      <div v-if="$root.userIsNotPatient">
 
         <!-- Non-Patient Step One -->
         <div v-if="step == 1" class="relative">
@@ -52,7 +52,7 @@
 
         <!-- Non-Patient Step Two -->
         <div v-if="step == 2">
-          <div v-if="$root.$data.permissions !== 'patient'">
+          <div v-if="$root.userIsNotPatient">
 
             <div class="content-with-flyout">
 
@@ -171,7 +171,7 @@
       </div>
 
       <!-- Patient -->
-      <div v-if="$root.$data.permissions === 'patient'">
+      <div v-if="$root.userIsPatient">
         <div class="content-with-flyout">
           <!-- Loading state -->
           <Grid :flexAt="'l'" :columns="[{ l:12 }]" :gutters="{ s:3, l:3 }">
