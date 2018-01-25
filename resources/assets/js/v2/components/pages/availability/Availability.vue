@@ -86,11 +86,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .btn-icon {
-        left: 0;
-        top: 4px;
-    }
-
     .state-path {
         transition: fill 200ms ease-in-out;
     }
