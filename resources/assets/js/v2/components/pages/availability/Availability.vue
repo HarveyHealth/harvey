@@ -22,11 +22,17 @@
                 </div>
             </Grid>
         </div>
-        <svg viewBox="174 100 959 593" style="width: 100%; height: auto;">
-            <g id="g5">
-                <path v-for="state in states" :d="state.d" :fill="getFill(state.id)" class="state-path" />
-            </g>
-        </svg>
+        <div class="relative" style="padding-bottom: 62%;">
+            <svg
+                class="absolute"
+                viewBox="174 100 959 593"
+                preserveAspectRatio="xMidYMid meet"
+            >
+                <g id="g5">
+                    <path v-for="state in states" :d="state.d" :fill="getFill(state.id)" class="state-path" />
+                </g>
+            </svg>
+        </div>
         <div class="pt5" style="height: 220px;">
             <div class="f6 f5-m i gray mb2" v-show="serviceable.length">
                 <span class="blue fw6">Serviceable</span>: {{ serviceable.join(', ') }}
