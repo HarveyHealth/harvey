@@ -1,43 +1,52 @@
 <template>
     <div>
-        <div>
-            <button @click="product = 'consultations'">Consultations</button>
-            <button @click="product = 'lab_tests'">Lab Tests</button>
-            <button @click="product = 'supplements'">Supplements</button>
+        <div class="mb3 mha mw5 mw6-m tc">
+            <Grid :columns="[{m:4},{m:4},{m:4}]" :gutters="{s:3}">
+                <div :slot="1" class="relative tl tc-m pl4 pa0-m">
+                    <button class="btn-reset f5 dark-gray tl pa2" @click="product = 'consultations'" :style="isActive('consultations')">
+                        <i class="dib pr2 f5 fa fa-desktop"></i>
+                        Consultations
+                    </button>
+                </div>
+                <div :slot="2" class="relative tl tc-m pl4 pa0-m">
+                    <button class="btn-reset f5 dark-gray tl pa2" @click="product = 'lab_tests'" :style="isActive('lab_tests')">
+                        <i class="dib pr2 f5 fa fa-flask"></i>
+                        Lab Tests
+                    </button>
+                </div>
+                <div :slot="3" class="relative tl tc-m pl4 pa0-m">
+                    <button class="btn-reset f5 dark-gray tl pa2" @click="product = 'supplements'" :style="isActive('supplements')">
+                        <i class="dib pr2 f5 fa fa-pagelines"></i>
+                        Supplements
+                    </button>
+                </div>
+            </Grid>
         </div>
-        <svg xmlns:cc="http://creativecommons.org/ns#"
-            xmlns:dc="http://purl.org/dc/elements/1.1/"
-            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-            xmlns:svg="http://www.w3.org/2000/svg"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            version="1.1"
-            preserveAspectRatio="xMinYMin meet"
-            x="0px" y="0px" width="959px" height="593px"
-            viewBox="174 100 959 593"
-            enable-background="new 174 100 959 593"
-            xml:space="preserve"
-            style="width: 100%; height: auto;"
-        >
+        <svg viewBox="174 100 959 593" style="width: 100%; height: auto;">
             <g id="g5">
-                <path v-for="state in states" :id="state.id" :d="state.d" :fill="getFill(state.id)" />
-
-                <g id="DC">
-                    <path id="path58" fill="#D3D3D3" d="M975.8,353.8l-1.1-1.6l-1-0.8l1.1-1.6l2.2,1.5L975.8,353.8z"/>
-                    <circle id="circle60" fill="#D3D3D3" stroke="#FFFFFF" stroke-width="1.5" cx="975.3" cy="351.8" r="5" />
-                </g>
+                <path v-for="state in states" :d="state.d" :fill="getFill(state.id)" class="state-path" />
             </g>
-            <path id="path67" fill="none" stroke="#A9A9A9" stroke-width="2" d="M385,593v55l36,45 M174,525h144l67,68h86l53,54v46" />
         </svg>
+        <div class="pt5" style="height: 220px;">
+            <div class="f6 f5-m i gray mb2" v-show="serviceable.length">
+                <span class="blue fw6">Serviceable</span>: {{ serviceable.join(', ') }}
+            </div>
+            <div class="f6 f5-m i gray mb2" v-show="notServiceable.length">
+                <span class="dark-gray fw6">Not Serviceable</span>: {{ notServiceable.join(', ') }}
+            </div>
+            <div class="f6 f5-m i gray mb2" v-show="requiresConsult.length">
+                <span class="alt fw6">Requires Consultation</span>: {{ requiresConsult.join(', ') }}
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import states from './stateData';
+import { Grid } from 'layout';
 
 export default {
+    components: { Grid },
     props: {
         productAvailability: Object
     },
@@ -48,15 +57,26 @@ export default {
         };
     },
     computed: {
+        notServiceable() {
+            return this.productAvailability[this.product].not_serviceable || [];
+        },
+        requiresConsult() {
+            return this.productAvailability[this.product].require_consultation || [];
+        },
         serviceable() {
-            return this.productAvailability[this.product].serviceable;
+            return this.productAvailability[this.product].serviceable || [];
         }
     },
     methods: {
+        isActive(product) {
+            return this.product === product
+                ? { color: App.Config.misc.colors.blue }
+                : null;
+        },
         getFill(state) {
-            return this.serviceable.indexOf(state) > -1
-                ? App.Config.misc.colors.green
-                : App.Config.misc.colors['gray-5'];
+            if (this.serviceable.indexOf(state) > -1) return App.Config.misc.colors.blue;
+            if (this.requiresConsult.indexOf(state) > -1) return App.Config.misc.colors.alt;
+            return App.Config.misc.colors['gray-5'];
         }
     },
     beforeMount() {
@@ -64,3 +84,14 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    .btn-icon {
+        left: 0;
+        top: 4px;
+    }
+
+    .state-path {
+        transition: fill 200ms ease-in-out;
+    }
+</style>

@@ -1,5 +1,6 @@
 export default {
     alt: '#EDA1A6',
+    blue: '#82bef2',
     copy: '#4f6268',
     green: '#b4e7a0',
     'gray-0': '#f9f9f9',
