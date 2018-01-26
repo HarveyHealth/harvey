@@ -99,8 +99,7 @@
                     <p class="f3-l f4">Javier</p>
                     <p class="f6 moon-gray lh-solid">Engineer</p>
                 </div>
-
-                <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
+<!--                 <div class="w-20-l w-40 pa2 mh2 mb3 br3 ba b--light-gray bg-white">
                     <img alt="" class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/jose-sq.png">
                     <p class="f3-l f4">Jose</p>
                     <p class="f6 moon-gray lh-solid">Engineer (<a href="https://tighten.co" target="_blank">Tighten</a>)</p>
@@ -119,7 +118,7 @@
                     <img alt="" class="fl-l w-25-l w-50 mr3-ns br-100" src="https://harvey-production.s3.amazonaws.com/assets/images/about/team/harvey-sq.png">
                     <p class="f3-l f4">Harvey</p>
                     <p class="f6 moon-gray lh-solid">Good Boy</p>
-                </div>
+                </div> -->
             </div>
             <div class="container">
                 <p class="f3-l f4 pt3 pb5-l pb4 ph3 tc"><em>Plus a national network of integrative doctors!</em></p>
