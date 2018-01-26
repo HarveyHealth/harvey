@@ -32,8 +32,8 @@
                                     <a href="/about" class="db pv1">About</a>
                                     <a href="/consultations" class="db pv1">Stories</a>
                                     <a href="/blog" class="db pv1">Blog</a>
-                                    <a href="/legal/terms" class="db pv1">Terms</a>
-                                    <a href="/legal/privacy" class="db pv1">Privacy</a>
+                                    <a href="/terms" class="db pv1">Terms</a>
+                                    <a href="/privacy" class="db pv1">Privacy</a>
                                     <a href="https://help.goharvey.com" class="db pv1">Help</a>
                                 </div>
                             </Accordian>
