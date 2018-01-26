@@ -16,9 +16,11 @@ class CreateAvailableLabsTable extends Migration
         Schema::create('available_labs', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('enabled')->default(true)->index();
-            $table->text('lab_name');
-            $table->boolean('iggbo')->default(false);
-            $table->string('phone', 15)->nullable()->unique();
+            $table->string('lab_group', 100)->nullable()->index();
+            $table->string('lab_id',20)->nullable();
+            $table->text('lab_name')->nullable();
+            $table->boolean('mobile')->default(false)->index();
+            $table->string('phone', 15)->nullable();
             $table->string('address_1', 100)->nullable();
             $table->string('address_2', 100)->nullable();
             $table->string('city', 100)->nullable();

@@ -42,19 +42,22 @@ class ImportAvailableLabs extends Command
     {
         $url = $this->argument('csv_url');
 
-        $geocoder = new Geocoder;
-        $lab_count = 1;
-
         $this->info('Reading in CSV from ' . $url . '...');
 
         $csv = new CSV($url);
-        $csv->ignoreFirstLine(true);
+        $csv->ignoreFirstLine(false);
+
+        $this->info(count($csv->numberOfLines()));
 
         $dupes = [];
         $ungeocodable = [];
 
+        $lab_count = 0;
+
         foreach ($csv as $line) {
-            list($lab_name, $iggbo, $phone, $address_1, $address_2, $city, $state, $zip, $latitude, $longitude) = $line;
+
+
+            list($lab_id, $lab_name, $lab_group, $mobile, $blah, $blah, $address_1, $address_2, $city, $state, $zip, $latitude, $longitude, $phone) = $line;
 
             // make sure the zip has 5 digits
             $zip = str_pad($zip, 5, '0', STR_PAD_LEFT);
@@ -62,19 +65,13 @@ class ImportAvailableLabs extends Command
             // make sure this isn't already in the database
             $lab = AvailableLab::where('lab_name', $lab_name)
                     ->where('zip', $zip)
+                    ->where('address_1', $address_1)
                     ->first();
 
             if ($lab) {
-                $dupes[$zip] = true;
+                $dupes[$lab_name . '-' . $zip] = true;
                 $this->info('Lab already exists. Moving on...');
                 continue;
-            }
-
-            // geocode the zip code
-            $geo_data = $geocoder->geocode($zip . ', USA');
-
-            if (empty(array_get($geo_data, 'location.latitude')) || empty(array_get($geo_data, 'address.city'))) {
-                $ungeocodable[$zip] = true;
             }
 
             $this->info('Creating lab ' . $lab_count . '...');
@@ -82,15 +79,18 @@ class ImportAvailableLabs extends Command
 
             $lab = new AvailableLab;
             $lab->lab_name = $lab_name;
-            $lab->iggbo = (strtolower($iggbo) == 'true');
+            $lab->lab_group = $lab_group;
+            $lab->lab_id = $lab_id;
+            $lab->mobile = (strtolower($mobile) == 'true');
             $lab->phone = empty($phone) ? null : $phone;
-            $lab->address_1 = array_get($geo_data, 'address.address_1');
-            $lab->address_2 = array_get($geo_data, 'address.address_2');
-            $lab->city = array_get($geo_data, 'address.city');
-            $lab->state = array_get($geo_data, 'address.state');
-            $lab->zip = array_get($geo_data, 'address.zip');
-            $lab->latitude = array_get($geo_data, 'location.latitude');
-            $lab->longitude = array_get($geo_data, 'location.longitude');
+            $lab->address_1 = $address_1;
+            $lab->address_2 = $address_2;
+            $lab->city = $city;
+            $lab->state = $state;
+            $lab->zip = $zip;
+            $lab->latitude = $latitude;
+            $lab->longitude = $longitude;
+
             $lab->save();
         }
 

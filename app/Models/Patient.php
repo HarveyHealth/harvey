@@ -69,11 +69,6 @@ class Patient extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function lab()
-    {
-        return $this->hasOne(AvailableLab::class, 'id', 'available_lab_id');
-    }
-
     public function notes()
     {
         return $this->hasMany(PatientNote::class, 'patient_id', 'id');
@@ -134,5 +129,10 @@ class Patient extends Model
         $output['patient_id'] = $this->id;
 
         return $output;
+    }
+
+    public function closestLab()
+    {
+        return \App\Models\AvailableLab::closestLabToPoint($this->user->geopoint());
     }
 }
