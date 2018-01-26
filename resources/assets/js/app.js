@@ -185,16 +185,16 @@ const app = new Vue({
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
-        requestPatients(term='', cb=null){
+        requestPatients(term = '', cb = null) {
             let params = {
                 include: 'user'
             };
 
-            if (term != ''){
+            if (term != '') {
                 params.term = term;
             }
 
-            axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
+            axios.get(`${this.apiUrl}/patients`, {params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
                 const include = response.data.included;
@@ -211,7 +211,7 @@ const app = new Vue({
                         id: obj.id,
                         name: `${includeData.last_name}, ${includeData.first_name}`,
                         phone: includeData.phone,
-                        search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.id})`,
+                        search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.attributes.user_id})`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip
@@ -429,7 +429,7 @@ const app = new Vue({
                     cb(all, all
                     .reduce((acc, item)  => {
                         acc[item.id] = item;
-                        return acc; 
+                        return acc;
                     }, {}));
                 } else if (this.permissions === 'practitioner') {
                     let patients = this.global.confirmedPatients.filter(e => {
@@ -442,7 +442,7 @@ const app = new Vue({
                     });
                     cb(patients, patients.reduce((acc, item)  => {
                         acc[item.id] = item;
-                        return acc; 
+                        return acc;
                     }, {}));
                 } else {
                     let doctors = this.global.confirmedDoctors.filter(e => {
@@ -455,7 +455,7 @@ const app = new Vue({
                     });
                     cb(doctors, doctors.reduce((acc, item)  => {
                         acc[item.id] = item;
-                        return acc; 
+                        return acc;
                     }, {}));
                 }
             }
