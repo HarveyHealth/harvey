@@ -21,6 +21,14 @@ class HomePage extends Page
     public $shopify = 'Learn what your body needs to feel its best.';
     public $shopifyLabs = 'Lab Tests';
     public $shopifySupplements = 'Supplements';
+    public $terms = 'Place Holder';
+    public $privacy = 'Place Holder';
+    public $skinIssues = 'Skin Issues';
+    public $foodAllergy = 'Food Allergies';
+    public $stressAndAnxiety = 'Stress & Anxiety';
+    public $fatigue = 'Fatigue';
+    public $weight = 'Weight Loss/Gain';
+    public $generalHealth = 'General Health';
 
     public function url()
     {
@@ -136,15 +144,21 @@ class HomePage extends Page
             '@meetDoctors' => '#products > div > div > div:nth-child(3) > div.pa2 > a',
             '@mouseOverStoryBody' => '#services > div:nth-child(2) > div > div:nth-child(1) > div > i',
             '@startShoppingOverFooter' => '#get-started > div > div > div > a',
-            '@ConsultDoctorOverFooter' => '#get-started > div > div > div > p > a',
+            '@consultDoctorOverFooter' => '#get-started > div > div > div > p > a',
             '@storiesBody' => '#services > div:nth-child(1) > div > div > a',
             '@footer' => '#footer > div:nth-child(1)',
-            '@footerBottom' => '#app > footer > div > div > p.has-small-lineheight > small',
-            '@footercover' => '#app > footer > div > div > p:nth-child(3) > a:nth-child(1)',
-            '@footerlabs' => '#app > footer > div > div > p.nav-center > a:nth-child(3)',
-            '@footerBlog' => '#app > footer > div > div > p.nav-center > a:nth-child(4)',
-            '@footerhelp' => '#app > footer > div > div > p:nth-child(3) > a:nth-child(6)',
-            '@footerfinancing' => '#app > footer > div > div > p:nth-child(3) > a:nth-child(4)'
+            '@homeFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(1) > div > div > div.accordian-wrapper > div > a:nth-child(1)',
+            '@aboutFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(1) > div > div > div.accordian-wrapper > div > a:nth-child(2)',
+            '@storiesFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(1) > div > div > div.accordian-wrapper > div > a:nth-child(3)',
+            '@termsFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(1) > div > div > div.accordian-wrapper > div > a:nth-child(5)',
+            '@privacyFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(1) > div > div > div.accordian-wrapper > div > a:nth-child(6)',
+            '@helpFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(1) > div > div > div.accordian-wrapper > div > a:nth-child(7)',
+            '@skinIssuesFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(2) > div > div > div.accordian-wrapper > div > a:nth-child(1)',
+            '@foodAllergyFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(2) > div > div > div.accordian-wrapper > div > a:nth-child(2)',
+            '@stressAndAnxietyFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(2) > div > div > div.accordian-wrapper > div > a:nth-child(3)',
+            '@fatigueFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(2) > div > div > div.accordian-wrapper > div > a:nth-child(4)',
+            '@weightFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(2) > div > div > div.accordian-wrapper > div > a:nth-child(5)',
+            '@generalHealthFooter' => '#footer > div:nth-child(1) > div > div.c-x-2-s.c-x-4-m.c-7-4-xl > div > div > div:nth-child(2) > div > div > div.accordian-wrapper > div > a:nth-child(7)'
 
           ];
     }

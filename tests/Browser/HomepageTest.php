@@ -125,6 +125,105 @@ class HomepageTest extends DuskTestCase
         });
     }
 
+    public function test_home_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@homeFooter', 'cover');
+        });
+    }
+
+    public function test_about_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@aboutFooter', 'about');
+        });
+    }
+
+    public function test_stories_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@storiesFooter', 'stories');
+        });
+    }
+
+    public function test_terms_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@termsFooter', 'terms');
+        });
+    }
+
+    public function test_privacy_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@privacyFooter', 'privacy');
+        });
+    }
+
+    public function test_help_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@helpFooter', 'help');
+        });
+    }
+
+    public function test_skin_issues_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@skinIssuesFooter', 'skinIssues');
+        });
+    }
+
+    public function test_food_allergy_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@foodAllergyFooter', 'foodAllergy');
+        });
+    }
+
+    public function test_stress_and_anxiety_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@stressAndAnxietyFooter', 'stressAndAnxiety');
+        });
+    }
+
+    public function test_weight_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@weightFooter', 'weight');
+        });
+    }
+
+    public function test_general_health_in_footer()
+    {
+        $this->browse(function($browser) {
+           $browser->visit(new Homepage)
+                   ->mouseOver('@footer')
+                   ->clickAssert('@generalHealthFooter', 'generalHealth');
+        });
+    }
+
 
 
     // public function test_if_home_button_works_in_footer()
