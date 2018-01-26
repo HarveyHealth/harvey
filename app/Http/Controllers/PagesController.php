@@ -33,6 +33,8 @@ class PagesController extends Controller
 
     public function getLabTests(string $labTestSlug = null)
     {
+        return redirect('https://store.goharvey.com/collections/lab-tests');
+
         $lab_tests = LabTestInformation::publicFromCache();
 
         $index = $lab_tests->pluck('sku')->search(function ($item) use ($labTestSlug) {
@@ -70,5 +72,13 @@ class PagesController extends Controller
     public function getConsultations()
     {
         return view('legacy.pages.consultations');
+    }
+
+    public function getRobots()
+    {
+        $extension = isProd() ? 'prod' : 'generic';
+        $robots = file_get_contents(resource_path() . "/robots.{$extension}");
+
+        return response()->make($robots)->header('Content-Type', 'text/plain');
     }
 }

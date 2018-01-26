@@ -22,7 +22,7 @@ export default {
         'gray': this.color === 'muted',
         'Heading3': true,
         'f4': this.size === 'large',
-        'f6': this.size === 'small',
+        'f5': this.size === 'small',
         'fw6': true,
         'pa0': true,
         'white': this.color === 'light'

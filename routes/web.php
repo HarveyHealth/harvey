@@ -22,6 +22,7 @@ Route::domain('blog.goharvey.com')->group(function () {
 
 // AUTHENTICATION
 Auth::routes();
+Route::get('/robots.txt', 'PagesController@getRobots');
 Route::get('logout', 'Auth\LoginController@logout');
 
 // Additional routing to not use Laravel's built-in "register" route
@@ -56,7 +57,7 @@ Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests'
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE
-// Route::get('/intake', 'IntakeController@index')->name('intake');
+Route::get('/intake', 'IntakeController@index')->name('intake');
 
 if (isLocal()) {
 	Route::get('test', 'TestController@index');

@@ -2,14 +2,18 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Invoice;
-use League\Fractal\TransformerAbstract;
 
-class InvoiceTransformer extends TransformerAbstract
+class InvoiceTransformer extends HarveyTransformer
 {
-
-    protected $availableIncludes = ['patient', 'invoice_items', 'discount_code',
-                                    'appointment', 'lab_order'];
+    protected $availableIncludes = [
+        'appointment',
+        'discount_code',
+        'items',
+        'lab_order',
+        'patient',
+    ];
 
     /**
      * A Fractal transformer.
@@ -45,7 +49,7 @@ class InvoiceTransformer extends TransformerAbstract
         return $this->item($invoice->patient, $transformer, 'patient');
     }
 
-    public function includeInvoiceItems(Invoice $invoice)
+    public function includeItems(Invoice $invoice)
     {
         return $this->collection($invoice->items, new InvoiceItemTransformer(), 'invoice_item');
     }

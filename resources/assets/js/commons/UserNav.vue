@@ -1,7 +1,7 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
+  <div class="nav-bar hide-print" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button" @click="handleMenu(null)">
+    <button class="menu-button hide-print" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
@@ -32,7 +32,7 @@
       </router-link>
 
       <router-link
-        v-if="user === 'admin'"
+        v-if="$root.userIsAdmin"
         to="/lab_tests/edit" title="Lab Tests"
         :class="currentPageCheck('sku-dashboard')"
         @click.native="handleMenu(false, 'sku-dashboard')">
@@ -46,6 +46,23 @@
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="unread-dot"></div>
         <div class="text">Messages</div>
+      </router-link>
+
+       <router-link to="/records" title="Records"
+        v-if="$root.userIsNotAdmin"
+        :class="currentPageCheck('records')"
+        @click.native="handleMenu(false, 'records')">
+        <i class="fa fa-files-o icon icon-nav-bar"></i>
+        <div class="text">Records</div>
+      </router-link>
+
+      <router-link
+        v-if="$root.userIsAdmin"
+        to="/clients" title="Recent Clients"
+        :class="currentPageCheck('clients')"
+        @click.native="handleMenu(false, 'clients')">
+        <i class="fa fa-users icon icon-nav-bar"></i>
+        <div class="text">Clients</div>
       </router-link>
 
       <router-link to="/profile" title="Profile"
@@ -88,9 +105,6 @@
       // Checks to see if there are any unread messages
       unread() {
         return this.$root.$data.global.unreadMessages.length > 0;
-      },
-      user() {
-        return this.$root.$data.permissions;
       }
     },
     methods: {

@@ -12,7 +12,12 @@ class SKU extends Model
 
     protected $table = 'skus';
 
-    protected $fillable = ['name', 'price', 'cost'];
+    protected $fillable = [
+        'cost',
+        'item_type',
+        'name',
+        'price',
+    ];
 
     public function scopeItemType($query, $type)
     {

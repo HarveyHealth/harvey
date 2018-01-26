@@ -30,9 +30,9 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         @stack('stylesheets')
         <script>
-          window.Laravel = {!! $vue_data !!}
-          window.$$context = 'get-started';
+          window.Laravel = {!! $vue_data !!};
           window.Blade = {};
+          window.$$context = 'get-started';
 
           @if (session('facebook_redirect_alert'))
           window.Blade.facebook_redirect_alert = '{!! session("facebook_redirect_alert") !!}';
