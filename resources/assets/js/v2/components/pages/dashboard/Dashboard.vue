@@ -10,6 +10,18 @@
       />
       <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
       <SlideIn v-else>
+          <SlideIn :to="'right'" v-if="shouldShowIntakeAlert">
+              <Card isAlert class="alert mb2 mb3-m">
+                  <CardContent class="pt4">
+                      <Grid :columns="[{m:8}, {m:4}]" :gutters="{s:3}">
+                          <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
+                          <div :slot="2" class="tc tr-m">
+                              <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
+                          </div>
+                      </Grid>
+                  </CardContent>
+              </Card>
+          </SlideIn>
         <Grid :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Appointments'">
             <div v-if="upcomingAppointments.length">
