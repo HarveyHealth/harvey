@@ -30,7 +30,7 @@
         },
         computed: {
             momentDate() {
-                return moment.tz(this.$props.createdAt.date, this.$props.createdAt.timezone).tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mma z');
+                return moment.tz(this.$props.createdAt.date, this.$props.createdAt.timezone).tz(this.$root.$data.timezone).tz(this.$root.$data.timezone).format('MMM Do YYYY, h:mma z');
             }
         },
         mounted() {

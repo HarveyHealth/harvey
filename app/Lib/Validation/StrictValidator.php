@@ -14,8 +14,15 @@ class StrictValidator extends Validator
         if ($update) {
             $validator->after(function ($validator) {
                 foreach ($validator->getData() as $key => $value) {
-                    if ('_method' != $key && !in_array($key, array_keys($validator->getRules()))) {
-                        $validator->errors()->add($key, "{$key} is not allowed to be updated.");
+                    if (is_array($value)){
+                        if (empty(preg_grep("/{$key}\..*/", array_keys($validator->getRules())))){
+                            $validator->errors()->add($key, "{$key} is not allowed to be updated.");
+                        }
+                    }
+                    else{
+                        if ('_method' != $key && !in_array($key, array_keys($validator->getRules()))) {
+                            $validator->errors()->add($key, "{$key} is not allowed to be updated.");
+                        }
                     }
                 }
             });

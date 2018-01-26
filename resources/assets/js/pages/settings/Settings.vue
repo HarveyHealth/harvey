@@ -8,89 +8,108 @@
                     </h1>
                 </div>
             </div>
+            <div class="flex-respond-row">
+                <div class="card card-width">
+                    <div class="card-heading-container">
+                        <h2 class="heading-2">
+                            Payment Options
+                            <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                        </h2>
+                    </div>
+                    <div class="card-content-wrap">
+                        <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
+                            <div class="loading">
+                                <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
+                            </div>
+                        </div>
+                        <div v-if="!details && !$root.$data.global.loadingCreditCards" >
+                            <div v-for="card in $root.$data.global.creditCards">
+                                <div class="card-object">
+                                    <p class="copy-main font-md font-italic">
+                                        <i class="fa fa-credit-card"></i>
+                                        {{ card.attributes.brand == 'American Express' ? 'Amex' : card.attributes.brand }} **** **** **** {{ card.attributes.last4 }}
+                                    </p>
+                                </div>
+                                <div class="button-wrapper">
+                                    <button @click="openModal(card)" class="button">Delete Card</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="card-contact-info">
+                            <div class="loading">
+                                <p class="copy-muted font-md font-italic">You do not have any saved cards.</p>
+                            </div>
+                        </div>
+
+                        <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="button-wrapper">
+                            <button v-if="!edit" @click="mountStripeForm" class="button">Add Card</button>
+                        </div>
+
+                        <div v-show="details">
+                            <form @submit.prevent="generateCardTokenWithStripeForm" id="payment-form" name="billing-info">
+                                <div class="form-row">
+                                    <div id="card-element"></div>
+                                    <div id="card-errors" role="alert"></div>
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="button button--cancel" @click="closeDetails">Cancel</button>
+                                    <button type="submit" :disabled="sent" class="button">Save Card</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <Modal :active="deleteModalActive" :onClose="closeModal">
+                            <div class="card-content-wrap">
+                                <div class="inline-centered">
+                                    <h1 class="header-xlarge"><span class="text">Delete Credit Card</span></h1>
+                                    <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
+                                </div>
+                                <div class="button-wrapper">
+                                    <button @click="closeModal" class="button button--cancel">Cancel</button>
+                                    <button @click="deleteCard" class="button">Yes, Confirm</button>
+                                </div>
+                            </div>
+                        </Modal>
+
+                        <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+                            <div class="inline-centered">
+                                <h1>Invalid Credit Card</h1>
+                                <p>The credit card you entered is invalid.</p>
+                                <div class="inline-centered">
+                                    <button @click="closeInvalidCC" class="button">Try Again</button>
+                                </div>
+                            </div>
+                        </Modal>
+
+                        <NotificationPopup
+                            :active="notificationActive"
+                            :comes-from="notificationDirection"
+                            :symbol="notificationSymbol"
+                            :text="notificationMessage"
+                        />
+
+                    </div>
+                </div>
+            </div>
             <div class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
-                        Payment Options
-                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                        Appointment Reminders
                     </h2>
                 </div>
                 <div class="card-content-wrap">
-                    <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
-                        <div class="loading">
-                            <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
-                        </div>
-                    </div>
-                    <div v-if="!details && !$root.$data.global.loadingCreditCards" >
-                        <div v-for="card in $root.$data.global.creditCards">
-                            <div class="card-object">
-                                <p class="copy-main font-md font-italic">
-                                    <i class="fa fa-credit-card"></i>
-                                    {{ card.attributes.brand == 'American Express' ? 'Amex' : card.attributes.brand }} **** **** **** {{ card.attributes.last4 }}
-                                </p>
-                            </div>
-                            <div class="button-wrapper">
-                                <button @click="openModal(card)" class="button">Delete Card</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="card-contact-info">
-                        <div class="loading">
-                            <p class="copy-muted font-md font-italic">You do not have any saved cards.</p>
-                        </div>
-                    </div>
-
-                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="button-wrapper">
-                        <button v-if="!edit" @click="mountStripeForm" class="button">Add Card</button>
-                    </div>
-
-                    <div v-show="details">
-                        <form @submit.prevent="generateCardTokenWithStripeForm" id="payment-form" name="billing-info">
-                            <div class="form-row">
-                                <div id="card-element"></div>
-                                <div id="card-errors" role="alert"></div>
-                            </div>
-                            <div class="button-wrapper">
-                                <button class="button button--cancel" @click="closeDetails">Cancel</button>
-                                <button type="submit" :disabled="sent" class="button">Save Card</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <Modal :active="deleteModalActive" :onClose="closeModal">
-                        <div class="card-content-wrap">
-                            <div class="inline-centered">
-                                <h1 class="header-xlarge"><span class="text">Delete Credit Card</span></h1>
-                                <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
-                            </div>
-                            <div class="button-wrapper">
-                                <button @click="closeModal" class="button button--cancel">Cancel</button>
-                                <button @click="deleteCard" class="button">Yes, Confirm</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
-                        <div class="inline-centered">
-                            <h1>Invalid Credit Card</h1>
-                            <p>The credit card you entered is invalid.</p>
-                            <div class="inline-centered">
-                                <button @click="closeInvalidCC" class="button">Try Again</button>
-                            </div>
-                        </div>
-                    </Modal>
-
-                    <NotificationPopup
-                        :active="notificationActive"
-                        :comes-from="notificationDirection"
-                        :symbol="notificationSymbol"
-                        :text="notificationMessage"
-                    />
-
+                    <fieldset id="notification_settings" class="bn">
+                        <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+                            <li v-for="(setting, index) in settings.reminders" class="ph3 pv3 bb b--light-silver">
+                                <input v-on:change="settingUpdate" class="mr2" type="checkbox" :id="setting.name" :name="setting.name" v-model="setting.value">
+                                <label :for="setting.name" class="lh-copy">{{setting.label}}</label>
+                            </li>
+                        </ul>
+                    </fieldset>
                 </div>
             </div>
-            <div  class="card card-width">
+            <div class="card card-width">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Timezone Options
@@ -103,14 +122,21 @@
                             <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
                         </div>
                     </div>
-                    <div v-else class="card-contact-info">
-                        <span class="custom-select">
-                            <select name="timezone" @change="changeTimezone" v-model="user.attributes.timezone">
-                                <option v-for="timezone in timezones">{{ timezone }}</option>
-                            </select>
-                        </span>
-                        <div class="button-wrapper">
-                            <button @click="setTimezone" class="button">Save Timezone</button>
+                    <div class="card-content-wrap">
+                        <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
+                            <div class="loading">
+                                <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
+                            </div>
+                        </div>
+                        <div v-else class="card-contact-info">
+                            <span class="custom-select">
+                                <select name="timezone" @change="changeTimezone" v-model="user.attributes.timezone">
+                                    <option v-for="timezone in timezones">{{ timezone }}</option>
+                                </select>
+                            </span>
+                            <div class="button-wrapper">
+                                <button @click="setTimezone" class="button">Save Timezone</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,10 +184,70 @@ export default {
             user_id: this.$route.params.id,
             year: '',
             stripe: this.$root.$data.stripe,
-            card: null
+            card: null,
+            settings: {
+                reminders: [
+                    {
+                        label: "24 hour email reminder",
+                        name: "reminder_email_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "24 hour text reminder",
+                        name: "reminder_text_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "1 hour email reminder",
+                        name: "reminder_email_1_hour",
+                        value: true
+                    },
+                    {
+                        label: "1 hour text reminder",
+                        name: "reminder_text_1_hour",
+                        value: true
+                    }
+                ]
+            }
         };
     },
     methods: {
+        readUserSettings(){
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`)
+                .then(respond => {
+                    for (var key in respond.data.data.attributes.settings){
+                        for (var i in this.settings.reminders){
+                            var reminder = this.settings.reminders[i];
+                            if (reminder.name == key){
+                                reminder.value = respond.data.data.attributes.settings[key];
+                                break;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(`GET ISSUE`, error);
+                });
+        },
+        settingUpdate() {
+            let new_settings = {
+                settings: {}
+            };
+            for (var key in this.settings.reminders){
+                var reminder = this.settings.reminders[key];
+                new_settings.settings[reminder.name] = reminder.value;
+            }
+
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`, new_settings)
+            .then(() => {
+                this.notificationMessage = "Successfully updated!";
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                console.log(`PATCH ISSUE`, error);
+            });
+        },
         changeTimezone(e) {
             this.selectedTimezone = e.target.value;
         },
@@ -257,8 +343,12 @@ export default {
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
             axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
-                this.$root.$data.global.creditCards = response.data.data;
+                this.$root.$data.global.creditCards = response.data.data || [];
                 this.$root.$data.global.loadingCreditCards = false;
+            }).catch(error => {
+                if (error.response){
+                    console.error(error.response);
+                }
             });
         },
         getUser() {
@@ -322,6 +412,7 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
         this.getCards();
+        this.readUserSettings();
         if (this.user_id) {
             this.getUser();
         }
@@ -331,6 +422,7 @@ export default {
             if (id && 'admin' === Laravel.user.user_type) {
                 this.setUserId(id);
                 this.getUser();
+                this.getCards();
             } else {
                 this.setUserId(null);
             }
