@@ -77,5 +77,7 @@ class AdminCreateCommand extends Command
         $admin = new \App\Models\Admin;
         $admin->user_id = $user->id;
         $admin->save();
+
+        $user->sendVerificationEmail();
     }
 }

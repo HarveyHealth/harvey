@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Events\CreditCardUpdated;
 use App\Http\Interfaces\Mailable;
-use App\Http\Traits\{IsNot, Textable};
+use App\Http\Traits\{IsNot, Textable, Geocodable};
 use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail, ZipCodeValidator};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Redis;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable, IsNot, Textable;
+    use HasApiTokens, Notifiable, Searchable, IsNot, Textable, Geocodable;
 
     const ADDRESS_ATTRIBUTES = [
         'address_1',

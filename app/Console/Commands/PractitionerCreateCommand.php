@@ -78,5 +78,7 @@ class PractitionerCreateCommand extends Command
         $practitioner->user_id = $user->id;
         $practitioner->practitioner_type = 1;
         $practitioner->save();
+
+        $user->sendVerificationEmail();
     }
 }

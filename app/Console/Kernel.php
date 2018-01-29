@@ -27,6 +27,8 @@ class Kernel extends ConsoleKernel
         Commands\ReportsMonthlyCommand::class,
         Commands\SendAppointmentsRemindersCommand::class,
         Commands\SetNginxConfigCommand::class,
+        Commands\ImportAvailableLabs::class,
+        Commands\ScrubAvailableLabs::class,
     ];
 
     /**

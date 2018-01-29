@@ -130,4 +130,9 @@ class Patient extends Model
 
         return $output;
     }
+
+    public function closestLab()
+    {
+        return \App\Models\AvailableLab::closestLabToPoint($this->user->geopoint());
+    }
 }
