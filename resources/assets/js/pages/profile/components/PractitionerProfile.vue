@@ -8,7 +8,7 @@
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
                 <form action="#" method="POST" class="form" id="practitioner_form" v-else>
                     <p class="practitioner-intro">Your profile information below is visible to all clients on the website. Please use proper syntax, check for spelling mistakes, and use the recommended images sizes to maximize performance of your page. To make any changes to your schedule avalability, please email <a href="mailto:support@goharvey.com">support@goharvey.com</a>.</p>
-                    <div class="formgroups">
+                    <div class="formgroups flex-respond-row">
                         <div class="formgroup">
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="school">School</label>
