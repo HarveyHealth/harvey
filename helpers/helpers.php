@@ -159,3 +159,19 @@ function maybe()
 {
     return (bool) rand(0,1);
 }
+
+function render_css(string $filename)
+{
+    return Cache::rememberForever("render_css_{$filename}", function () use ($filename) {
+
+        $filename = str_finish($filename, '.css');
+
+        $filename_with_path = app_path() . "/../public/css/$filename";
+
+        if (!file_exists($filename_with_path)) {
+            return false;
+        }
+
+        return str_replace("\n", ' ', file_get_contents($filename_with_path));
+    });
+}
