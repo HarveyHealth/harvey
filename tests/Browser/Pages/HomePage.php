@@ -21,8 +21,8 @@ class HomePage extends Page
     public $shopify = 'Learn what your body needs to feel its best.';
     public $shopifyLabs = 'Lab Tests';
     public $shopifySupplements = 'Supplements';
-    public $terms = 'Place Holder';
-    public $privacy = 'Place Holder';
+    public $terms = 'Terms and Conditions';
+    public $privacy = 'Privacy Policy';
     public $skinIssues = 'Skin Issues';
     public $foodAllergy = 'Food Allergies';
     public $stressAndAnxiety = 'Stress & Anxiety';
