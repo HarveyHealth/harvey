@@ -1,11 +1,16 @@
 <template>
     <div>
-        <SlideIn class="bg-error pa3 white" v-if="facebookRedirectAlert">
-            {{ facebookRedirectAlert }}
+        <div v-if="facebookRedirectAlert">
+            <SlideIn class="bg-error pa3 white">{{ facebookRedirectAlert }}</SlideIn>
+        </div>
+
+        <SlideIn v-if="!hasZipValidation || !isServiceable" class="margin-0a mw6 ph2 ph3-l top-space">
+            <ZipValidation />
         </SlideIn>
-        <SlideIn :delay="400">
-            <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="form ph2 ph3-l max-width-xxl min-width-100 margin-0a">
-                <Grid :flexAt="'xl'" :columns="[{ xl:'1of2', xxl:'4of7' }, { xl:'1of2', xxl:'3of7' }]">
+
+        <div v-if="hasZipValidation && isServiceable" class="top-space ph2 ph3-l max-width-xxl min-width-100 margin-0a">
+            <SlideIn :delay="400" >
+                <Grid :flexAt="'xl'" :columns="[{ xl:6, xxl:7 }, { xl:6, xxl:5 }]">
                     <aside :slot="1" class="dn db-xl relative">
                         <div class="pr2 pr3-l quote-container">
                             <div class="signup-aside-icon-row">
@@ -22,7 +27,7 @@
                                         <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
                                     </a>
                                 </div>
-                                <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition. Please sign up to continue.</p>
+                                <p class="font-xl color-white is-padding font-centered">{{ quotes[0].quote }}</p>
                             </div>
                             <div class="signup-aside-icon-row">
                                 <span><svg><use xlink:href="#heart" /></svg></span>
@@ -40,71 +45,77 @@
                             <Heading1 doesExpand class="tc" v-html="title"></Heading1>
                             <Spacer isTop :size="2" />
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('first_name', State('getstarted.userPost.first_name'))"
-                                    name="first_name" type="text" placeholder="First Name"
-                                    v-model="State('getstarted.userPost').first_name"
-                                    v-validate="'required|alpha_spaces'" data-vv-as="First name" />
-                                <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
-                            </div>
+                            <form @submit.prevent="onSubmit">
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('first_name', State('getstarted.userPost.first_name'))"
+                                        name="first_name" type="text" placeholder="First Name"
+                                        v-model="State('getstarted.userPost').first_name"
+                                        v-validate="'required|alpha_spaces'" data-vv-as="First name" />
+                                    <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
+                                </div>
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('last_name', State('getstarted.userPost.last_name'))"
-                                    name="last_name" type="text" placeholder="Last Name"
-                                    v-model="State('getstarted.userPost').last_name"
-                                    v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
-                                <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
-                            </div>
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('last_name', State('getstarted.userPost.last_name'))"
+                                        name="last_name" type="text" placeholder="Last Name"
+                                        v-model="State('getstarted.userPost').last_name"
+                                        v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
+                                    <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
+                                </div>
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('email', State('getstarted.userPost.email'))"
-                                    name="email" type="email" placeholder="Personal Email"
-                                    v-model="State('getstarted.userPost').email"
-                                    v-validate="'required|email'" data-vv-validate-on="blur" />
-                                <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
-                            </div>
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('email', State('getstarted.userPost.email'))"
+                                        name="email" type="email" placeholder="Personal Email"
+                                        v-model="State('getstarted.userPost').email"
+                                        v-validate="'required|email'" data-vv-validate-on="blur" />
+                                    <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
+                                </div>
 
-                            <div class="input-wrap">
-                                <input class="form-input form-input_text"
-                                    @change="Util.data.toStorage('password', State('getstarted.userPost.password'))"
-                                    name="password" type="password" placeholder="Create Password"
-                                    v-model="State('getstarted.userPost').password"
-                                    v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
-                                <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
-                            </div>
+                                <div class="input-wrap">
+                                    <input class="form-input form-input_text"
+                                        @change="Util.data.toStorage('password', State('getstarted.userPost.password'))"
+                                        name="password" type="password" placeholder="Create Password"
+                                        v-model="State('getstarted.userPost').password"
+                                        v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+                                    <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
+                                </div>
 
-                            <div class="input-wrap last">
-                                <label class="form-label form-label_checkbox font-sm" for="checkbox">
-                                    <input class="form-input form-input_checkbox"
-                                        name="terms" type="checkbox" id="checkbox"
-                                        v-model="State('getstarted.userPost').terms"
-                                        v-validate="'required'"
-                                        checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="http://help.goharvey.com/legal/terms">terms</a> and <a href="http://help.goharvey.com/legal/privacy">policies</a>.
-                                </label>
-                                <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
-                            </div>
-                            <div class="font-centered">
-                                <InputButton
-                                    :isDisabled="isProcessing"
-                                    :isDone="isComplete"
-                                    :isProcessing="isProcessing"
-                                    :onClick="() => false"
-                                    :text="'Sign Up'"
-                                    :width="'160px'"
-                                />
-                                <div class="Divider-text is-white" data-text="OR"></div>
-                                <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
-                                <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
-                                <p class="font-md"><a href="/conditions/get-zip"><i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code</a></p>
-                            </div>
+                                <div class="input-wrap last">
+                                    <label class="form-label form-label_checkbox font-sm" for="checkbox">
+                                        <input class="form-input form-input_checkbox"
+                                            name="terms" type="checkbox" id="checkbox"
+                                            v-model="State('getstarted.userPost').terms"
+                                            v-validate="'required'"
+                                            checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="http://help.goharvey.com/legal/terms">terms</a> and <a href="http://help.goharvey.com/legal/privacy">policies</a>.
+                                    </label>
+                                    <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
+                                </div>
+                                <div class="font-centered">
+                                    <InputButton
+                                        :isDisabled="isProcessing"
+                                        :isDone="isComplete"
+                                        :isProcessing="isProcessing"
+                                        :onClick="() => false"
+                                        :text="'Sign Up'"
+                                        :width="'160px'"
+                                    />
+                                    <div class="Divider-text is-white" data-text="OR"></div>
+                                    <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
+                                    <p class="is-padding font-xs"><em>We never share personal health information.</em></p>
+                                    <p class="font-md">
+                                        <a href="#" @click.prevent="Logic.getstarted.resetZip">
+                                            <i class="fa fa-globe margin-right-xs"></i>Re-Enter Zip Code
+                                        </a>
+                                    </p>
+                                </div>
+                            </form>
                         </CardContent>
                     </Card>
                 </Grid>
-            </form>
-        </SlideIn>
+            </SlideIn>
+        </div>
     </div>
 </template>
 
@@ -113,6 +124,8 @@ import { SvgIcon } from 'icons';
 import { InputButton, FacebookSignin } from 'inputs';
 import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1 } from 'typography';
+
+import ZipValidation from './ZipValidation.vue';
 
 export default {
     name: 'sign-up',
@@ -125,16 +138,15 @@ export default {
         FacebookSignin,
         SlideIn,
         Spacer,
-        SvgIcon
+        SvgIcon,
+        ZipValidation
     },
 
     data() {
         return {
-            env: this.$root.$data.environment,
             facebookRedirectAlert: window.Blade.facebook_redirect_alert || null,
             isComplete: false,
             isProcessing: false,
-            newsletter: false,
             quotes: [
                 { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
                 source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
@@ -148,6 +160,14 @@ export default {
     // These are necessary because VeeValidate's custom messages are just not working
     // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
     computed: {
+        hasZipValidation() {
+            return this.State('getstarted.zipValidation') !== null;
+        },
+
+        isServiceable() {
+            return this.State('getstarted.zipValidation.is_serviceable');
+        },
+
         firstNameError() {
             if (this.errors.has('first_name')) {
                 return this.errors.firstByRule('first_name', 'required')
@@ -193,17 +213,25 @@ export default {
     },
 
     methods: {
+        generateTrackingData(mode) {
+            switch(mode) {
+                case 'facebook': return JSON.stringify({ account_created: false, facebook_connect: true });
+                case 'form': return JSON.stringify({ account_created: false, facebook_connect: false });
+                default: return null;
+            }
+        },
+
         facebookSignup() {
             if(!this.State('getstarted.userPost.terms')) {
                 this.errors.add('terms', 'error', 'required');
                 this.errors.first('terms:required');
             } else {
-                // This will be checked on Welcome component and if true will fire appropriate analytics
-                if (!this.State('getstarted.zipValidation.account_created')) {
-                    App.Util.data.updateStorage('zip_validation', {
-                        account_created: false,
-                        facebook_connect: true
-                    });
+                // If a user signs up with Facebook successfully but does not finish the signup funnel
+                // and then logs out, their account has been created but the signup_mode data still
+                // exists. If they click the Facebook Signup again, it will log them in and send them
+                // to the welcome step but we do not want to fire 'Account Created' again.
+                if (!this.State('getstarted.signupMode.account_created')) {
+                    App.Util.data.toStorage('signup_mode', this.generateTrackingData('facebook'));
                 }
                 window.location.href = `/auth/facebook?zip=${this.State('getstarted.userPost.zip')}`;
             }
@@ -250,73 +278,47 @@ export default {
 
         // Logs the user in, triggers analytics, refreshes the page for Laravel object
         login(response) {
-            const userData = response.data.data.attributes;
-            const userId = response.data.data.id || '';
-            const firstName = userData.first_name || '';
-            const lastName = userData.last_name || '';
-            const email = userData.email || '';
-            const zip = userData.zip || '';
-            const city = userData.city || '';
-            const state = userData.state || '';
-            const intercomHash = userData.intercom_hash || '';
-
             axios.post('login', {
                 email: this.State('getstarted.userPost.email'),
                 password: this.State('getstarted.userPost.password')
             })
-                .then(() => {
-                    // TODO: check zip code to determine if out of range
-                    // If so, use localStorage to set a flag for out-of-range page
-                    localStorage.setItem('new_registration', 'true');
+            .then(() => {
+                this.isComplete = true;
+                this.zipInRange = true;
 
-                    this.isComplete = true;
-                    this.zipInRange = true;
+                App.Config.user.info = response.data.data.attributes;
+                App.Config.user.info.id = response.data.data.id;
+                App.Config.user.info.signedIn = true;
 
-                    analytics.alias(userId); // Only call this once
-                    analytics.track('Account Created');
+                // Manually change this value so the Welcome step properly filters
+                // the practitioner list
+                App.Config.user.isPatient = true;
 
-                    // Segment Identify
-                    analytics.identify(userId, {
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        city: city,
-                        state: state,
-                        zip: zip
-                    }, {
-                        integrations: {
-                            Intercom : {
-                                user_hash: intercomHash
-                            }
-                        }
-                    });
+                // remove sign-up form local storage items on sign up
+                // needed if you decide to sign up multiple acounts on one browser
+                App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
 
-                    // remove local storage items on sign up
-                    // needed if you decide to sign up multiple acounts on one browser
-                    App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
+                // In case a user initially decides to sign in with Facebook but does not follow
+                // through and instead signs up via the form. We don't want the Welcome component
+                // to fire 'Account Created' again.
+                App.Util.data.toStorage('signup_mode', this.generateTrackingData('form'));
 
-                    // In case a user initially decides to sign in with Facebook but does not follow
-                    // through and instead signs up via the form. We don't want the Welcome component
-                    // to fire 'Account Created' again.
-                    App.Util.data.updateStorage('zip_validation', {
-                        account_created: true,
-                        facebook_connect: false
-                    });
-
-                    window.location.href = '/get-started';
-                })
-                .catch(() => {
-                    // TODO: catch error
-                });
+                App.Router.push('welcome');
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.warn(error.response);
+                }
+            });
         }
     },
+
     beforeMount() {
-        if (App.Config.user.isLoggedIn) {
+        if (App.Config.user.isLoggedIn || App.Config.user.info.signedIn) {
             App.Router.push('welcome');
         }
     },
     mounted () {
-        this.$root.toDashboard();
         analytics.page("Signup");
     }
 };
@@ -325,7 +327,7 @@ export default {
 <style lang="scss" scoped>
     @import '~sass';
 
-    .form {
+    .top-space {
         margin-top: 5%;
     }
 

@@ -32,6 +32,9 @@ class SitemapTest extends TestCase
 
     public function test_sitemap_conditions_xml_returns_ok()
     {
+
+        $this->markTestSkipped('Skipped until we know how Sitemap should look.');
+
         $response = $this->get('/sitemap-conditions.xml');
         $response->assertStatus(ResponseCode::HTTP_OK);
         $parsedResponse = (array) simplexml_load_string($response->original);

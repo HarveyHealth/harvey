@@ -41,7 +41,7 @@
                             :placeholder="'Card Number'"
                             :value="cardNumber"
                         />
-                        <Grid :flexAt="'ns'" :columns="[{ns:'1of2'},{ns:'1of2'}]" :gutters="{ns:2}">
+                        <Grid :columns="[{ns:6},{ns:6}]" :gutters="{ns:2}">
                             <div :slot="1">
                                 <InputText
                                     :error="formErrors.cardExpiration"
@@ -111,12 +111,12 @@
                     <Spacer isBottom :size="3" />
                 </form>
 
-                <Grid :columns="[{s:'1of2'},{s:'1of2'}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
+                <Grid :columns="[{s:6},{s:6}]" :gutters="{s:3}" v-if="!isAlreadyStored && !isConfirmed">
                     <div :slot="1" class="relative image-container">
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
+                        <img alt="" src="https://harvey-production.s3.amazonaws.com/assets/images/signup/stripe-lock.png" class="assurance-image fr">
                     </div>
                     <div :slot="2" class="relative image-container">
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="assurance-image">
+                        <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/bbb.png" class="assurance-image">
                     </div>
                 </Grid>
             </CardContent>
@@ -276,7 +276,7 @@ export default {
                 } else {
                     const tokenResponse = response;
                     // Update user's card information
-                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
+                    axios.post(`/api/v1/users/${App.Config.user.info.id}/cards`, { id: response.id }).then(() => {
                         App.setState({
                             'getstarted.signup.cardName': this.cardName,
                             'getstarted.signup.cardNumber': this.cardNumber,
@@ -335,7 +335,6 @@ export default {
         }
     },
     mounted () {
-        App.Logic.getstarted.redirectDashboard();
         window.scroll(0, 0);
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 

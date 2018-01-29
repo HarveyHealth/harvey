@@ -1,12 +1,8 @@
-@import '../../vendor/bourbon/bourbon';
-// Variables
-@import "~bulma/sass/utilities/functions";
 @import "variables";
-
-@import "./pages/symptoms";
-// Libraries
-@import '~bulma/bulma';
-@import '~animate.css/animate';
+@import "../../vendor/bourbon/bourbon";
+@import "~bulma/sass/utilities/functions";
+@import "~bulma/bulma";
+@import "~animate.css/animate";
 
 // Rewrite bulma styles
 
@@ -752,6 +748,10 @@ body[class*="404"]{
 
 .help {
   @include margin(-20px null 20px null);
+}
+
+.no-margin {
+  @include margin(0px 0px 0px 0px);
 }
 
 .fourButton {
