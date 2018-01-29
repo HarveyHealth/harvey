@@ -33,8 +33,9 @@ before_install:
 
 before_script:
 - touch /home/travis/build/HomeHero/harvey/harvey.sqlite
-- export DB_CONNECTION=sqlite
-- export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
+- export DB_CONNECTION=mysql
+#- export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
+- export DB_DATABASE=harvey
 - phpenv config-rm xdebug.ini
 - composer install --no-interaction
 - export DISPLAY=:99.0
