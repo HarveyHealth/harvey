@@ -51,7 +51,7 @@ branches:
   only:
   - master
   - develop
-  - dusk-tests
+  - dusk-tests-travis
   - staging
   - /^release\//
 notifications:
