@@ -1,4 +1,4 @@
-dist: ubuntu trusty
+dist: trusty
 sudo: required
 git:
   depth: 3
