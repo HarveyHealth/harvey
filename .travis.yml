@@ -19,6 +19,8 @@ services:
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
 
+addons:
+  chrome: stable
 
 before_install:
 - nvm install 7
@@ -28,6 +30,8 @@ before_install:
 - npm install
 - touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - cp .env.dusk.travis .env
+- travis_retry composer install --no-interaction --prefer-dist --no-suggest
+
 before_script:
 - touch /home/travis/build/HomeHero/harvey/harvey.sqlite
 - export DB_CONNECTION=sqlite
@@ -37,11 +41,14 @@ before_script:
 - export DISPLAY=:99.0
 - /usr/bin/Xvfb :99 -ac -screen 0 2560x1440x24 &
 - ./vendor/laravel/dusk/bin/chromedriver-linux --silent &
+- google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+- php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 script:
+- php artisan dusk
+- sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - php artisan migrate --seed
 - php artisan passport:install --force
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
-- php artisan dusk
 - sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - php artisan passport:getkeys
 - vendor/bin/phpunit
