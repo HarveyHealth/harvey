@@ -30,7 +30,6 @@ before_install:
 - npm install
 - touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - cp .env.dusk.travis .env
-- travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:
 - touch /home/travis/build/HomeHero/harvey/harvey.sqlite
