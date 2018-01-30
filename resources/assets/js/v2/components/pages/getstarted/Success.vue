@@ -31,7 +31,7 @@
                     </div>
                     <div :slot="2" class="tl-m">
                         <InputButton
-                            :onClick="showIntakeModal"
+                            :href="'/intake'"
                             :text="'Start Intake Form'"
                             :width="'200px'"
                         />
@@ -39,25 +39,6 @@
                 </Grid>
             </CardContent>
         </Card>
-
-        <Overlay :isActive="showModal" />
-        <Modal :active="showModal" isSimple :on-close="() => showModal = false">
-            <div :slot="'content'" class="tc">
-                <Heading2>You are leaving Harvey</Heading2>
-                <Spacer isBottom :size="3" />
-                <Paragraph :weight="'thin'">
-                    Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;. When prompted, enter your full name and the same email you used to sign up for Harvey. If you close the form you can come back to it later.
-                </Paragraph>
-                <Spacer isBottom :size="4" />
-                <InputButton
-                    :href="Config.user.intakeLink"
-                    :text="'Go to IntakeQ'"
-                    :width="'200px'"
-                />
-                <Spacer isBottom :size="3" />
-            </div>
-        </Modal>
-
     </SlideIn>
 </template>
 
@@ -66,7 +47,7 @@ import moment from 'moment';
 
 import { Icon } from 'icons';
 import { AddEventButton, InputButton } from 'inputs';
-import { Card, CardContent, Grid, Modal, Overlay, SlideIn, Spacer } from 'layout';
+import { Card, CardContent, Grid, SlideIn, Spacer } from 'layout';
 import { Heading1, Heading2, Paragraph } from 'typography';
 
 export default {
@@ -80,15 +61,12 @@ export default {
         Icon,
         InputButton,
         Grid,
-        Modal,
-        Overlay,
         Paragraph,
         SlideIn,
         Spacer
     },
     data() {
         return {
-            showModal: false,
             appointmentDate: this.State.getstarted.signup.data.appointment_at,
             appointmentInformation: this.State.getstarted.signup.data
         };
@@ -113,11 +91,6 @@ export default {
           const dateObject = this.appointmentDate;
           return dateObject;
       }
-    },
-    methods: {
-        showIntakeModal() {
-            this.showModal = true;
-        }
     },
     filters: {
         toDate(date) {

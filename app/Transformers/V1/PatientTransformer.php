@@ -2,19 +2,19 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Patient;
-use League\Fractal\TransformerAbstract;
 
-class PatientTransformer extends TransformerAbstract
+class PatientTransformer extends HarveyTransformer
 {
-    public $availableIncludes = [
+    protected $availableIncludes = [
         'appointments',
         'attachments',
         'intake',
+        'lab_orders',
         'prescriptions',
         'soap_notes',
         'user',
-        'lab_orders'
     ];
 
     /**
@@ -28,6 +28,7 @@ class PatientTransformer extends TransformerAbstract
             'birthdate' => $patient->birthdate,
             'height_feet' => cast_to_string($patient->height_feet),
             'height_inches' => cast_to_string($patient->height_inches),
+            'intake_token' => $patient->intake_token,
             'name' => $patient->user->full_name,
             'user_id' => cast_to_string($patient->user_id),
             'weight' => cast_to_string($patient->weight),
@@ -67,7 +68,7 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeIntake(Patient $patient)
     {
-        if (empty($intake = $patient->getIntakeData())) {
+        if (empty($intake = $patient->intake)) {
             return $this->null();
         }
 

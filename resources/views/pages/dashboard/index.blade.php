@@ -14,7 +14,7 @@
     if ( Laravel.user.signedIn &&
         !Laravel.user.has_an_appointment &&
         Laravel.user.user_type === 'patient' ) {
-        window.location.href = '/get-started';
+        window.location.href = '/get-started#/signup';
     } else {
       window.$$context = 'dashboard';
     }

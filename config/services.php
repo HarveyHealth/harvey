@@ -68,6 +68,9 @@ return [
                     'updated' => 1929883,
                     'reminder' => 2550321,
                 ],
+                'lab_test_result' => [
+                    'created' => 4099061,
+                ],
                 'attachment' => [
                     'created' => 3338765,
                 ],
@@ -87,6 +90,7 @@ return [
                     'confirmed' => 3372143,
                     'shipped' => 2741642,
                     'recommended' => 3764861,
+                    'reminder' => 3946483,
                 ],
                 'lab_test' => [
                     'processing' => 3148942,

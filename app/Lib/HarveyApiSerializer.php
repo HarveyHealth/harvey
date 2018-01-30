@@ -3,9 +3,29 @@
 namespace App\Lib;
 
 use League\Fractal\Serializer\JsonApiSerializer;
+use League\Fractal\Resource\Item;
 
 class HarveyApiSerializer extends JsonApiSerializer
 {
+
+    /**
+     * Serialize an item.
+     *
+     * @param string $resourceKey
+     * @param array $data
+     *
+     * @return array
+     */
+    public function item($resourceKey, array $data)
+    {
+        if (array_key_exists('resource_name', $data)) {
+            $resourceKey = $data['resource_name'];
+            unset($data['resource_name']);
+        }
+
+        return parent::item($resourceKey, $data);
+    }
+
     /**
      * @param array $data
      * @param array $relationships
