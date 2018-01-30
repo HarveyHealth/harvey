@@ -12,6 +12,8 @@ class AboutPage extends BasePage
     public $labTests = 'Lab Tests';
     public $supplements = 'Supplements';
     public $consultations = 'Book a consultation with';
+    public $microNutrient = 'Micronutrient Test';
+    public $microbiome = 'Microbiome Test';
     /**
      * Get the URL for the page.
      *
@@ -51,6 +53,7 @@ class AboutPage extends BasePage
             '@element' => '#selector',
             '@foodSensitivities' => '#products > div > div > div:nth-child(1) > div.pa2 > p.f5-l.f6.pa3-l.pa2 > a:nth-child(1)',
             '@micronutrient' => '#products > div > div > div:nth-child(1) > div.pa2 > p.f5-l.f6.pa3-l.pa2 > a:nth-child(2)',
+            '@microbiome' => '#products > div > div > div:nth-child(1) > div.pa2 > p.f5-l.f6.pa3-l.pa2 > a:nth-child(3)',
             '@labTestShop' => '#products > div > div > div:nth-child(1) > div.pa2 > a',
             '@supplementsShop' => '#products > div > div > div:nth-child(2) > div.pa2 > a',
             '@meetDoctors' => '#products > div > div > div:nth-child(3) > div.pa2 > a',

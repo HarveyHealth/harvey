@@ -32,6 +32,24 @@ class AboutPageTests extends DuskTestCase
         });
     }
 
+    public function test_micornutrient_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new AboutPage)
+                    ->mouseOver('@footer')
+                    ->clickAssert('@micronutrient', 'microNutrient');
+        });
+    }
+
+    public function test_microbiome_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new AboutPage)
+                    ->mouseOver('@footer')
+                    ->clickAssert('@microbiome', 'microbiome');
+        });
+    }
+
     public function test_lab_test_shop_button()
     {
         $this->browse(function (Browser $browser) {
