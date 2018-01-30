@@ -12,22 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        Commands\AdminCreateCommand::class,
-        Commands\BillingReport::class,
-        Commands\GetAPICalendarCredentialsCommand::class,
-        Commands\GetPassportKeysCommand::class,
-        Commands\ImportDiscountCodesCommand::class,
-        Commands\ImportUsersToFullscript::class,
-        Commands\LogTailCommand::class,
-        Commands\MakeComponentCommand::class,
-        Commands\MakeRepositoryCommand::class,
-        Commands\MakeViewCommand::class,
-        Commands\PractitionerCreateCommand::class,
-        Commands\ReportsMonthlyCommand::class,
-        Commands\SendAppointmentsRemindersCommand::class,
-        Commands\SetNginxConfigCommand::class,
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -48,5 +33,6 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         require base_path('routes/console.php');
+        $this->load(__DIR__.'/Commands');
     }
 }
