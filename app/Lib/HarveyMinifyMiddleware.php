@@ -21,7 +21,7 @@ class HarveyMinifyMiddleware extends MinifyMiddleware
 
         if ($this->isAResponseObject($response) && $this->isAnHtmlResponse($response)) {
             $output = $response->getContent();
-            $minified = str_replace("\n", ' ', $this->html->render($output));
+            $minified = preg_replace('/>(\s+)</', '><', str_replace("\n", ' ', $this->html->render($output)));
             $response->setContent($minified);
         }
 
