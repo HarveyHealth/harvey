@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Http\Traits\{BelongsToPatient, HasKeyColumn};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use Laravel\Scout\Searchable;
 use Carbon;
 
 class Attachment extends Model
 {
-    use BelongsToPatient, HasKeyColumn, SoftDeletes;
+    use BelongsToPatient, HasKeyColumn, SoftDeletes, Searchable;
 
     protected $dates = [
         'created_at',
@@ -21,6 +22,20 @@ class Attachment extends Model
         'created_by_user_id',
         'updated_at',
     ];
+
+    /**
+     * indexable data array for the model.
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'patient_name' => $this->patient->user->full_name,
+            'key' => $this->key,
+            'notes' => $this->notes,
+            'name' => $this->name,
+       ];
+    }
 
     protected static function boot()
     {

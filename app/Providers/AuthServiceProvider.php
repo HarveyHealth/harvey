@@ -5,8 +5,12 @@ namespace App\Providers;
 use App\Models\{
     Appointment,
     Attachment,
+    DiscountCode,
+    Invoice,
+    InvoiceItem,
     LabOrder,
     LabTest,
+    LabTestResult,
     Message,
     Patient,
     Practitioner,
@@ -14,15 +18,18 @@ use App\Models\{
     SKU,
     SoapNote,
     Test,
-    Invoice,
-    InvoiceItem,
     User
 };
 use App\Policies\{
     AppointmentPolicy,
     AttachmentPolicy,
+    DiscountCodePolicy,
+    IntakePolicy,
+    InvoiceItemPolicy,
+    InvoicePolicy,
     LabOrderPolicy,
     LabTestPolicy,
+    LabTestResultPolicy,
     MessagePolicy,
     PatientPolicy,
     PractitionerPolicy,
@@ -30,8 +37,6 @@ use App\Policies\{
     SkuPolicy,
     SoapNotePolicy,
     TestPolicy,
-    InvoicePolicy,
-    InvoiceItemPolicy,
     UserPolicy
 };
 use Illuminate\Support\Facades\Gate;
@@ -48,18 +53,23 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Appointment::class => AppointmentPolicy::class,
         Attachment::class => AttachmentPolicy::class,
+        DiscountCode::class => DiscountCodePolicy::class,
+        Invoice::class => InvoicePolicy::class,
+        InvoiceItem::class => InvoiceItemPolicy::class,
         LabOrder::class => LabOrderPolicy::class,
         LabTest::class => LabTestPolicy::class,
+        LabTestResult::class => LabTestResultPolicy::class,
         Message::class => MessagePolicy::class,
         Patient::class => PatientPolicy::class,
         Practitioner::class => PractitionerPolicy::class,
         Prescription::class => PrescriptionPolicy::class,
+        SKU::class => SkuPolicy::class,
         SoapNote::class => SoapNotePolicy::class,
         Test::class => TestPolicy::class,
         User::class => UserPolicy::class,
-        SKU::class => SkuPolicy::class,
-        Invoice::class => InvoicePolicy::class,
-        InvoiceItem::class => InvoiceItemPolicy::class,
+
+        // Policies without a model.
+        'intake' => IntakePolicy::class,
     ];
 
     /**

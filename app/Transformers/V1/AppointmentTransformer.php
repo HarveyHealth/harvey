@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\Appointment;
-use League\Fractal\TransformerAbstract;
 
-class AppointmentTransformer extends TransformerAbstract
+class AppointmentTransformer extends HarveyTransformer
 {
     protected $availableIncludes = ['patient', 'practitioner', 'discount_code', 'invoice'];
 
@@ -21,6 +21,7 @@ class AppointmentTransformer extends TransformerAbstract
             'discount_code_id' => cast_to_string($appointment->discount_code_id),
             'duration_in_minutes' => cast_to_string($appointment->duration_in_minutes),
             'google_meet_link' => $appointment->google_meet_link,
+            'notes' => only_if_admin_or_practitioner($appointment->notes),
             'patient_id' => cast_to_string($appointment->patient_id),
             'practitioner_id' => cast_to_string($appointment->practitioner_id),
             'practitioner_name' => cast_to_string($appointment->practitioner->user->full_name),

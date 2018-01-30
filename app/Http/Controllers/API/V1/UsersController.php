@@ -161,8 +161,10 @@ class UsersController extends BaseAPIController
             'state' => 'max:2',
             'timezone' => 'max:75',
             'zip' => $user->isAdminOrPractitioner() ? 'digits:5' : 'digits:5|serviceable',
+            'settings.*' => 'user_setting',
         ], [
-            'serviceable' => 'Sorry, we do not service this :attribute.'
+            'serviceable' => 'Sorry, we do not service this :attribute.',
+            'user_setting' => ':attribute is not a valid setting.'
         ]);
 
         $user->update($request->all());
