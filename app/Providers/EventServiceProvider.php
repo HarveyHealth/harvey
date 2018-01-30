@@ -58,6 +58,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\LabOrderRecommended' => [
             'App\Listeners\SendPatientLabOrderCreatedEmail',
+            'App\Listeners\SetPendingLabOrderReminders',
         ],
 
         'App\Events\LabTestProcessing' => [
@@ -89,6 +90,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendPractitionerAttachmentCreatedEmail',
         ],
 
+        'App\Events\LabTestResultCreated' => [
+            'App\Listeners\SendPractitionerLabResultCreatedEmail',
+        ],
+        
         'App\Events\MessageCreated' => [
             'App\Listeners\SendMessageNotification',
         ],

@@ -169,7 +169,7 @@ class InvoiceTest extends TestCase
         // When they attempt to view the information for a specific invoice
         // and include patient and user info
         Passport::actingAs($admin->user);
-        $response = $this->json('GET', "api/v1/invoices/{$invoice->id}?include=invoice_items");
+        $response = $this->json('GET', "api/v1/invoices/{$invoice->id}?include=items");
 
         // Then it is successful
         $response->assertStatus(ResponseCode::HTTP_OK);

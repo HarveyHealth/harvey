@@ -16,9 +16,7 @@ class UserPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+        return $user->isAdmin() ?: null;
     }
 
     /**
@@ -28,7 +26,7 @@ class UserPolicy
      */
     public function view(User $user, User $targetUser)
     {
-        return $user->is($targetUser);
+        return $user->isPractitioner() || $user->is($targetUser);
     }
 
     /**

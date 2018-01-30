@@ -15,7 +15,7 @@
                 <h1 class="f1-l f2 lh-title mt0 mb3 ph3 white">Book a consultation with <br class="dn db-ns"/>a Naturopathic Doctor.</h1>
                 <p class="f4-l f5 fw5 mb4 ph3 white">Schedule a 1-hour consultation with a licensed Naturopathic Doctor <br class="dn db-ns"/>to review lab results or build a personalized treatment plan.</p>
                 <div class="tc">
-                    <a href="/get-started" class="button f4-l f5 ph4 is-primary has-arrow">Check Availability</a>
+                    <a href="/get-started#/signup" class="button f4-l f5 ph4 is-primary has-arrow">Check Availability</a>
                     <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="https://telegram.me/goharvey_doctors" class="underline white dim" target="_blank">Chat free with a doctor</a></p>
                 </div>
             </div>
@@ -234,7 +234,7 @@
                 <p class="f2-l f3">Serving patients across 40 states.</p>
                 <p class="f4-l f5 pa3">We recommend talking with a doctor to receive a full treatment plan. You can book a video consultation today or start a private chat with one of our doctors on Telegram.</p>
                 <div class="tc">
-                    <a href="/get-started" class="button f4-ns f5 ph4 is-primary has-arrow">Check Availability</a>
+                    <a href="/get-started#/signup" class="button f4-ns f5 ph4 is-primary has-arrow">Check Availability</a>
                     <p class="f5-l f6 fw5 db cf ma3">Questions? <a href="https://telegram.me/goharvey_doctors" class="underline dim" target="_blank">Chat free with a doctor</a></p>
                 </div>
             </div>
