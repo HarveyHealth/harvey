@@ -15,6 +15,8 @@ class ConsultationsPage extends BasePage
     public $weight = 'Weight Loss/Gain';
     public $womansHealth = 'Skin Issues';
     public $generalHealth = 'General Health';
+    public $zipCode = 'What is your zip code?';
+    public $telegram = 'Harvey Doctors';
 
      /**
      * Get the URL for the page.
@@ -61,7 +63,10 @@ class ConsultationsPage extends BasePage
             '@fatigueShop' => '#conditions > div > div:nth-child(4) > div:nth-child(1) > a',
             '@weightShop' => '#conditions > div > div:nth-child(4) > div:nth-child(2) > a',
             '@womansHealthShop' => '#conditions > div > div:nth-child(4) > div:nth-child(3) > a',
-            '@generalHealthShop' => '#conditions > div > div:nth-child(4) > div:nth-child(4) > a'
+            '@generalHealthShop' => '#conditions > div > div:nth-child(4) > div:nth-child(4) > a',
+            '@checkAvailability' => '#get-started > div > div > div > a',
+            '@chatWithDoctor' => '#get-started > div > div > div > p > a',
+            '@footer' => '#footer > div:nth-child(1)'
         ];
     }
 }

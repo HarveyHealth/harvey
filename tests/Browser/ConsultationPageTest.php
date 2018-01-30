@@ -81,4 +81,12 @@ class ConsultationPageTest extends DuskTestCase
         });
     }
 
+    public function test_check_availability_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new ConsultationsPage)
+                    ->mouseOver('@footer')
+                    ->clickAssert('@checkAvailability', 'zipCode');
+        });
+    }
 }
