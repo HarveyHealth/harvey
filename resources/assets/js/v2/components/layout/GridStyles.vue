@@ -9,7 +9,7 @@ export default {
     data() {
         return {
             COLUMN_BASE: 12,
-            breakpoints: Object.keys(this.State('misc.grid')),
+            breakpoints: Object.keys(this.State.misc.grid),
             spacing: this.Config.misc.spacing
         };
     },
@@ -19,7 +19,7 @@ export default {
     // into the node above on mount as well as when CSS update (via watch)
     computed: {
         CSS() {
-            return this.compileCSS(this.State('misc.grid'));
+            return this.compileCSS(this.State.misc.grid);
         }
     },
 

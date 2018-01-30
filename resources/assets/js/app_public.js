@@ -54,9 +54,7 @@ Vue.prototype.Laravel = Laravel;
 Vue.prototype.Config = App.Config;
 Vue.prototype.Util = App.Util;
 
-Vue.prototype.State = (path, ifUndefined) => {
-  return App.Util.data.propDeep(path.split('.'), App.Public.State, ifUndefined);
-};
+Vue.prototype.State = App.Public.State;
 
 const app = new Vue({
     components: {

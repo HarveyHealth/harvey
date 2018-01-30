@@ -8,8 +8,8 @@ export default function(zip, response) {
     return;
   }
 
-  App.setState('wasRequested.zip', true);
-  App.setState('isLoading.zip', true);
+  App.State.wasRequested.zip = true;
+  App.State.isLoading.zip = true;
 
   axios.get(`${App.Config.misc.api}visitors/verifications/zip/${zip}`)
     .then(r => response(r))

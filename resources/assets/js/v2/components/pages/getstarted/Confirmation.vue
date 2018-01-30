@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
+    <SlideIn v-if="!State.getstarted.signup.hasCompletedSignup" class="ph2 ph3-m pv4">
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">Final Confirmation</Heading1>
             <Spacer isBottom :size="2" />
@@ -15,7 +15,7 @@
                 <Paragraph :weight="'thin'">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Out of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</Paragraph>
                 <Spacer isBottom :size="3" />
                 <InputButton
-                    :isDone="State('getstarted.signup.hasCompletedSignup')"
+                    :isDone="State.getstarted.signup.hasCompletedSignup"
                     :isDisabled="isProcessing"
                     :isProcessing="isProcessing"
                     :onClick="confirmSignup"
@@ -39,8 +39,8 @@
                 </Paragraph>
                 <Spacer isBottom :size="4" />
                 <InputButton
-                    :isDisabled="State('practitioners.availability.isLoading')"
-                    :isProcessing="State('practitioners.availability.isLoading')"
+                    :isDisabled="State.practitioners.availability.isLoading"
+                    :isProcessing="State.practitioners.availability.isLoading"
                     :mode="'secondary'"
                     :text="'Back to Schedule'"
                     :onClick="handleNewAvailability"
@@ -79,13 +79,13 @@ export default {
     data() {
         return {
             isProcessing: false,
-            cardBrand: this.State('getstarted.signup.cardBrand') || this.Config.user.info.card_brand,
-            date: this.State('getstarted.signup.data.appointment_at'),
-            doctor: `${this.State('getstarted.signup.practitionerName')}, ND`,
-            paymentStatement: `Your consultation will cost $150, which will be charged to your ${this.State('getstarted.signup.cardBrand') || 'card'} after the consultation`,
-            phone: this.State('.getstarted.signup.phone') || this.Config.user.info.phone,
+            cardBrand: this.State.getstarted.signup.cardBrand || this.Config.user.info.card_brand,
+            date: this.State.getstarted.signup.data.appointment_at,
+            doctor: `${this.State.getstarted.signup.practitionerName}, ND`,
+            paymentStatement: `Your consultation will cost $150, which will be charged to your ${this.State.getstarted.signup.cardBrand || 'card'} after the consultation`,
+            phone: this.State.getstarted.signup.phone || this.Config.user.info.phone,
             showModal: false,
-            state: this.State('getstarted.signup.practitionerState')
+            state: this.State.getstarted.signup.practitionerState
         };
     },
     computed: {
@@ -104,21 +104,20 @@ export default {
             this.isProcessing = true;
 
             // Remove discount_code from sent data if it does not exist
-            let signupData = this.State('getstarted.signup.data');
+            let signupData = this.State.getstarted.signup.data;
 
             if (!signupData.discount_code) {
                 signupData = omit(signupData, ['discount_code']);
             }
 
-            axios.post('/api/v1/appointments', signupData).then(response => {
+            axios.post(`${this.Config.misc.api}appointments`, signupData).then(response => {
                 this.isProcessing = false;
                 analytics.track("Consultation Confirmed");
                 App.Util.data.killStorage(['signup_mode', 'zip_validation']);
-                App.setState({
-                    'getstarted.signup.googleMeetLink': response.data.data.attributes.google_meet_link,
-                    'getstarted.signup.stepsCompleted.confirmation': true,
-                    'getstarted.signup.hasCompletedSignup': true
-                });
+
+                App.State.getstarted.signup.googleMeetLink = response.data.data.attributes.google_meet_link;
+                App.State.getstarted.signup.stepsCompleted.confirmation = true;
+                App.State.getstarted.signup.hasCompletedSignup = true;
 
                 setTimeout(() => App.Router.push({ path: '/success' }), 800);
 
@@ -130,16 +129,15 @@ export default {
             });
         },
         handleNewAvailability() {
-            App.Http.practitioners.getAvailability(this.State('getstarted.signup.data.practitioner_id'), () => {
-                App.setState({
-                    'getstarted.signup.selectedWeek': null,
-                    'getstarted.signup.selectedDay': null,
-                    'getstarted.signup.selectedTime': null,
-                    'getstarted.signup.selectedDate': null,
-                    'getstarted.signup.stepsCompleted.schedule': false,
-                    'getstarted.signup.appointmentIsSelected': false,
-                    'getstarted.signup.data.appointment_at': null
-                });
+            App.Http.practitioners.getAvailability(this.State.getstarted.signup.data.practitioner_id, () => {
+                App.State.getstarted.signup.selectedWeek = null;
+                App.State.getstarted.signup.selectedDay = null;
+                App.State.getstarted.signup.selectedTime = null;
+                App.State.getstarted.signup.selectedDate = null;
+                App.State.getstarted.signup.stepsCompleted.schedule = false;
+                App.State.getstarted.signup.appointmentIsSelected = false;
+                App.State.getstarted.signup.data.appointment_at = null;
+
                 App.Router.push({ path: '/schedule' });
             });
         }

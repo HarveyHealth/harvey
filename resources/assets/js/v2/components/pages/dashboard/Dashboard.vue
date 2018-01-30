@@ -25,9 +25,9 @@
             </CardContent>
           </Card>
           <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
-            <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
+            <AvatarCardHeading :heading="State.practitioners.userDoctor.attributes.name" />
             <CardContent>
-              <Paragraph :weight="'thin'">{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
+              <Paragraph :weight="'thin'">{{ State.practitioners.userDoctor.attributes.description }}</Paragraph>
             </CardContent>
           </Card>
         </Grid>
@@ -78,26 +78,28 @@ export default {
   },
   computed: {
     isDoneLoading() {
-      return this.State('practitioners.data.all').length && this.State('appointments.wasRequested.upcoming') && !this.State('appointments.isLoading.upcoming');
+      return this.State.practitioners.data.all.length &&
+        this.State.appointments.wasRequested.upcoming &&
+        !this.State.appointments.isLoading.upcoming;
     },
     shouldShowDoctorInfo() {
-      return App.Config.user.isPatient && this.State('practitioners.userDoctor');
+      return App.Config.user.isPatient && this.State.practitioners.userDoctor;
     },
     topRowColumnConfig() {
       return this.shouldShowDoctorInfo ? [{ l:6 }, { l:6 }] : [{ l:12 }];
     },
     upcomingAppointments() {
-      return this.State('appointments.data.upcoming').filter(a => a.attributes.status === 'pending');
+      return this.State.appointments.data.upcoming.filter(a => a.attributes.status === 'pending');
     }
   },
   mounted() {
-    App.setState('misc.currentPage', 'dashboard');
+    App.State.misc.currentPage = 'dashboard';
 
-    if (!this.State('appointments.wasRequested.upcoming')) {
+    if (!this.State.appointments.wasRequested.upcoming) {
       App.Http.appointments.getUpcoming(App.Http.appointments.getUpcomingResponse);
     }
 
-    if (!this.State('practitioners.wasRequested')) {
+    if (!this.State.practitioners.wasRequested) {
       App.Http.practitioners.get(App.Http.practitioners.getResponse);
     }
 

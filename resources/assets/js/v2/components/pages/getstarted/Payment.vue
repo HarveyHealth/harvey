@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
+    <SlideIn v-if="!State.getstarted.signup.hasCompletedSignup" class="ph2 ph3-m pv4">
 
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">{{ preface.heading }}</Heading1>
@@ -148,12 +148,12 @@ export default {
     data() {
         return {
             card: null,
-            cardCvc: this.State('getstarted.signup.cardCvc') || '',
-            cardExpiration: this.State('getstarted.signup.cardExpiration') || '',
-            cardName: this.State('getstarted.signup.cardName') || '',
-            cardNumber: this.State('getstarted.signup.cardNumber') || '',
-            discountCode: this.State('getstarted.signup.data.discount_code') || '',
-            discountSuccess: this.State('getstarted.signup.discountSuccess') || '',
+            cardCvc: this.State.getstarted.signup.cardCvc || '',
+            cardExpiration: this.State.getstarted.signup.cardExpiration || '',
+            cardName: this.State.getstarted.signup.cardName || '',
+            cardNumber: this.State.getstarted.signup.cardNumber || '',
+            discountCode: this.State.getstarted.signup.data.discount_code || '',
+            discountSuccess: this.State.getstarted.signup.discountSuccess || '',
             postError: 'There was an unexpected error. Please try again or contact support at <a href="tel:8006909989">800-690-9989</a>',
             stripeError: '',
 
@@ -179,10 +179,10 @@ export default {
             };
         },
         isAlreadyStored() {
-            return this.State('getstarted.signup.cardIsStored');
+            return this.State.getstarted.signup.cardIsStored;
         },
         isConfirmed() {
-            return this.State('getstarted.signup.cardNumber').length > 0;
+            return this.State.getstarted.signup.cardNumber.length > 0;
         },
         preface() {
             return this.isConfirmed || this.isAlreadyStored
@@ -192,7 +192,7 @@ export default {
                 }
                 : {
                     heading: 'Enter Payment Method',
-                    subtext: `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${this.State('getstarted.signup.practitioner.name')}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`
+                    subtext: `Please enter a preferred method of payment for your 1-hour consultation with Dr. ${this.State.getstarted.signup.practitioner.name}, ND. Your card will be charged $150 after completion of your appointment. For short-term 0% financing options, <a href="/financing" target="_blank">click here</a>.`
                 };
         }
     },
@@ -277,16 +277,15 @@ export default {
                     const tokenResponse = response;
                     // Update user's card information
                     axios.post(`/api/v1/users/${App.Config.user.info.id}/cards`, { id: response.id }).then(() => {
-                        App.setState({
-                            'getstarted.signup.cardName': this.cardName,
-                            'getstarted.signup.cardNumber': this.cardNumber,
-                            'getstarted.signup.cardExpiration': this.cardExpiration,
-                            'getstarted.signup.cardCvc': this.cardCvc,
-                            'getstarted.signup.data.discount_code': this.discountCode,
-                            'getstarted.signup.discountSuccess': this.discountSuccess,
-                            'getstarted.signup.cardBrand': tokenResponse.card.brand,
-                            'getstarted.signup.cardLastFour': tokenResponse.card.last4
-                        });
+                        App.State.getstarted.signup.cardName = this.cardName;
+                        App.State.getstarted.signup.cardNumber = this.cardNumber;
+                        App.State.getstarted.signup.cardExpiration = this.cardExpiration;
+                        App.State.getstarted.signup.cardCvc = this.cardCvc;
+                        App.State.getstarted.signup.data.discount_code = this.discountCode;
+                        App.State.getstarted.signup.discountSuccess = this.discountSuccess;
+                        App.State.getstarted.signup.cardBrand = tokenResponse.card.brand;
+                        App.State.getstarted.signup.cardLastFour = tokenResponse.card.last4;
+
                         this.isProcessing = false;
                         App.Logic.getstarted.nextStep.call(this, 'payment');
                     }).catch(error => {
@@ -299,17 +298,16 @@ export default {
             });
         },
         resetCardData() {
-            App.setState({
-                'getstarted.signup.cardName': '',
-                'getstarted.signup.cardNumber': '',
-                'getstarted.signup.cardExpiration': '',
-                'getstarted.signup.cardCvc': '',
-                'getstarted.signup.cardBrand': '',
-                'getstarted.signup.cardLastFour': '',
-                'getstarted.signup.cardIsStored': false,
-                'getstarted.signup.discountSuccess': '',
-                'getstarted.signup.stepsCompleted.payment': false
-            });
+            App.State.getstarted.signup.cardName = '';
+            App.State.getstarted.signup.cardNumber = '';
+            App.State.getstarted.signup.cardExpiration = '';
+            App.State.getstarted.signup.cardCvc = '';
+            App.State.getstarted.signup.cardBrand = '';
+            App.State.getstarted.signup.cardLastFour = '';
+            App.State.getstarted.signup.cardIsStored = false;
+            App.State.getstarted.signup.discountSuccess = '';
+            App.State.getstarted.signup.stepsCompleted.payment = false;
+
             this.cardCvc = '';
             this.cardExpiration = '';
             this.cardName = '';
@@ -324,12 +322,10 @@ export default {
         App.Logic.getstarted.refuseStepSkip.call(this, 'payment');
 
         if (!this.isConfirmed && this.Config.user.info.has_a_card) {
-            App.setState({
-                'getstarted.signup.cardIsStored': this.Config.user.info.has_a_card,
-                'getstarted.signup.cardNumber': 'just_trigger_text'
-            });
+            App.State.getstarted.signup.cardIsStored = this.Config.user.info.has_a_card;
+            App.State.getstarted.signup.cardNumber = 'just_trigger_text';
 
-            if (!this.State('getstarted.signup.stepsCompleted.payment')) {
+            if (!this.State.getstarted.signup.stepsCompleted.payment) {
                 App.Logic.getstarted.nextStep.call(this, 'payment');
             }
         }
@@ -339,7 +335,7 @@ export default {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 
         if (this.isAlreadyStored) {
-            App.setState('getstarted.signup.stepsCompleted.payment', true);
+            App.State.getstarted.signup.stepsCompleted.payment = true;
         }
 
         // Card.js - https://github.com/jessepollak/card

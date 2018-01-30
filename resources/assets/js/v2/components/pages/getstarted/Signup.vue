@@ -48,36 +48,36 @@
                             <form @submit.prevent="onSubmit">
                                 <div class="input-wrap">
                                     <input class="form-input form-input_text"
-                                        @change="Util.data.toStorage('first_name', State('getstarted.userPost.first_name'))"
+                                        @change="Util.data.toStorage('first_name', State.getstarted.userPost.first_name)"
                                         name="first_name" type="text" placeholder="First Name"
-                                        v-model="State('getstarted.userPost').first_name"
+                                        v-model="State.getstarted.userPost.first_name"
                                         v-validate="'required|alpha_spaces'" data-vv-as="First name" />
                                     <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
                                 </div>
 
                                 <div class="input-wrap">
                                     <input class="form-input form-input_text"
-                                        @change="Util.data.toStorage('last_name', State('getstarted.userPost.last_name'))"
+                                        @change="Util.data.toStorage('last_name', State.getstarted.userPost.last_name)"
                                         name="last_name" type="text" placeholder="Last Name"
-                                        v-model="State('getstarted.userPost').last_name"
+                                        v-model="State.getstarted.userPost.last_name"
                                         v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
                                     <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
                                 </div>
 
                                 <div class="input-wrap">
                                     <input class="form-input form-input_text"
-                                        @change="Util.data.toStorage('email', State('getstarted.userPost.email'))"
+                                        @change="Util.data.toStorage('email', State.getstarted.userPost.email)"
                                         name="email" type="email" placeholder="Personal Email"
-                                        v-model="State('getstarted.userPost').email"
+                                        v-model="State.getstarted.userPost.email"
                                         v-validate="'required|email'" data-vv-validate-on="blur" />
                                     <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
                                 </div>
 
                                 <div class="input-wrap">
                                     <input class="form-input form-input_text"
-                                        @change="Util.data.toStorage('password', State('getstarted.userPost.password'))"
+                                        @change="Util.data.toStorage('password', State.getstarted.userPost.password)"
                                         name="password" type="password" placeholder="Create Password"
-                                        v-model="State('getstarted.userPost').password"
+                                        v-model="State.getstarted.userPost.password"
                                         v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
                                     <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
                                 </div>
@@ -86,7 +86,7 @@
                                     <label class="form-label form-label_checkbox font-sm" for="checkbox">
                                         <input class="form-input form-input_checkbox"
                                             name="terms" type="checkbox" id="checkbox"
-                                            v-model="State('getstarted.userPost').terms"
+                                            v-model="State.getstarted.userPost.terms"
                                             v-validate="'required'"
                                             checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="http://help.goharvey.com/legal/terms">terms</a> and <a href="http://help.goharvey.com/legal/privacy">policies</a>.
                                     </label>
@@ -161,11 +161,11 @@ export default {
     // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
     computed: {
         hasZipValidation() {
-            return this.State('getstarted.zipValidation') !== null;
+            return this.State.getstarted.zipValidation !== null;
         },
 
         isServiceable() {
-            return this.State('getstarted.zipValidation.is_serviceable');
+            return this.State.getstarted.zipValidation.is_serviceable;
         },
 
         firstNameError() {
@@ -208,7 +208,7 @@ export default {
             }
         },
         title() {
-            return `Now serving patients<br/>in ${App.Util.misc.getState(this.State('getstarted.zipValidation.state'))}.`;
+            return `Now serving patients<br/>in ${App.Util.misc.getState(this.State.getstarted.zipValidation.state)}.`;
         }
     },
 
@@ -222,7 +222,7 @@ export default {
         },
 
         facebookSignup() {
-            if(!this.State('getstarted.userPost.terms')) {
+            if(!this.State.getstarted.userPost.terms) {
                 this.errors.add('terms', 'error', 'required');
                 this.errors.first('terms:required');
             } else {
@@ -230,22 +230,22 @@ export default {
                 // and then logs out, their account has been created but the signup_mode data still
                 // exists. If they click the Facebook Signup again, it will log them in and send them
                 // to the welcome step but we do not want to fire 'Account Created' again.
-                if (!this.State('getstarted.signupMode.account_created')) {
+                if (!this.State.getstarted.signupMode.account_created) {
                     App.Util.data.toStorage('signup_mode', this.generateTrackingData('facebook'));
                 }
-                window.location.href = `/auth/facebook?zip=${this.State('getstarted.userPost.zip')}`;
+                window.location.href = `/auth/facebook?zip=${this.State.getstarted.userPost.zip}`;
             }
         },
         onSubmit() {
-            this.State('getstarted.userPost').terms = this.State('getstarted.userPost.terms') ? true : '';
+            this.State.getstarted.userPost.terms = this.State.getstarted.userPost.terms ? true : '';
             // Validate the form
-            this.$validator.validateAll(this.State('getstarted').userPost).then(response => {
+            this.$validator.validateAll(this.State.getstarted.userPost).then(response => {
                 if (!response) return;
 
                 this.isProcessing = true;
 
                 // create the user
-                axios.post('api/v1/users', this.State('getstarted.userPost'))
+                axios.post('api/v1/users', this.State.getstarted.userPost)
                     .then(this.login)
                     // Error catch for user patch
                     // The BE checks for invalid zipcodes based on states we know we cannot operate in
@@ -279,8 +279,8 @@ export default {
         // Logs the user in, triggers analytics, refreshes the page for Laravel object
         login(response) {
             axios.post('login', {
-                email: this.State('getstarted.userPost.email'),
-                password: this.State('getstarted.userPost.password')
+                email: this.State.getstarted.userPost.email,
+                password: this.State.getstarted.userPost.password
             })
             .then(() => {
                 this.isComplete = true;

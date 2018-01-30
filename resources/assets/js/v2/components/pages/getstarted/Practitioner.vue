@@ -1,7 +1,7 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
+    <SlideIn v-if="!State.getstarted.signup.hasCompletedSignup" class="ph2 ph3-m pv4">
         <div class="tc">
-            <div v-if="State('practitioners.isLoading')">
+            <div v-if="State.practitioners.isLoading">
                 <LoadingSpinner :color="'light'" />
                 <Spacer isBottom :size="3" />
                 <Heading1 :color="'light'" doesExpand>Loading Practitioners...</Heading1>
@@ -62,10 +62,10 @@
                         <Spacer isBottom :size="3" />
                         <div ref="button">
                             <InputButton
-                                :isDisabled="State('getstarted.signup.stepsCompleted.practitioner')"
-                                :isDone="State('getstarted.signup.stepsCompleted.practitioner')"
-                                :isProcessing="State('practitioners.availability.isLoading')"
-                                :onClick="() => getAvailability(State('getstarted.signup.data.practitioner_id'))"
+                                :isDisabled="State.getstarted.signup.stepsCompleted.practitioner"
+                                :isDone="State.getstarted.signup.stepsCompleted.practitioner"
+                                :isProcessing="State.practitioners.availability.isLoading"
+                                :onClick="() => getAvailability(State.getstarted.signup.data.practitioner_id)"
                                 :text="'Continue'"
                                 :width="'160px'"
                             />
@@ -125,22 +125,22 @@ export default {
     },
     computed: {
         hasNoPractitioners() {
-            return !this.State('practitioners.isLoading') && !this.State('practitioners.data.licensed').length;
+            return !this.State.practitioners.isLoading && !this.State.practitioners.data.licensed.length;
         },
         hasSelection() {
             return this.selected !== null;
         },
         // Grab up to 8 practitioners
         practitioners() {
-            return this.State('practitioners.data.licensed').slice(0, 8);
+            return this.State.practitioners.data.licensed.slice(0, 8);
         },
         selected() {
-            return this.State('getstarted.signup.selectedPractitioner');
+            return this.State.getstarted.signup.selectedPractitioner;
         }
     },
     methods: {
         getAvailability(id) {
-            if (!this.State('getstarted.signup.data.practitioner_id')) {
+            if (!this.State.getstarted.signup.data.practitioner_id) {
                 this.errorText = 'Please select a practitioner by clicking their box.';
                 return;
             }
@@ -159,29 +159,28 @@ export default {
             if (shouldScroll) this.$refs.button.scrollIntoView();
             // If a new doctor is selected, both the practitioner and schedule step are marked incomplete
             // and all relevant state must be reset
-            App.setState({
-                'getstarted.signup.stepsCompleted.practitioner': false,
-                'getstarted.signup.stepsCompleted.schedule': false,
-                'getstarted.signup.appointmentIsSelected': false,
-                'getstarted.signup.data.appointment_at': null,
-                'getstarted.signup.selectedDate': null,
-                'getstarted.signup.selectedDay': null,
-                'getstarted.signup.selectedTime': null,
-                'getstarted.signup.selectedTimes': null,
-                'getstarted.signup.selectedWeek': null,
-                'getstarted.signup.selectedPractitioner': index,
-                'getstarted.signup.data.practitioner_id': dr.id,
-                'getstarted.signup.practitioner': dr.attributes,
-                'getstarted.signup.practitionerName': dr.attributes.name,
-                'getstarted.signup.practitionerState': dr.attributes.license_state
-            });
+            App.State.getstarted.signup.stepsCompleted.practitioner = false;
+            App.State.getstarted.signup.stepsCompleted.schedule = false;
+            App.State.getstarted.signup.appointmentIsSelected = false;
+            App.State.getstarted.signup.data.appointment_at = null;
+            App.State.getstarted.signup.selectedDate = null;
+            App.State.getstarted.signup.selectedDay = null;
+            App.State.getstarted.signup.selectedTime = null;
+            App.State.getstarted.signup.selectedTimes = null;
+            App.State.getstarted.signup.selectedWeek = null;
+            App.State.getstarted.signup.selectedPractitioner = index;
+            App.State.getstarted.signup.data.practitioner_id = dr.id;
+            App.State.getstarted.signup.practitioner = dr.attributes;
+            App.State.getstarted.signup.practitionerName = dr.attributes.name;
+            App.State.getstarted.signup.practitionerState = dr.attributes.license_state;
+
             this.errorText = null;
         }
     },
     beforeMount() {
         App.Logic.getstarted.refuseStepSkip.call(this, 'practitioner');
         // Will render ProgressBar at top of screen
-        App.setState('getstarted.signup.showProgress', true);
+        App.State.getstarted.signup.showProgress = true;
     },
     mounted () {
         window.scroll(0, 0);

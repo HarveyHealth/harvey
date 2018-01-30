@@ -1,5 +1,5 @@
 <template>
-    <ScheduleList v-if="State('getstarted.signup.selectedDate')">
+    <ScheduleList v-if="State.getstarted.signup.selectedDate">
         <li v-for="(time, i) in timeData">
             <BubbleSelection :isActive="selectedTime === i" :onClick="() => handleTimeSelection(time, i)">
                 {{ time | timeDisplay }}
@@ -22,17 +22,15 @@ export default {
     },
     computed: {
         selectedTime() {
-            return this.State('getstarted.signup.selectedTime');
+            return this.State.getstarted.signup.selectedTime;
         }
     },
     methods: {
         handleTimeSelection(time, index) {
-            App.setState({
-                'getstarted.signup.stepsCompleted.schedule': false,
-                'getstarted.signup.appointmentIsSelected': false,
-                'getstarted.signup.selectedTime': index,
-                'getstarted.signup.data.appointment_at': this.Util.time.toUtc(time)
-            });
+            App.State.getstarted.signup.stepsCompleted.schedule = false;
+            App.State.getstarted.signup.appointmentIsSelected = false;
+            App.State.getstarted.signup.selectedTime = index;
+            App.State.getstarted.signup.data.appointment_at = this.Util.time.toUtc(time);
         }
     }
 };

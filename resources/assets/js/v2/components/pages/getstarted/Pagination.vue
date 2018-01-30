@@ -32,17 +32,17 @@ export default {
     computed: {
         // We can show the link to the next step only if that step has been completed
         canShowNext() {
-            return this.State(`getstarted.signup.stepsCompleted.${this.step}`);
+            return this.State.getstarted.signup.stepsCompleted[this.step];
         },
         // Pagination is based on the index of steps in getstarted.signup.steps
         pagination() {
             return {
-                next: this.State('getstarted.signup.steps')[this.stepIndex + 1],
-                previous: this.State('getstarted.signup.steps')[this.stepIndex - 1]
+                next: this.State.getstarted.signup.steps[this.stepIndex + 1],
+                previous: this.State.getstarted.signup.steps[this.stepIndex - 1]
             };
         },
         stepIndex() {
-            return this.State('getstarted.signup.steps').indexOf(this.step);
+            return this.State.getstarted.signup.steps.indexOf(this.step);
         }
     }
 };
