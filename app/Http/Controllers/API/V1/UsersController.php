@@ -273,7 +273,7 @@ class UsersController extends BaseAPIController
             'name' => 'sometimes',
         ]);
 
-        if (!$card = $user->updateCard($cardId, $request->intersect(array_keys($validKeys)))) {
+        if (!$card = $user->updateCard($cardId, array_filter($request->only(array_keys($validKeys))))) {
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 

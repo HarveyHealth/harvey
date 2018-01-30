@@ -11,18 +11,22 @@ use Exception, ResponseCode;
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
      * @var array
      */
     protected $dontReport = [
-        \App\Exceptions\ServiceUnavailableException::class,
-        \App\Exceptions\StrictValidatorException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        //
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -62,23 +66,5 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            $problem = new ApiProblem('Unauthenticated.');
-            $problem->setDetail($exception->getMessage());
-            return response()->apiproblem($problem->asArray(), 401);
-        }
-
-        return redirect()->guest('login');
     }
 }

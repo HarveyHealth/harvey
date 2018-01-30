@@ -21,7 +21,7 @@ class PractitionerTest extends TestCase
             Passport::actingAs(factory($userClass)->make()->user);
             $response = $this->json('GET', 'api/v1/practitioners/');
             $response->assertStatus(200);
-            $this->assertCount(3, $response->original['data']);
+            $this->assertCount(3, $response->original->data);
         }
     }
 

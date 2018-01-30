@@ -36,11 +36,11 @@ class InvoiceTest extends TestCase
         $response = $this->json('GET', 'api/v1/invoices');
 
         // Then we should only see 5 invoices
-        $this->assertEquals(count($response->original['data']), 5);
+        $this->assertEquals(count($response->original->data), 5);
 
         // And each invoice belongs to the patient
-        foreach ($response->original['data'] as $item) {
-            $this->assertEquals($item['attributes']['patient_id'], $patient->id);
+        foreach ($response->original->data as $item) {
+            $this->assertEquals($item->attributes->patient_id, $patient->id);
         }
     }
 
@@ -72,7 +72,7 @@ class InvoiceTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertCount(6, $response->original['data']);
+        $this->assertCount(6, $response->original->data);
     }
 
     public function test_it_includes_appointment()
@@ -92,7 +92,7 @@ class InvoiceTest extends TestCase
         // Then it is successful
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertEquals($appointment->id, $response->original['data']['attributes']['appointment_id']);
+        $this->assertEquals($appointment->id, $response->original->data->attributes->appointment_id);
 
         $response->assertJsonStructure([
             'data' => [
@@ -112,7 +112,7 @@ class InvoiceTest extends TestCase
             ]
         ]);
 
-        $this->assertEquals($appointment->id, $response->original['included'][0]['id']);
+        $this->assertEquals($appointment->id, $response->original->included[0]->id);
     }
 
     public function test_it_includes_lab_order()
@@ -132,7 +132,7 @@ class InvoiceTest extends TestCase
         // Then it is successful
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertEquals($lab_order->id, $response->original['data']['attributes']['lab_order_id']);
+        $this->assertEquals($lab_order->id, $response->original->data->attributes->lab_order_id);
 
         $response->assertJsonStructure([
             'data' => [
@@ -152,7 +152,7 @@ class InvoiceTest extends TestCase
             ]
         ]);
 
-        $this->assertEquals($lab_order->id, $response->original['included'][0]['id']);
+        $this->assertEquals($lab_order->id, $response->original->included[0]->id);
     }
 
     public function test_it_can_include_items()
