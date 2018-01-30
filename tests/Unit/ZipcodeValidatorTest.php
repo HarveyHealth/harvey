@@ -16,7 +16,7 @@ class ZipcodeValidatorTest extends TestCase
         factory(License::class)->create(['state' => 'CA']);
 
         $zip_code_validator = app()->make(ZipCodeValidator::class);
-        $zip_code_validator->setZip('91106');
+        $zip_code_validator->setZip('90401');
 
         $state = $zip_code_validator->getState();
 
@@ -27,7 +27,7 @@ class ZipcodeValidatorTest extends TestCase
     public function test_it_returns_false_if_we_dont_have_a_license_for_a_regulated_zipcode()
     {
         $zip_code_validator = app()->make(ZipCodeValidator::class);
-        $zip_code_validator->setZip('91106');
+        $zip_code_validator->setZip('90401');
 
         $state = $zip_code_validator->getState();
 

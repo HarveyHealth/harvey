@@ -29,7 +29,7 @@ class PatientTest extends TestCase
             Passport::actingAs(factory($userClass)->create()->user);
             $response = $this->json('GET', 'api/v1/patients/');
             $response->assertStatus(200);
-            $this->assertCount(3, $response->original['data']);
+            $this->assertCount(3, $response->original->data);
         }
 
         Passport::actingAs(factory(Patient::class)->create()->user);
@@ -45,7 +45,7 @@ class PatientTest extends TestCase
             Passport::actingAs(factory($userClass)->create()->user);
             $response = $this->json('GET', 'api/v1/patients/?per_page=2');
             $response->assertStatus(200);
-            $this->assertCount(2, $response->original['data']);
+            $this->assertCount(2, $response->original->data);
             $response->assertJsonFragment([
                 'meta' => [
                     'pagination' => [
