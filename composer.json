@@ -15,19 +15,16 @@
         "michelf/php-smartypants": "^1.8",
         "league/commonmark": "^0.15.3",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "barryvdh/laravel-debugbar": "^2.3",
         "laravel/tinker": "^1.0",
         "jsvrcek/ics": "^0.5.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "fideloper/proxy": "~3.3",
         "doctrine/dbal": "^2.5",
         "propaganistas/laravel-phone": "^2.8",
-        "laravel/dusk": "^2.0",
         "spatie/laravel-fractal": "^5.0",
         "laravel/passport": "^3.0",
         "crell/api-problem": "^2.0",
         "wildbit/postmark-php": "^2.3",
-        "laravel/homestead": "^5.2",
         "laravel/scout": "^3.0",
         "pusher/pusher-php-server": "^2.6",
         "twilio/sdk": "^5.11",
@@ -45,7 +42,10 @@
         "phpunit/php-code-coverage": "5.*",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "symfony/thanks": "^1.0"
+        "symfony/thanks": "^1.0",
+        "laravel/dusk": "^2.0",
+        "laravel/homestead": "^7.0",
+        "barryvdh/laravel-debugbar": "^3.1"
     },
     "autoload": {
         "classmap": [
