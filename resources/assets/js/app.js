@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 Vue.use(VueQuillEditor);
 
 // COMPONENETS
-import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
+import { Dashboard } from 'pages';
 import { GridStyles } from 'layout';
 import Usernav from './commons/UserNav.vue';
 
@@ -87,6 +87,15 @@ const globalState = store(Laravel, State);
 App.State = globalState.State;
 Vue.prototype.State = App.State;
 
+import Store from './v2/setup/Store';
+import legacyData from './v2/setup/legacy';
+
+const appData = legacyData;
+appData.Store = Store;
+
+window.Store = Store;
+Vue.prototype.Store = Store;
+
 const app = new Vue({
     router,
     components: {
@@ -96,7 +105,7 @@ const app = new Vue({
     },
 
     // Adding State to the root data object makes it globally reactive.
-    data: globalState,
+    data: appData,
 
     computed: {
         userIsPatient() {
@@ -370,8 +379,8 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.attributes.sku_id] = e;
-                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) { 
-                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
+                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) {
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name;
                         }
                         this.labTests[e.attributes.sku_id]['checked'] = false;
                     });

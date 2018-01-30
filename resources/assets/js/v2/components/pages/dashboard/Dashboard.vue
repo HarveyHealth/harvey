@@ -1,6 +1,6 @@
 <template>
   <PageContainer>
-    <PageHeader :heading="Config.user.isAdmin ? 'Admin Dashboard' : 'Dashboard'" />
+    <PageHeader :heading="Store.isAdmin ? 'Admin Dashboard' : 'Dashboard'" />
     <div class="mw8 pa2 pa3-m">
       <NotificationPopup
         :active='isNotificationActive'
@@ -118,10 +118,10 @@ export default {
             return App.Config.user.isPatient && this.State.practitioners.userDoctor;
         },
         shouldShowIntakeAlert() {
-            return  App.Config.user.isPatient &&
-                    this.State.users.intake.wasRequested &&
-                    !this.State.users.intake.isLoading &&
-                    !this.State.users.intake.data.self;
+            return  Store.isPatient &&
+                    Store.users.hasRequestedIntake &&
+                    !Store.isLoadingIntake &&
+                    !Store.users.intake.self;
         },
         topRowColumnConfig() {
             return this.shouldShowDoctorInfo ? [{ l:6 }, { l:6 }] : [{ l:12 }];
@@ -131,7 +131,7 @@ export default {
         }
     },
     mounted() {
-        App.State.misc.currentPage = 'dashboard';
+        Store.currentPage = 'dashboard';
 
         if (!this.State.users.intake.wasRequested) {
             App.Http.users.getPatientIntake(App.Config.user.info.id);
