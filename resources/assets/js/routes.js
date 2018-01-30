@@ -72,7 +72,7 @@ let routes = [
     },
     {
         path: '/messages',
-        component: require('./pages/messages/Messages.vue')
+        component: require('./v2/components/pages/messages/Messages.vue')
     },
     {
         path: '/detail/:path',
