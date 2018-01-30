@@ -168,17 +168,18 @@ return [
         /*
          * Package Service Providers...
          */
+        HTMLMin\HTMLMin\HTMLMinServiceProvider::class,
         August\Pitbull\PitbullServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
-        Cviebrock\EloquentSluggable\ServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Application Service Providers...
