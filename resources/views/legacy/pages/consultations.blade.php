@@ -45,7 +45,7 @@
                     <div class="pa4 br-100 h4 w4 dib o-80 brown-bg">
                       <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/stress-anxiety.png" class="br-100 h3 w3 dib">
                     </div>
-                    <p class="f4 pt3 fw4">Stess & Anxiety</p>
+                    <p class="f4 pt3 fw4">Stress & Anxiety</p>
                     <a href="https://store.goharvey.com/collections/stress-anxiety" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
@@ -162,7 +162,7 @@
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
                     <p class="f4-l f5 moon-gray">Steve</p>
                     <a href="//www.youtube.com/watch?v=sO9lHH08sVs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-play-circle f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
-                    <p class="f5-l f6 pt2 lh-title">"We did some bloodwork, and it was a great experience. She recommended a vitamin regimen that improved my performance and recovery time."</p>
+                    <p class="f5-l f6 pt2 lh-title">"We did some blood-work, and it was a great experience. She recommended a vitamin regimen that improved my performance and recovery time."</p>
                 </div>
               </div>
             </div>
