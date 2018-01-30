@@ -19,6 +19,7 @@ before_install:
 before_script:
 - touch /home/travis/build/HomeHero/harvey/harvey.sqlite
 - phpenv config-rm xdebug.ini
+- composer require pusher/pusher-php-server --no-scripts
 - composer install --no-interaction
 script:
 - php artisan passport:getkeys
