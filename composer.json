@@ -32,6 +32,7 @@
         "cviebrock/eloquent-sluggable": "^4.2",
         "shippo/shippo-php": "1.*",
         "laravel/socialite": "^3.0",
+        "barryvdh/laravel-debugbar": "^3.1",
         "algolia/algoliasearch-client-php": "^1.23"
     },
     "require-dev": {
@@ -44,8 +45,7 @@
         "symfony/dom-crawler": "3.1.*",
         "symfony/thanks": "^1.0",
         "laravel/dusk": "^2.0",
-        "laravel/homestead": "^7.0",
-        "barryvdh/laravel-debugbar": "^3.1"
+        "laravel/homestead": "^7.0"
     },
     "autoload": {
         "classmap": [
