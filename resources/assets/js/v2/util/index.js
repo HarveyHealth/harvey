@@ -11,5 +11,6 @@ export default {
 
     findObject: data.find,
     getFullName: misc.fullName,
-    startFetch
+    startFetch,
+    toLocalTime: time.toLocal
 };
