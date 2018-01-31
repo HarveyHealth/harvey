@@ -7,13 +7,11 @@
 <script>
 export default {
     props: {
-        onClick: Function,
+        onClick: Function
     }
 };
 </script>
 
 <style lang="scss" scoped>
     @import '~sass';
-
-
 </style>

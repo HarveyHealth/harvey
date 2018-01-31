@@ -3,11 +3,13 @@
         <PageHeader heading="Messages">
             <AddNewButton :onClick="() => {}" />
         </PageHeader>
+        <CardMessage message="You do not have any messages." />
+        <CardMessage message="Your messages are loading..." />
     </PageContainer>
 </template>
 
 <script>
-import { PageHeader, PageContainer } from 'layout';
+import { PageHeader, PageContainer, CardMessage } from 'layout';
 import { AddNewButton } from 'nav';
 
 export default {
@@ -16,6 +18,7 @@ export default {
         PageContainer,
         PageHeader,
         AddNewButton,
+        CardMessage,
     },
     mounted() {
         App.State.misc.currentPage = 'messages';
