@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="phone">Date of Birth</label>
-                                        <input class="form-input form-input_text input-styles" v-model="user.included.attributes.birthdate.format_date" type="text" name="birthdate"/>
+                                        <input class="form-input form-input_text input-styles" v-mask="'##/##/####'" v-model="user.included.attributes.birthdate.format_date" type="text" name="birthdate"/>
                                     </div>
                                     <div class="input__container">
                                         <label  class="input__label" for="gender">Gender</label>
@@ -173,9 +173,13 @@
     import Modal from '../../commons/Modal.vue';
     import ConfirmInput from '../../commons/ConfirmInput.vue';
     import moment from 'moment';
+    import { mask } from 'vue-the-mask'
 
     export default {
         name: 'profile',
+        directives: {
+            mask,
+        },
         components: {
           NotificationPopup,
           ImageUpload,
