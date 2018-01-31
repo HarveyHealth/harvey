@@ -87,14 +87,36 @@ const globalState = store(Laravel, State);
 App.State = globalState.State;
 Vue.prototype.State = App.State;
 
+// ====================================================================
+// V2 REFACTORED ORGANIZATION
+//
+// This will sit alongside of the existing v2 architecture so we can
+// incrementally update things. The goal of this reorganization is to
+// simply locations of files and availability of global state and logic
+//
+// Store = global state, constants, computed properties. Replaces State
+//         and Config
+// _App = (to eventually replace App) main application logic divided by
+//        api endpoints or specific project features. Replaces Http and Logic
+// Util = global helpers
+// Router = stays the same
+// Filters = stays the same
+// Blade = stays the same
+
 import Store from './v2/setup/Store';
-import legacyData from './v2/setup/legacy';
+import legacyData from './v2/setup/legacy'; // for features using v1 FE
+import _App from './v2/App';
 
 const appData = legacyData;
 appData.Store = Store;
+appData.State = App.State; // remove this after refactor
 
 window.Store = Store;
 Vue.prototype.Store = Store;
+
+window.Util = Util;
+window._App = _App;
+// ====================================================================
 
 const app = new Vue({
     router,

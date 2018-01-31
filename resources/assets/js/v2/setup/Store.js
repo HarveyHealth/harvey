@@ -8,10 +8,6 @@ export default new Vue({
         // Global application state
         appointments: {
             all: [],
-            hasRequestsAll: false,
-            hasRequestsUpcoming: false,
-            isLoadingAll: false,
-            isLoadingUpcoming: false,
             index: {},
             upcoming: []
         },
@@ -24,30 +20,43 @@ export default new Vue({
             xl:    { width: 960,  classes: [] },
             xxl:   { width: 1280, classes: [] }
         },
+        hasRequested: {
+            allAppointments: false,
+            allPractitioners: false,
+            onePractitioner: false,
+            practitionerAvailability: false,
+            upcomingAppointments: false,
+            userIntake: false
+        },
+        isLoading: {
+            allAppointments: false,
+            allPractitioners: false,
+            onePractitioner: false,
+            practitionerAvailability: false,
+            upcomingAppointments: false,
+            userIntake: false
+        },
         isMobileMenuOpen: false,
         practitioners: {
             all: [],
             availability: [],
-            hasRequestedAll: false,
-            hasRequestedAvailability: false,
-            hasRequestedOne: true,
             index: {},
-            isLoadingAll: false,
-            isLoadingAvailability: false,
-            isLoadingOne: false,
             licensed: []
         },
         user: window.Laravel.user,
         users: {
-            intake: {},
-            isLoadingIntake: false,
-            hasRequestedIntake: false
+            intake: {
+                all: null,
+                self: null
+            },
+            practitioner: {}
         },
         zone: moment.tz.guess(),
         zoneAbbr: moment.tz(moment.tz.guess()).format('z'),
 
         // Global application constants
         API: '/api/v1/',
+        APPOINTMENT_PENDING: 'pending',
         BREAKPOINTS: {
             s: 0,
             ns: 420,
@@ -91,11 +100,17 @@ export default new Vue({
     // Global application computed
     computed: {
         isAdmin() { return this.user.user_type === 'admin'; },
+        isNotAdmin() { return !this.isAdmin; },
         isDev() { return env === 'dev' || 'development'; },
         isLoggedIn() { return this.user.signedIn; },
         isStage() { return env === 'stage' || 'staging'; },
         isPatient() { return this.user.user_type === 'patient'; },
         isPractitioner() { return this.user.user_type === 'practitioner'; },
-        isProd() { return env === 'prod' || 'production'; }
+        isProd() { return env === 'prod' || 'production'; },
+
+        upcomingAppointments() {
+            return this.appointments.upcoming
+                .filter(a => a.attributes.status === this.APPOINTMENT_PENDING);
+        }
     }
 });
