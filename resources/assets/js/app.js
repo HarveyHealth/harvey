@@ -410,6 +410,9 @@ const app = new Vue({
                 .then(response => {
                     let data = response.data.data;
                     if (response.data.included) {
+                        if (response.data.included[0] && response.data.included[0].attributes && response.data.included[0].attributes.birthdate && response.data.included[0].attributes.birthdate.date) {
+                            response.data.included[0].attributes.birthdate.format_date = moment(response.data.included[0].attributes.birthdate.date).format('MM/DD/YYYY');
+                        }
                         data.included = response.data.included[0];
                     }
                     this.global.user = data;
