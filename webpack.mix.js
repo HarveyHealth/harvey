@@ -23,8 +23,8 @@ mix.options({processCssUrls: false})
    .options({
      postCss: [
        require('autoprefixer')({
-         browsers: 'last 3 versions',
-       }),
+         browsers: 'last 3 versions'
+       })
      ]
    });
 
@@ -54,8 +54,9 @@ mix.webpackConfig({
             inputs: path.resolve(__dirname, 'resources/assets/js/v2/components/inputs'),
             layout: path.resolve(__dirname, 'resources/assets/js/v2/components/layout'),
             nav: path.resolve(__dirname, 'resources/assets/js/v2/components/nav'),
+            pages: path.resolve(__dirname, 'resources/assets/js/v2/components/pages'),
             typography: path.resolve(__dirname, 'resources/assets/js/v2/components/typography')
-        },
+        }
     },
     plugins: [
         new SpritesmithPlugin({

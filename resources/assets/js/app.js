@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 Vue.use(VueQuillEditor);
 
 // COMPONENETS
-import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
+import { Dashboard } from 'pages';
 import { GridStyles } from 'layout';
 import Usernav from './commons/UserNav.vue';
 
@@ -87,6 +87,37 @@ const globalState = store(Laravel, State);
 App.State = globalState.State;
 Vue.prototype.State = App.State;
 
+// ====================================================================
+// V2 REFACTORED ORGANIZATION
+//
+// This will sit alongside of the existing v2 architecture so we can
+// incrementally update things. The goal of this reorganization is to
+// simply locations of files and availability of global state and logic
+//
+// Store = global state, constants, computed properties. Replaces State
+//         and Config
+// _App = (to eventually replace App) main application logic divided by
+//        api endpoints or specific project features. Replaces Http and Logic
+// Util = global helpers
+// Router = stays the same
+// Filters = stays the same
+// Blade = stays the same
+
+import Store from './v2/setup/Store';
+import legacyData from './v2/setup/legacy'; // for features using v1 FE
+import _App from './v2/App';
+
+const appData = legacyData;
+appData.Store = Store;
+appData.State = App.State; // remove this after refactor
+
+window.Store = Store;
+Vue.prototype.Store = Store;
+
+window.Util = Util;
+window._App = _App;
+// ====================================================================
+
 const app = new Vue({
     router,
     components: {
@@ -96,7 +127,7 @@ const app = new Vue({
     },
 
     // Adding State to the root data object makes it globally reactive.
-    data: globalState,
+    data: appData,
 
     computed: {
         userIsPatient() {
@@ -370,8 +401,8 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.attributes.sku_id] = e;
-                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) { 
-                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
+                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) {
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name;
                         }
                         this.labTests[e.attributes.sku_id]['checked'] = false;
                     });

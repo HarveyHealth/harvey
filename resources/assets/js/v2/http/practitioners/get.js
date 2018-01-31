@@ -1,8 +1,8 @@
 export default function(response) {
-  if (!response || typeof response !== 'function') {
-    console.error('response is required and must be a function');
-    return;
-  }
+    if (!response || typeof response !== 'function') {
+        console.error('response is required and must be a function');
+        return;
+    }
 
   App.State.practitioners.isLoading = true;
   App.State.practitioners.wasRequested = true;
