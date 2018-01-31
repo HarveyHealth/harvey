@@ -327,7 +327,7 @@ export default {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
-                    Laravel.user.has_a_card = true;
+                    App.Config.user.info.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                         .then(respond => {

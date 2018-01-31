@@ -236,11 +236,12 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
+                let patientCache = {};
                 const include = response.data.included;
 
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
-                    patients.push({
+                    let object = {
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
@@ -256,7 +257,9 @@ const app = new Vue({
                         zip: includeData.zip,
                         image: includeData.image_url,
                         created_at: moment(includeData.created_at.date).format("MM/DD/YY")
-                    });
+                    };
+                    patients.push(object);
+                    patientCache[obj.id] = object;
                 });
 
                 patients = sortByLastName(patients);
@@ -268,7 +271,7 @@ const app = new Vue({
 
                 // build an array with patient data to look up by ID
                 response.data.data.forEach(e => {
-                    patientLookUp[e.id] = e;
+                    patientLookUp[e.id] = Object.assign({}, e, patientCache[e.id]);
                 });
                 this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
@@ -282,6 +285,10 @@ const app = new Vue({
             this.requestPatients('',(patients, patientLookUp)=>{
                 this.global.patients = patients;
                 this.global.patientLookUp = patientLookUp;
+                this.global.patientDictionary = patientLookUp.reduce((acc, item) => {
+                    acc[item.id] = item;
+                    return acc;
+                }, {});
             });
         },
         getPractitioners() {
@@ -393,8 +400,8 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.attributes.sku_id] = e;
-                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) {
-                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name;
+                        if (e.attributes && e.attributes.lab_name && this.labTypes[e.attributes.lab_name] === undefined) { 
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
                         }
                         this.labTests[e.attributes.sku_id]['checked'] = false;
                     });
@@ -436,6 +443,53 @@ const app = new Vue({
                     }
                     this.global.loadingMessages = false;
                 });
+        },
+        getTransactions() {
+            if (Laravel.user.user_type !== 'patient') {
+                this.requestPatients('', (patient, patientLookUp) => {
+                    axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
+                        .then((response) => {
+                            let invoices = {};
+                            if (response.data.included) {
+                                invoices = response.data.included.reduce((acc, item) => {
+                                    acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                    acc[item.attributes.invoice_id][item.id] = item;
+                                    return acc;
+                                }, {});
+                            }
+                            if (response.data.data && response.data.data.length) {
+                                this.global.transactions = response.data.data.reduce((acc, item) => {
+                                    item.patient = patientLookUp[item.attributes.patient_id] !== undefined ? patientLookUp[item.attributes.patient_id] : {};
+                                    item.items = invoices[item.id] !== undefined ? invoices[item.id] : {};
+                                    acc[item.id] = item;
+                                    return acc;
+                                }, {}); 
+                            }
+                            this.global.loadingTransactions = false;
+                        });
+                });
+            } else {
+                axios.get(`${this.apiUrl}/invoices?include=invoice_items`)
+                    .then((response) => {
+                        let invoices = {};
+                        if (response.data.included) {
+                            invoices = response.data.included.reduce((acc, item) => {
+                                acc[item.attributes.invoice_id] = acc[item.attributes.invoice_id] === undefined ? {} : acc[item.attributes.invoice_id];
+                                acc[item.attributes.invoice_id][item.id] = item;
+                                return acc;
+                            }, {});
+                        }
+                        this.global.transactions = {};
+                        if (response.data.data && response.data.data.length) {
+                            this.global.transactions = response.data.data.reduce((acc, item) => {
+                                item.items = invoices[item.id] !== undefined ? invoices[item.id] : {};
+                                acc[item.id] = item;
+                                return acc;
+                            }, {}); 
+                        }
+                        this.global.loadingTransactions = false;
+                    });
+            }
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
@@ -532,6 +586,7 @@ const app = new Vue({
                 this.global.loadingPatients = false;
             }
             if (Laravel.user.user_type === 'admin') this.getClientList();
+            if (Laravel.user.user_type !== 'practitioner') this.getTransactions();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
