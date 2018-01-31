@@ -8,5 +8,6 @@ export default {
     'gray-4': '#eeeeee',
     'gray-5': '#e4eaec',
     muted: '#8fa2a8',
-    white: '#ffffff'
+    white: '#ffffff',
+    'light-blue': '#82BEF2',
 }

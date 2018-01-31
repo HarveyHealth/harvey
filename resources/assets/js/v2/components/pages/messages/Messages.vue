@@ -1,20 +1,21 @@
 <template>
     <PageContainer>
-        <PageHeader heading="Messages" />
-        <LoadingSpinner />
+        <PageHeader heading="Messages">
+            <AddNewButton :onClick="() => {}" />
+        </PageHeader>
     </PageContainer>
 </template>
 
 <script>
-import { LoadingSpinner } from 'feedback';
 import { PageHeader, PageContainer } from 'layout';
+import { AddNewButton } from 'nav';
 
 export default {
     name: 'messages',
     components: {
         PageContainer,
         PageHeader,
-        LoadingSpinner
+        AddNewButton,
     },
     mounted() {
         App.State.misc.currentPage = 'messages';

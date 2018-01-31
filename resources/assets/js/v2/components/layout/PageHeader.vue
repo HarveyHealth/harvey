@@ -3,6 +3,7 @@
         <div class="container container-backoffice">
             <h1 class="heading-1">
               <span class="text">{{ heading }}</span>
+              <slot></slot>
             </h1>
         </div>
     </div>

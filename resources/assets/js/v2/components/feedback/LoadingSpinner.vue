@@ -15,7 +15,7 @@ export default {
     size: {
       type: String,
       default: 'md'
-    }
+    },
   },
   components: {
     ClipLoader
@@ -25,7 +25,8 @@ export default {
       colors: {
         dark: this.Config.misc.colors.copy,
         light: this.Config.misc.colors.white,
-        muted: this.Config.misc.colors.muted
+        muted: this.Config.misc.colors.muted,
+        lightBlue: this.Config.misc.colors.lightBlue,
       },
       sizes: {
         sm: '10px',
