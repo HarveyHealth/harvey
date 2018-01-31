@@ -200,15 +200,15 @@
                         address_2: '',
                         city: '',
                         state: '',
-                        zip: '',
+                        zip: ''
                     },
                     included: {
                         attributes: {
                             birthdate: {
-                                date: '',
-                            },
-                        },
-                    },
+                                date: ''
+                            }
+                        }
+                    }
                 },
                 thisUserId: Laravel.user.id,
                 practitioner: `${Laravel.user.practitionerId}` || null,
@@ -239,6 +239,9 @@
             flashNotification() {
                 this.notificationActive = true;
                 setTimeout(() => this.notificationActive = false, 3000);
+            },
+            formatDate(date) {
+                return moment(date).format('MM/DD/YYYY')
             },
             resetErrorMessages() {
                 this.errorMessages = null;
