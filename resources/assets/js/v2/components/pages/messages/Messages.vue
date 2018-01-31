@@ -18,7 +18,7 @@ export default {
         PageContainer,
         PageHeader,
         AddNewButton,
-        CardMessage,
+        CardMessage
     },
     mounted() {
         App.State.misc.currentPage = 'messages';
