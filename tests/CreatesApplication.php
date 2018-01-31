@@ -6,6 +6,7 @@ use App\Jobs\SendTransactionalEmail;
 use App\Lib\SMS;
 use App\Observers\{AppointmentObserver, UserObserver};
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Hash;
 use Mockery;
 
 trait CreatesApplication
@@ -23,6 +24,8 @@ trait CreatesApplication
         $app = require __DIR__ . '/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
+
+        Hash::setRounds(4);
 
         $app['env'] = 'testing';
 

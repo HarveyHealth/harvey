@@ -20,7 +20,7 @@ class RegistrationTest extends TestCase
             'email' => 'jsmith@yahoo.com',
             'password' => 'password',
             'terms' => true,
-            'zip' => 91106,
+            'zip' => 90401,
         ];
 
         factory(License::class)->create(['state' => 'CA']);
