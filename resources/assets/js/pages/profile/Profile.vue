@@ -50,6 +50,10 @@
                                         <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
                                     <div class="input__container">
+                                        <label class="input__label" for="phone">Date of Birth</label>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.birthdate" type="text" name="birthdate"/>
+                                    </div>
+                                    <div class="input__container">
                                         <label  class="input__label" for="gender">Gender</label>
                                         <div class="gender-options">
                                             <div class="gender-options__option">
@@ -168,6 +172,7 @@
     import PractitionerProfile from './components/PractitionerProfile.vue';
     import Modal from '../../commons/Modal.vue';
     import ConfirmInput from '../../commons/ConfirmInput.vue';
+    import moment from 'moment';
 
     export default {
         name: 'profile',
@@ -181,6 +186,7 @@
         },
         data() {
             return {
+                moment: moment,
                 loadingProfileImage: false, // loading of the image on image upload
                 previousProfileImage: '',
                 user: {
@@ -194,7 +200,8 @@
                         address_2: '',
                         city: '',
                         state: '',
-                        zip: ''
+                        zip: '',
+                        birthdate: '',
                     }
                 },
                 thisUserId: Laravel.user.id,
@@ -385,6 +392,7 @@
                         this.user_data = response.data.data;
                         this.user = _.cloneDeep(response.data.data);
                         this.practitioner = response.data.data.relationships.practitioner.data.id;
+                        this.user.attributes.birthdate = moment(response.data.included.attributes.birthdate.date).format('MM/DD/YYYY');
                     })
                     .catch(error => {
                         if (error.response) {
