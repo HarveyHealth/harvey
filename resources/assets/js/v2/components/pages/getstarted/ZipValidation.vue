@@ -12,7 +12,7 @@
                     isAutoFocused
                     :isDisabled="State.isLoading.zip || (State.wasRequested.zip && !State.isLoading.zip)"
                     :mask="'#####'"
-                    :onInput="zip => setState('getstarted.userPost.zip', zip)"
+                    :onInput="zip => State.getstarted.userPost.zip = zip"
                     :theme="'inverse-light'"
                 />
                 <Spacer isBottom :size="4" />
@@ -30,7 +30,7 @@
             </form>
         </SlideIn>
 
-        <div v-if="State.getstarted.zipValidation.is_serviceable === false">
+        <div v-else-if="State.getstarted.zipValidation.is_serviceable === false">
             <SlideIn>
                 <Heading1 doesExpand class="pv2" :color="'light'">Sorry, we are unable to work with you yet.</Heading1>
                 <Spacer isBottom :size="3" />

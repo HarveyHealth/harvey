@@ -74,15 +74,7 @@ Vue.prototype.Http = App.Http;
 Vue.prototype.Logic = App.Logic;
 Vue.prototype.Util = App.Util;
 
-// STORE
-// The data object for the root Vue instance. We're abstracting this to its own file
-// so it can be imported into our app stub for unit testing
 import store from './store';
-
-// globalState contains legacy global state as well as the State object
-// which is used for all v2 state management. The root Vue instance uses
-// globalState for its data attribute for backwards compatibility but
-// the App.State and Vue.prototype.State just point to globalState.State
 const globalState = store(Laravel, State);
 App.State = globalState.State;
 Vue.prototype.State = App.State;
