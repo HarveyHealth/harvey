@@ -17,11 +17,12 @@
               <Spacer isBottom :size="2" />
               <quill-editor
               v-model="subjectiveTA"
+              @change="updateCharacterCount('subjective')"
               @click="setSelected('subject')"
               output="html"
               :options="editorOption"
               />
-              <div>{{ counts.subjective || 16777215 }}</div>
+              <div class="float-right">{{ counts.subjective || 16777215 }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -30,12 +31,13 @@
               <Spacer isBottom :size="2" />
               <quill-editor
               v-model="objectiveTA"
+              @change="updateCharacterCount('objective')"
               id="objective"
               @click="setSelected('objective')"
               output="html"
               :options="editorOption"
               />
-              <div>{{ counts.objective || 16777215 }}</div>
+              <div class="float-right">{{ counts.objective || 16777215 }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -46,10 +48,11 @@
               v-model="assessmentTA"
               placeholder="Enter your text..."
               @click="setSelected('assessment')"
+              @change="updateCharacterCount('assessment')"
               output="html"
               :options="editorOption"
               />
-              <div>{{ counts.assessment || 16777215 }}</div>
+              <div class="float-right">{{ counts.assessment || 16777215 }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -66,10 +69,11 @@
               <quill-editor
               v-model="planTA"
               @click="setSelected('treatment')"
+              @change="updateCharacterCount('plan')"
               output="html"
               :options="editorOption"
               />
-              <div>{{ counts.plan || 16777215 }}</div>
+              <div class="float-right">{{ counts.plan || 16777215 }}</div>
             </div>
           </div>
         </CardContent>
@@ -165,6 +169,10 @@ export default {
         };
     },
     methods: {
+        updateCharacterCount(name) {
+            let string = name + 'TA';
+            this.count[name] = this[string].length;
+        },
         setNotes(data) {
             this.notes = data;
         },
@@ -388,6 +396,9 @@ export default {
       border-radius: 0;
       overflow: hidden;
       padding: 0;
+    }
+    .float-right {
+        float: right;
     }
     .simple-editor {
       border-bottom: none;
