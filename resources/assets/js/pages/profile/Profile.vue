@@ -49,7 +49,7 @@
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.phone" type="number" name="phone"/>
                                         <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
-                                    <div class="input__container">
+                                    <div class="input__container" v-if="!practitioner">
                                         <label class="input__label" for="phone">Date of Birth</label>
                                         <input class="form-input form-input_text input-styles" v-mask="'##/##/####'" v-model="user.included.attributes.birthdate.format_date" type="text" name="birthdate"/>
                                     </div>
