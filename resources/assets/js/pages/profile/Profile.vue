@@ -173,12 +173,12 @@
     import Modal from '../../commons/Modal.vue';
     import ConfirmInput from '../../commons/ConfirmInput.vue';
     import moment from 'moment';
-    import { mask } from 'vue-the-mask'
+    import { mask } from 'vue-the-mask';
 
     export default {
         name: 'profile',
         directives: {
-            mask,
+            mask
         },
         components: {
           NotificationPopup,
@@ -347,6 +347,28 @@
                   }
                 });
             },
+            updatePatientData() {
+                const oldUser = this.$root.$data.global.user;
+                let date = this.user.included.attributes.birthdate.format_date;
+                if (oldUser.included.attributes.birthdate.format_date !== date) {
+                    axios.patch(`${this.$root.$data.apiUrl}/patients/${oldUser.included.id}`, {
+                        birthdate: `${date.substring(6,10)}-${date.substring(0, 2)}-${date.substring(3, 5)}`
+                    })
+                    .then((response) => {
+                        let resp = response.data.data;
+                        resp.attributes.birthdate.format_date = moment(resp.attributes.birthdate.date).format('MM/DD/YYYY');
+                        if (this.canEditUsers) {
+                            this.user_data.included = resp;
+                        } else {
+                            this.$root.$data.global.user.included = resp;
+                        }
+                    })
+                    .catch(err => {
+                        this.errorMessages = err.response.data.errors;
+                        this.submitting = false;
+                    });
+                }
+            },
             resetConfirmInputs() {
               this.phoneConfirmation = '';
               Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
@@ -355,6 +377,7 @@
               this.$refs.confirmInputs.$refs[0].focus();
             },
             submit() {
+                this.updatePatientData();
                 if(_.isEmpty(this.updates))
                     return;
 
@@ -370,9 +393,9 @@
                           this.$root.getLabData();
                       }
                       if (this.canEditUsers) {
-                          this.user_data = response.data.data;
+                          this.user_data = response.data.data.attributes;
                       } else {
-                          this.$root.$data.global.user = response.data.data;
+                          this.$root.$data.global.user.attributes = response.data.data.attributes;
                       }
                       this.submitting = false;
                     })
