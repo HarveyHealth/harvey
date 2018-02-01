@@ -4,7 +4,7 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use Tests\Browser\Pages\HomePage;
-use Tests\Browser\Pages\Header;
+use Tests\Browser\Components\Footer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class HomepageTest extends DuskTestCase
