@@ -161,8 +161,10 @@ class UsersController extends BaseAPIController
             'state' => 'max:2',
             'timezone' => 'max:75',
             'zip' => $user->isAdminOrPractitioner() ? 'digits:5' : 'digits:5|serviceable',
+            'settings.*' => 'user_setting',
         ], [
-            'serviceable' => 'Sorry, we do not service this :attribute.'
+            'serviceable' => 'Sorry, we do not service this :attribute.',
+            'user_setting' => ':attribute is not a valid setting.'
         ]);
 
         $user->update($request->all());
@@ -273,7 +275,7 @@ class UsersController extends BaseAPIController
             'name' => 'sometimes',
         ]);
 
-        if (!$card = $user->updateCard($cardId, $request->intersect(array_keys($validKeys)))) {
+        if (!$card = $user->updateCard($cardId, array_filter($request->only(array_keys($validKeys))))) {
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 

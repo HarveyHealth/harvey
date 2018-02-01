@@ -76,7 +76,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', 'api/v1/messages');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(6, $response->original['data']);
+        $this->assertCount(6, $response->original->data);
     }
 
     public function test_it_allows_a_patient_to_retrieve_a_message_to_him()
@@ -125,7 +125,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', "api/v1/messages/?recipient_user_id={$patient->user->id}");
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(3, $response->original['data']);
+        $this->assertCount(3, $response->original->data);
     }
 
     public function test_it_allows_an_admin_to_retrieve_a_message_created_by_other_user()
@@ -159,7 +159,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', 'api/v1/messages?filter=unread');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(5, $response->original['data']);
+        $this->assertCount(5, $response->original->data);
     }
 
     public function test_it_allows_to_filter_by_sender_id()
@@ -180,7 +180,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', "api/v1/messages?&sender_user_id={$senderPatient->user->id}");
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(4, $response->original['data']);
+        $this->assertCount(4, $response->original->data);
     }
 
     public function test_it_allows_to_filter_by_term()
@@ -205,7 +205,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', 'api/v1/messages?term=test');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(4, $response->original['data']);
+        $this->assertCount(4, $response->original->data);
     }
 
     public function test_it_allows_to_filter_by_term_and_sender_id()
@@ -238,7 +238,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', "api/v1/messages?term=test&sender_user_id={$senderPatient->user->id}");
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(3, $response->original['data']);
+        $this->assertCount(3, $response->original->data);
     }
 
     public function test_it_allows_to_mark_a_message_as_read()
@@ -253,12 +253,12 @@ class MessageTest extends TestCase
         Passport::actingAs($patient->user);
         $response = $this->json('PUT', 'api/v1/messages/1/read');
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertNotNull($response->original['data']['attributes']['read_at']);
+        $this->assertNotNull($response->original->data->attributes->read_at);
 
         $response = $this->json('GET', 'api/v1/messages/1');
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertNotNull($response->original['data']['attributes']['read_at']);
+        $this->assertNotNull($response->original->data->attributes->read_at);
     }
 
     public function test_it_only_the_recipient_can_mark_a_message_as_read()
@@ -353,7 +353,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', 'api/v1/messages');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(2, $response->original['data']);
+        $this->assertCount(2, $response->original->data);
     }
 
     public function test_it_returns_10_days_before_unread()
@@ -383,7 +383,7 @@ class MessageTest extends TestCase
         $response = $this->json('GET', 'api/v1/messages');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(5, $response->original['data']);
+        $this->assertCount(5, $response->original->data);
     }
 
     public function test_new_message_notification()

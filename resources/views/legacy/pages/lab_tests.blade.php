@@ -125,16 +125,4 @@
     </div>
 </section>
 
-<!-- <section class="section get-started">
-    <div class="container">
-        <div class="has-text-centered has-max-width-lg">
-            <h2 class="title is-3">Convenient, accurate lab testing.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">If you would like to take one of our specialized in-home lab tests, please tell us the condition you would like help treating.</p>
-            <div class="button-wrapper">
-                <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
-            </div>
-        </div>
-    </div>
-</section> -->
-
 @endsection
