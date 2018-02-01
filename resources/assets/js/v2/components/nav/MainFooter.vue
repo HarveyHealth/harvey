@@ -43,7 +43,7 @@
                                 <span :slot="'trigger'" class="ttu fw5 white">Conditions</span>
                                 <div :slot="'content'">
                                     <a href="https://store.goharvey.com/collections/skin-issues" class="db pv1">Skin Issues</a>
-                                    <a href="https://store.goharvey.com/collections/food-allergies" class="db pv1">Food Allergies</a>
+                                    <a href="https://store.goharvey.com/collections/food-allergies" class="db pv1">Food Sensitivities</a>
                                     <a href="https://store.goharvey.com/collections/stress-anxiety" class="db pv1">Stress &amp; Anxiety</a>
                                     <a href="https://store.goharvey.com/collections/fatigue" class="db pv1">Fatigue</a>
                                     <a href="https://store.goharvey.com/collections/weight-loss-gain" class="db pv1">Weight Loss/Gain</a>

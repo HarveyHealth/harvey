@@ -19,7 +19,7 @@
         "jsvrcek/ics": "^0.5.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "fideloper/proxy": "~3.3",
-        "doctrine/dbal": "^2.5",
+        "doctrine/dbal": "^2.6",
         "propaganistas/laravel-phone": "^2.8",
         "spatie/laravel-fractal": "^5.0",
         "laravel/passport": "^3.0",
