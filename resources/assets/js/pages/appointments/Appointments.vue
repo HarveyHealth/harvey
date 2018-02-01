@@ -563,6 +563,7 @@ export default {
               this.userActionTitle = 'Confirm Appointment';
               this.appointment.status = 'pending';
               this.isModalActive = true;
+                this.$root.getTransactions();
           }
       };
       switch (action) {
@@ -863,6 +864,10 @@ export default {
       // If user is patient and action is cancel, add cancellation_reason to data
       if (isPatient && isCancel && this.cancellationReason) {
         data.cancellation_reason = this.cancellationReason;
+      }
+
+      if (this.appointment.notes) {
+          data.notes = this.appointments.notes;
       }
 
       // Make the call

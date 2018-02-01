@@ -26,9 +26,13 @@
                     v-show="!loading"
                     @click="onRowClick(row, i)"
                     :class="$$rowClasses(row.data, i)">
-                    <td v-for="(val, j) in row.values" :width="columns[j].width">
-                    <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
-                    <div class="cell-wrap" v-html="val"></div>
+                    <td v-for="(val, j) in row.values" :width="columns[j].width" :style="{
+                        'white-space': noTextBreak ? 'normal !important' : null,
+                        'height': noTextBreak ? 'inherit !important' : null,
+                        'cursor': notSelectable ? 'default !important' : null,
+                        }">
+                        <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
+                        <div class="cell-wrap" v-html="val"></div>
                     </td>
                 </tr>
             </tbody>
@@ -91,6 +95,14 @@ export default {
     },
     // Whether the table data is still loading or not
     loading: {
+      type: Boolean
+    },
+    // No pointer cursor
+    notSelectable: {
+      type: Boolean
+    },
+    // No white space break on styles
+    noTextBreak: {
       type: Boolean
     },
     // The message to display if the component mounts and loading is still true
