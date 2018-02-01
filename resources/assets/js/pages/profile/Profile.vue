@@ -421,11 +421,18 @@
                     .then(response => {
                         // this.user_data persists the data retrieved from the server
                         // so we can diff against it on PATCH
+                        let returns = response.data.data;
+                        let includes = response.data.included[0];
+                        if (includes && includes.attributes && includes.attributes.birthdate) {
+                            returns.included = includes;
+                            returns.included.attributes.birthdate.format_date = this.formatDate(includes.attributes.birthdate.date);
+                        } else {
+                            returns.included = { attributes: { birthdate: { format_date: '' } } };
+                        }
                         this.$root.$data.global.loadingUser = false;
-                        this.user_data = response.data.data;
-                        this.user = _.cloneDeep(response.data.data);
-                        this.practitioner = response.data.data.relationships.practitioner.data.id;
-                        this.user.included.attributes.birthdate.format_date = this.user_data.included ? this.formatDate(this.user_data.included.attributes.birthdate.date) : '';
+                        this.user_data = returns;
+                        this.user = _.cloneDeep(returns);
+                        this.practitioner = returns.relationships.practitioner.data.id;
                     })
                     .catch(error => {
                         if (error.response) {
