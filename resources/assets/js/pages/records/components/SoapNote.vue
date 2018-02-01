@@ -161,7 +161,7 @@ export default {
             editorOption: editorOption,
             simpleEditor: simpleEditor,
             notes: '',
-            counts: {},
+            counts: {}
         };
     },
     methods: {
