@@ -42,6 +42,10 @@ class PractitionerScheduleOverridesController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to create a practitioner schedule override.');
         }
 
+        if($practitioner->scheduleOverrides->count() == 21) {
+            return $this->respondNotAuthorized('You are limited to 21 schedule override entries');
+        }
+
         $practitionerScheduleOverride = PractitionerScheduleOverride::create([
             'practitioner_id' => $practitioner->id,
             'date' => $request->date,

@@ -341,7 +341,10 @@ export default {
             .selectedBlock.id}`
         )
         .then(() => {
-          _.remove(this.scheduleBlocks, this.selectedBlock);
+          const blockIndex = this.scheduleBlocks.indexOf(this.selectedBlock);
+          this.scheduleBlocks = [
+              ...this.scheduleBlocks.slice(0, blockIndex), ...this.scheduleBlocks.slice(blockIndex + 1)
+          ];
           this.clearSelectedBlock();
           this.activeFlyout = false;
           this.modalActive = false;
@@ -418,7 +421,10 @@ export default {
             .selectedOverrideBlock.id}`
         )
         .then(() => {
-          _.remove(this.scheduleOverrideBlocks, this.selectedOverrideBlock);
+          const blockIndex = this.scheduleOverrideBlocks.indexOf(this.selectedOverrideBlock);
+          this.scheduleOverrideBlocks = [
+              ...this.scheduleOverrideBlocks.slice(0, blockIndex), ...this.scheduleOverrideBlocks.slice(blockIndex + 1)
+          ];
           this.clearSelectedBlock();
           this.activeFlyout = false;
           this.modalActive = false;

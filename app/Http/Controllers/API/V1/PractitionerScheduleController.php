@@ -44,6 +44,10 @@ class PractitionerScheduleController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to create a practitioner schedule.');
         }
 
+        if($practitioner->schedule->count() == 10) {
+            return $this->respondNotAuthorized('You are limited to 10 schedule entries');
+        }
+
         $practitionerSchedule = PractitionerSchedule::create([
             'practitioner_id' => $practitioner->id,
             'day_of_week' => $request->day_of_week,
