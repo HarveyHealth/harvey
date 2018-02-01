@@ -21,6 +21,7 @@
               output="html"
               :options="editorOption"
               />
+              <div>{{ counts.subjective || 16777215 }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -34,6 +35,7 @@
               output="html"
               :options="editorOption"
               />
+              <div>{{ counts.objective || 16777215 }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -47,6 +49,7 @@
               output="html"
               :options="editorOption"
               />
+              <div>{{ counts.assessment || 16777215 }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -66,6 +69,7 @@
               output="html"
               :options="editorOption"
               />
+              <div>{{ counts.plan || 16777215 }}</div>
             </div>
           </div>
         </CardContent>
@@ -93,7 +97,7 @@
         <CardContent>
           <!-- Save -->
           <div class="inline-centered">
-            <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin15">Save Changes</button>
+            <button @click="submit" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA || limits" class="button margin15">Save Changes</button>
             <button v-if="!$parent.news" @click="deleteModal" class="button bg-danger">Archive Note</button>
           </div>
         </CardContent>
@@ -156,7 +160,8 @@ export default {
             selected: null,
             editorOption: editorOption,
             simpleEditor: simpleEditor,
-            notes: ''
+            notes: '',
+            counts: {},
         };
     },
     methods: {
@@ -192,6 +197,18 @@ export default {
         },
         setPlanTA(data) {
             this.planTA = data;
+        },
+        characterCount(data, name) {
+            let count = 16777215 - data.length;
+            this.counts[name] = count;
+        },
+        limits() {
+            for (let i in this.counts) {
+                if (this.counts[i] < 0) {
+                    return true;
+                }
+            }
+            return false;
         },
         deleteNote() {
             axios.delete(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`)
@@ -285,21 +302,25 @@ export default {
         getSubject() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
             this.setSubjectiveTA(data);
+            this.characterCount(data, 'subjective');
             return data;
         },
         setObject() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.objective;
             this.setObjectiveTA(data);
+            this.characterCount(data, 'objective');
             return data;
         },
         setAssessment() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
             this.setAssessmentTA(data);
+            this.characterCount(data, 'assessment');
             return data;
         },
         setPlan() {
             let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
             this.setPlanTA(data);
+            this.characterCount(data, 'plan');
             return data;
         },
         findQuickNotes() {
