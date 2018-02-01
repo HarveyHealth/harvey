@@ -65,7 +65,14 @@
                 </div>
             </div>
 
-            <table class="sku-table tabledata appointments-table" v-if="loading">
+            <ScheduleTable
+                :handle-row-click="handleRowClick"
+                :loading="loading"
+
+                :tableRowData="currentData"
+             />
+
+            <!-- <table class="sku-table tabledata appointments-table" v-if="loading">
                 <td class="font-italic font-sm copy-muted">Loading schedule...</td>
             </table>
             <table class="sku-table tabledata appointments-table" v-if="!loading">
@@ -88,7 +95,7 @@
                         @click.native="setSelectedBlock(schedule)"
                     ></ScheduleRow>
                 </tbody>
-            </table>
+            </table> -->
         </div>
 
         <div class="main-content">
@@ -139,6 +146,7 @@ import ScheduleBlockForm from "./components/ScheduleBlockForm.vue";
 import ScheduleBlockOverrideForm from "./components/ScheduleBlockOverrideForm.vue";
 import _ from "lodash";
 import { Modal } from "layout";
+import ScheduleTable from './components/ScheduleTable.vue';
 
 const blankScheduleBlock = {
   id: "",
@@ -170,7 +178,8 @@ export default {
     ScheduleBlockForm,
     ScheduleBlockOverrideForm,
     NotificationPopup,
-    Modal
+    Modal,
+    ScheduleTable
   },
   data() {
     return {
@@ -253,10 +262,20 @@ export default {
           start_value: "19:30:00",
           stop_value: "21:00:00"
         }
-      ]
+      ],
+      currentData: [{value: 'a'},{value: 'a'},{value: 'a'},{value: 'a'},{value: 'a'},{value: 'a'}]
     };
   },
   methods: {
+    handleRowClick() {
+        console.log('clicked');
+    },
+
+
+
+
+
+
     flashNotification() {
       this.notificationActive = true;
       setTimeout(() => (this.notificationActive = false), 3000);
