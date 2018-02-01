@@ -356,12 +356,9 @@
                     })
                     .then((response) => {
                         let resp = response.data.data;
-                        resp.attributes.birthdate.format_date = moment(resp.attributes.birthdate.date).format('MM/DD/YYYY');
-                        if (this.canEditUsers) {
-                            this.user_data.included = resp;
-                        } else {
-                            this.$root.$data.global.user.included = resp;
-                        }
+                        resp.attributes.birthdate.format_date = this.formatDate(resp.attributes.birthdate.date);
+                        this.user.included = resp;
+                        this.$root.$data.global.user.included = resp;
                     })
                     .catch(err => {
                         this.errorMessages = err.response.data.errors;
@@ -428,7 +425,7 @@
                         this.user_data = response.data.data;
                         this.user = _.cloneDeep(response.data.data);
                         this.practitioner = response.data.data.relationships.practitioner.data.id;
-                        this.user.included.attributes.birthdate.format_date = moment(response.data.included.attributes.birthdate.date).format('MM/DD/YYYY');
+                        this.user.included.attributes.birthdate.format_date = this.user_data.included ? this.formatDate(this.user_data.included.attributes.birthdate.date) : '';
                     })
                     .catch(error => {
                         if (error.response) {
