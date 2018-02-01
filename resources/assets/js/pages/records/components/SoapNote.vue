@@ -22,7 +22,7 @@
               output="html"
               :options="editorOption"
               />
-              <div class="float-right">{{ counts.subjective || 16777215 }}</div>
+              <div class="float-right">Characters left: {{ counts.subjective || soapCharacterCount }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -37,7 +37,7 @@
               output="html"
               :options="editorOption"
               />
-              <div class="float-right">{{ counts.objective || 16777215 }}</div>
+              <div class="float-right">Characters left: {{ counts.objective || soapCharacterCount }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -52,7 +52,7 @@
               output="html"
               :options="editorOption"
               />
-              <div class="float-right">{{ counts.assessment || 16777215 }}</div>
+              <div class="float-right">Characters left: {{ counts.assessment || soapCharacterCount }}</div>
               <Spacer isBottom :size="4" />
             </div>
 
@@ -73,7 +73,7 @@
               output="html"
               :options="editorOption"
               />
-              <div class="float-right">{{ counts.plan || 16777215 }}</div>
+              <div class="float-right">Characters left: {{ counts.plan || soapCharacterCount }}</div>
             </div>
           </div>
         </CardContent>
@@ -165,13 +165,14 @@ export default {
             editorOption: editorOption,
             simpleEditor: simpleEditor,
             notes: '',
-            counts: {}
+            counts: {},
+            soapCharacterCount: 16777215,
         };
     },
     methods: {
         updateCharacterCount(name) {
             let string = name + 'TA';
-            this.count[name] = this[string].length;
+            this.counts[name] = this.soapCharacterCount - this[string].length;
         },
         setNotes(data) {
             this.notes = data;
@@ -207,7 +208,7 @@ export default {
             this.planTA = data;
         },
         characterCount(data, name) {
-            let count = 16777215 - data.length;
+            let count = this.soapCharacterCount - data.length;
             this.counts[name] = count;
         },
         limits() {
