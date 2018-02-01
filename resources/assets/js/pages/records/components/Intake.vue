@@ -6,7 +6,7 @@
             </CardContent>
         </Card>
         <Spacer isBottom :size="3" />
-      <Grid :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
+      <Grid v-if="$root.$data.permissions === 'patient'" :flexAt="'l'" :columns="[{ s:12 }]" :gutters="{ s:2, m:3 }">
         <Card :slot="1">
           <CardContent>
             <div>
@@ -24,6 +24,35 @@
         </Card>
       </Grid>
 
+       <Grid v-if="$root.$data.permissions !== 'patient'" :flexAt="'l'" :columns="[{ xxl:8 }, { xxl:4 }]" :gutters="{ s:2, m:3 }">
+        <Card :slot="1">
+          <CardContent>
+            <div>
+                <ul>
+                    <li v-for="intake in questionsList">
+                        <div>
+                            <Paragraph :size="'large'" :weight="'bold'" v-html="intake.question"></Paragraph>
+                            <Paragraph class="error-color">{{ intake.answer }}</Paragraph>
+                            <Spacer isBottom :size="4" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+          </CardContent>
+        </Card>
+        <Card :slot="2">
+            <CardContent>
+                <div class="">
+                    <quill-editor
+                    output="html"
+                    :options="simpleEditor"
+                    v-model="notes"
+                    class="simple-editor"
+                    />
+                </div>
+            </CardContent>
+        </Card>
+      </Grid>
     </div>
 </template>
 
@@ -47,8 +76,24 @@ export default {
     },
     data() {
         return {
-            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id]
+            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id],
+            notes: ''
         };
+    },
+    methods: {
+        setNotes(data) {
+            this.notes = data;
+        },
+        findQuickNotes() {
+            const prop = this.$parent.propData;
+            if (prop && prop.attributes && prop.attributes.notes) {
+                let notes = !prop.attributes.notes ? '' : prop.attributes.notes;
+                this.$parent.news ? this.setNotes('') : this.setNotes(notes);
+            } else {
+                this.setNotes('');
+            }
+            return this.$parent.news ? '' : prop && prop.attributes && prop.attributes.notes ? prop.attributes.notes : '';
+        }
     },
     computed: {
         questionsList() {
@@ -65,6 +110,16 @@ export default {
                 });
             });
             return Object.values(quest);
+        },
+        quickNotes() {
+             return this.findQuickNotes();
+        }
+    },
+    watch: {
+        quickNotes(val) {
+            if (!val) {
+                return this.findQuickNotes();
+            }
         }
     }
 };
