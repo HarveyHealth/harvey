@@ -66,36 +66,11 @@
             </div>
 
             <ScheduleTable
+                :selected-row="selectedBlock"
                 :handle-row-click="handleRowClick"
                 :loading="loading"
-
-                :tableRowData="currentData"
+                :tableRowData="scheduleData"
              />
-
-            <!-- <table class="sku-table tabledata appointments-table" v-if="loading">
-                <td class="font-italic font-sm copy-muted">Loading schedule...</td>
-            </table>
-            <table class="sku-table tabledata appointments-table" v-if="!loading">
-                <thead>
-                    <th class="sku-table__column sku-table__move-icon heading-2 sort">Sort</th>
-                    <th class="sku-table__column heading-2">Day of Week</th>
-                    <th class="sku-table__column heading-2">First Block</th>
-                    <th class="sku-table__column heading-2">Last Block</th>
-                    <th class="sku-table__column heading-2">Shifts</th>
-                    <th class="sku-table__column heading-2">Available Time</th>
-                    <th class="sku-table__column heading-2">Notes</th>
-                </thead>
-                <tbody class="copy-main font-sm">
-                    <ScheduleRow
-                        v-for="schedule in scheduleBlocks"
-                        :schedule="schedule"
-                        :key=schedule.id
-                        :selectedBlock="selectedBlock"
-                        :timeBlocks="timeBlocks"
-                        @click.native="setSelectedBlock(schedule)"
-                    ></ScheduleRow>
-                </tbody>
-            </table> -->
         </div>
 
         <div class="main-content">
@@ -107,7 +82,14 @@
                 </div>
             </div>
 
-            <table class="sku-table tabledata appointments-table" v-if="loading">
+            <OverrideTable
+                :selected-row="selectedOverrideBlock"
+                :handle-row-click="handleOverrideRowClick"
+                :loading="loading"
+                :tableRowData="overrideData"
+             />
+
+            <!-- <table class="sku-table tabledata appointments-table" v-if="loading">
                 <td class="font-italic font-sm copy-muted">Loading schedule...</td>
             </table>
             <table class="sku-table tabledata appointments-table" v-if="!loading">
@@ -130,7 +112,7 @@
                         @click.native="setSelectedOverrideBlock(override)"
                     ></ScheduleOverrideRow>
                 </tbody>
-            </table>
+            </table> -->
         </div>
     </div>
 </template>
@@ -147,6 +129,8 @@ import ScheduleBlockOverrideForm from "./components/ScheduleBlockOverrideForm.vu
 import _ from "lodash";
 import { Modal } from "layout";
 import ScheduleTable from './components/ScheduleTable.vue';
+import OverrideTable from './components/OverrideTable.vue';
+import moment from 'moment';
 
 const blankScheduleBlock = {
   id: "",
@@ -179,7 +163,8 @@ export default {
     ScheduleBlockOverrideForm,
     NotificationPopup,
     Modal,
-    ScheduleTable
+    ScheduleTable,
+    OverrideTable
   },
   data() {
     return {
@@ -262,20 +247,18 @@ export default {
           start_value: "19:30:00",
           stop_value: "21:00:00"
         }
-      ],
-      currentData: [{value: 'a'},{value: 'a'},{value: 'a'},{value: 'a'},{value: 'a'},{value: 'a'}]
+      ]
     };
   },
   methods: {
-    handleRowClick() {
-        console.log('clicked');
+    handleRowClick(row, index) {
+        this.clearSelectedBlock();
+        this.setSelectedBlock(this.scheduleBlocks[index]);
     },
-
-
-
-
-
-
+    handleOverrideRowClick(row, index) {
+        this.clearSelectedBlock();
+        this.setSelectedOverrideBlock(this.scheduleOverrideBlocks[index]);
+    },
     flashNotification() {
       this.notificationActive = true;
       setTimeout(() => (this.notificationActive = false), 3000);
@@ -446,6 +429,36 @@ export default {
           this.errorMessages = e.response.data.errors;
           this.submitting = false;
         });
+    },
+    startBlock(schedule) {
+      return this.timeBlocks.filter(
+        block => block.start_value === schedule.attributes.start_time
+      )[0];
+    },
+    displayStartBlock(schedule) {
+      return this.startBlock ? `${this.startBlock(schedule).title} (${this.startBlock(schedule).subtitle})` : '';
+    },
+    stopBlock(schedule) {
+      return this.timeBlocks.filter(
+        block => block.stop_value === schedule.attributes.stop_time
+      )[0];
+    },
+    displayStopBlock(schedule) {
+      return this.stopBlock ?`${this.stopBlock(schedule).title} (${this.stopBlock(schedule).subtitle})` : '';
+    },
+    displayDuration(schedule) {
+      const startTime = moment(schedule.attributes.start_time, "HH:mm:ss");
+      const stopTime = moment(schedule.attributes.stop_time, "HH:mm:ss");
+      const duration = moment.duration(stopTime.diff(startTime));
+      const hours = parseInt(duration.asHours());
+      const minutes = parseInt(duration.asMinutes()) - hours * 60 > 0 ? 0.5 : 0;
+      return hours + minutes;
+    },
+    displayShifts(schedule) {
+      return this.displayDuration(schedule) / 1.5;
+    },
+    displayNotes(schedule) {
+      return schedule.attributes.notes || "N/A";
     }
   },
   computed: {
@@ -455,6 +468,42 @@ export default {
         } else {
             return _.isEmpty(this.selectedBlock.id) ? 'New Schedule Block' : 'Update Schedule Block';
         }
+    },
+    scheduleData() {
+        return this.scheduleBlocks.map(scheduleBlock => {
+            if(!scheduleBlock.id) {
+                return [];
+            }
+            return {
+                data: scheduleBlock,
+                values: [
+                    scheduleBlock.attributes.day_of_week,
+                    this.displayStartBlock(scheduleBlock),
+                    this.displayStopBlock(scheduleBlock),
+                    this.displayShifts(scheduleBlock),
+                    this.displayDuration(scheduleBlock),
+                    this.displayNotes(scheduleBlock)
+                ]
+            };
+        });
+    },
+    overrideData() {
+        return this.scheduleOverrideBlocks.map(overrideBlock => {
+            if(!overrideBlock.id) {
+                return [];
+            }
+            return {
+                data: overrideBlock,
+                values: [
+                    overrideBlock.attributes.date,
+                    this.displayStartBlock(overrideBlock),
+                    this.displayStopBlock(overrideBlock),
+                    this.displayShifts(overrideBlock),
+                    this.displayDuration(overrideBlock),
+                    this.displayNotes(overrideBlock)
+                ]
+            };
+        });
     }
   },
   created() {
@@ -482,10 +531,11 @@ export default {
 
 <style lang="scss">
 .heading-buttons {
+  align-items: baseline;
   display: flex;
   flex: 1;
-  justify-content: end;
-  align-items: baseline;
+  flex-direction: row;
+  justify-content: flex-end;
 
   &__button {
     margin-left: 10px;

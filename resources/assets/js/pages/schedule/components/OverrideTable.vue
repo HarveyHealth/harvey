@@ -1,9 +1,9 @@
 <template>
   <TableData
       :columns="tableColumns"
-      empty-msg="No availability schedule has been set."
+      empty-msg="No schedule overrides have been set."
       :loading="loading"
-      :loading-msg="'Loading your schedule...'"
+      :loading-msg="'Loading your schedule overrides...'"
       :on-row-click="handleRowClick"
       :row-data="tableData"
       :selected-row="selectedRow"
@@ -15,10 +15,10 @@
 
 <script>
 import TableData from '../../../commons/TableData.vue';
-import tableColumns from '../utils/scheduleTableColumns';
+import tableColumns from '../utils/overrideTableColumns';
 
 export default {
-  name: 'ScheduleTable',
+  name: 'OverrideTable',
   components: {
     TableData
   },

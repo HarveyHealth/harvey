@@ -1,41 +1,32 @@
-import tableSort from '../../../utils/methods/tableSort';
-
-
 export default [
-  {
-    key: 'client',
-    name: 'Client',
-    width: '20%',
-    sort: tableSort.byDate('client')
-  },
-  {
-    key: 'signup',
-    name: 'Joined',
-    width: '20%',
-    sort: tableSort.byTime('signup')
-  },
-  {
-    key: 'location',
-    name: 'Location',
-    width: '20%',
-    sort: tableSort.byString('location')
-  },
-  {
-    key: 'doctor',
-    name: 'Doctor',
-    width: '20%',
-    sort: tableSort.byString('doctor')
-  },
-  {
-    key: 'booked',
-    name: 'Confirmed',
-    width: '10%',
-    sort: tableSort.byString('booked')
-  },
-  {
-    key: 'done',
-    name: 'Completed',
-    width: '10%',
-    sort: tableSort.byString('done')
-  }
-];
+    {
+      key: 'date',
+      name: 'Date',
+      width: '20%'
+    },
+    {
+      key: 'first_block',
+      name: 'First Block',
+      width: '20%'
+    },
+    {
+      key: 'last_block',
+      name: 'Last Block',
+      width: '20%'
+    },
+    {
+      key: 'shifts',
+      name: 'Shifts',
+      width: '10%'
+    },
+    {
+      key: 'blocked_time',
+      name: 'Blocked Time',
+      width: '10%'
+    },
+    {
+      key: 'notes',
+      name: 'Notes',
+      width: '10%'
+    }
+  ];

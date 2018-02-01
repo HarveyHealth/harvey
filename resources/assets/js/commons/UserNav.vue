@@ -81,7 +81,7 @@
       </router-link>
 
       <router-link
-          v-if="user === 'practitioner'"
+          v-if="$root.userIsPractitioner"
           to="/schedule" title="Schedule"
           :class="currentPageCheck('schedule')"
           @click.native="handleMenu(false, 'schedule')">
