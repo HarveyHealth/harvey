@@ -22,7 +22,8 @@
     "validate": "npm ls"
   },
   "pre-commit": [
-
+    "lint",
+    "test"
   ],
   "dependencies": {
     "ajv": "^5.4.0",
