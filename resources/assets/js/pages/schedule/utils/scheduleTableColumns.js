@@ -27,6 +27,6 @@ export default [
   {
     key: 'notes',
     name: 'Notes',
-    width: '10%'
+    width: '20%'
   }
 ];

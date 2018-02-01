@@ -536,6 +536,10 @@ export default {
 </script>
 
 <style lang="scss">
+.tabledata tbody tr td {
+    border: none;
+}
+
 .heading-buttons {
   align-items: baseline;
   display: flex;
