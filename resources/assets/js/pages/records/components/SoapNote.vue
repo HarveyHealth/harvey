@@ -166,7 +166,7 @@ export default {
             simpleEditor: simpleEditor,
             notes: '',
             counts: {},
-            soapCharacterCount: 16777215,
+            soapCharacterCount: 16777215
         };
     },
     methods: {
