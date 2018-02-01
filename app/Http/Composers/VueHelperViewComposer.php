@@ -74,7 +74,8 @@ class VueHelperViewComposer
                 'key' => Config::get('services.stripe.key'),
             ],
             'pusher' => [
-                'key' => Config::get('broadcasting.connections.pusher.key')
+                'key' => Config::get('broadcasting.connections.pusher.key'),
+                'cluster' => Config::get('broadcasting.connections.pusher.options.cluster')
             ],
             'segment' => [
                 'key' => Config::get('services.segment.key'),

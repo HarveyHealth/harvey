@@ -189,7 +189,7 @@ class UserTest extends TestCase
     public function test_admin_can_search_users()
     {
         $this->markTestSkipped('Skipped due to Algolia concurrency issues (shared indexes).');
-        
+
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create(['first_name' => 'Toronja'])->id
         ]);
@@ -202,7 +202,7 @@ class UserTest extends TestCase
 
         $response = $this->json('GET', 'api/v1/users/?term=toronja');
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(1, $response->original['data']);
+        $this->assertCount(1, $response->original->data);
         $response->assertJsonFragment(['first_name' => 'Toronja']);
     }
 
@@ -223,7 +223,7 @@ class UserTest extends TestCase
         foreach (['toronja', 'tornoja', 'toronaj'] as $searchTerm) {
             $response = $this->json('GET', "api/v1/users/?term={$searchTerm}&indexed=true");
             $response->assertStatus(ResponseCode::HTTP_OK);
-            $this->assertCount(1, $response->original['data']);
+            $this->assertCount(1, $response->original->data);
             $response->assertJsonFragment(['first_name' => 'Toronja']);
         }
     }
@@ -237,7 +237,7 @@ class UserTest extends TestCase
 
         $response = $this->json('GET', 'api/v1/users/?type=patient');
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(3, $response->original['data']);
+        $this->assertCount(3, $response->original->data);
     }
 
     public function test_unprivileged_user_is_not_allowed_to_search_users()
