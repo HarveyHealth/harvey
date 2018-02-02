@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Lib;
+namespace App\Http\Middleware;
 
 use HTMLMin\HTMLMin\Http\Middleware\MinifyMiddleware;
 use Closure;
 
-class HarveyMinifyMiddleware extends MinifyMiddleware
+class MinifyHTML extends MinifyMiddleware
 {
     /**
      * Handle an incoming request.
