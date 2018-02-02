@@ -25,6 +25,7 @@ script:
 - vendor/bin/phpunit
 branches:
   only:
+  - develop
   - master
   - staging
   - /^release-/
