@@ -89,7 +89,16 @@
         <div class="text">Settings</div>
       </router-link>
 
-      <a href="/logout" class="admin-nav-link logout" title="Logout">
+      <router-link
+          v-if="$root.userIsPractitioner"
+          to="/schedule" title="Schedule"
+          :class="currentPageCheck('schedule')"
+          @click.native="handleMenu(false, 'schedule')">
+          <i class="fa fa-calendar-check-o icon icon-nav-bar"></i>
+          <div class="text">Schedule</div>
+      </router-link>
+
+        <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
         <div class="text">Log out</div>
       </a>

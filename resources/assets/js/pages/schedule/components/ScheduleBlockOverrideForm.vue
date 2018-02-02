@@ -1,0 +1,99 @@
+<template>
+    <form v-on:submit.prevent="submitScheduleOverrideForm">
+
+        <div class="input__container">
+            <label class="input__label" for="date">Date</label>
+                <input type="date" name="date" id="date" v-model="scheduleOverrideBlock.attributes.date" @change="$emit('inputChanged')" />
+        </div>
+
+        <div class="input__container">
+            <label class="input__label" for="start_time">First Block</label>
+            <span class="custom-select">
+                <select name="start_time" id="start_time" v-model="scheduleOverrideBlock.attributes.start_time" @change="$emit('inputChanged')">
+                    <option v-for="timeBlock in timeBlocks" :value="timeBlock.start_value">
+                        {{timeBlock.title}} ({{timeBlock.subtitle}})
+                    </option>
+                </select>
+            </span>
+        </div>
+
+        <div class="input__container">
+            <label class="input__label" for="stop_time">Last Block</label>
+            <span class="custom-select">
+                <select name="stop_time" id="stop_time" v-model="scheduleOverrideBlock.attributes.stop_time" @change="$emit('inputChanged')">
+                    <option v-for="timeBlock in timeBlocks" :value="timeBlock.stop_value">
+                        {{timeBlock.title}} ({{timeBlock.subtitle}})
+                    </option>
+                </select>
+            </span>
+        </div>
+
+        <div class="input__container input-wrap">
+            <label class="input__label" for="notes">Notes</label>
+            <input class="form-input form-input_text input-styles" type="text" name="notes" maxlength="191" v-model="scheduleOverrideBlock.attributes.notes"  @change="$emit('inputChanged')"/>
+        </div>
+
+        <div class="error-text">
+            <p v-for="error in errorMessages">{{ error.detail }} </p>
+        </div>
+
+        <div class="submit inline-centered">
+            <button class="button" :disabled="submitting" style="width: 160px">
+                <div v-if="submitting" style="width: 12px; margin: 0 auto;">
+                    <ClipLoader :size="'12px'" :color="'#ffffff'" ></ClipLoader>
+                </div>
+                <span v-else>Save Changes</span>
+            </button><br/>
+            <div v-if="modifyingSchedule" class="button-text">
+                <a href="#" @click.prevent="deleteSchedule">Delete Override Block</a>
+            </div>
+        </div>
+
+    </form>
+</template>
+
+<script>
+import { ClipLoader } from "vue-spinner/dist/vue-spinner.min.js";
+
+export default {
+  data() {
+    return {};
+  },
+  components: { ClipLoader },
+  methods: {
+    submitScheduleOverrideForm() {
+      this.modifyingSchedule
+        ? this.$emit("patchOverride")
+        : this.$emit("postOverride");
+    },
+    deleteSchedule() {
+      this.$emit("deleteOverride");
+    }
+  },
+  computed: {
+    modifyingSchedule() {
+      return this.scheduleOverrideBlock.id > 0;
+    }
+  },
+  props: {
+    scheduleOverrideBlock: {
+      type: Object
+    },
+    submitting: {
+      type: Boolean
+    },
+    timeBlocks: {
+      type: Array
+    },
+    errorMessages: {
+      type: Array
+    }
+  }
+};
+</script>
+
+<style lang="scss">
+.button-text {
+  padding: 15px;
+}
+</style>

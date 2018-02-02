@@ -62,4 +62,12 @@ class PagesController extends Controller
 
         return response()->make($robots)->header('Content-Type', 'text/plain');
     }
+
+    public function getRobots()
+    {
+        $extension = isProd() ? 'prod' : 'generic';
+        $robots = file_get_contents(resource_path() . "/robots.{$extension}");
+
+        return response()->make($robots)->header('Content-Type', 'text/plain');
+    }
 }

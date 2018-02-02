@@ -115,6 +115,11 @@ let routes = [
         component: require('./pages/sku-dashboard/SkuDashboard.vue')
     },
     {
+        path: '/schedule',
+        props: true,
+        component: require('./pages/schedule/Schedule.vue')
+    },
+    {
         path: '*',
         redirect:  rootRedirect
     }

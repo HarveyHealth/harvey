@@ -102,6 +102,11 @@ class Practitioner extends Model
         return $this->hasMany(PractitionerSchedule::class, 'practitioner_id', 'id');
     }
 
+    public function scheduleOverrides()
+    {
+        return $this->hasMany(PractitionerScheduleOverride::class, 'practitioner_id', 'id');
+    }
+
     public function licenses()
     {
         return $this->hasMany(License::class, 'user_id', 'user_id');

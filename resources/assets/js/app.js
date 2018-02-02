@@ -224,16 +224,16 @@ const app = new Vue({
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
-        requestPatients(term='', cb=null){
+        requestPatients(term = '', cb = null) {
             let params = {
                 include: 'user'
             };
 
-            if (term != ''){
+            if (term != '') {
                 params.term = term;
             }
 
-            axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
+            axios.get(`${this.apiUrl}/patients`, {params: params}).then(response => {
                 let patients = [];
                 let patientLookUp = [];
                 let patientCache = {};
@@ -251,7 +251,7 @@ const app = new Vue({
                         id: obj.id,
                         name: `${includeData.last_name}, ${includeData.first_name}`,
                         phone: includeData.phone,
-                        search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.id})`,
+                        search_name: `${includeData.first_name} ${includeData.last_name} (#${obj.attributes.user_id})`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip,

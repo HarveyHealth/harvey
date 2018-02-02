@@ -556,16 +556,16 @@ export default {
     // When user clicks the CTA in the flyout for updating, canceling, or creating an appointment.
     // This is the initial setup before the api call is actually made.
     handleConfirmationModal(action) {
-        this.userAction = action;
-        this.appointment.purpose = this.appointment.purpose || 'New appointment';
-        const setup = () => {
-            if (!this.shouldShowBillingError) {
-                this.userActionTitle = 'Confirm Appointment';
-                this.appointment.status = 'pending';
-                this.isModalActive = true;
+      this.userAction = action;
+      this.appointment.purpose = this.appointment.purpose || 'New appointment';
+      const setup = () => {
+          if (!this.shouldShowBillingError) {
+              this.userActionTitle = 'Confirm Appointment';
+              this.appointment.status = 'pending';
+              this.isModalActive = true;
                 this.$root.getTransactions();
-            }
-        };
+          }
+      };
       switch (action) {
         case 'cancel':
           this.userActionTitle = 'Cancel Appointment';
@@ -592,7 +592,7 @@ export default {
           break;
 
         case 'new':
-          if (!App.Config.user.info.has_a_card && App.Config.user.isPatient) {
+          if (!Laravel.user.has_a_card && this.$root.userIsPatient) {
             this.shouldShowBillingError = true;
             return;
           }
