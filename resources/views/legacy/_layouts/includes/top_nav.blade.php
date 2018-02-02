@@ -6,6 +6,7 @@
     is-sticky
     keep-logo-text
     :on-menu-click="toggleMenu"
+    :force-dark="State.navIsInverted"
 ></public-nav>
 
 @include('legacy._layouts.includes.messages')

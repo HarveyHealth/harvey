@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
 use App\Models\Practitioner;
-use App\Transformers\V1\PractitionerAvailabilityTransformer;
 use App\Transformers\V1\PractitionerTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,11 +12,10 @@ class PractitionersController extends BaseAPIController
 {
     protected $resource_name = 'practitioner';
 
-    public function __construct(PractitionerTransformer $transformer, PractitionerAvailabilityTransformer $availabilityTransformer)
+    public function __construct(PractitionerTransformer $transformer)
     {
         parent::__construct();
         $this->transformer = $transformer;
-        $this->availabilityTransformer = $availabilityTransformer;
     }
 
     /**
@@ -37,9 +35,7 @@ class PractitionersController extends BaseAPIController
         $data = $this->baseTransformItem($practitioner, $include);
 
         if (in_array('availability', explode(',', request('include')))) {
-            $data = $data->addMeta([
-                'availability' => $this->availabilityTransformer->transform($practitioner)
-            ]);
+            $data = $data->addMeta(['availability' => $practitioner->availability]);
         }
 
         return $data->respond();

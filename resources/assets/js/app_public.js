@@ -22,6 +22,7 @@ import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
 import { MainFooter, PublicNav } from 'nav';
 import { GridStyles } from 'layout';
+import Availability from './v2/components/pages/availability/Availability.vue';
 
 import Util from './v2/util';
 import Config from './v2/config';
@@ -43,14 +44,16 @@ App.Public.State = {
             xl:    { width: 960,  classes: [] },
             xxl:   { width: 1280, classes: [] }
         }
-    }
+    },
+    navIsInverted: false
 };
 
-App.Public.setConditions = conditions => {
-    App.Public.State.conditions = conditions;
+App.setNavInversion = bool => {
+    App.Public.State.navIsInverted = bool;
 };
 
 Vue.prototype.Laravel = Laravel;
+Vue.prototype.Blade = window.Blade;
 Vue.prototype.Config = App.Config;
 Vue.prototype.Util = App.Util;
 
@@ -58,6 +61,7 @@ Vue.prototype.State = App.Public.State;
 
 const app = new Vue({
     components: {
+        Availability,
         LoadingGraphic,
         FacebookSignin,
         GridStyles,

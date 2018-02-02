@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Http\Traits\{HasLogTable, HasStatusColumn};
+use App\Lib\ZipCodeValidator;
 use App\Models\{LabOrder, LabTestResult, SKU};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 
 class LabTest extends Model
 {
     use SoftDeletes, HasLogTable, HasStatusColumn;
+
+    const UNSERVICEABLE_STATES = ['NY'];
+    const REQUIRE_CONSULTATION_STATES = ['NJ', 'MD', 'RI'];
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -47,6 +51,21 @@ class LabTest extends Model
         self::RECOMMENDED_STATUS_ID => 'recommended',
         self::SHIPPED_STATUS_ID => 'shipped',
     ];
+
+    public static function getUnserviceableStatesCollection()
+    {
+        return collect(self::UNSERVICEABLE_STATES);
+    }
+
+    public static function getServiceableStatesCollection()
+    {
+        return ZipCodeValidator::getStatesCollection()->diff(self::getUnserviceableStatesCollection())->diff(self::getRequireConsultationStatesCollection())->values();
+    }
+
+    public static function getRequireConsultationStatesCollection()
+    {
+        return collect(self::REQUIRE_CONSULTATION_STATES);
+    }
 
     public function labOrder()
     {

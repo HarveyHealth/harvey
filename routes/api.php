@@ -25,11 +25,14 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     # Create User
     Route::post('users', 'UsersController@store')->name('users.store');
 
-    # Send email to visitor (for instance, email template 'subscribe' to send Harvey eBook)
+    # Send email to visitor (for instance, email template 'subscribe' in order to send Harvey eBook)
     Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
 
     # Verify ZIPs
     Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
+
+    # Get Harvey availability
+    Route::get('visitors/availability', 'VisitorsController@getHarveyAvailability');
 
     Route::group(['middleware' => 'auth:api'], function () {
 

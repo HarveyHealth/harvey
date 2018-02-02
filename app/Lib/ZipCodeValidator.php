@@ -56,6 +56,13 @@ class ZipCodeValidator
         return $this->state;
     }
 
+    public static function getStatesCollection()
+    {
+        return Cache::remember('states_list', TimeInterval::day()->toMinutes(), function () {
+            return collect(array_keys(json_decode(file_get_contents(public_path() . '/states.json'), true)));
+        });
+    }
+
     protected function callGeocoder()
     {
         $query = "{$this->getZip()} USA";
@@ -88,9 +95,9 @@ class ZipCodeValidator
         return in_array($state, $this->regulated_states);
     }
 
-    public function isServiceable()
+    public function isServiceable(string $state = null)
     {
-        return $this->stateIsServiceable($this->getState());
+        return $this->stateIsServiceable($state ?? $this->getState());
     }
 
     protected function stateIsServiceable($state)
