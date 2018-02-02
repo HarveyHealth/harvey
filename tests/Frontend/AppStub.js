@@ -45,24 +45,6 @@ Vue.prototype.Util = App.Util;
 // not share v2 architecture
 Vue.prototype.Laravel = laravel;
 
-// Turning State into a function allows you to query global state within
-// Vue templates, providing default values to fall back on if a particular
-// property is undefined. This is helpful when awaiting data structures from
-// api calls. NOTE: this should be used as READ ONLY function.
-Vue.prototype.State = (path, ifUndefined) => {
-  return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
-}
-
-// State() is internally read only and setState() is globally write-only.
-//    App.setState('practitioners.data.all', 'practitioners');
-//    State.practitioners.data.all yields 'practitioners'
-App.setState = (state, value) => {
-  const path = state.split('.');
-  const prop = path.pop();
-  return App.Util.data.propDeep(path, State)[prop] = value;
-}
-
-Vue.prototype.setState = App.setState;
 
 // Creates a mock app environment for a given component to resolve any
 // references to $root. Add methods and properties as needed.
@@ -77,6 +59,8 @@ const AppStub = function(component, componentName, props, setAppState) {
   // store is a function that takes in a Laravel object to set particular state.
   // this returns the same object used in the actual application.
   const data = store(laravel, State);
+  App.State = data.State;
+  Vue.prototype.State = App.State;
 
   data.labTests = mockData.labTests;
   data.global.labOrders.push(mockData.global.labOrders);

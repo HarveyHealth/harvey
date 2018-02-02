@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Lib\{TimeInterval, TransactionalEmail, Validation\StrictValidator};
+use App\Lib\Validation\StrictValidator;
+use App\Lib\{TimeInterval, TransactionalEmail, ZipCodeValidator, HarveyAvailability};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use ResponseCode;
-use Illuminate\Support\Facades\Redis;
 
 class VisitorsController extends BaseAPIController
 {
@@ -37,5 +38,10 @@ class VisitorsController extends BaseAPIController
         Redis::expire($redisKey, TimeInterval::day()->toSeconds());
 
         return response()->json(['status' => 'Email sent.'], ResponseCode::HTTP_ACCEPTED);
+    }
+
+    public function getHarveyAvailability(Request $request)
+    {
+        return response()->json(['data' => HarveyAvailability::get()], ResponseCode::HTTP_OK);
     }
 }

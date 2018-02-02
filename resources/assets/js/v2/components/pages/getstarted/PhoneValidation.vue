@@ -13,7 +13,7 @@
                     :ref="'phone_input'"
                 />
                 <Spacer isBottom :size="2" />
-                <a href="" class="button-link db f6 fw3" @click.prevent="setPhoneNumberFromCache" v-if="State('getstarted.signup.phoneCache')">
+                <a href="" class="button-link db f6 fw3" @click.prevent="setPhoneNumberFromCache" v-if="State.getstarted.signup.phoneCache">
                     Back to Confirmation
                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                 </a>
@@ -30,7 +30,7 @@
             </form>
         </SlideIn>
         <SlideIn :to="'left'" v-if="phoneIsSaved">
-            <span class="fw3">{{ State('getstarted.signup.phoneCache', '') | formatPhone }}</span>
+            <span class="fw3">{{ (State.getstarted.signup.phoneCache || '') | formatPhone }}</span>
             <Spacer isBottom :size="2" />
             <form @submit.prevent>
                 <CodeInput
@@ -83,9 +83,9 @@ export default {
             isCodeProcessError: false,
             isInvalidCode: false,
             isUserPatchError: false,
-            phoneCode: this.State('getstarted.signup.phoneCode') || '',
+            phoneCode: this.State.getstarted.signup.phoneCode || '',
             phoneCodeHasSent: false,
-            phoneNumber: this.State('getstarted.signup.phone') || '',
+            phoneNumber: this.State.getstarted.signup.phone || '',
             phoneNumberHasSent: false,
             phoneDuplicateError: '',
             phoneProcessError: 'There was an error processing your phone number. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.',
@@ -95,13 +95,13 @@ export default {
     },
     computed: {
         phoneIsSaved() {
-            return this.State('getstarted.signup.phone');
+            return this.State.getstarted.signup.phone;
         },
         phoneCodeIsConfirmed() {
-            return this.State('getstarted.signup.phoneVerifiedDate') !== null;
+            return this.State.getstarted.signup.phoneVerifiedDate !== null;
         },
         phoneStepIsComplete() {
-            return this.State('getstarted.signup.stepsCompleted.phone');
+            return this.State.getstarted.signup.stepsCompleted.phone;
         }
     },
     methods: {
@@ -109,11 +109,11 @@ export default {
             this.resetErrors();
             this.phoneCode = '';
             this.$refs.code_input.$el.value = '';
-            App.setState({
-                'getstarted.signup.stepsCompleted.phone': false,
-                'getstarted.signup.phoneCode': '',
-                'getstarted.signup.phoneVerifiedDate': null
-            });
+
+            App.State.getstarted.signup.stepsCompleted.phone = false;
+            App.State.getstarted.signup.phoneCode = '';
+            App.State.getstarted.signup.phoneVerifiedDate = null;
+
             axios.post(`api/v1/users/${Laravel.user.id}/phone/send_verification_code`);
             Vue.nextTick(() => this.$refs.code_input.$el.focus());
         },
@@ -123,10 +123,8 @@ export default {
             axios.get(`${this.Config.misc.api}users/${this.Config.user.info.id}/phone/verify?code=${this.phoneCode}`).then(response => {
                 this.phoneCodeHasSent = false;
                 if (response.data.verified) {
-                    App.setState({
-                        'getstarted.signup.phoneCode': this.phoneCode,
-                        'getstarted.signup.phoneVerifiedDate': true
-                    });
+                    App.State.getstarted.signup.phoneCode = this.phoneCode;
+                    App.State.getstarted.signup.phoneVerifiedDate = true;
                     this.trackPhoneNumber(this.phoneNumber);
                     // In case the user re-mounts the component
                     this.Config.user.info.phone_verified_at = true;
@@ -150,12 +148,11 @@ export default {
             this.resetErrors();
             axios.patch(`/api/v1/users/${this.Config.user.info.id}`, { phone: this.phoneNumber }).then(() => {
                 this.phoneNumberHasSent = false;
-                App.setState({
-                    'getstarted.signup.phone': this.phoneNumber,
-                    'getstarted.signup.phoneCache': this.phoneNumber,
-                    'getstarted.signup.phoneVerifiedDate': null,
-                    'getstarted.signup.stepsCompleted.phone': false
-                });
+                App.State.getstarted.signup.phone = this.phoneNumber;
+                App.State.getstarted.signup.phoneCache = this.phoneNumber;
+                App.State.getstarted.signup.phoneVerifiedDate = null;
+                App.State.getstarted.signup.stepsCompleted.phone = false;
+
                 Vue.nextTick(() => this.$refs.code_input.$el.focus());
 
                 // Segment Identify update
@@ -179,10 +176,8 @@ export default {
             this.resetErrors();
             this.phoneCode = '';
             this.phoneNumber = '';
-            App.setState({
-                'getstarted.signup.phoneCode': '',
-                'getstarted.signup.phone': ''
-            });
+            App.State.getstarted.signup.phoneCode = '';
+            App.State.getstarted.signup.phone = '';
             Vue.nextTick(() => this.$refs.phone_input.$el.focus());
         },
         resetErrors() {
@@ -192,9 +187,7 @@ export default {
             this.isCodeProcessError = false;
         },
         setPhoneNumberFromCache() {
-            App.setState({
-                'getstarted.signup.phone': this.State('getstarted.signup.phoneCache')
-            });
+            App.State.getstarted.signup.phone = this.State.getstarted.signup.phoneCache;
         },
         // Social Capital - phone tracking
         trackPhoneNumber(number) {

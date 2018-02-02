@@ -52,8 +52,7 @@ Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
 Route::get('/consultations', 'PagesController@getConsultations')->name('consultations');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
-
-// PUBLIC VIEW PAGES
+Route::get('/availability', 'PagesController@getAvailability')->name('availability');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE

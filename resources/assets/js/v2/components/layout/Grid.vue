@@ -35,7 +35,7 @@ export default {
     data() {
         return {
             // Breakpoints and spacing are based on Tachyons values
-            breakpoints: Object.keys(this.State('misc.grid')),
+            breakpoints: Object.keys(this.State.misc.grid),
             spacing: this.Config.misc.spacing
         };
     },
@@ -153,11 +153,11 @@ export default {
         this.gridClasses.map(cls => {
             const parts = cls.split('-');
             const bp = parts.length > 2 ? parts[2] : parts[1];
-            this.State(`misc.grid.${bp}.classes`).push(cls);
+            this.State.misc.grid[bp].classes.push(cls);
         });
         flattenDeep(this.columnClasses).map(cls => {
             const bp = cls.split('-')[3];
-            this.State(`misc.grid.${bp}.classes`).push(cls);
+            this.State.misc.grid[bp].classes.push(cls);
         });
     }
 };

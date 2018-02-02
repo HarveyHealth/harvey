@@ -9,7 +9,7 @@ export default function(name) {
         return;
     }
 
-    const isComplete = this.State('getstarted.signup.hasCompletedSignup');
+    const isComplete = App.State.getstarted.signup.hasCompletedSignup;
 
     // Route to or away from 'success' depending on completion
     if (!isComplete && name === 'success') {
@@ -18,8 +18,8 @@ export default function(name) {
         App.Router.push({ path: '/success'});
     }
 
-    const steps = this.State('getstarted.signup.steps');
-    const completed = this.State('getstarted.signup.stepsCompleted');
+    const steps = App.State.getstarted.signup.steps;
+    const completed = App.State.getstarted.signup.stepsCompleted;
     const index = steps.indexOf(name);
 
     const incompleteSteps = steps.filter((step, i) => {

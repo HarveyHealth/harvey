@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
+    <SlideIn v-if="!State.getstarted.signup.hasCompletedSignup" class="ph2 ph3-m pv4">
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">{{ preface.heading }}</Heading1>
             <Spacer isBottom :size="2" />
@@ -41,7 +41,7 @@ export default {
     },
     computed: {
         hasPhone() {
-            return this.State('getstarted.signup.phone');
+            return this.State.getstarted.signup.phone;
         },
         icon() {
             return this.hasPhone ? 'phone_sms' : 'phone';
@@ -50,13 +50,13 @@ export default {
             return this.hasPhone ? { position: 'relative', left: '12px' } : '';
         },
         isComplete() {
-            return this.State('getstarted.signup.stepsCompleted.phone');
+            return this.State.getstarted.signup.stepsCompleted.phone;
         },
         phoneIsVerified() {
-            return this.State('getstarted.signup.phoneVerifiedDate');
+            return this.State.getstarted.signup.phoneVerifiedDate;
         },
         preface() {
-            if (this.State('getstarted.signup.stepsCompleted.phone')) {
+            if (this.State.getstarted.signup.stepsCompleted.phone) {
                 return {
                     heading: 'Phone Confirmed!',
                     subtext: 'Your phone number has been confirmed. You can change your phone number, or continue to the scheduling step.'
@@ -75,20 +75,17 @@ export default {
         }
     },
     beforeMount() {
-        const inputPhone = this.State('getstarted.signup.phone');
-        const inputPhoneCache = this.State('getstarted.signup.phoneCache');
-        const inputPhoneVerified = this.State('getstarted.signup.phoneVerifiedDate');
+        const inputPhone = this.State.getstarted.signup.phone;
+        const inputPhoneCache = this.State.getstarted.signup.phoneCache;
+        const inputPhoneVerified = this.State.getstarted.signup.phoneVerifiedDate;
 
         App.Logic.getstarted.refuseStepSkip.call(this, 'phone');
-        App.setState({
-            'getstarted.signup.phone': inputPhone || this.Config.user.info.phone,
-            'getstarted.signup.phoneCache': inputPhoneCache || this.Config.user.info.phone,
-            'getstarted.signup.phoneVerifiedDate': inputPhoneVerified || this.Config.user.info.phone_verified_at
-        });
-        if (this.State('getstarted.signup.phoneVerifiedDate') && !this.isComplete) {
-            App.setState({
-                'getstarted.signup.stepsCompleted.phone': true
-            });
+        App.State.getstarted.signup.phone = inputPhone || this.Config.user.info.phone;
+        App.State.getstarted.signup.phoneCache = inputPhoneCache || this.Config.user.info.phone;
+        App.State.getstarted.signup.phoneVerifiedDate = inputPhoneVerified || this.Config.user.info.phone_verified_at;
+
+        if (this.State.getstarted.signup.phoneVerifiedDate && !this.isComplete) {
+            App.State.getstarted.signup.stepsCompleted.phone = true;
             App.Logic.getstarted.nextStep.call(this, 'phone');
         }
     },

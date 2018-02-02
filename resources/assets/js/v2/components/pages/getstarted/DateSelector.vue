@@ -47,34 +47,30 @@ export default {
     },
     computed: {
         selectedDay() {
-            return this.State('getstarted.signup.selectedDay');
+            return this.State.getstarted.signup.selectedDay;
         },
         selectedWeek() {
-            return this.State('getstarted.signup.selectedWeek');
+            return this.State.getstarted.signup.selectedWeek;
         }
     },
     methods: {
         handleDateSelection(index, day, dayObj) {
           if (dayObj && dayObj.times.length) {
             // reset
-            App.setState({
-                'getstarted.signup.stepsCompleted.schedule': false,
-                'getstarted.signup.selectedDate': null,
-                'getstarted.signup.selectedTime': null,
-                'getstarted.signup.data.appointment_at': null
-            });
+            App.State.getstarted.signup.stepsCompleted.schedule = false;
+            App.State.getstarted.signup.selectedDate =  null;
+            App.State.getstarted.signup.selectedTime =  null;
+            App.State.getstarted.signup.data.appointment_at = null;
 
             // If sections are stacked at smaller screen width, scroll to time selection
             if (this.onSelect) {
                 this.onSelect();
             }
 
-            App.setState({
-                'getstarted.signup.selectedWeek': index,
-                'getstarted.signup.selectedDate': dayObj.date,
-                'getstarted.signup.selectedDay': day,
-                'getstarted.signup.selectedTimes': dayObj.times
-            });
+            App.State.getstarted.signup.selectedWeek = index;
+            App.State.getstarted.signup.selectedDate = dayObj.date;
+            App.State.getstarted.signup.selectedDay = day;
+            App.State.getstarted.signup.selectedTimes = dayObj.times;
           }
         },
         hasAvailableDays(days) {

@@ -51,9 +51,9 @@ export default {
     },
     computed: {
         shouldShowIntakeForm() {
-            return  this.State('users.intake.wasRequested') &&
-                    !this.State('users.intake.isLoading') &&
-                    !this.State('users.intake.data.self');
+            return  this.State.users.intake.wasRequested &&
+                    !this.State.users.intake.isLoading &&
+                    !this.State.users.intake.data.self;
         }
     },
     mounted() {
@@ -66,7 +66,7 @@ export default {
         } else {
             App.Http.users.getPatientIntake(App.Config.user.info.id, () => {
                 // add Typeform script if intake data does not exist
-                if (!this.State('users.intake.data.self')) {
+                if (!this.State.users.intake.data.self) {
                     /* eslint-disable */
                     var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/";
                     if(!gi.call(d,id)) { js=ce.call(d,"script");

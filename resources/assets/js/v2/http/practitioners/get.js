@@ -1,11 +1,11 @@
 export default function(response) {
-  if (!response || typeof response !== 'function') {
-    console.error('response is required and must be a function');
-    return;
-  }
+    if (!response || typeof response !== 'function') {
+        console.error('response is required and must be a function');
+        return;
+    }
 
-  App.setState('practitioners.isLoading', true);
-  App.setState('practitioners.wasRequested', true);
+  App.State.practitioners.isLoading = true;
+  App.State.practitioners.wasRequested = true;
 
   axios.get(`${App.Config.misc.api}practitioners?include=user`)
     .then(r => response(r))

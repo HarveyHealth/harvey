@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="!State('getstarted.signup.hasCompletedSignup') && doctorInfo" class="ph2 ph3-m pv4">
+    <SlideIn v-if="!State.getstarted.signup.hasCompletedSignup && doctorInfo" class="ph2 ph3-m pv4">
 
         <div class="mha mw6 tc">
             <Heading1 doesExpand :color="'light'">Choose Date &amp; Time</Heading1>
@@ -29,7 +29,7 @@
                             <Heading3 :color="'muted'" class="tc uppercase">Choose Time</Heading3>
                             <Spacer isBottom :size="3" />
                             <div class="alt f6 fw3 tc">Time Zone: {{ Config.time.zoneAbbr }}</div>
-                            <TimeSelector :timeData="State('getstarted.signup.selectedTimes')" />
+                            <TimeSelector :timeData="State.getstarted.signup.selectedTimes" />
                         </div>
                     </div>
                 </Grid>
@@ -42,7 +42,7 @@
                     </Paragraph>
                     <Spacer isBottom :size="3" />
                     <InputButton
-                        :isDisabled="!State('getstarted.signup.data.appointment_at') || appointmentIsSelected"
+                        :isDisabled="!State.getstarted.signup.data.appointment_at || appointmentIsSelected"
                         :isDone="appointmentIsSelected"
                         :isProcessing="isProcessing"
                         :onClick="handleAppointmentSelection"
@@ -93,16 +93,16 @@ export default {
     },
     computed: {
         appointmentIsSelected() {
-            return this.State('getstarted.signup.appointmentIsSelected');
+            return this.State.getstarted.signup.appointmentIsSelected;
         },
         doctorInfo() {
-            return this.State('getstarted.signup.practitioner');
+            return this.State.getstarted.signup.practitioner;
         },
         selectedDate() {
-            return this.State('getstarted.signup.selectedDate');
+            return this.State.getstarted.signup.selectedDate;
         },
         weekData() {
-            const list = this.State('practitioners.availability.data');
+            const list = this.State.practitioners.availability.data;
             const weeks = [];
 
             for (let i = 1; i <= this.weeks; i++) {
@@ -137,10 +137,8 @@ export default {
         handleAppointmentSelection() {
             this.isProcessing = true;
             setTimeout(() => {
-                App.setState({
-                    'getstarted.signup.stepsCompleted.schedule': true,
-                    'getstarted.signup.appointmentIsSelected': true
-                });
+                App.State.getstarted.signup.stepsCompleted.schedule = true;
+                App.State.getstarted.signup.appointmentIsSelected = true;
                 App.Logic.getstarted.nextStep.call(this, 'schedule');
             }, 500);
         },
