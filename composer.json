@@ -86,6 +86,7 @@
             "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan passport:getkeys",
             "php artisan calendar:get_credentials",
+            "php artisan cache:forget render_css_app_public",
             "npm run prod"
         ],
 
