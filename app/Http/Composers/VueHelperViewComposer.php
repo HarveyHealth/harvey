@@ -59,7 +59,7 @@ class VueHelperViewComposer
         if ($user->isPractitioner()) {
             $output += ['practitionerId' => $user->practitioner->id];
         } elseif ($user->isPatient()) {
-            $output += ['intake_validation_token' => $user->patient->intake_validation_token];
+            $output += ['intake_link' => $user->patient->intake_link];
         }
 
         $output += ['intercom_hash' => $user->intercom_hash];
