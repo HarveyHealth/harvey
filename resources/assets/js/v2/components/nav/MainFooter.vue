@@ -30,10 +30,10 @@
                                 <div :slot="'content'">
                                     <a href="/" class="db pv1">Home</a>
                                     <a href="/about" class="db pv1">About</a>
-                                    <a href="/consultations" class="db pv1">Stories</a>
+                                    <a href="/consultations#stories" class="db pv1">Stories</a>
                                     <a href="/blog" class="db pv1">Blog</a>
-                                    <a href="/legal/terms" class="db pv1">Terms</a>
-                                    <a href="/legal/privacy" class="db pv1">Privacy</a>
+                                    <a href="/terms" class="db pv1">Terms</a>
+                                    <a href="/privacy" class="db pv1">Privacy</a>
                                     <a href="https://help.goharvey.com" class="db pv1">Help</a>
                                 </div>
                             </Accordian>
@@ -43,7 +43,7 @@
                                 <span :slot="'trigger'" class="ttu fw5 white">Conditions</span>
                                 <div :slot="'content'">
                                     <a href="https://store.goharvey.com/collections/skin-issues" class="db pv1">Skin Issues</a>
-                                    <a href="https://store.goharvey.com/collections/food-allergies" class="db pv1">Food Allergies</a>
+                                    <a href="https://store.goharvey.com/collections/food-allergies" class="db pv1">Food Sensitivities</a>
                                     <a href="https://store.goharvey.com/collections/stress-anxiety" class="db pv1">Stress &amp; Anxiety</a>
                                     <a href="https://store.goharvey.com/collections/fatigue" class="db pv1">Fatigue</a>
                                     <a href="https://store.goharvey.com/collections/weight-loss-gain" class="db pv1">Weight Loss/Gain</a>

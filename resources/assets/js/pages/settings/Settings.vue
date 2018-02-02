@@ -91,12 +91,36 @@
 
                     </div>
                 </div>
-                <div  class="card card-width">
-                    <div class="card-heading-container">
-                        <h2 class="heading-2">
-                            Timezone Options
-                            <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
-                        </h2>
+            </div>
+            <div class="card card-width">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
+                        Appointment Reminders
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <fieldset id="notification_settings" class="bn">
+                        <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+                            <li v-for="(setting, index) in settings.reminders" class="ph3 pv3 bb b--light-silver">
+                                <input v-on:change="settingUpdate" class="mr2" type="checkbox" :id="setting.name" :name="setting.name" v-model="setting.value">
+                                <label :for="setting.name" class="lh-copy">{{setting.label}}</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="card card-width">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
+                        Timezone Options
+                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
+                        <div class="loading">
+                            <p class="copy-muted font-md font-italic">Your timezone is loading...</p>
+                        </div>
                     </div>
                     <div class="card-content-wrap">
                         <div v-if="$root.$data.global.loadingUser" class="card-contact-info">
@@ -160,10 +184,70 @@ export default {
             user_id: this.$route.params.id,
             year: '',
             stripe: this.$root.$data.stripe,
-            card: null
+            card: null,
+            settings: {
+                reminders: [
+                    {
+                        label: "24 hour email reminder",
+                        name: "reminder_email_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "24 hour text reminder",
+                        name: "reminder_text_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "1 hour email reminder",
+                        name: "reminder_email_1_hour",
+                        value: true
+                    },
+                    {
+                        label: "1 hour text reminder",
+                        name: "reminder_text_1_hour",
+                        value: true
+                    }
+                ]
+            }
         };
     },
     methods: {
+        readUserSettings(){
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`)
+                .then(respond => {
+                    for (var key in respond.data.data.attributes.settings){
+                        for (var i in this.settings.reminders){
+                            var reminder = this.settings.reminders[i];
+                            if (reminder.name == key){
+                                reminder.value = respond.data.data.attributes.settings[key];
+                                break;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(`GET ISSUE`, error);
+                });
+        },
+        settingUpdate() {
+            let new_settings = {
+                settings: {}
+            };
+            for (var key in this.settings.reminders){
+                var reminder = this.settings.reminders[key];
+                new_settings.settings[reminder.name] = reminder.value;
+            }
+
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}`, new_settings)
+            .then(() => {
+                this.notificationMessage = "Successfully updated!";
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 3000);
+            })
+            .catch(error => {
+                console.log(`PATCH ISSUE`, error);
+            });
+        },
         changeTimezone(e) {
             this.selectedTimezone = e.target.value;
         },
@@ -259,8 +343,12 @@ export default {
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
             axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
-                this.$root.$data.global.creditCards = response.data.data;
+                this.$root.$data.global.creditCards = response.data.data || [];
                 this.$root.$data.global.loadingCreditCards = false;
+            }).catch(error => {
+                if (error.response){
+                    console.error(error.response);
+                }
             });
         },
         getUser() {
@@ -324,6 +412,7 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
         this.getCards();
+        this.readUserSettings();
         if (this.user_id) {
             this.getUser();
         }
@@ -333,6 +422,7 @@ export default {
             if (id && 'admin' === Laravel.user.user_type) {
                 this.setUserId(id);
                 this.getUser();
+                this.getCards();
             } else {
                 this.setUserId(null);
             }

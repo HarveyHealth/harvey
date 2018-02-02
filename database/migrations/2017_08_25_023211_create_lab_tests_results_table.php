@@ -18,7 +18,7 @@ class CreateLabTestsResultsTable extends Migration
             $table->foreign('lab_test_id')->references('id')->on('lab_tests');
             $table->integer('lab_test_id')->unsigned();
             $table->string('key');
-            $table->string('notes')->nullable();
+            $table->text('notes')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

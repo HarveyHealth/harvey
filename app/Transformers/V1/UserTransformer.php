@@ -40,6 +40,12 @@ class UserTransformer extends TransformerAbstract
             'timezone' => $user->timezone,
             'user_type' => $user->type,
             'zip' => cast_to_string($user->zip),
+            'settings' => array_merge([
+                "reminder_email_24_hours" => true,
+                "reminder_text_24_hours" => true,
+                "reminder_email_1_hour" => true,
+                "reminder_text_1_hour" => true,
+            ], $user->settings??[]),
         ];
     }
 

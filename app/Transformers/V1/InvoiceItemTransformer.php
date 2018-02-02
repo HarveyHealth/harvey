@@ -2,13 +2,11 @@
 
 namespace App\Transformers\V1;
 
-use App\Models\Invoice;
-use App\Models\InvoiceItem;
-use App\Transformers\V1\SKUTransformer;
-use App\Transformers\V1\InvoiceTransformer;
-use League\Fractal\TransformerAbstract;
+use App\Lib\Fractal\HarveyTransformer;
+use App\Models\{Invoice, InvoiceItem};
+use App\Transformers\V1\{InvoiceTransformer, SKUTransformer};
 
-class InvoiceItemTransformer extends TransformerAbstract
+class InvoiceItemTransformer extends HarveyTransformer
 {
 
     protected $availableIncludes = ['invoice', 'sku'];
@@ -38,18 +36,12 @@ class InvoiceItemTransformer extends TransformerAbstract
     public function includeInvoice(InvoiceItem $invoice_item)
     {
         $invoice = $invoice_item->invoice;
-        return $this->item(
-            $invoice,
-            new InvoiceTransformer()
-        )->setResourceKey('invoice');
+        return $this->item($invoice, new InvoiceTransformer)->setResourceKey('invoice');
     }
 
     public function includeSKU(InvoiceItem $invoice_item)
     {
         $sku = $invoice_item->sku;
-        return $this->item(
-            $sku,
-            new SKUTransformer
-        )->setResourceKey('sku');
+        return $this->item($sku, new SKUTransformer)->setResourceKey('sku');
     }
 }

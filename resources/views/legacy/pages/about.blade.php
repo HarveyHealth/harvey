@@ -26,7 +26,7 @@
             <div class="ph6-l ph4-m ph3 tc">
                 <h1 class="f2-l f3 pt4 lh-title">Where food is thy medicine.</h1>
                 <p class="f4-l f5">Founded in 2016, we pride ourselves on our scientific approach to natural health. Our mission is to increase human healthspan and become the nation's most trusted platform for integrative medicine. Every day, we are providing patients with new and actionable insights about their bodies, and optimizing the way they feel.</p>
-                <p class="f4-l f5 pt3">We have assembled a network of the nation's top functional and integrative doctors, and we are working hard to make these doctors more accessable to patients everywhere. We offer the safest and most advanced home lab tests on the market to help you determine what nutrients your body is lacking, and what foods you might need to avoid. We also provide access to the highest-grade supplements on the market from the world's top brands, making it easy to adhere to your treatment plan. Our headquarters is in Playa Vista, CA and we can serve patients in 40 states.</p>
+                <p class="f4-l f5 pt3">We have assembled a network of the nation's top functional and integrative doctors, and we are working hard to make these doctors more accessible to patients everywhere. We offer the safest and most advanced home lab tests on the market to help you determine what nutrients your body is lacking, and what foods you might need to avoid. We also provide access to the highest-grade supplements on the market from the world's top brands, making it easy to adhere to your treatment plan. Our headquarters is in Playa Vista, CA and we can serve patients in 40 states.</p>
             </div>
         </div>
     </section>

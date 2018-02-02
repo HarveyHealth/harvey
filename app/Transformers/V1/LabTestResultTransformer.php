@@ -2,10 +2,10 @@
 
 namespace App\Transformers\V1;
 
+use App\Lib\Fractal\HarveyTransformer;
 use App\Models\LabTestResult;
-use League\Fractal\TransformerAbstract;
 
-class LabTestResultTransformer extends TransformerAbstract
+class LabTestResultTransformer extends HarveyTransformer
 {
     /**
      * @param LabTest $labTest

@@ -119,7 +119,7 @@
                 <div class="w-100 w-50-ns tc">
                     <div class="ph5-l ph3 mb4">
                       <i class="fa fa-desktop f2-l f3 ma1" aria-hidden="true"></i>
-                      <p class="f3-l f4 fw3 mv2">Accessable Records</p>
+                      <p class="f3-l f4 fw3 mv2">Accessible Records</p>
                       <p class="f4-l f5">Manage all your appointments, lab results, supplement prescriptions, and treatment plans from one central online dashboard.</p>
                     </div>
                 </div>

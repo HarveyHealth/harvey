@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Lib\HarveyApiSerializer;
+use App\Lib\Fractal\HarveyApiSerializer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Validation\Validator;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use ResponseCode;
+use League\Fractal\Resource\Collection;
 
 class BaseAPIController extends Controller
 {

@@ -56,6 +56,9 @@ Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests'
 // PUBLIC VIEW PAGES
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
+// INTAKE
+Route::get('/intake', 'IntakeController@index')->name('intake');
+
 if (isLocal()) {
 	Route::get('test', 'TestController@index');
 }

@@ -15,7 +15,7 @@
                 <h1 class="f1-l f2 lh-title mt0 mb3 ph3 white">Book a consultation with <br class="dn db-ns"/>a Naturopathic Doctor.</h1>
                 <p class="f4-l f5 fw5 mb4 ph3 white">Schedule a 1-hour consultation with a licensed Naturopathic Doctor <br class="dn db-ns"/>to review lab results or build a personalized treatment plan.</p>
                 <div class="tc">
-                    <a href="/get-started" class="button f4-l f5 ph4 is-primary has-arrow">Check Availability</a>
+                    <a href="/get-started#/signup" class="button f4-l f5 ph4 is-primary has-arrow">Check Availability</a>
                     <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="https://telegram.me/goharvey_doctors" class="underline white dim" target="_blank">Chat free with a doctor</a></p>
                 </div>
             </div>
@@ -38,14 +38,14 @@
                     <div class="pa4 br-100 h4 w4 dib o-80 pink-bg">
                       <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/food-allergies.png" class="br-100 h3 w3 dib">
                     </div>
-                    <p class="f4 pt3 fw4">Food Allergies</p>
+                    <p class="f4 pt3 fw4">Food Sensitivities</p>
                     <a href="https://store.goharvey.com/collections/food-allergies" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
                     <div class="pa4 br-100 h4 w4 dib o-80 brown-bg">
                       <img alt="" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/stress-anxiety.png" class="br-100 h3 w3 dib">
                     </div>
-                    <p class="f4 pt3 fw4">Stess & Anxiety</p>
+                    <p class="f4 pt3 fw4">Stress & Anxiety</p>
                     <a href="https://store.goharvey.com/collections/stress-anxiety" class="pt2">Shop Products</a>
                 </div>
                 <div class="w-25-l w-50 mb4 tc">
@@ -99,7 +99,7 @@
             <div class="w-50-l pa0-ns pa3 tl-l tc">
                 <div class="w-100 v-mid">
                     <p class="f2-l f3 fw5 pt3-l white">Choose your own doctor.</p>
-                    <p class="f4-l f5 fw4 pt2 white">Dr. Amanda Frick, ND, is the Lead Naturopath at Harvey. She is a physician with a doctoral degree in Naturopathic Medicine. She believes wellness can be achieved through a blend of traditional approaches and natural and holistic therapies.</p>
+                    <p class="f4-l f5 fw4 pt2 white">Dr. Amanda Frick, ND, is the Lead Naturopath at Harvey. She has a doctoral degree in Naturopathic Medicine and believes wellness can be achieved through a blend of traditional approaches and natural and holistic therapies.</p>
                 </div>
             </div>
         </div>
@@ -162,7 +162,7 @@
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
                     <p class="f4-l f5 moon-gray">Steve</p>
                     <a href="//www.youtube.com/watch?v=sO9lHH08sVs&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-play-circle f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
-                    <p class="f5-l f6 pt2 lh-title">"We did some bloodwork, and it was a great experience. She recommended a vitamin regimen that improved my performance and recovery time."</p>
+                    <p class="f5-l f6 pt2 lh-title">"We did some blood-work, and it was a great experience. She recommended a vitamin regimen that improved my performance and recovery time."</p>
                 </div>
               </div>
             </div>
@@ -176,7 +176,7 @@
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
                     <p class="f4-l f5 moon-gray">Sukari</p>
                     <a href="//www.youtube.com/watch?v=bbbxHViNiLk&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-play-circle f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
-                    <p class="f5-l f6 pt2 lh-title">"The food allergies test help was especially helpful because it showed I had sensitivities to dairy, which I was eating every day. I was able to make substitutions to better support my skin and gut health."</p>
+                    <p class="f5-l f6 pt2 lh-title">"The food allergies test was especially helpful because it showed I had sensitivities to dairy, which I was eating every day. I was able to make substitutions to better support my skin and gut health."</p>
                 </div>
               </div>
               <div class="w-40-ns w-100 pa3-l pa2 pa1 mr4-l mr3-m mr2 mb4-ns mb3 br3 ba b--light-gray bg-white tl-ns tc">
@@ -188,7 +188,7 @@
                 <div class="fl w-75-l w-80-m w-100 ph3-l ph1">
                     <p class="f4-l f5 moon-gray">Jonathan</p>
                     <a href="//www.youtube.com/watch?v=_lAsiO_wZ3U&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen><i class="fa fa-play-circle f5 pt1 pr1" aria-hidden="true"></i>Watch Story</a>
-                    <p class="f5-l f6 pt2 lh-title">"I did a CT scan with my regular doctor, and they gave me medicine, but none of it worked. Luckily I found Dr Frick, and we found gut bacteria through the food sensitivities test that I never would have found otherwise."</p>
+                    <p class="f5-l f6 pt2 lh-title">"I did a CT scan with my regular doctor, and they gave me medicine, but none of it worked. Luckily I found Dr Frick, and we found gut bacteria through testing that I never would have found otherwise."</p>
                 </div>
               </div>
             </div>
@@ -234,7 +234,7 @@
                 <p class="f2-l f3">Serving patients across 40 states.</p>
                 <p class="f4-l f5 pa3">We recommend talking with a doctor to receive a full treatment plan. You can book a video consultation today or start a private chat with one of our doctors on Telegram.</p>
                 <div class="tc">
-                    <a href="/get-started" class="button f4-ns f5 ph4 is-primary has-arrow">Check Availability</a>
+                    <a href="/get-started#/signup" class="button f4-ns f5 ph4 is-primary has-arrow">Check Availability</a>
                     <p class="f5-l f6 fw5 db cf ma3">Questions? <a href="https://telegram.me/goharvey_doctors" class="underline dim" target="_blank">Chat free with a doctor</a></p>
                 </div>
             </div>
