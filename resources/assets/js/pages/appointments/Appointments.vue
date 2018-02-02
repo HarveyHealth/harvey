@@ -592,7 +592,7 @@ export default {
           break;
 
         case 'new':
-          if (!App.Config.user.info.has_a_card && App.Config.user.isPatient) {
+          if (!Laravel.user.has_a_card && this.$root.userIsPatient) {
             this.shouldShowBillingError = true;
             return;
           }
