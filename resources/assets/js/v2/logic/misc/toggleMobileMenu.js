@@ -1,3 +1,3 @@
 export default function(menuState) {
-    App.setState('misc.isMobileMenuOpen', !menuState);
+    App.State.misc.isMobileMenuOpen = !menuState;
 }

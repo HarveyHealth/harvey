@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 Vue.use(VueQuillEditor);
 
 // COMPONENETS
-import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
+import { Dashboard } from 'pages';
 import { GridStyles } from 'layout';
 import Usernav from './commons/UserNav.vue';
 
@@ -74,44 +74,41 @@ Vue.prototype.Http = App.Http;
 Vue.prototype.Logic = App.Logic;
 Vue.prototype.Util = App.Util;
 
-// Turning State into a function allows you to query global state within
-// Vue templates, providing default values to fall back on if a particular
-// property is undefined. This is helpful when awaiting data structures from
-// api calls. NOTE: this should be used as READ ONLY function.
-Vue.prototype.State = (path, ifUndefined) => {
-  return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
-};
-
-// State() is internally read only and setState() is globally write-only.
-//    App.setState('practitioners.data.all', 'practitioners');
-//    State.practitioners.data.all yields 'practitioners'
-App.setState = (state, value) => {
-  const set = (s, v) => {
-    const path = s.split('.');
-    const prop = path.pop();
-    return App.Util.data.propDeep(path, State)[prop] = v;
-  };
-
-  switch(typeof state) {
-      case 'string':
-        set(state, value);
-        break;
-      case 'object':
-        for (var key in state) {
-          set(key, state[key]);
-        }
-        break;
-  }
-
-};
-
-Vue.prototype.setState = App.setState;
-
-// STORE
-// The data object for the root Vue instance. We're abstracting this to its own file
-// so it can be imported into our app stub for unit testing
 import store from './store';
-const Store = store(Laravel, State);
+const globalState = store(Laravel, State);
+App.State = globalState.State;
+Vue.prototype.State = App.State;
+
+// ====================================================================
+// V2 REFACTORED ORGANIZATION
+//
+// This will sit alongside of the existing v2 architecture so we can
+// incrementally update things. The goal of this reorganization is to
+// simply locations of files and availability of global state and logic
+//
+// Store = global state, constants, computed properties. Replaces State
+//         and Config
+// _App = (to eventually replace App) main application logic divided by
+//        api endpoints or specific project features. Replaces Http and Logic
+// Util = global helpers
+// Router = stays the same
+// Filters = stays the same
+// Blade = stays the same
+
+import Store from './v2/setup/Store';
+import legacyData from './v2/setup/legacy'; // for features using v1 FE
+import _App from './v2/App';
+
+const appData = legacyData;
+appData.Store = Store;
+appData.State = App.State; // remove this after refactor
+
+window.Store = Store;
+Vue.prototype.Store = Store;
+
+window.Util = Util;
+window._App = _App;
+// ====================================================================
 
 const app = new Vue({
     router,
@@ -120,10 +117,9 @@ const app = new Vue({
         GridStyles,
         Usernav
     },
+
     // Adding State to the root data object makes it globally reactive.
-    // We do not attach this to window.App for HIPPA compliance. Use
-    // App.setState to mutate this object.
-    data: Store,
+    data: appData,
 
     computed: {
         userIsPatient() {
@@ -201,7 +197,7 @@ const app = new Vue({
         },
 
         getAppointments(cb) {
-            App.setState('appointments.isLoading.upcoming', true);
+            App.State.appointments.isLoading.upcoming = true;
             axios.get(`${this.apiUrl}/appointments?include=patient.user,invoice`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
@@ -221,12 +217,6 @@ const app = new Vue({
                   // to update v2 Dashboard
                   App.Http.appointments.getUpcomingResponse(response);
                 })
-                .catch(error => {
-                  if (error.response) console.warn(error.response);
-                });
-
-            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user,invoice`)
-                .then((response) => this.global.recent_appointments = response.data)
                 .catch(error => {
                   if (error.response) console.warn(error.response);
                 });
@@ -537,7 +527,7 @@ const app = new Vue({
                     cb(all, all
                     .reduce((acc, item)  => {
                         acc[item.id] = item;
-                        return acc; 
+                        return acc;
                     }, {}));
                 } else if (this.permissions === 'practitioner') {
                     let patients = this.global.confirmedPatients.filter(e => {
@@ -550,7 +540,7 @@ const app = new Vue({
                     });
                     cb(patients, patients.reduce((acc, item)  => {
                         acc[item.id] = item;
-                        return acc; 
+                        return acc;
                     }, {}));
                 } else {
                     let doctors = this.global.confirmedDoctors.filter(e => {
@@ -563,7 +553,7 @@ const app = new Vue({
                     });
                     cb(doctors, doctors.reduce((acc, item)  => {
                         acc[item.id] = item;
-                        return acc; 
+                        return acc;
                     }, {}));
                 }
             }
@@ -612,14 +602,6 @@ const app = new Vue({
         if (App.Config.misc.environment === 'dev') {
           window.state = this.State;
         }
-
-        // For conditions, we could either create an endpoint that will need to be hit
-        // as soon as the page loads, or we expose a function on the window object that
-        // will set the application state.
-        window.setConditions = (data, index) => {
-          this.State.conditions.all = data;
-          this.State.conditions.selectedIndex = index;
-        };
 
         // Initial GET requests
         if (Laravel.user.signedIn) {

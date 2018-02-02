@@ -1,61 +1,89 @@
 <template>
-  <PageContainer>
-    <PageHeader :heading="Config.user.isAdmin ? 'Admin Dashboard' : 'Dashboard'" />
-    <div class="mw8 pa2 pa3-m">
-      <NotificationPopup
-        :active='isNotificationActive'
-        comes-from='top-right'
-        symbol='&#10003;'
-        :text='notificationText'
-      />
-      <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
-      <SlideIn v-else>
-        <Grid :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
-          <Card :slot="1" :heading="'Appointments'">
-            <div v-if="upcomingAppointments.length">
-              <AppointmentCardInfo
-                v-for="(appt, i) in upcomingAppointments"
-                :appointment="appt"
-                :hasBorder="i < upcomingAppointments.length - 1"
-                :key="appt.id"
-              />
-            </div>
-            <CardContent v-else>
-              <Paragraph :weight="'thin'">No upcoming appointments scheduled</Paragraph>
-            </CardContent>
-          </Card>
-          <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
-            <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
-            <CardContent>
-              <Paragraph :weight="'thin'">{{ State('practitioners.userDoctor.attributes.description') }}</Paragraph>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
-          <Card :slot="1" :heading="'Contact Info'">
-            <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
-            <CardContent>
-              <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
-              <Spacer isBottom :size="3" />
-              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone | formatPhone }}</a></LabeledTextBlock>
-              <Spacer isBottom :size="3" />
-              <LabeledTextBlock :label="'Location'">{{ Config.user.info.city }}, {{ Config.user.info.state }}</LabeledTextBlock>
-            </CardContent>
-          </Card>
-          <Card :slot="2" :heading="'Support'">
-            <AvatarCardHeading :heading="Config.support.name" />
-            <CardContent>
-              <LabeledTextBlock :label="'Support'"><a :href="'mailto:'+Config.support.email">{{ Config.support.email }}</a></LabeledTextBlock>
-              <Spacer isBottom :size="3" />
-              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.support.phone">{{ Config.support.phone }}</a></LabeledTextBlock>
-              <Spacer isBottom :size="3" />
-              <LabeledTextBlock :label="'Available'">{{ Config.support.available }}</LabeledTextBlock>
-            </CardContent>
-          </Card>
-      </Grid>
-      </SlideIn>
-    </div>
-  </PageContainer>
+    <PageContainer>
+        <PageHeader :heading="Store.isAdmin ? 'Admin Dashboard' : 'Dashboard'" />
+        <div class="mw8 pa2 pa3-m">
+            <NotificationPopup
+                :active='isNotificationActive'
+                comes-from='top-right'
+                symbol='&#10003;'
+                :text='notificationText'
+            />
+
+            <LoadingSpinner v-if="!isDoneLoading" class="mt3" />
+
+            <SlideIn v-else>
+                <SlideIn :to="'right'" v-if="shouldShowIntakeAlert">
+                    <Card isAlert class="alert mb2 mb3-m">
+                        <CardContent class="pt4">
+                            <Grid :columns="[{m:8}, {m:4}]" :gutters="{s:3}">
+                                <Paragraph :slot="1" class="tc tl-m white">Please note: you must finish your patient intake form before your first appointment</Paragraph>
+                                <div :slot="2" class="tc tr-m">
+                                    <InputButton :href="'/intake'" :mode="'inverse'" :text="'Intake Form'" />
+                                </div>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                </SlideIn>
+
+                <Grid :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
+                    <Card :slot="1" :heading="'Appointments'">
+                        <div v-if="Store.upcomingAppointments.length">
+                            <AppointmentCardInfo
+                                v-for="(appt, i) in Store.upcomingAppointments"
+                                :appointment="appt"
+                                :hasBorder="i < Store.upcomingAppointments.length - 1"
+                                :key="appt.id"
+                            />
+                        </div>
+                        <CardContent v-else>
+                            <Paragraph :weight="'thin'">No upcoming appointments scheduled</Paragraph>
+                        </CardContent>
+                    </Card>
+                    <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
+                        <AvatarCardHeading :heading="userDoctor.attributes.name" />
+                        <CardContent>
+                            <Paragraph :weight="'thin'">{{ userDoctor.attributes.description }}</Paragraph>
+                        </CardContent>
+                    </Card>
+                </Grid>
+
+                <Grid :columns="[{ l:6 }, { l:6 }]" :gutters="{ s:2, m:3 }">
+                    <Card :slot="1" :heading="'Contact Info'">
+                        <AvatarCardHeading :heading="Util.getFullName(Store.user)" />
+                        <CardContent>
+                            <LabeledTextBlock :label="'Email'">
+                                <a :href="'tel:'+Store.user.email">{{ Store.user.email }}</a>
+                            </LabeledTextBlock>
+                            <Spacer isBottom :size="3" />
+                            <LabeledTextBlock :label="'Phone'">
+                                <a :href="'tel:'+Store.user.phone">{{ Store.user.phone | formatPhone }}</a>
+                            </LabeledTextBlock>
+                            <Spacer isBottom :size="3" />
+                            <LabeledTextBlock :label="'Location'">
+                                {{ Store.user.city }}, {{ Store.user.state }}
+                            </LabeledTextBlock>
+                        </CardContent>
+                    </Card>
+                    <Card :slot="2" :heading="'Support'">
+                        <AvatarCardHeading :heading="Store.SUPPORT.name" />
+                        <CardContent>
+                            <LabeledTextBlock :label="'Support'">
+                                <a :href="'mailto:'+Store.SUPPORT.email">{{ Store.SUPPORT.email }}</a>
+                            </LabeledTextBlock>
+                            <Spacer isBottom :size="3" />
+                            <LabeledTextBlock :label="'Phone'">
+                                <a :href="'tel:'+Store.SUPPORT.phone">{{ Store.SUPPORT.phone }}</a>
+                            </LabeledTextBlock>
+                            <Spacer isBottom :size="3" />
+                            <LabeledTextBlock :label="'Available'">
+                                {{ Store.SUPPORT.available }}
+                            </LabeledTextBlock>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </SlideIn>
+        </div>
+    </PageContainer>
 </template>
 
 <script>
@@ -95,43 +123,51 @@ export default {
     },
     computed: {
         isDoneLoading() {
-            return this.State('practitioners.data.all').length && this.State('appointments.wasRequested.upcoming') && !this.State('appointments.isLoading.upcoming');
-        },
-        pageHeading() {
-            return App.Config.user.isAdmin ? 'Admin Dashboard' : 'Dashboard';
+            return Store.practitioners.all.length &&
+                Store.hasRequested.upcomingAppointments &&
+                !Store.isLoading.upcomingAppointments;
         },
         shouldShowDoctorInfo() {
-            return App.Config.user.isPatient && this.State('practitioners.userDoctor');
+            return Store.isPatient && this.userDoctor;
         },
         shouldShowIntakeAlert() {
-            return  App.Config.user.isPatient &&
-                    this.State('users.intake.wasRequested') &&
-                    !this.State('users.intake.isLoading') &&
-                    !this.State('users.intake.data.self');
+            return Store.isPatient &&
+                Store.hasRequested.userIntake &&
+                !Store.isLoading.userIntake &&
+                !Store.users.intake.self;
         },
         topRowColumnConfig() {
-            return this.shouldShowDoctorInfo ? [{ l:6 }, { l:6 }] : [{ l:12 }];
+            return this.shouldShowDoctorInfo 
+                ? [{ l:6 }, { l:6 }]
+                : [{ l:12 }];
         },
-        upcomingAppointments() {
-            return this.State('appointments.data.upcoming').filter(a => a.attributes.status === 'pending');
+        userDoctor() {
+            let output = null;
+            Store.practitioners.licensed.some(dr => {
+                if (dr.attributes.name === Store.user.doctor_name) {
+                    output = dr;
+                    return true;
+                }
+            });
+            return output;
         }
     },
     mounted() {
-        App.setState('misc.currentPage', 'dashboard');
+        Store.currentPage = 'dashboard';
 
-        if (!this.State('users.intake.wasRequested')) {
-            App.Http.users.getPatientIntake(App.Config.user.info.id);
+        if (!Store.hasRequested.userIntake && Store.isNotAdmin) {
+            _App.users.getPatientIntake(Store.user.id);
         }
 
-        if (!this.State('appointments.wasRequested.upcoming')) {
-            App.Http.appointments.getUpcoming(App.Http.appointments.getUpcomingResponse);
+        if (!Store.hasRequested.upcomingAppointments) {
+            _App.appointments.getUpcoming();
         }
 
-        if (!this.State('practitioners.wasRequested')) {
-            App.Http.practitioners.get(App.Http.practitioners.getResponse);
+        if (!Store.hasRequested.userPractitioner && Store.isPatient) {
+            _App.practitioners.getAll();
         }
 
-        if (undefined !== Laravel.app.message) {
+        if (Laravel.app.message) {
             this.notificationText = Laravel.app.message;
             this.isNotificationActive = true;
             setTimeout(() => this.isNotificationActive = false, 8000);

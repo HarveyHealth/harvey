@@ -151,7 +151,7 @@ export default {
             if (this.onMenuClick) {
                 this.onMenuClick();
             } else {
-                App.Logic.misc.toggleMobileMenu(this.State('misc.isMobileMenuOpen'));
+                App.Logic.misc.toggleMobileMenu(App.State.misc.isMobileMenuOpen);
             }
         }
     },

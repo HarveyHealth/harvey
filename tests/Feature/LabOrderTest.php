@@ -30,7 +30,7 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertCount(1, $response->original['data']);
+        $this->assertCount(1, $response->original->data);
     }
 
     public function test_it_allows_a_practitioner_to_retrieve_only_his_labs_orders()
@@ -43,7 +43,7 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertCount(1, $response->original['data']);
+        $this->assertCount(1, $response->original->data);
     }
 
     public function test_it_allows_an_admin_to_retrieve_lab_orders()
@@ -56,7 +56,7 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertCount(3, $response->original['data']);
+        $this->assertCount(3, $response->original->data);
     }
 
     public function test_it_allows_an_admin_to_retrieve_a_lab_order()
@@ -69,7 +69,7 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertEquals($labOrder->id, $response->original['data']['id']);
+        $this->assertEquals($labOrder->id, $response->original->data->id);
     }
 
     public function test_it_allows_a_practitioner_to_retrieve_his_own_lab_order()
@@ -81,7 +81,7 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertEquals($labOrder->id, $response->original['data']['id']);
+        $this->assertEquals($labOrder->id, $response->original->data->id);
     }
 
     public function test_it_allows_a_patient_to_retrieve_his_own_lab_order()
@@ -93,7 +93,7 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertEquals($labOrder->id, $response->original['data']['id']);
+        $this->assertEquals($labOrder->id, $response->original->data->id);
     }
 
     public function test_it_does_not_allows_a_practitioner_to_retrieve_others_lab_order()

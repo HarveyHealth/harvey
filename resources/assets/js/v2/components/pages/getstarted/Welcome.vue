@@ -43,11 +43,11 @@ export default {
     },
 
     mounted () {
-        if (!this.State('practitioners.wasRequested')) {
+        if (!this.State.practitioners.wasRequested) {
           App.Http.practitioners.get(App.Http.practitioners.getResponse);
         }
 
-        App.Logic.getstarted.trackAccountCreation(this.State('getstarted.signupMode'));
+        App.Logic.getstarted.trackAccountCreation(this.State.getstarted.signupMode);
 
         const user = App.Config.user.info;
         App.Logic.getstarted.trackSignupEvent(user.email, user.first_name, user.last_name);

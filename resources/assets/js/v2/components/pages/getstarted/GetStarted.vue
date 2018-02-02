@@ -3,10 +3,10 @@
         <PublicNav v-if="Config.user.info.signedIn" disableMobile giveSpace hasLogo hasPhone />
         <div class="bg-blue-fade"></div>
         <ProgressBar
-            v-show="State('getstarted.signup.showProgress')"
+            v-show="State.getstarted.signup.showProgress"
             class="get-started-progress mha mt2 mw6 ph3"
             :progress="stepsCompleted"
-            :total="State('getstarted.signup.steps').length"
+            :total="State.getstarted.signup.steps.length"
         />
         <router-view />
     </div>
@@ -26,7 +26,7 @@ export default {
         // Number of steps completed equals the number of true values in stepsCompleted.
         // Create array of stepsCompleted keys and filter based on truthiness; grab length.
         stepsCompleted() {
-            const steps = this.State('getstarted.signup.stepsCompleted');
+            const steps = this.State.getstarted.signup.stepsCompleted;
             return Object.keys(steps).filter(step => steps[step]).length;
         },
         // We don't want to show the PublicNav on the signup form page
@@ -36,16 +36,14 @@ export default {
     },
     beforeMount() {
         // Grab signup_mode from localStorage and apply to global state
-        App.setState('getstarted.signupMode', JSON.parse(App.Util.data.fromStorage('signup_mode')));
+        App.State.getstarted.signupMode = JSON.parse(App.Util.data.fromStorage('signup_mode'));
 
         // If zipValidation does not exist in local storage the user should not be on the signup form
         // so we redirect them to /conditions. If they are, we set state accordingly.
         const zipValidation = App.Logic.getstarted.getZipValidation() || {};
         if (zipValidation.is_serviceable) {
-            App.setState({
-                'getstarted.zipValidation': zipValidation,
-                'getstarted.userPost.zip': zipValidation.zip
-            });
+            App.State.getstarted.zipValidation = zipValidation;
+            App.State.getstarted.userPost.zip = zipValidation.zip;
         } else {
             App.Util.data.killStorage('zip_validation');
         }

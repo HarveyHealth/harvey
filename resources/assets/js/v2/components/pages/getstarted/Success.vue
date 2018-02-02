@@ -1,5 +1,5 @@
 <template>
-    <SlideIn v-if="State('getstarted.signup.hasCompletedSignup')" class="ph2 ph3-m pv4">
+    <SlideIn v-if="State.getstarted.signup.hasCompletedSignup" class="ph2 ph3-m pv4">
         <Card class="mha mw6">
             <CardContent class="tc pa4">
                 <SlideIn>
@@ -9,7 +9,7 @@
                 <Heading1 doesExpand>Appointment Confirmed!</Heading1>
                 <Spacer isBottom :size="3" />
                 <Paragraph :weight="'thin'" :size="'large'">
-                    Dr. {{ State('getstarted.signup.practitionerName') }}, ND<br>
+                    Dr. {{ State.getstarted.signup.practitionerName }}, ND<br>
                     {{ appointmentDate | toDate }}<br/>
                     {{ appointmentDate | toTime }} {{ Config.time.zoneAbbr }}
                 </Paragraph>
@@ -67,13 +67,13 @@ export default {
     },
     data() {
         return {
-            appointmentDate: this.State('getstarted.signup.data.appointment_at'),
-            appointmentInformation: this.State('getstarted.signup.data')
+            appointmentDate: this.State.getstarted.signup.data.appointment_at,
+            appointmentInformation: this.State.getstarted.signup.data
         };
     },
     computed: {
       calendarConfig() {
-          const info = this.State('getstarted.signup');
+          const info = this.State.getstarted.signup;
           return {
               start: App.Util.time.toLocal(info.data.appointment_at, 'MM/DD/YYYY hh:mm A'),
               end: moment.utc(info.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),

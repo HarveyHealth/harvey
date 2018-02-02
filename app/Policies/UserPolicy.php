@@ -26,7 +26,7 @@ class UserPolicy
      */
     public function view(User $user, User $targetUser)
     {
-        return $user->is($targetUser);
+        return $user->isPractitioner() || $user->is($targetUser);
     }
 
     /**

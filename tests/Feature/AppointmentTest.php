@@ -189,11 +189,11 @@ class AppointmentTest extends TestCase
         $response = $this->json('GET', 'api/v1/appointments');
 
         // Then we should only see 5 appointments
-        $this->assertEquals(count($response->original['data']), 5);
+        $this->assertEquals(count($response->original->data), 5);
 
         // And each appointment belongs to the patient
-        foreach ($response->original['data'] as $item) {
-            $this->assertEquals($item['attributes']['patient_id'], $patient->id);
+        foreach ($response->original->data as $item) {
+            $this->assertEquals($item->attributes->patient_id, $patient->id);
         }
     }
 
@@ -225,7 +225,7 @@ class AppointmentTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertCount(6, $response->original['data']);
+        $this->assertCount(6, $response->original->data);
     }
 
     public function test_it_allows_an_admin_to_view_upcoming_appointments()
@@ -240,7 +240,7 @@ class AppointmentTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        $this->assertCount(6, $response->original['data']);
+        $this->assertCount(6, $response->original->data);
     }
 
     public function test_it_allows_a_patient_to_schedule_a_new_appointment()
