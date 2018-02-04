@@ -13,4 +13,9 @@ class IntakePolicy
     {
         return $user->isPractitioner() || $intake->user->is($user);
     }
+
+    public function update(User $user, Intake $intake)
+    {
+        return $user->isPractitioner();
+    }
 }

@@ -15,6 +15,7 @@ class CreateIntakesTable extends Migration
     {
         Schema::create('intakes', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('notes')->nullable();
             $table->string('token')->unique()->index();
             $table->integer('user_id')->unsigned();
             $table->json('data');
