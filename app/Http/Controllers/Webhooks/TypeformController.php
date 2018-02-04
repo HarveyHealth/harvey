@@ -31,6 +31,19 @@ class TypeformController extends BaseWebhookController
         } else {
             $data = Typeform::getDataForToken($form_token);
             $user->intake()->create(['data' => $data, 'token' => $form_token]);
+
+            if ($user->isPatient()) {
+                $answers = $data['responses'][0]['answers'];
+
+                $dob_question_id = 'date_55410467';
+                $user->patient->birthdate = Carbon::createFromFormat('Y-m-d', $answers[$dob_question_id]);
+
+                $address_question_id = 'textfield_55452067';
+                $user->address_1 = str_limit($answers[$address_question_id], 96);
+
+                $user->push();
+            }
+
             ops_info('Typeform webhook', "User #{$userId} has submitted the Intake form.", 'practitioners');
         }
 
