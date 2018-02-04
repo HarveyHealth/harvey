@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Webhooks;
 
+use App\Lib\Clients\Typeform;
 use App\Lib\TimeInterval;
-use App\Models\User;
+use App\Models\{Intake, User};
 use Cache, Carbon, ResponseCode;
 
 class TypeformController extends BaseWebhookController
@@ -14,22 +15,23 @@ class TypeformController extends BaseWebhookController
         $formResponse = request('form_response');
 
         if ('form_response' != $eventType) {
-            ops_warning('TypeformController', "Unhandled Typeform event: '{$eventType}'");
+            ops_warning('Typeform webhook', "Unhandled Typeform event: '{$eventType}'");
         } elseif (empty($userId = $formResponse['hidden']['harvey_id'])) {
-            ops_warning('TypeformController', "Missing 'harvey_id' value when handling event '{$eventType}'.");
+            ops_warning('Typeform webhook', "Missing 'harvey_id' value when handling event '{$eventType}'.");
         } elseif (empty($formResponse['hidden']['intake_validation_token'])) {
-            ops_warning('TypeformController', "Missing 'intake_validation_token' value when handling event '{$eventType}' for (supposedly) User ID #{$userId}.");
+            ops_warning('Typeform webhook', "Missing 'intake_validation_token' value when handling event '{$eventType}' for (supposedly) User ID #{$userId}.");
         } elseif (empty($user = User::find($userId))) {
-            ops_warning('TypeformController', "Can't find User #{$userId} when handling event '{$eventType}'.");
+            ops_warning('Typeform webhook', "Can't find User #{$userId} when handling event '{$eventType}'.");
         } elseif ($user->isNotPatient()) {
-            ops_warning('TypeformController', "User #{$userId} is not Patient, can't handle '{$eventType}' event.");
+            ops_warning('Typeform webhook', "User #{$userId} is not Patient, can't handle '{$eventType}' event.");
         } elseif ($formResponse['hidden']['intake_validation_token'] != $user->patient->intake_validation_token) {
-            ops_warning('TypeformController', "Invalid intake_validation_token '{$formResponse['hidden']['intake_validation_token']}'for User #{$userId} when handling event '{$eventType}'.");
+            ops_warning('Typeform webhook', "Invalid intake_validation_token '{$formResponse['hidden']['intake_validation_token']}'for User #{$userId} when handling event '{$eventType}'.");
+        } elseif (Intake::whereToken($form_token = $formResponse['token'])->first()) {
+            ops_warning('Typeform webhook', "Form ID #{$form_token} User #{$userId} when handling event '{$eventType}'.");
         } else {
-            $user->patient->intake_token = $formResponse['token'];
-            $user->patient->save();
-
-            Cache::forget("intake-token-{$formResponse['token']}-data");
+            $data = Typeform::getDataForToken($form_token);
+            $user->intake()->create(['data' => $data, 'token' => $form_token]);
+            ops_info('Typeform webhook', "User #{$userId} has submitted the Intake form.", 'practitioners');
         }
 
         return response("Thanks!", ResponseCode::HTTP_OK);

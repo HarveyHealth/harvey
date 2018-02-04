@@ -3,18 +3,19 @@
 namespace App\Transformers\V1;
 
 use App\Lib\Fractal\HarveyTransformer;
-use App\Models\Patient;
+use App\Models\Intake;
 
 class IntakeTransformer extends HarveyTransformer
 {
     /**
-     * @param Patient $patient
+     * @param Intake $intake
      * @return array
      */
-    public function transform(array $intake)
+    public function transform(Intake $intake)
     {
-        $intake['id'] = $intake['responses'][0]['token'] ?? null;
+        $output = $intake->data;
+        $output['id'] = $output['responses'][0]['token'] ?? null;
 
-        return $intake;
+        return $output;
     }
 }
