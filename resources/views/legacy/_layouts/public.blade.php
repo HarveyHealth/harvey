@@ -2,7 +2,7 @@
 
 @push('stylesheets')
 
-    <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
+    <style type="text/css">{{ render_css('app_public') }}</style>
     <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
     <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
 
@@ -33,12 +33,6 @@
     </div>
 
     @stack('square')
-
-    {{-- To add data here, see the VueHelperViewComposer --}}
-
-    <script>
-        window.Laravel = {!! $vue_data !!}
-    </script>
 
     <script type="text/javascript" src="https://unpkg.com/gh-bideo@1.0.0/index.js"></script>
     <script type="text/javascript" async>
