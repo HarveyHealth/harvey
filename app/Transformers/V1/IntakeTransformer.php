@@ -15,6 +15,7 @@ class IntakeTransformer extends HarveyTransformer
     {
         $output = $intake->data;
         $output['id'] = $output['responses'][0]['token'] ?? null;
+        $output['notes'] = $intake->notes;
 
         return $output;
     }
