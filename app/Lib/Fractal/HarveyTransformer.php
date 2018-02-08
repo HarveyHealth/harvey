@@ -89,11 +89,6 @@ class HarveyTransformer extends TransformerAbstract
             return $included_data->every($policy_function);
         }
 
-        // Edge case for Policies without a model, we use the 'include' string and the parent model.
-        if (is_array($included_data)) {
-            return app(Gate::class)->forUser(currentUser())->check('view', [$include, $data]);
-        }
-
         return false;
     }
 }

@@ -218,7 +218,7 @@ class Appointment extends Model
     {
         $templateData = [
             'doctor_name' => $this->practitioner->user->full_name,
-            'intake_link' => "https://hello.typeform.com/to/XGnCna?harvey_id={$this->patient->user->id}&intake_validation_token={$this->patient->intake_validation_token}",
+            'intake_link' => $this->patient->intake_link,
             'time' => $this->patientAppointmentAtDate()->format('h:i A'),
             'timezone' => $this->patientAppointmentAtDate()->format('T'),
         ];
@@ -462,9 +462,7 @@ class Appointment extends Model
 
     public function scopeEmptyPatientIntake(Builder $builder)
     {
-        return $builder->whereHas('patient.user', function (Builder $builder) {
-            $builder->whereNull('intake_token');
-        });
+        return $builder->whereDoesntHave('patient.user.intake');
     }
 
     public function dataForInvoice()

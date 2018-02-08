@@ -2,15 +2,20 @@
 
 namespace App\Policies;
 
-use App\Models\{Patient, User};
+use App\Models\{Intake, User};
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class IntakePolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Patient $patient)
+    public function view(User $user, Intake $intake)
     {
-        return $user->isPractitioner() || ($user->isPatient() && $user->patient->intake_token == $patient->intake_token);
+        return $user->isPractitioner() || $intake->user->is($user);
+    }
+
+    public function update(User $user, Intake $intake)
+    {
+        return $user->isPractitioner();
     }
 }

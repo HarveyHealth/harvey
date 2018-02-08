@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\{
     Attachment,
+    Intake,
     LabOrder,
     LabTest,
     LabTestResult,
@@ -22,10 +23,9 @@ class RecordsSeeder extends Seeder
     public function run()
     {
         $patient = Patient::first() ?: factory(Patient::class)->create();
-        $patient->intake_token = $patient->intake_token ?: DatabaseSeeder::TESTING_INTAKE_TOKEN;
-        $patient->save();
 
         factory(Attachment::class, 3)->create(['patient_id' => $patient->id]);
+        factory(Intake::class)->create(['user_id' => $patient->user->id]);
         factory(Prescription::class, 3)->create(['patient_id' => $patient->id]);
         factory(SoapNote::class, 3)->create(['patient_id' => $patient->id]);
 

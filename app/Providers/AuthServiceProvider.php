@@ -2,43 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\{
-    Appointment,
-    Attachment,
-    DiscountCode,
-    Invoice,
-    InvoiceItem,
-    LabOrder,
-    LabTest,
-    LabTestResult,
-    Message,
-    Patient,
-    Practitioner,
-    Prescription,
-    SKU,
-    SoapNote,
-    Test,
-    User
-};
-use App\Policies\{
-    AppointmentPolicy,
-    AttachmentPolicy,
-    DiscountCodePolicy,
-    IntakePolicy,
-    InvoiceItemPolicy,
-    InvoicePolicy,
-    LabOrderPolicy,
-    LabTestPolicy,
-    LabTestResultPolicy,
-    MessagePolicy,
-    PatientPolicy,
-    PractitionerPolicy,
-    PrescriptionPolicy,
-    SkuPolicy,
-    SoapNotePolicy,
-    TestPolicy,
-    UserPolicy
-};
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -51,25 +14,23 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Appointment::class => AppointmentPolicy::class,
-        Attachment::class => AttachmentPolicy::class,
-        DiscountCode::class => DiscountCodePolicy::class,
-        Invoice::class => InvoicePolicy::class,
-        InvoiceItem::class => InvoiceItemPolicy::class,
-        LabOrder::class => LabOrderPolicy::class,
-        LabTest::class => LabTestPolicy::class,
-        LabTestResult::class => LabTestResultPolicy::class,
-        Message::class => MessagePolicy::class,
-        Patient::class => PatientPolicy::class,
-        Practitioner::class => PractitionerPolicy::class,
-        Prescription::class => PrescriptionPolicy::class,
-        SKU::class => SkuPolicy::class,
-        SoapNote::class => SoapNotePolicy::class,
-        Test::class => TestPolicy::class,
-        User::class => UserPolicy::class,
-
-        // Policies without a model.
-        'intake' => IntakePolicy::class,
+        \App\Models\Appointment::class => \App\Policies\AppointmentPolicy::class,
+        \App\Models\Attachment::class => \App\Policies\AttachmentPolicy::class,
+        \App\Models\DiscountCode::class => \App\Policies\DiscountCodePolicy::class,
+        \App\Models\Intake::class => \App\Policies\IntakePolicy::class,
+        \App\Models\Invoice::class => \App\Policies\InvoicePolicy::class,
+        \App\Models\InvoiceItem::class => \App\Policies\InvoiceItemPolicy::class,
+        \App\Models\LabOrder::class => \App\Policies\LabOrderPolicy::class,
+        \App\Models\LabTest::class => \App\Policies\LabTestPolicy::class,
+        \App\Models\LabTestResult::class => \App\Policies\LabTestResultPolicy::class,
+        \App\Models\Message::class => \App\Policies\MessagePolicy::class,
+        \App\Models\Patient::class => \App\Policies\PatientPolicy::class,
+        \App\Models\Practitioner::class => \App\Policies\PractitionerPolicy::class,
+        \App\Models\Prescription::class => \App\Policies\PrescriptionPolicy::class,
+        \App\Models\SKU::class => \App\Policies\SkuPolicy::class,
+        \App\Models\SoapNote::class => \App\Policies\SoapNotePolicy::class,
+        \App\Models\Test::class => \App\Policies\TestPolicy::class,
+        \App\Models\User::class => \App\Policies\UserPolicy::class,
     ];
 
     /**
