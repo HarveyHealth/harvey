@@ -462,9 +462,7 @@ class Appointment extends Model
 
     public function scopeEmptyPatientIntake(Builder $builder)
     {
-        return $builder->whereHas('patient.user', function (Builder $builder) {
-            $builder->whereNull('intake_token');
-        });
+        return $builder->whereDoesntHave('patient.user.intake');
     }
 
     public function dataForInvoice()
