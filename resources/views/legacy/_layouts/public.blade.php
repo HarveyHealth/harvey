@@ -2,7 +2,7 @@
 
 @push('stylesheets')
 
-    <style type="text/css">{{ render_css('app_public') }}</style>
+    <style type="text/css">{!! render_css('app_public') !!}</style>
     <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
     <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
 
