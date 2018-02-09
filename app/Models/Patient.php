@@ -57,6 +57,11 @@ class Patient extends Model
        ];
     }
 
+    public function getIntakeLinkAttribute()
+    {
+        return "https://goharvey.typeform.com/to/XGnCna?harvey_id={$this->user->id}&intake_validation_token={$this->intake_validation_token}";
+    }
+
     public function getIntakeValidationTokenAttribute()
     {
         return sha1("{$this->id}|{$this->created_at}");
