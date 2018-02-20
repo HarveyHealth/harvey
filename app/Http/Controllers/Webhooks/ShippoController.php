@@ -78,7 +78,6 @@ class ShippoController extends BaseWebhookController
                 ops_warning('Shippo webhook warning', "LabOrder ID #{$lab_order->id} returned to sender.", 'operations');
                 break;
             case 'UNKNOWN':
-                ops_info('Shippo webhook', "Unknown status reported for LabOrder ID #{$lab_order->id}.", 'operations');
                 break;
             default:
                 ops_warning('Shippo webhook warning', "Status '{$tracking_status}' reported for LabOrder ID #{$lab_order->id}.", 'operations');
