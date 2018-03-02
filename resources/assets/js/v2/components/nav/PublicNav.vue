@@ -12,6 +12,7 @@
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about" class="fw5 dim">About</a>
                     <a href="/consultations#stories" class="fw5 dim">Stories</a>
+                    <a href="https://www.goharvey.com/blog" class="fw5 dim">Blog</a>
                     <a v-if="!showDashboard" href="/login" class="fw5 dim">Login</a>
                 </div>
                 <div class="nav-right">
@@ -23,7 +24,7 @@
                             <img alt="" class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="https://store.goharvey.com" class="fw5 dim"> <i class="fa fa-shopping-cart pr2" aria-hidden="true"></i>Shop Store</a>
+                        <a v-else href="https://us.fullscript.com/welcome/harvey" class="fw5 dim"> <i class="fa fa-shopping-cart pr2" aria-hidden="true"></i>Shop Store</a>
                     </div>
                 </div>
             </div>
