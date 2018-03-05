@@ -7,6 +7,7 @@ use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
 use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail, ZipCodeValidator};
 use App\Mail\VerifyEmailAddress;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,6 +15,8 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
 use Cache, Carbon, Exception, Log, Mail;
+use Illuminate\Support\Facades\Redis;
+
 
 class User extends Authenticatable implements Mailable
 {
@@ -190,11 +193,6 @@ class User extends Authenticatable implements Mailable
     public function admin()
     {
         return $this->hasOne(Admin::class);
-    }
-
-    public function intake()
-    {
-        return $this->hasOne(Intake::class);
     }
 
     public function appointments()

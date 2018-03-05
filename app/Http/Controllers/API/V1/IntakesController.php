@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Lib\Validation\StrictValidator;
-use App\Models\Intake;
+use App\Models\Patient;
 use App\Transformers\V1\IntakeTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode;
@@ -13,8 +12,8 @@ class IntakesController extends BaseAPIController
     protected $resource_name = 'intakes';
 
     /**
-     * IntakesController constructor.
-     * @param IntakeTransformer $transformer
+     * AttachmentsController constructor.
+     * @param AttachmentTransformer $transformer
      */
     public function __construct(IntakeTransformer $transformer)
     {
@@ -28,30 +27,33 @@ class IntakesController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to retrieve Intake forms.');
         }
 
-        return $this->baseTransformBuilder(Intake::make(), request('include'), $this->transformer, request('per_page'))->respond();
-    }
+        $builder = Patient::make();
 
-    public function getOne(Request $request, Intake $intake)
-    {
-        if (currentUser()->cant('view', $intake)) {
-            return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
+        if (is_numeric(request('per_page'))) {
+            $paginator = $builder->paginate((int) request('per_page'));
+            $paginator->appends(array_diff_key(request()->all(), array_flip(['page'])));
+            $collection = $paginator->items();
+            $paginationAdapter =  new IlluminatePaginatorAdapter($paginator);
+        } else {
+            $collection = $builder->get();
+            $paginationAdapter = null;
         }
 
-        return $this->baseTransformItem($intake, request('include'))->respond();
+        $collection = $collection->map(function ($i) { return $i->intake; })->filter();
+
+        return $this->baseTransformCollection($collection, request('include'), $this->transformer, $paginationAdapter)->respond();
     }
 
-    public function update(Request $request, Intake $intake)
+    public function getOne(Request $request, string $token)
     {
-        if (currentUser()->cant('update', $intake)) {
-            return $this->respondNotAuthorized('You do not have access to update this Intake.');
+        if (empty($patient = Patient::getByIntakeToken($token))) {
+            return $this->respondNotFound("Can't find a Patient with that Intake token assigned.");
         }
 
-        StrictValidator::checkUpdate($request->all(), [
-            'notes' => 'filled|string|max:4096',
-        ]);
+        if (currentUser()->isPractitioner() || currentUser()->isPatient() && currentUser()->patient->is($patient)) {
+            return $this->baseTransformItem($patient->intake)->respond();
+        }
 
-        $intake->update($request->all());
-
-        return $this->baseTransformItem($intake, request('include'))->respond();
+        return $this->respondNotAuthorized('You do not have access to retrieve this Intake form.');
     }
 }

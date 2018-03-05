@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Lib\Clients\Typeform;
 use App\Lib\TimeInterval;
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Laravel\Scout\Searchable;
@@ -20,6 +21,7 @@ class Patient extends Model
         'stripe_expiry_month',
         'stripe_expiry_year',
         'stripe_last_four',
+        'intake_token',
         'updated_at',
         'user_id',
     ];
@@ -57,19 +59,41 @@ class Patient extends Model
        ];
     }
 
-    public function getIntakeLinkAttribute()
-    {
-        return "https://goharvey.typeform.com/to/XGnCna?harvey_id={$this->user->id}&intake_validation_token={$this->intake_validation_token}";
-    }
-
     public function getIntakeValidationTokenAttribute()
     {
         return sha1("{$this->id}|{$this->created_at}");
     }
 
-    public function intake()
+    public function getIntakeLinkAttribute()
     {
-        return $this->user->intake();
+        return "https://goharvey.typeform.com/to/XGnCna?harvey_id={$this->user->id}&intake_validation_token={$this->intake_validation_token}";
+    }
+
+    public function getIntakeAttribute()
+    {
+        if (empty($token = $this->intake_token)) {
+            return [];
+        }
+
+        $key = "intake-token-{$token}-data";
+
+        $output = Cache::remember($key, TimeInterval::weeks(1)->toMinutes(), function () use ($token) {
+            $response = json_decode((new Typeform)->get($token)->getBody()->getContents(), true);
+
+            if (empty($response['responses'][0]['token']) || 200 != $response['http_status']) {
+                return [];
+            }
+
+            return array_intersect_key($response, array_flip(['questions', 'responses']));
+        });
+
+        if (empty($output)) {
+            Cache::put($key, $output, TimeInterval::hours(3)->toMinutes());
+        }
+
+        $output['patient_id'] = $this->id;
+
+        return $output;
     }
 
     public function user()
@@ -110,5 +134,10 @@ class Patient extends Model
     public function labOrders()
     {
         return $this->hasMany(LabOrder::class);
+    }
+
+    public function getByIntakeToken(string $token)
+    {
+        return self::where('intake_token', $token)->first();
     }
 }

@@ -1,13 +1,32 @@
 <?php
 
-use App\Lib\Clients\Typeform;
 use Carbon\Carbon;
-use Faker\Generator as FakerGenerator;
 use Laravel\Passport\Client;
+use App\Lib\PractitionerAvailability;
 use App\Models\{
-    Admin, Appointment, Attachment, Condition, DiscountCode, Intake, LabOrder, LabTest, LabTestResult, LabTestInformation,
-    License, Message, Patient, PatientNote, Practitioner, PractitionerSchedule, PractitionerType, Prescription, SKU,
-    SoapNote, Test, Invoice, InvoiceItem, User
+    Admin,
+    Appointment,
+    Attachment,
+    Condition,
+    DiscountCode,
+    LabOrder,
+    LabTest,
+    LabTestResult,
+    LabTestInformation,
+    License,
+    Message,
+    Patient,
+    PatientNote,
+    Practitioner,
+    PractitionerSchedule,
+    PractitionerType,
+    Prescription,
+    SKU,
+    SoapNote,
+    Test,
+    Invoice,
+    InvoiceItem,
+    User
 };
 
 /*
@@ -21,7 +40,7 @@ use App\Models\{
 |
 */
 
-$factory->define(User::class, function (FakerGenerator $faker) {
+$factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
 
     switch ($state = $faker->randomElement(['CA', 'NV', 'AZ'])) {
@@ -59,7 +78,7 @@ $factory->define(User::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Patient::class, function (FakerGenerator $faker) {
+$factory->define(Patient::class, function (Faker\Generator $faker) {
     return [
         'user_id' => function () {
             return factory(User::class)->create()->id;
@@ -76,7 +95,7 @@ $factory->define(Patient::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Practitioner::class, function (FakerGenerator $faker) {
+$factory->define(Practitioner::class, function (Faker\Generator $faker) {
     return [
         'user_id' => function () use ($faker) {
             return factory(User::class)->create([
@@ -91,14 +110,14 @@ $factory->define(Practitioner::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(PractitionerType::class, function (FakerGenerator $faker) {
+$factory->define(PractitionerType::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->jobTitle,
         'rate' => $faker->numberBetween(100, 300)
     ];
 });
 
-$factory->define(PractitionerSchedule::class, function (FakerGenerator $faker) {
+$factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) {
     $workableDays = collect();
 
     for ($i = 0; $i < 5; $i++) {
@@ -120,13 +139,13 @@ $factory->define(PractitionerSchedule::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Admin::class, function (FakerGenerator $faker) {
+$factory->define(Admin::class, function (Faker\Generator $faker) {
     return [
         'user_id' => factory(User::class),
     ];
 });
 
-$factory->define(SKU::class, function (FakerGenerator $faker) {
+$factory->define(SKU::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'item_type' => $faker->randomElement(['test', 'product', 'service']),
@@ -134,13 +153,13 @@ $factory->define(SKU::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->state(SKU::class, 'lab-test', function (FakerGenerator $faker) {
+$factory->state(SKU::class, 'lab-test', function (Faker\Generator $faker) {
     return [
         'item_type' => 'lab-test',
     ];
 });
 
-$factory->define(License::class, function (FakerGenerator $faker) {
+$factory->define(License::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->randomElement(['ND', 'MD', 'DO']),
         'number' => $faker->randomNumber(4),
@@ -149,7 +168,7 @@ $factory->define(License::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Appointment::class, function (FakerGenerator $faker) {
+$factory->define(Appointment::class, function (Faker\Generator $faker) {
     // Create an appointment start time that begins at the top of the hour
     // or 30 minutes into the hour
     $start_time = Carbon::instance(
@@ -192,7 +211,7 @@ $factory->state(Appointment::class, 'soon', function ($faker) {
     return ['appointment_at' => Carbon::now()->addMinutes(30)];
 });
 
-$factory->define(PatientNote::class, function (FakerGenerator $faker) {
+$factory->define(PatientNote::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(Patient::class)->create()->id,
         'practitioner_id' => factory(Practitioner::class)->create()->id,
@@ -201,7 +220,7 @@ $factory->define(PatientNote::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Client::class, function (FakerGenerator $faker) {
+$factory->define(Client::class, function (Faker\Generator $faker) {
     return [
         'secret' => str_random(40),
         'redirect' => 'http://localhost',
@@ -212,7 +231,7 @@ $factory->define(Client::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Message::class, function (FakerGenerator $faker) {
+$factory->define(Message::class, function (Faker\Generator $faker) {
     $classesNames = collect([
         Practitioner::class,
         Patient::class,
@@ -237,7 +256,7 @@ $factory->define(Message::class, function (FakerGenerator $faker) {
     return $output;
 });
 
-$factory->define(LabOrder::class, function (FakerGenerator $faker) {
+$factory->define(LabOrder::class, function (Faker\Generator $faker) {
     $discount_code_id = maybe(function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
     });
@@ -255,7 +274,7 @@ $factory->define(LabOrder::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(LabTest::class, function (FakerGenerator $faker) {
+$factory->define(LabTest::class, function (Faker\Generator $faker) {
     return [
         'lab_order_id' => factory(LabOrder::class),
         'sku_id' => function () {
@@ -266,7 +285,7 @@ $factory->define(LabTest::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(LabTestResult::class, function (FakerGenerator $faker) {
+$factory->define(LabTestResult::class, function (Faker\Generator $faker) {
     return [
         'lab_test_id' => factory(LabTest::class),
         'key' => 'testing/testFile.pdf',
@@ -274,9 +293,11 @@ $factory->define(LabTestResult::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Attachment::class, function (FakerGenerator $faker) {
+$factory->define(Attachment::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -286,9 +307,11 @@ $factory->define(Attachment::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(SoapNote::class, function (FakerGenerator $faker) {
+$factory->define(SoapNote::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -299,9 +322,11 @@ $factory->define(SoapNote::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Prescription::class, function (FakerGenerator $faker) {
+$factory->define(Prescription::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -310,7 +335,7 @@ $factory->define(Prescription::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(LabTestInformation::class, function (FakerGenerator $faker) {
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
     return [
         'sku_id' => function () {
             return factory(SKU::class)->create()->id;
@@ -323,7 +348,7 @@ $factory->define(LabTestInformation::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Condition::class, function (FakerGenerator $faker) {
+$factory->define(Condition::class, function (Faker\Generator $faker) {
     $name = $faker->unique()->word;
     return [
         'name' => $name,
@@ -351,7 +376,7 @@ $factory->define(Condition::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(DiscountCode::class, function (FakerGenerator $faker) {
+$factory->define(DiscountCode::class, function (Faker\Generator $faker) {
      return [
         'code' => strtoupper(substr($faker->word . $faker->word, 0, 16)) . $faker->numberBetween(100, 999),
         'enabled' => true,
@@ -366,7 +391,7 @@ $factory->define(DiscountCode::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(LabTestInformation::class, function (FakerGenerator $faker) {
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
     return [
         'sku_id' => factory(SKU::class),
         'description' => $faker->sentence(100),
@@ -377,7 +402,7 @@ $factory->define(LabTestInformation::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(Invoice::class, function (FakerGenerator $faker) {
+$factory->define(Invoice::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(Patient::class),
         'description' => $faker->sentence(100),
@@ -387,7 +412,7 @@ $factory->define(Invoice::class, function (FakerGenerator $faker) {
     ];
 });
 
-$factory->define(InvoiceItem::class, function (FakerGenerator $faker) {
+$factory->define(InvoiceItem::class, function (Faker\Generator $faker) {
     return [
         'invoice_id' => factory(Invoice::class),
         'item_id' =>  $faker->numberBetween(10, 90),
@@ -395,13 +420,5 @@ $factory->define(InvoiceItem::class, function (FakerGenerator $faker) {
         'amount' => $faker->numberBetween(10, 90),
         'description' => $faker->sentence(100),
         'sku_id' => factory(SKU::class),
-    ];
-});
-
-$factory->define(Intake::class, function (FakerGenerator $faker) {
-    return [
-        'data' => Typeform::getDataForToken('b20ea4e0ae2d7504a8b78aacf1f963b6'),
-        'token' => 'b20ea4e0ae2d7504a8b78aacf1f963b6',
-        'user_id' => factory(User::class),
     ];
 });

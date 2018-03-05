@@ -15,6 +15,8 @@ use App\Models\{
 
 class DatabaseSeeder extends Seeder
 {
+    const TESTING_INTAKE_TOKEN = 'b20ea4e0ae2d7504a8b78aacf1f963b6';
+
     /**
      * Run the database seeds.
      *
@@ -61,7 +63,7 @@ class DatabaseSeeder extends Seeder
             ->whereHas('soapNotes')
             ->whereHas('prescriptions')
             ->whereHas('labOrders.labTests.results')
-            ->whereHas('user.intake')
+            ->whereNotNull('intake_token')
             ->orderBy('id', 'DESC')
             ->first();
 

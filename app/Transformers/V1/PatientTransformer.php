@@ -28,6 +28,7 @@ class PatientTransformer extends HarveyTransformer
             'birthdate' => $patient->birthdate,
             'height_feet' => cast_to_string($patient->height_feet),
             'height_inches' => cast_to_string($patient->height_inches),
+            'intake_token' => $patient->intake_token,
             'name' => $patient->user->full_name,
             'user_id' => cast_to_string($patient->user_id),
             'weight' => cast_to_string($patient->weight),
