@@ -183,6 +183,6 @@ function render_css(string $filename)
             return false;
         }
 
-        return file_get_contents($filename_with_path);
+        return str_replace("\n", ' ', file_get_contents($filename_with_path));
     });
 }
