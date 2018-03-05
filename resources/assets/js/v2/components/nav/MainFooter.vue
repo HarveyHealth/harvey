@@ -14,10 +14,6 @@
                         <span>Playa Vista, CA</span>
                     </div>
                     <div class="pv1">
-                        <i class="fa fa-phone dib dib pt1" />
-                        <a href="tel:8006909989">800-690-9989</a>
-                    </div>
-                    <div class="pv1">
                         <i class="fa fa-envelope-o dib dib pt1" />
                         <a href="mailto:support@goharvey.com">support@goharvey.com</a>
                     </div>
@@ -31,9 +27,7 @@
                                     <a href="/" class="db pv1">Home</a>
                                     <a href="/about" class="db pv1">About</a>
                                     <a href="/consultations#stories" class="db pv1">Stories</a>
-                                    <a href="/blog" class="db pv1">Blog</a>
-                                    <a href="/terms" class="db pv1">Terms</a>
-                                    <a href="/privacy" class="db pv1">Privacy</a>
+                                    <a href="https://www.goharvey.com/blog" class="db pv1">Blog</a>
                                     <a href="https://help.goharvey.com" class="db pv1">Help</a>
                                 </div>
                             </Accordian>
@@ -42,13 +36,14 @@
                             <Accordian :stop="'l'">
                                 <span :slot="'trigger'" class="ttu fw5 white">Conditions</span>
                                 <div :slot="'content'">
-                                    <a href="https://store.goharvey.com/collections/skin-issues" class="db pv1">Skin Issues</a>
-                                    <a href="https://store.goharvey.com/collections/food-allergies" class="db pv1">Food Sensitivities</a>
-                                    <a href="https://store.goharvey.com/collections/stress-anxiety" class="db pv1">Stress &amp; Anxiety</a>
-                                    <a href="https://store.goharvey.com/collections/fatigue" class="db pv1">Fatigue</a>
-                                    <a href="https://store.goharvey.com/collections/weight-loss-gain" class="db pv1">Weight Loss/Gain</a>
-                                    <a href="https://store.goharvey.com/collections/weight-loss-gain" class="db pv1">Women's Health</a>
-                                    <a href="https://store.goharvey.com/collections/general-health" class="db pv1">General Health</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/skin-issues/" class="db pv1">Skin Issues</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/food-allergies/" class="db pv1">Food Sensitivities</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/stress-anxiety/" class="db pv1">Stress &amp; Anxiety</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/digestive-issues/" class="db pv1">Digestive Issues</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/fatigue/" class="db pv1">Fatigue</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/weight-loss-gain/" class="db pv1">Weight Loss/Gain</a>
+                                    <a href="https://www.goharvey.com/blog/category/conditions/womens-health/" class="db pv1">Women's Health</a>
+                                    <a href="https://www.goharvey.com/blog/category/harvey-news/" class="db pv1">General Health</a>
                                 </div>
                             </Accordian>
                         </div>
