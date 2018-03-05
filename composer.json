@@ -33,8 +33,7 @@
         "shippo/shippo-php": "1.*",
         "laravel/socialite": "^3.0",
         "barryvdh/laravel-debugbar": "^3.1",
-        "algolia/algoliasearch-client-php": "^1.23",
-        "htmlmin/htmlmin": "^5.0"
+        "algolia/algoliasearch-client-php": "^1.23"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
