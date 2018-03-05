@@ -23,23 +23,17 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    protected function redirectTo()
+    {
+        return url('dashboard');
+    }
+
     /**
      * RegisterController constructor.
      */
     public function __construct()
     {
         $this->middleware('guest');
-    }
-
-    protected function redirectTo()
-    {
-        return url('dashboard');
-    }
-
-
-    public function showRegistrationForm()
-    {
-        return redirect($this->redirectTo());
     }
 
     /**

@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             isComplete: false,
-            typeformUrl: Laravel.user.intake_link
+            typeformUrl: `https://goharvey.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
         };
     },
     computed: {

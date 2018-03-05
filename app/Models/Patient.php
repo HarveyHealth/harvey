@@ -64,38 +64,6 @@ class Patient extends Model
         return sha1("{$this->id}|{$this->created_at}");
     }
 
-    public function getIntakeLinkAttribute()
-    {
-        return "https://goharvey.typeform.com/to/XGnCna?harvey_id={$this->user->id}&intake_validation_token={$this->intake_validation_token}";
-    }
-
-    public function getIntakeAttribute()
-    {
-        if (empty($token = $this->intake_token)) {
-            return [];
-        }
-
-        $key = "intake-token-{$token}-data";
-
-        $output = Cache::remember($key, TimeInterval::weeks(1)->toMinutes(), function () use ($token) {
-            $response = json_decode((new Typeform)->get($token)->getBody()->getContents(), true);
-
-            if (empty($response['responses'][0]['token']) || 200 != $response['http_status']) {
-                return [];
-            }
-
-            return array_intersect_key($response, array_flip(['questions', 'responses']));
-        });
-
-        if (empty($output)) {
-            Cache::put($key, $output, TimeInterval::hours(3)->toMinutes());
-        }
-
-        $output['patient_id'] = $this->id;
-
-        return $output;
-    }
-
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -139,5 +107,32 @@ class Patient extends Model
     public function getByIntakeToken(string $token)
     {
         return self::where('intake_token', $token)->first();
+    }
+
+    public function getIntakeAttribute()
+    {
+        if (empty($token = $this->intake_token)) {
+            return [];
+        }
+
+        $key = "intake-token-{$token}-data";
+
+        $output = Cache::remember($key, TimeInterval::weeks(1)->toMinutes(), function () use ($token) {
+            $response = json_decode((new Typeform)->get($token)->getBody()->getContents(), true);
+
+            if (empty($response['responses'][0]['token']) || 200 != $response['http_status']) {
+                return [];
+            }
+
+            return array_intersect_key($response, array_flip(['questions', 'responses']));
+        });
+
+        if (empty($output)) {
+            Cache::put($key, $output, TimeInterval::hours(3)->toMinutes());
+        }
+
+        $output['patient_id'] = $this->id;
+
+        return $output;
     }
 }

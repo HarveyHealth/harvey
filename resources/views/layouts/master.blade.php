@@ -21,7 +21,7 @@
         <meta name="msapplication-config" content="none"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="">
-        <link type="application/rss+xml" rel="alternate" title="RSS" href="https://www.goharvey.com/blog/feed/">
+        <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
         <meta name="google-site-verification" content="6UgpVyc1D8nu-29CNMYM4WacQe4_lepLVOAuuDqbadc" />
         <meta property="fb:app_id" content="383090978468158">
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
@@ -34,17 +34,24 @@
         @stack('stylesheets')
         <script>
             window.Laravel = {!! $vue_data !!}
+        </script>
+
+        <script>
             window.Promise || document.write(
                 '<script src="https://cdn.polyfill.io/v2/polyfill.min.js"><\/script>'
             )
+        </script>
+
+        <script>
             !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
             analytics.load(Laravel.services.segment.key);
             analytics.page("@yield('page_title')");
             }}();
         </script>
+
     </head>
 
-    <body class="{{ implode(request()->segments(), '-') }} @yield('body_class')">
+    <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
         @yield('content')
         <footer>
             <!-- Scripts -->

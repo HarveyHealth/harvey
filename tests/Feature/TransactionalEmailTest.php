@@ -69,13 +69,9 @@ class TransactionalEmailTest extends TestCase
         ]);
     }
 
-    public function test_appointment_scheduled_event_fills_correctly_patient_email_and_intake_token_is_properly_generated()
+    public function test_appointment_scheduled_event_fills_correctly_patient_email()
     {
         $appointment = factory(Appointment::class)->create();
-
-        $base_intake_link = "https://goharvey.typeform.com/to/XGnCna";
-        $intake_validation_token = sha1("{$appointment->patient->id}|{$appointment->patient->created_at}");
-        $intake_link = "{$base_intake_link}?harvey_id={$appointment->patient->user->id}&intake_validation_token={$intake_validation_token}";
 
         event(new AppointmentScheduled($appointment));
 
@@ -86,7 +82,6 @@ class TransactionalEmailTest extends TestCase
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
             'harvey_id' => $appointment->patient->user->id,
-            'intake_link' => $intake_link,
             'patient_name' => $appointment->patient->user->first_name,
             'patient_phone' => $appointment->patient->user->phone,
             'patient_state' => $appointment->patient->user->state,

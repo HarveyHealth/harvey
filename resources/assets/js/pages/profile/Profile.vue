@@ -49,10 +49,6 @@
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.phone" type="number" name="phone"/>
                                         <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
-                                    <div class="input__container" v-if="user.attributes.user_type === 'patient'">
-                                        <label class="input__label" for="phone">Date of Birth</label>
-                                        <input class="form-input form-input_text input-styles" v-mask="'##/##/####'" v-model="user.included.attributes.birthdate.format_date" type="text" name="birthdate"/>
-                                    </div>
                                     <div class="input__container">
                                         <label  class="input__label" for="gender">Gender</label>
                                         <div class="gender-options">
@@ -172,14 +168,9 @@
     import PractitionerProfile from './components/PractitionerProfile.vue';
     import Modal from '../../commons/Modal.vue';
     import ConfirmInput from '../../commons/ConfirmInput.vue';
-    import moment from 'moment';
-    import { mask } from 'vue-the-mask';
 
     export default {
         name: 'profile',
-        directives: {
-            mask
-        },
         components: {
           NotificationPopup,
           ImageUpload,
@@ -190,7 +181,6 @@
         },
         data() {
             return {
-                moment: moment,
                 loadingProfileImage: false, // loading of the image on image upload
                 previousProfileImage: '',
                 user: {
@@ -205,13 +195,6 @@
                         city: '',
                         state: '',
                         zip: ''
-                    },
-                    included: {
-                        attributes: {
-                            birthdate: {
-                                format_date: ''
-                            }
-                        }
                     }
                 },
                 thisUserId: Laravel.user.id,
@@ -243,9 +226,6 @@
             flashNotification() {
                 this.notificationActive = true;
                 setTimeout(() => this.notificationActive = false, 3000);
-            },
-            formatDate(date) {
-                return moment(date).format('MM/DD/YYYY');
             },
             resetErrorMessages() {
                 this.errorMessages = null;
@@ -347,25 +327,6 @@
                   }
                 });
             },
-            updatePatientData() {
-                const oldUser = this.$root.$data.global.user;
-                let date = this.user.included.attributes.birthdate.format_date;
-                if (oldUser.included.attributes.birthdate.format_date !== date) {
-                    axios.patch(`${this.$root.$data.apiUrl}/patients/${oldUser.included.id}`, {
-                        birthdate: `${date.substring(6,10)}-${date.substring(0, 2)}-${date.substring(3, 5)}`
-                    })
-                    .then((response) => {
-                        let resp = response.data.data;
-                        resp.attributes.birthdate.format_date = this.formatDate(resp.attributes.birthdate.date);
-                        this.user.included = resp;
-                        this.$root.$data.global.user.included = resp;
-                    })
-                    .catch(err => {
-                        this.errorMessages = err.response.data.errors;
-                        this.submitting = false;
-                    });
-                }
-            },
             resetConfirmInputs() {
               this.phoneConfirmation = '';
               Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
@@ -374,7 +335,6 @@
               this.$refs.confirmInputs.$refs[0].focus();
             },
             submit() {
-                this.updatePatientData();
                 if(_.isEmpty(this.updates))
                     return;
 
@@ -390,9 +350,9 @@
                           this.$root.getLabData();
                       }
                       if (this.canEditUsers) {
-                          this.user_data = response.data.data.attributes;
+                          this.user_data = response.data.data;
                       } else {
-                          this.$root.$data.global.user.attributes = response.data.data.attributes;
+                          this.$root.$data.global.user = response.data.data;
                       }
                       this.submitting = false;
                     })
@@ -421,18 +381,10 @@
                     .then(response => {
                         // this.user_data persists the data retrieved from the server
                         // so we can diff against it on PATCH
-                        let returns = response.data.data;
-                        let includes = response.data.included[0];
-                        if (includes && includes.attributes && includes.attributes.birthdate) {
-                            returns.included = includes;
-                            returns.included.attributes.birthdate.format_date = this.formatDate(includes.attributes.birthdate.date);
-                        } else {
-                            returns.included = { attributes: { birthdate: { format_date: '' } } };
-                        }
                         this.$root.$data.global.loadingUser = false;
-                        this.user_data = returns;
-                        this.user = _.cloneDeep(returns);
-                        this.practitioner = returns.relationships.practitioner.data.id;
+                        this.user_data = response.data.data;
+                        this.user = _.cloneDeep(response.data.data);
+                        this.practitioner = response.data.data.relationships.practitioner.data.id;
                     })
                     .catch(error => {
                         if (error.response) {

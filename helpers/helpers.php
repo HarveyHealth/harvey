@@ -173,16 +173,3 @@ function maybe($value = true)
 {
     return rand(0,1) ? null : $value;
 }
-
-function render_css(string $filename)
-{
-    return Cache::rememberForever("render_css_{$filename}", function () use ($filename) {
-        $filename_with_path = app_path() . '/../public/css/' . str_finish($filename, '.css');
-
-        if (!file_exists($filename_with_path)) {
-            return false;
-        }
-
-        return str_replace("\n", ' ', file_get_contents($filename_with_path));
-    });
-}
