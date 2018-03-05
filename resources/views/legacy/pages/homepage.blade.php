@@ -16,8 +16,8 @@
                 <h1 class="f1-l f2 lh-title mt0 mb3 white">Learn what your body really <br class="dn db-ns"/>needs to feel its best.</h1>
                 <p class="f4-l f5 fw5 mb4 white">Harvey offers advanced in-home lab tests and professional-grade <br class="dn db-l"/> supplements—under the guidance of integrative doctors.</p>
                 <div class="tc">
-                    <a href="https://store.goharvey.com" class="button f4-l f5 ph4 is-primary has-arrow">Start Shopping</a>
-                    <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Consult a doctor</a></p>
+                    <a href="/consultations" class="button f4-l f5 ph4 is-primary has-arrow">Learn More</a>
+                    <!-- <p class="f5-l f6 fw5 db cf ma3 white">Questions? <a href="/consultations" class="underline white dim">Consult a doctor</a></p> -->
                 </div>
             </div>
         </div>
@@ -32,8 +32,8 @@
                     </div>
                     <div class="pa2">
                         <p class="f3-l f4 fw5 pt2 lh-title">Home Lab Tests</p>
-                        <p class="f5-l f6 pa3-l pa2">Order one of our specialized home lab tests, such as <a href="https://store.goharvey.com/products/food-allergy-lab-test">Food Sensitivities</a>, <a href="https://store.goharvey.com/products/micronutrient-lab-test">Micronutrient</a>, <a href="https://store.goharvey.com/products/microbiome-lab-test">Microbiome</a>, and many more.</p>
-                        <a href="https://store.goharvey.com/collections/lab-tests" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                        <p class="f5-l f6 pa3-l pa2">Order one of our specialized home lab tests, such as Food Sensitivities, Micronutrient, Microbiome, and many more.</p>
+                        <!-- <a href="https://store.goharvey.com/collections/lab-tests" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a> -->
                     </div>
                 </div>
                 <div class="w-third-ns w-100 tc">
@@ -43,7 +43,7 @@
                     <div class="pa2">
                         <p class="f3-l f4 fw5 pt2 lh-title">Vitamins & Supplements</p>
                         <p class="f5-l f6 pa3-l pa2">Shop the largest online dispensary of professional-grade vitamins and supplements at near wholesale prices.</p>
-                        <a href="https://store.goharvey.com/collections/supplements" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a>
+                        <!-- <a href="https://store.goharvey.com/collections/supplements" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-shopping-cart pr1" aria-hidden="true"></i> Shop Now</a> -->
                     </div>
                 </div>
                 <div class="w-third-ns w-100 tc">
@@ -53,7 +53,7 @@
                     <div class="pa2">
                         <p class="f3-l f4 fw5 pt2 lh-title">Holistic Treatment Plans</p>
                         <p class="f5-l f6 pa3-l pa2">Chat for free with a licensed Naturopathic Doctor about your health goals, or schedule a full consultation to build a treatment plan.</p>
-                        <a href="/consultations" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a>
+                        <!-- <a href="/consultations" class="f5 fw5 ba ph3 pv2 mb3 dib br2 mt2 dim"><i class="fa fa-stethoscope pr1" aria-hidden="true"></i> Meet Doctors</a> -->
                     </div>
                 </div>
             </div>
@@ -193,7 +193,7 @@
                 <p class="f2-l f3">Health brands hand-picked by doctors.</p>
                 <p class="f4-l f5 pa3">If you're new to integrative medicine, we recommend chatting with one of our doctors before buying lab tests or supplements. If you know what you need, you can start shopping now.</p>
                 <div class="tc">
-                    <a href="https://store.goharvey.com" class="button f4-ns f5 ph4 is-primary has-arrow">Start Shopping</a>
+                    <a href="https://us.fullscript.com/welcome/harvey" class="button f4-ns f5 ph4 is-primary has-arrow">Start Shopping</a>
                     <p class="f5-l f6 fw5 db cf ma3">Questions? <a href="/consultations" class="underline dim">Consult a doctor</a></p>
                 </div>
             </div>
