@@ -86,6 +86,7 @@
             "php artisan scout:import 'App\\Models\\Prescription'",
             "php artisan scout:import 'App\\Models\\SoapNote'",
             "php artisan scout:import 'App\\Models\\Patient'",
+            "npm install",
             "npm run prod"
         ],
 
@@ -100,6 +101,7 @@
             "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
             "php artisan cache:clear",
+            "npm install",
             "npm run dev"
         ],
         "post-autoload-dump": [
