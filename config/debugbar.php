@@ -12,7 +12,7 @@ return [
      |
      */
 
-    'enabled' => isNotProd(),
+    'enabled' => env('DEBUGBAR_ENABLED', false),
 
     /*
      |--------------------------------------------------------------------------
