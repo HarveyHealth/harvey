@@ -4,6 +4,7 @@
         :text="config[type]"
         :onClick="handleClick"
         :width="'240px'"
+        isDisabled
     />
 </template>
 
